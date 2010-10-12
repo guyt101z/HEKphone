@@ -1,0 +1,796 @@
+# ===
+# Tables required by asterisk.
+# === 
+
+# Asterisk writes call detail records to this table as specified in
+# /etc/asterisk/cdr_pgsql.conf. A postgres trigger ought to allocate the
+# calls to an user and calculates the fees.
+AsteriskCdr:
+  connection: hekphone
+  tableName: asterisk_cdr
+  columns:
+    calldate: 
+      type: timestamp
+      notnull: true
+      default: now()
+    clid: 
+      type: string
+      notnull: true
+    src: 
+      type: string
+      notnull: true
+    dst: 
+      type: string
+      notnull: true
+    dcontext: 
+      type: string
+      notnull: true
+    channel: 
+      type: string
+      notnull: true
+    dstchannel: 
+      type: string
+      notnull: true
+    lastapp: 
+      type: string
+      notnull: true
+      primary: false
+    lastdata: 
+      type: string
+      notnull: true
+    duration: 
+      type: integer(8)
+      notnull: true
+      default: '0'
+    billsec: 
+      type: integer(8)
+      notnull: true
+      default: '0'
+    disposition: 
+      type: string
+      notnull: true
+    amaflags: 
+      type: integer(8)
+      notnull: true
+      default: '0'
+    accountcode: 
+      type: string
+      notnull: true
+    uniqueid: 
+      type: string
+      notnull: true
+    userfield: 
+      type: string
+      notnull: true
+    billed: 
+      type: boolean
+      notnull: true
+      default: 'false' 
+
+AsteriskExtensions:
+  connection: hekphone
+  tableName: asterisk_extensions
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      sequence: asterisk_extensions_id
+    context:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    exten:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    priority:
+      type: integer(2)
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: '0'
+      primary: false
+    app:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    appdata:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+AsteriskSip:
+  connection: hekphone
+  tableName: asterisk_sip
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      sequence: asterisk_sip_id
+    name:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    accountcode:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    callerid:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    canreinvite:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: yes
+      primary: false
+    context:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    host:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    port:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    mailbox:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    md5secret:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    nat:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: no
+      primary: false
+    permit:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    deny:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    mask:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    qualify:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    secret:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    type:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: friend
+      primary: false
+    username:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    defaultuser:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    useragent:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    fromuser:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: 'NULL'
+      primary: false
+    fromdomain:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: 'NULL'
+      primary: false
+    disallow:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: all
+      primary: false
+    allow:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: ulaw;alaw
+      primary: false
+    ipaddr:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    mac:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      primary: false
+    fullcontact:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: ''
+      primary: false
+    regexten:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: ''
+      primary: false
+    regserver:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: ''
+      primary: false
+    regseconds:
+      type: integer(8)
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: '0'
+      primary: false
+    lastms:
+      type: integer(8)
+      fixed: false
+      unsigned: false
+      notnull: false
+      default: '0'
+      primary: false
+AsteriskVoicemail:
+  connection: hekphone
+  tableName: asterisk_voicemail
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+      sequence: asterisk_voicemail_id
+    customer_id:
+      type: integer(8)
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: '0'
+      primary: false
+    context:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    mailbox:
+      type: integer(8)
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: '0'
+      primary: false
+    password:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      default: '0'
+      primary: false
+    fullname:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    email:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    pager:
+      type: string()
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+    stamp:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      notnull: true
+      primary: false
+
+# This table is the skeleton of the view asterisk_sip which specifies the
+# sip friend of asterisk.
+# It contains every neccessary information except "context" which is either
+# "gesperrt" (outgoing calls denied) or "freigeschaltet" (allowed) because
+# this information belongs to an user not to a telephone. So its stored in
+# Bewohner->context
+
+Phones:
+  connection: hekphone
+  tableName: phones
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: phone_id
+    name: 
+      type: string
+      unique: true
+      notnull: true
+    accountcode: string
+    callerid: string
+    canreinvite: 
+      type: string
+      default: yes
+    host: 
+      type: string
+      notnull: true
+    port: integer
+    mailbox: string
+    md5secret: string
+    nat: 
+      type: string
+      notnull: true
+      default: no
+    permit: string
+    deny: string
+    mask: string
+    qualify: string
+    secret: string
+    type: 
+      type: string
+      notnull: true
+      default: friend
+    username: 
+      type: string
+      notnull: true
+    defaultuser: string
+    useragent: string
+    fromuser: 
+      type: string 
+      default: ''
+    fromdomain: 
+      type: string
+      default: ''
+    disallow: 
+      type: string
+      default: all
+    allow: 
+      type: string
+      default: ulaw;alaw
+    ipaddr: string
+    mac:
+      type: string
+      unique: true
+    fullcontact: 
+      type: string
+      default: ''
+    regexten: 
+      type: string
+      default: ''
+    regserver: 
+      type: string
+      default: ''
+    regseconds: 
+      type: integer
+      default: '0'
+    lastms: 
+      type: integer
+      default: '0'
+  relations:
+    Zimmer:
+      local: id
+      foreign: telefon
+      type: many
+
+# ===
+# Actual HEKPhone Tables 
+# ==
+
+Residents:
+  connection: hekphone
+  tableName: residents
+  columns:
+    id: 
+      type: integer
+      primary: true
+    last_name: 
+      type: string
+      notnull: true
+    first_name: 
+      type: string
+      notnull: true
+    email:
+      type: string
+      unique: true
+      email: true
+    move_in: 
+      type: date
+      notnull: true
+    move_out: date
+    bill_limit: 
+      type: integer
+      notnull: true
+      default: '75'
+    room:
+      type: integer
+      unique: true
+    warning1: 
+      type: boolean
+      default: false
+    warning2: 
+      type: boolean
+      default: false
+    unlocked:
+      type: boolean
+      default: false
+    shortened_itemized_bill: 
+      type: boolean
+      default: true
+    account_number: string
+    bank_number: string
+  relations:
+    Rooms:
+      local: room
+      foreign: id
+      type: one
+    Banks:
+      local: bank_number
+      foreign: bank_number
+      type: one
+    Comments:
+      local: id
+      foreign: resident
+      type: many
+    Calls:
+      local: id
+      foreign: resident
+      type: many
+    Bills:
+      local: id
+      foreign: resident
+      type: many
+
+Rooms:
+  connection: hekphone
+  tableName: rooms
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: room_id
+    room_no:
+      type: integer
+      unique: true
+    comment: string
+    phone:
+      type: integer
+      unique: true
+  relations:
+    Phones:
+      local: phone
+      foreign: id
+      type: one
+    Residents:
+      local: id
+      foreign: room
+      type: many
+
+Comments:
+  connection: hekphone
+  tableName: comments
+  columns:
+    resident: 
+      type: integer
+      notnull: true
+    stamp: 
+      type: timestamp
+      notnull: true
+      default: now()
+    comment: 
+      type: string
+      notnull: true
+  relations:
+    Residents:
+      local: resident
+      foreign: id
+      type: one
+
+Banks:
+  connection: hekphone
+  tableName: banks
+  columns:
+    bank_number: 
+      type: string
+      notnull: true
+      primary: true
+      unique: true
+    name: 
+      type: string
+      notnull: true
+    zip: 
+      type: string
+      fixed: true
+    locality: string
+  relations:
+    Residents:
+      local: bank_number
+      foreign: bank_number
+      type: many
+
+Calls:
+  connection: hekphone
+  tableName: calls
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: calls_id
+    resident: 
+      type: integer
+      notnull: true
+    extension: 
+      type: integer(2)
+      notnull: true
+    date: 
+      type: timestamp
+      default: now()
+    duration: 
+      type: integer
+      notnull: true
+    destination: 
+      type: string
+      notnull: true
+    charges: 
+      type: decimal(18)
+      notnull: true
+    rate: 
+      type: integer
+      notnull: true
+    bill: 
+      type: integer
+      default: '0'
+  relations:
+    Residents:
+      local: resident
+      foreign: id
+      type: one
+    Rate:
+      local: rate
+      foreign: id
+      type: one
+# There's no relation to bills because as long as the call is not billed
+# theres no bill id set. Thus the relation would be violated.   
+
+Bills:
+  connection: hekphone
+  tableName: bills
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: bills_id
+    resident: 
+      type: integer
+      notnull: true
+      primary: false
+    date: 
+      type: date
+      notnull: true
+    amount: 
+      type: decimal(18)
+      notnull: true
+    debit_failed: 
+      type: boolean
+      notnull: true
+      default: 'false'
+  relations:
+    Residents:
+      local: resident
+      foreign: id
+      type: one
+
+Providers:
+  connection: hekphone
+  tableName: providers
+  columns:
+    id: 
+      type: integer
+      primary: true
+    name: 
+      type: string
+      notnull: true
+  relations:
+    Rates:
+      local: id
+      foreign: provider
+      type: many
+            
+RatesRegions:
+  connection: hekphone
+  tableName: rates_regions
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: rates_regions_id
+    rate:
+      type: integer
+      notnull: true
+      unique: true
+    region:
+      type: integer
+      unique: true
+  relations:
+    Rates:
+      local: rate
+      foreign: id
+      type: one
+    Regions:
+      local: region
+      foreign: id
+      type: one
+
+Regions:
+  connection: hekphone
+  tableName: regions
+  columns:
+    id: 
+      type: integer
+      primary: true
+    name: 
+      type: string
+      notnull: true
+      unique: true
+  relations:
+    RatesRegions:
+      local: id
+      foreign: region
+      type: many
+    Prefixes:
+      local: id
+      foreign: region
+      type: many
+
+Rates:
+  connection: hekphone
+  tableName: rates
+  columns:
+    id: 
+      type: integer
+      primary: true
+    provider: 
+      type: integer
+      notnull: true
+    primary_time_begin: 
+      type: time
+      notnull: true
+    primary_time_rate: 
+      type: decimal(18)
+      notnull: true
+    secondary_time_begin: 
+      type: time
+    secondary_time_rate: 
+      type: decimal(18)
+    weekend: 
+      type: boolean
+      notnull: true
+      default: 'true'
+    week: 
+      type: boolean
+      notnull: true
+      default: 'true'
+    pulsing:
+      type: enum
+      values: ['1/1', '60/60', '30/1', '60/1', '60/0']
+      notnull: true
+    name: 
+      type: string 
+      notnull: true
+  relations:
+    RatesRegions:
+      local: id
+      foreign: rate
+      type: many
+    Providers:
+      local: provider
+      foreign: id
+      type: one
+
+Prefixes:
+  connection: hekphone
+  tableName: prefixes
+  columns:
+    id: 
+      type: integer
+      primary: true
+      sequence: prefixes_id
+    prefix: 
+      type: string
+      notnull: true
+    name: 
+      type: string
+      notnull: true
+    region: 
+      type: integer
+      notnull: true
+  relations:
+    Regions:
+      local: region
+      foreign: id
+      type: one
