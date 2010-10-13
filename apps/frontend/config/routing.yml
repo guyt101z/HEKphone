@@ -14,3 +14,11 @@ default_index:
 
 default:
   url:   /:module/:action/*
+
+login_page:
+  url:    /login
+  param:  { module: user, action: login }
+
+prepareLogin:
+  url:  /prepareLogin
+  param:  { module: user, action: prepareLogin }

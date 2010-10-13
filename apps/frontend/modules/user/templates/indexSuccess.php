@@ -16,5 +16,5 @@
   </table>
 </form>
 <?php else: ?>
-<div>You are already logged in. <a href="<?php url_for('user/logout') ?>">Log out?</a></div>
+<div>You are already logged in. <?php link_for('Log out?', 'user/logout') ?>">Log out?</div>
 <?php endif;?>

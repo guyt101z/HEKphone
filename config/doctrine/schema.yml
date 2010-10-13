@@ -504,6 +504,7 @@ Residents:
       default: true
     account_number: string
     bank_number: string
+    password: string
   relations:
     Rooms:
       local: room
