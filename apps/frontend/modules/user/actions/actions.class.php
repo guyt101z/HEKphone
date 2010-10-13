@@ -35,13 +35,32 @@ class userActions extends sfActions
     {
       $this->getUser()->setAuthenticated(true);
       $this->getUser()->setAttribute("name", $resident->first_name);
+      $this->getUser()->setAttribute("id", $resident->id);
+      $this->getUser()->setAttribute("roomNo", $resident->room->roomNo);
       $this->getUser()->setFlash('notice', "Logged in successfully");
+      $this->redirect('user/calls');
     }
     else
     {
+      print_r($request);
       $this->getUser()->setFlash('notice', 'Login failed! Check room number and password.');
       $this->redirect('user/index');
     }
+  }
+
+  public function executeLogout(sfWebRequest $request)
+  {
+    $this->getUser()->setAuthenticated(false);
+    $this->getUser()->setFlash('notice', "Logged out successfully");
+    $this->redirect('user/index');
+  }
+  public function executeCalls()
+  {
+    $this->callsCollection = Doctrine_Query::create()
+                            ->from('Calls c')
+                            ->addWhere('c.bill = 0')
+                            ->addWhere('c.resident = ?', $this->getUser()->getAttribute('id'))
+                            ->execute();
   }
 
 }
