@@ -1,0 +1,1 @@
+<b>Hallo <?php $sf_user->getAttribute("name"); print_r($sf_user); ?>!</b>
