@@ -35,5 +35,5 @@ all:
     use_database:           true
 
   .actions:
-    login_module: user
+    login_module: auth
     login_action: index

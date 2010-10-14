@@ -5,7 +5,7 @@
 <?php endif;?>
 
 <?php if ( ! $sf_user->isAuthenticated()): ?>
-<form action="<?php echo url_for('user/login') ?>" method="POST">
+<form action="<?php echo url_for('auth/index') ?>" method="POST">
   <table>
     <?php echo $form ?>
     <tr>
@@ -16,5 +16,5 @@
   </table>
 </form>
 <?php else: ?>
-<div>You are already logged in. <?php echo link_to('Log out?', 'user/logout') ?></div>
+<div>You are already logged in. <?php echo link_to('Log out?', 'auth/logout'); ?></div>
 <?php endif;?>

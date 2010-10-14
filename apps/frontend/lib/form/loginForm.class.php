@@ -10,6 +10,7 @@ class LoginForm extends sfForm
 
     $this->widgetSchema->setNameFormat('login[%s]');
 
-    #$this->setValidator('roomNo', new sfValidatorInteger(array('min' => 1, 'max' => 900)));
+    $this->setValidator('roomNo', new sfValidatorInteger(array('min' => 1, 'max' => 900)));
+    $this->setValidator('password', new sfValidatorString());
   }
 }

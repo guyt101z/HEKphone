@@ -34,6 +34,6 @@ all:
     # Enable the database manager
     use_database:           true
 
-  .actions
-    login_module: default
-    login_action: login
+  .actions:
+    login_module: user
+    login_action: index

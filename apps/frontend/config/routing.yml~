@@ -4,8 +4,9 @@
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
-
+  param: { module: user, action: calls }
+  
+  
 # generic rules
 # please, remove them by adding more specific rules
 default_index:
@@ -14,11 +15,3 @@ default_index:
 
 default:
   url:   /:module/:action/*
-
-login_page:
-  url:    /login
-  param:  { module: main, action: login }
-
-prepareLogin:
-  url:  /prepareLogin
-  param:  { module: main, action: prepareLogin }
