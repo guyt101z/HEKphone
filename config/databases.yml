@@ -8,3 +8,9 @@ all:
       dsn:      pgsql:host=localhost;dbname=hekphone
       username: nasen
       password: popel
+  hekdb:
+    class: sfDoctrineDatabase
+    param:
+      dsn:      pgsql:host=localhost;dbname=hekphone
+      username: nasen
+      password: popel

@@ -1,3 +1,34 @@
+# ==
+#   View in the hekdb for syncing the residents data
+# ==
+
+HekdbCurrentResidents:
+  connection: hekdb
+  tableName: letztezimmerbelegung
+  columns:
+    vorname:
+      name: vorname as first_name
+      type: string
+    nachname:
+      name: nachname as last_name
+      type: string
+    nutzerid:
+      name: nutzerid as id
+      primary: true
+      type: integer   
+    zimmernummer:
+      name: zimmernummer as room_no
+      type: string
+    einzug:
+      name: einzug as move_in
+      type: date
+    auszug:
+      name: auszug as move_out
+      type: date
+  options:
+    charset: latin1
+    
+
 # ===
 # Tables required by asterisk.
 # === 
