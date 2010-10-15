@@ -565,7 +565,7 @@ Rooms:
     id: 
       type: integer
       primary: true
-      sequence: room_id
+      sequence: rooms_id
     room_no:
       type: integer
       unique: true
@@ -666,8 +666,6 @@ Calls:
       local: rate
       foreign: id
       type: one
-# There's no relation to bills because as long as the call is not billed
-# theres no bill id set. Thus the relation would be violated.   
 
 Bills:
   connection: hekphone
@@ -696,6 +694,10 @@ Bills:
       local: resident
       foreign: id
       type: one
+    Calls:
+      local: id
+      foreign: bill
+      type: many
 
 Providers:
   connection: hekphone

@@ -10,7 +10,7 @@
     <?php echo $form ?>
     <tr>
       <td colspan="2">
-        <input type="submit" />
+        <input type="submit" value="Absenden" />
       </td>
     </tr>
   </table>

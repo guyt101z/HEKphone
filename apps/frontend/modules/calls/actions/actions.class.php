@@ -22,5 +22,11 @@ class callsActions extends sfActions
                             ->addWhere('c.bill = 0')
                             ->addWhere('c.resident = ?', $this->getUser()->getAttribute('id'))
                             ->execute();
+    $this->billsCollection = Doctrine_Query::create()
+                            ->from('Bills b')
+                            ->addWhere('b.resident = ?', $this->getUser()->getAttribute('id'))
+                            ->orderBy('b.date')
+                            ->limit(12)
+                            ->execute();
   }
 }

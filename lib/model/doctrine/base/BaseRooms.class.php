@@ -40,7 +40,7 @@ abstract class BaseRooms extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
              'primary' => true,
-             'sequence' => 'room_id',
+             'sequence' => 'rooms_id',
              ));
         $this->hasColumn('room_no', 'integer', null, array(
              'type' => 'integer',

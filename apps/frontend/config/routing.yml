@@ -6,6 +6,12 @@ homepage:
   url:   /
   param: { module: calls, action: index }
   
+bill_detail:
+  url:   calls/:billid
+  param: { module: calls, action: index }
+  requirements:
+    billid: \d+
+  
   
 # generic rules
 # please, remove them by adding more specific rules
