@@ -42,7 +42,7 @@ EOF;
               ->where('uniqueid = ?', $arguments['uniqueid'])
               ->fetchOne();
     if ( ! $collCdr)
-      die("error: a call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr" . PHP_EOL);
+       throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
 
     try
     {
@@ -50,7 +50,7 @@ EOF;
     }
     catch (Exception $e)
     {
-      die('[ERROR]'.$e->getMessage().PHP_EOL);
+      throw new sfCommandException($e->getMessage());
     }
 
   }

@@ -19,9 +19,10 @@ class hekphoneSyncresidentsdataTask extends sfBaseTask
 
     $this->namespace        = 'hekphone';
     $this->name             = 'sync-residents-data';
-    $this->briefDescription = 'Syncs the residents data between source[default: hekdb->HekdbCurrentResidents] and destination[default: hekphone->Residents])';
+    $this->briefDescription = 'Syncs the residents data between source[default: hekdb->HekdbCurrentResidents] and destination[default: hekphone->Residents]';
     $this->detailedDescription = <<<EOF
-The [hekphone:sync-residents-data|INFO] task does things.
+The [hekphone:sync-residents-data|INFO] task helps adding new users to the database of the project [destination defaults to hekphone|COMMENT] from a remote database [source, defaults to hekdb|COMMENT].
+
 Call it with:
 
   [php symfony hekphone:sync-residents-data|INFO]
@@ -58,13 +59,13 @@ EOF;
     foreach ($sourceResidents as $sourceResident) {
         //Keep track of what we do (statitics):
         if ( ! isset($destinationResidents[$sourceResident->id])) {
-            echo("Syncing new user with id={$sourceResident->id} name='{$sourceResident->first_name} {$sourceResident->last_name}'.".PHP_EOL);
+            $this->log($this->formatter->format("Syncing new user with id={$sourceResident->id} name='{$sourceResident->first_name} {$sourceResident->last_name}'.", 'INFO'));
             $numNew++;
         } else {
             if ($destinationResidents[$sourceResident->id]->first_name != $sourceResident->first_name
                 && $destinationResidents[$sourceResident->id]->first_name != $sourceResident->last_name) {
-                echo("Name of user with id={$sourceResident->id} changed from '{$sourceResident->first_name} {$sourceResident->last_name}' "
-                    ."to '{$hekdphoneResident->first_name} {$destinationResident->last_name}'".PHP_EOL); // Normaly the name of a user should not change. Something might be wrong.
+                $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$sourceResident->first_name} {$sourceResident->last_name}' "
+                    ."to '{$hekdphoneResident->first_name} {$destinationResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Something might be wrong.
             }
             $numOld++;
         }
@@ -82,7 +83,7 @@ EOF;
         } else {
             $roomId = $roomTable->findOneByRoom_no($sourceResident->room_no)->id;
             if ( ! $roomId ) {
-                echo("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.".PHP_EOL);
+                $this->log($this->formatter->format("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.", 'ERROR'));
                 $failedPartly = true;
                 $roomId = NULL;
             }
@@ -91,7 +92,7 @@ EOF;
     }
 
     $destinationResidents->save();
-    echo("Synced $numOld old user entries and $numNew new entries.".PHP_EOL);
+    $this->log($this->formatter->format("Synced $numOld old user entries and $numNew new entries.", 'INFO'));
     if ( $failedPartly )
         exit(1);
     else
