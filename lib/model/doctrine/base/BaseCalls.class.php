@@ -9,9 +9,9 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * 
  * @property integer $id
  * @property integer $resident
- * @property integer $extension
+ * @property string $extension
  * @property timestamp $date
- * @property integer $duration
+ * @property string $duration
  * @property string $destination
  * @property decimal $charges
  * @property integer $rate
@@ -21,9 +21,9 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * 
  * @method integer   getId()          Returns the current record's "id" value
  * @method integer   getResident()    Returns the current record's "resident" value
- * @method integer   getExtension()   Returns the current record's "extension" value
+ * @method string    getExtension()   Returns the current record's "extension" value
  * @method timestamp getDate()        Returns the current record's "date" value
- * @method integer   getDuration()    Returns the current record's "duration" value
+ * @method string    getDuration()    Returns the current record's "duration" value
  * @method string    getDestination() Returns the current record's "destination" value
  * @method decimal   getCharges()     Returns the current record's "charges" value
  * @method integer   getRate()        Returns the current record's "rate" value
@@ -52,44 +52,50 @@ abstract class BaseCalls extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('calls');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 7, array(
              'type' => 'integer',
              'primary' => true,
              'sequence' => 'calls_id',
+             'length' => 7,
              ));
-        $this->hasColumn('resident', 'integer', null, array(
+        $this->hasColumn('resident', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
+             'length' => 6,
              ));
-        $this->hasColumn('extension', 'integer', 2, array(
-             'type' => 'integer',
+        $this->hasColumn('extension', 'string', 10, array(
+             'type' => 'string',
              'notnull' => true,
-             'length' => 2,
+             'length' => 10,
              ));
         $this->hasColumn('date', 'timestamp', null, array(
              'type' => 'timestamp',
              'default' => 'now()',
              ));
-        $this->hasColumn('duration', 'integer', null, array(
-             'type' => 'integer',
-             'notnull' => true,
-             ));
-        $this->hasColumn('destination', 'string', null, array(
+        $this->hasColumn('duration', 'string', 6, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 6,
+             ));
+        $this->hasColumn('destination', 'string', 50, array(
+             'type' => 'string',
+             'notnull' => true,
+             'length' => 50,
              ));
         $this->hasColumn('charges', 'decimal', 18, array(
              'type' => 'decimal',
              'notnull' => true,
              'length' => 18,
              ));
-        $this->hasColumn('rate', 'integer', null, array(
+        $this->hasColumn('rate', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
+             'length' => 6,
              ));
-        $this->hasColumn('bill', 'integer', null, array(
+        $this->hasColumn('bill', 'integer', 6, array(
              'type' => 'integer',
              'default' => '0',
+             'length' => 6,
              ));
     }
 

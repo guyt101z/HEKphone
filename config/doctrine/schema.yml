@@ -501,25 +501,25 @@ Residents:
       type: integer
       primary: true
     last_name: 
-      type: string
+      type: string(50)
       notnull: true
     first_name: 
-      type: string
+      type: string(50)
       notnull: true
     email:
-      type: string
-      unique: true
+      type: string (255)
+      #unique: true
       email: true
     move_in: 
       type: date
       notnull: true
     move_out: date
     bill_limit: 
-      type: integer
+      type: integer(3)
       notnull: true
       default: '75'
     room:
-      type: integer
+      type: integer(3)
       unique: true
     warning1: 
       type: boolean
@@ -533,9 +533,9 @@ Residents:
     shortened_itemized_bill: 
       type: boolean
       default: true
-    account_number: string
-    bank_number: string
-    password: string
+    account_number: string(10)
+    bank_number: string(8)
+    password: string(255)
   relations:
     Rooms:
       local: room
@@ -563,15 +563,15 @@ Rooms:
   tableName: rooms
   columns:
     id: 
-      type: integer
+      type: integer(3)
       primary: true
       sequence: rooms_id
     room_no:
-      type: integer
+      type: integer(3)
       unique: true
     comment: string
     phone:
-      type: integer
+      type: integer(3)
       unique: true
   relations:
     Phones:
@@ -588,14 +588,14 @@ Comments:
   tableName: comments
   columns:
     resident: 
-      type: integer
+      type: integer(6)
       notnull: true
     stamp: 
       type: timestamp
       notnull: true
       default: now()
     comment: 
-      type: string
+      type: string(1000)
       notnull: true
   relations:
     Residents:
@@ -608,17 +608,17 @@ Banks:
   tableName: banks
   columns:
     bank_number: 
-      type: string
+      type: string(8)
       notnull: true
       primary: true
       unique: true
     name: 
-      type: string
+      type: string(80)
       notnull: true
     zip: 
-      type: string
+      type: string(5)
       fixed: true
-    locality: string
+    locality: string(80)
   relations:
     Residents:
       local: bank_number
@@ -630,32 +630,32 @@ Calls:
   tableName: calls
   columns:
     id: 
-      type: integer
+      type: integer(7)
       primary: true
       sequence: calls_id
     resident: 
-      type: integer
+      type: integer(6)
       notnull: true
     extension: 
-      type: integer(2)
+      type: string(10)
       notnull: true
     date: 
       type: timestamp
       default: now()
     duration: 
-      type: integer
+      type: string(6)
       notnull: true
     destination: 
-      type: string
+      type: string(50)
       notnull: true
     charges: 
       type: decimal(18)
       notnull: true
     rate: 
-      type: integer
+      type: integer(6)
       notnull: true
     bill: 
-      type: integer
+      type: integer(6)
       default: '0'
   relations:
     Residents:
@@ -672,11 +672,11 @@ Bills:
   tableName: bills
   columns:
     id: 
-      type: integer
+      type: integer(6)
       primary: true
       sequence: bills_id
     resident: 
-      type: integer
+      type: integer(6)
       notnull: true
       primary: false
     date: 
@@ -704,10 +704,10 @@ Providers:
   tableName: providers
   columns:
     id: 
-      type: integer
+      type: integer(1)
       primary: true
     name: 
-      type: string
+      type: string(20)
       notnull: true
   relations:
     Rates:
@@ -720,15 +720,15 @@ RatesRegions:
   tableName: rates_regions
   columns:
     id: 
-      type: integer
+      type: integer(6)
       primary: true
       sequence: rates_regions_id
     rate:
-      type: integer
+      type: integer(6)
       notnull: true
       unique: true
     region:
-      type: integer
+      type: integer(6)
       unique: true
   relations:
     Rates:
@@ -745,10 +745,10 @@ Regions:
   tableName: regions
   columns:
     id: 
-      type: integer
+      type: integer(6)
       primary: true
     name: 
-      type: string
+      type: string(80)
       notnull: true
       unique: true
   relations:
@@ -766,10 +766,10 @@ Rates:
   tableName: rates
   columns:
     id: 
-      type: integer
+      type: integer(6)
       primary: true
     provider: 
-      type: integer
+      type: integer(1)
       notnull: true
     primary_time_begin: 
       type: time
@@ -794,7 +794,7 @@ Rates:
       values: ['1/1', '60/60', '30/1', '60/1', '60/0']
       notnull: true
     name: 
-      type: string 
+      type: string(80) 
       notnull: true
   relations:
     RatesRegions:
@@ -811,17 +811,17 @@ Prefixes:
   tableName: prefixes
   columns:
     id: 
-      type: integer
+      type: integer(6)
       primary: true
       sequence: prefixes_id
     prefix: 
-      type: string
+      type: string(20)
       notnull: true
     name: 
-      type: string
+      type: string(80)
       notnull: true
     region: 
-      type: integer
+      type: integer(6)
       notnull: true
   relations:
     Regions:

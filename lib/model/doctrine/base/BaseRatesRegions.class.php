@@ -34,19 +34,22 @@ abstract class BaseRatesRegions extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('rates_regions');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
              'sequence' => 'rates_regions_id',
+             'length' => 6,
              ));
-        $this->hasColumn('rate', 'integer', null, array(
+        $this->hasColumn('rate', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
              'unique' => true,
+             'length' => 6,
              ));
-        $this->hasColumn('region', 'integer', null, array(
+        $this->hasColumn('region', 'integer', 6, array(
              'type' => 'integer',
              'unique' => true,
+             'length' => 6,
              ));
     }
 

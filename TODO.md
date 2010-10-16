@@ -35,12 +35,13 @@
  * Implement singel sign in for frontend&backend using credentials
    * could be kind of tricky if frontend and backend are seperated applications
    * but why seperate them?
- * List users and edit details
+ * List users and edit details (doctrine:generate-admin)
    * includes: Unlock a user
    * includes: manage comments
    * includes: change pin
-   * attach to asterisk-tables!
+   * **attach to asterisk-tables!**
    * Edit a users phone
+   * Asynchronous lookup of the banknumber->bankname relation? :)
  * View, edit and delete a users cdrs and bills
  * View and edit group-calls
  * Execute Tasks? (Create Bills,...?)

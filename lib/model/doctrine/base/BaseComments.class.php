@@ -31,18 +31,20 @@ abstract class BaseComments extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('comments');
-        $this->hasColumn('resident', 'integer', null, array(
+        $this->hasColumn('resident', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
+             'length' => 6,
              ));
         $this->hasColumn('stamp', 'timestamp', null, array(
              'type' => 'timestamp',
              'notnull' => true,
              'default' => 'now()',
              ));
-        $this->hasColumn('comment', 'string', null, array(
+        $this->hasColumn('comment', 'string', 1000, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 1000,
              ));
     }
 

@@ -83,18 +83,20 @@ abstract class BaseResidents extends sfDoctrineRecord
              'type' => 'integer',
              'primary' => true,
              ));
-        $this->hasColumn('last_name', 'string', null, array(
+        $this->hasColumn('last_name', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 50,
              ));
-        $this->hasColumn('first_name', 'string', null, array(
+        $this->hasColumn('first_name', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 50,
              ));
-        $this->hasColumn('email', 'string', null, array(
+        $this->hasColumn('email', 'string', 255, array(
              'type' => 'string',
-             'unique' => true,
              'email' => true,
+             'length' => 255,
              ));
         $this->hasColumn('move_in', 'date', null, array(
              'type' => 'date',
@@ -103,14 +105,16 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasColumn('move_out', 'date', null, array(
              'type' => 'date',
              ));
-        $this->hasColumn('bill_limit', 'integer', null, array(
+        $this->hasColumn('bill_limit', 'integer', 3, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => '75',
+             'length' => 3,
              ));
-        $this->hasColumn('room', 'integer', null, array(
+        $this->hasColumn('room', 'integer', 3, array(
              'type' => 'integer',
              'unique' => true,
+             'length' => 3,
              ));
         $this->hasColumn('warning1', 'boolean', null, array(
              'type' => 'boolean',
@@ -128,14 +132,17 @@ abstract class BaseResidents extends sfDoctrineRecord
              'type' => 'boolean',
              'default' => true,
              ));
-        $this->hasColumn('account_number', 'string', null, array(
+        $this->hasColumn('account_number', 'string', 10, array(
              'type' => 'string',
+             'length' => 10,
              ));
-        $this->hasColumn('bank_number', 'string', null, array(
+        $this->hasColumn('bank_number', 'string', 8, array(
              'type' => 'string',
+             'length' => 8,
              ));
-        $this->hasColumn('password', 'string', null, array(
+        $this->hasColumn('password', 'string', 255, array(
              'type' => 'string',
+             'length' => 255,
              ));
     }
 

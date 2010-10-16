@@ -55,13 +55,15 @@ abstract class BaseRates extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('rates');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
+             'length' => 6,
              ));
-        $this->hasColumn('provider', 'integer', null, array(
+        $this->hasColumn('provider', 'integer', 1, array(
              'type' => 'integer',
              'notnull' => true,
+             'length' => 1,
              ));
         $this->hasColumn('primary_time_begin', 'time', null, array(
              'type' => 'time',
@@ -101,9 +103,10 @@ abstract class BaseRates extends sfDoctrineRecord
              ),
              'notnull' => true,
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 80,
              ));
     }
 

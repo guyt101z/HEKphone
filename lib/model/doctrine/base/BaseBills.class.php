@@ -40,15 +40,17 @@ abstract class BaseBills extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('bills');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
              'sequence' => 'bills_id',
+             'length' => 6,
              ));
-        $this->hasColumn('resident', 'integer', null, array(
+        $this->hasColumn('resident', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
              'primary' => false,
+             'length' => 6,
              ));
         $this->hasColumn('date', 'date', null, array(
              'type' => 'date',

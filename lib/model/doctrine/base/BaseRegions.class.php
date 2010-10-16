@@ -31,14 +31,16 @@ abstract class BaseRegions extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('regions');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
+             'length' => 6,
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
              'unique' => true,
+             'length' => 80,
              ));
     }
 

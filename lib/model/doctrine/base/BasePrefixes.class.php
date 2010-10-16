@@ -34,22 +34,26 @@ abstract class BasePrefixes extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('prefixes');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
              'sequence' => 'prefixes_id',
+             'length' => 6,
              ));
-        $this->hasColumn('prefix', 'string', null, array(
+        $this->hasColumn('prefix', 'string', 20, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 20,
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 80,
              ));
-        $this->hasColumn('region', 'integer', null, array(
+        $this->hasColumn('region', 'integer', 6, array(
              'type' => 'integer',
              'notnull' => true,
+             'length' => 6,
              ));
     }
 

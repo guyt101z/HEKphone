@@ -34,21 +34,25 @@ abstract class BaseBanks extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('banks');
-        $this->hasColumn('bank_number', 'string', null, array(
+        $this->hasColumn('bank_number', 'string', 8, array(
              'type' => 'string',
              'primary' => true,
              'unique' => true,
+             'length' => 8,
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
+             'length' => 80,
              ));
-        $this->hasColumn('zip', 'string', null, array(
+        $this->hasColumn('zip', 'string', 5, array(
              'type' => 'string',
              'fixed' => 1,
+             'length' => 5,
              ));
-        $this->hasColumn('locality', 'string', null, array(
+        $this->hasColumn('locality', 'string', 80, array(
              'type' => 'string',
+             'length' => 80,
              ));
     }
 

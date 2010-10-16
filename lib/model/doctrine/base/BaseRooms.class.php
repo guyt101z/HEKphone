@@ -37,21 +37,24 @@ abstract class BaseRooms extends sfDoctrineRecord
     public function setTableDefinition()
     {
         $this->setTableName('rooms');
-        $this->hasColumn('id', 'integer', null, array(
+        $this->hasColumn('id', 'integer', 3, array(
              'type' => 'integer',
              'primary' => true,
              'sequence' => 'rooms_id',
+             'length' => 3,
              ));
-        $this->hasColumn('room_no', 'integer', null, array(
+        $this->hasColumn('room_no', 'integer', 3, array(
              'type' => 'integer',
              'unique' => true,
+             'length' => 3,
              ));
         $this->hasColumn('comment', 'string', null, array(
              'type' => 'string',
              ));
-        $this->hasColumn('phone', 'integer', null, array(
+        $this->hasColumn('phone', 'integer', 3, array(
              'type' => 'integer',
              'unique' => true,
+             'length' => 3,
              ));
     }
 
