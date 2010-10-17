@@ -1,12 +1,12 @@
 
-<h1><?php echo "Listing your Calls:" ?></h1>
+<h1><?php echo __("unbilled calls") ?></h1>
 
 <table border="1">
     <tr>
-      <td>Date/Time</td>
-      <td>Duration</td>
-      <td>Called Number</td>
-      <td>Charge</td>
+      <td><?php echo __("Date/Time") ?></td>
+      <td><?php echo __("Duration") ?></td>
+      <td><?php echo __("Called Number") ?></td>
+      <td><?php echo __("Charge") ?></td>
     </tr>
     <?php foreach($callsCollection as $call): ?>
     <tr>
@@ -18,13 +18,13 @@
     <?php endforeach;?>
 </table>
 
-<h1><?php echo "Listing your recent Bills:" ?></h1>
+<h1><?php echo __("recent bills") ?></h1>
 
 <table border="1">
     <tr>
-      <td>date</td>
-      <td>amount</td>
-      <td>details</td>
+      <td><?php echo __("date") ?></td>
+      <td><?php echo __("amount") ?></td>
+      <td><?php echo __("details") ?></td>
     </tr>
     <?php foreach($billsCollection as $bill): ?>
     <tr>

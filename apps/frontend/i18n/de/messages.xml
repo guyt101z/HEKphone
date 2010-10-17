@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-17T00:37:11Z" product-name="messages">
+    <header/>
+    <body>
+      <!-- AUTHENTICATION -->
+      <trans-unit id="1">
+        <source>Sign in</source>
+        <target>Anmelden</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>You are already logged in.</source>
+        <target>Du bist schon angemeldet.</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Log out?</source>
+        <target>Abmelden?</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Resident Management</source>
+        <target>Bewohnerverwaltung</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Room Number</source>
+        <target>Zimmernummer</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <!-- CALLS/BILLS -->
+      <trans-unit id="8">
+        <source>unbilled calls</source>
+        <target>unabgerechnete Gespräche</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Date/Time</source>
+        <target>Datum/Uhrzeit</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Duration</source>
+        <target>Dauer</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Called Number</source>
+        <target>Gewählte Nummer</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Charge</source>
+        <target>Kosten</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>amount</source>
+        <target>Betrag</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>recent bills</source>
+        <target>letzte Rechnungen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

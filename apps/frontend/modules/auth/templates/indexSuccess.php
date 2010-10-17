@@ -10,11 +10,11 @@
     <?php echo $form ?>
     <tr>
       <td colspan="2">
-        <input type="submit" value="Absenden" />
+        <input type="submit" value="<?php echo __('Submit'); ?>" />
       </td>
     </tr>
   </table>
 </form>
 <?php else: ?>
-<div>You are already logged in. <?php echo link_to('Log out?', 'auth/logout'); ?></div>
+<div>You are already logged in. <?php echo link_to(__('Log out?'), 'auth/logout'); ?></div>
 <?php endif;?>

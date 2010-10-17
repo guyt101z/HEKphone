@@ -19,8 +19,12 @@ class authActions extends sfActions
   {
     $this->form = new LoginForm();
 
-    if($request->isMethod('post'))
+    if( ! $request->isMethod('post')){
+      $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
+    }
+    elseif($request->isMethod('post'))
     {
+
       $this->form->bind($request->getParameter('login'));
       if ($this->form->isValid())
       {
@@ -32,7 +36,7 @@ class authActions extends sfActions
           $this->getUser()->setAttribute("name", $resident->first_name);
           $this->getUser()->setAttribute("id", $resident->id);
           $this->getUser()->setAttribute("roomNo", $resident->room->roomNo);
-          $this->getUser()->setFlash('notice', "Logged in successfully");
+          $this->getUser()->setFlash('notice', 'Logged in successfully');
           $this->redirect('calls/index');
         }
         else
@@ -46,7 +50,7 @@ class authActions extends sfActions
   public function executeLogout(sfWebRequest $request)
   {
     $this->getUser()->setAuthenticated(false);
-    $this->getUser()->setFlash('notice', "Logged out successfully");
+    $this->getUser()->setFlash('notice', 'Logged out successfully');
     $this->redirect('auth/index');
   }
 }
