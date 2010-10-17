@@ -41,4 +41,26 @@ class ResidentsTable extends Doctrine_Table
             throw New Exception("Unable to find a resident living in room no $roomNo at $date.");
         }
     }
+
+     /**
+     * Gets a list (collection) of all users which had a room associated at the given
+     * time.
+     * @param string $date     Date at which to look for the user: default = now
+     * @return Doctrine_Collection
+     */
+    public function findCurrentResidents($date = "now") {
+        if ($date == "now")
+            $date = date("Y-m-d", time());
+
+        $residents = Doctrine_Query::create()
+            ->from('Residents r')
+            ->leftJoin('r.Rooms rooms')
+            ->addWhere("r.room != 0")
+            ->addWhere("r.move_in<= ?", $date)
+            ->addWhere("r.move_out >= ? OR r.move_out IS NULL", $date)
+            ->orderBy("rooms.room_no")
+            ->execute();
+
+        return $residents;
+    }
 }

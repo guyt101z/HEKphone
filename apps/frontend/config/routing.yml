@@ -1,27 +1,81 @@
-residents:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                Residents
-    module:               residents
-    prefix_path:          /Residents
-    column:               id
-    with_wildcard_routes: true
+#residents:
+#  class: sfDoctrineRouteCollection
+#  options:
+#    model:                Residents
+#    module:               residents
+#    prefix_path:          /Residents
+#    column:               id
+#    with_wildcard_routes: true
 
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
-# default rules
 homepage:
   url:   /
   param: { module: calls, action: index }
+
+ 
   
+
+# Display the details of a bill within the bills list
 bill_detail:
-  url:   calls/:billid
+  url:   /calls/:billid
   param: { module: calls, action: index }
   requirements:
     billid: \d+
+
+# Manage (admin) residents
+resident_list:
+  url:   /resident/list
+  param: {module: resident, action:index, orderby: room}
   
+resident_listByRoom:
+  url:   /resident/list/byRoom
+  param: {module: resident, action:index, orderby: room}
+
+resident_listByName:
+  url:   /resident/list/byName
+  param: {module: resident, action:index, orderby: name}
+
+resident_listByLastName:
+  url:   /resident/list/byLastName
+  param: {module: resident, action:index, orderby: name}
   
+resident_listByMoveIn:
+  url:   /resident/list/byMoveIn
+  param: {module: resident, action:index, orderby: movein}
+    
+resident_edit:
+  url:   /resident/:id/edit
+  param: {module: resident, action: edit }
+  requirements: 
+    id: \d+
+  
+# Access the users actions as if you where the user
+resident_index:
+  url:   /resident/:residentid
+  param: {module: calls, action: index }
+  requirements: 
+    residentid: \d+  
+    
+resident_calls:
+  url:   /resident/:residentid/calls
+  param: {module: calls, action: index }
+  requirements: 
+    residentid: \d+    
+  
+resident_vm:
+  url:   /resident/:residentid/vm
+  param: {module: vm, action:index  }
+  requirements: 
+    residentid: \d+    
+    
+resident_settings:
+  url:   /resident/:residentid/settings
+  param: {module: settings, action: index }
+  requirements: 
+    residentid: \d+    
+    
 # generic rules
 # please, remove them by adding more specific rules
 default_index:

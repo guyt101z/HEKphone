@@ -1,74 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-17T00:37:11Z" product-name="messages">
+  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-17T23:34:53Z" product-name="messages">
     <header/>
     <body>
-      <!-- AUTHENTICATION -->
-      <trans-unit id="1">
-        <source>Sign in</source>
-        <target>Anmelden</target>
+      <trans-unit id="17">
+        <source>resident.list.heading</source>
+        <target>Bewohnerliste</target>
       </trans-unit>
-      <trans-unit id="2">
-        <source>You are already logged in.</source>
-        <target>Du bist schon angemeldet.</target>
+      <trans-unit id="18">
+        <source>resident.roomNo</source>
+        <target>Zimmer</target>
       </trans-unit>
-      <trans-unit id="3">
-        <source>Log out?</source>
-        <target>Abmelden?</target>
+      <trans-unit id="19">
+        <source>resident.lastName</source>
+        <target>Nachname</target>
       </trans-unit>
-      <trans-unit id="4">
-        <source>Resident Management</source>
-        <target>Bewohnerverwaltung</target>
+      <trans-unit id="20">
+        <source>resident.firstName</source>
+        <target>Vorname</target>
       </trans-unit>
-      <trans-unit id="5">
-        <source>Room Number</source>
-        <target>Zimmernummer</target>
+      <trans-unit id="32">
+        <source>resident.list.floor</source>
+        <target>Etage</target>
       </trans-unit>
-      <trans-unit id="6">
-        <source>Password</source>
-        <target>Passwort</target>
+      <trans-unit id="34">
+        <source>resident.list.orderByRoom</source>
+        <target>Nach Zimmernummer ordnen</target>
       </trans-unit>
-      <trans-unit id="7">
-        <source>Submit</source>
+      <trans-unit id="35">
+        <source>resident.list.orderByLastName</source>
+        <target>Nach Nachname ordnen</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>resident.list.orderByMoveIn</source>
+        <target>Nach Einzugsdatum ordnen</target>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>auth.submit</source>
         <target>Absenden</target>
       </trans-unit>
-      <!-- CALLS/BILLS -->
-      <trans-unit id="8">
-        <source>unbilled calls</source>
-        <target>unabgerechnete Gespräche</target>
+      <trans-unit id="37">
+        <source>auth.password</source>
+        <target>Passwort</target>
       </trans-unit>
-      <trans-unit id="9">
-        <source>Date/Time</source>
-        <target>Datum/Uhrzeit</target>
+      <trans-unit id="38">
+        <source>auth.roomNo</source>
+        <target>Zimmernummer</target>
       </trans-unit>
-      <trans-unit id="10">
-        <source>Duration</source>
-        <target>Dauer</target>
+      <trans-unit id="39">
+        <source>Log out?</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="11">
-        <source>Called Number</source>
-        <target>Gewählte Nummer</target>
+      <trans-unit id="40">
+        <source>calls.list.heading</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="12">
-        <source>Charge</source>
-        <target>Kosten</target>
+      <trans-unit id="41">
+        <source>calls.list.datetime</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="13">
-        <source>date</source>
-        <target>Datum</target>
+      <trans-unit id="42">
+        <source>calls.list.duration</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="14">
-        <source>amount</source>
-        <target>Betrag</target>
+      <trans-unit id="43">
+        <source>calls.list.destination</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="15">
-        <source>details</source>
-        <target>Details</target>
+      <trans-unit id="44">
+        <source>calls.list.charge</source>
+        <target/>
       </trans-unit>
-      <trans-unit id="16">
-        <source>recent bills</source>
-        <target>letzte Rechnungen</target>
+      <trans-unit id="45">
+        <source>calls.list.bills.heading</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>calls.list.bills.date</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>calls.list.bills.amount</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>calls.list.bills.details</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>calls.list.bills.showdetails</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>auth.logout</source>
+        <target/>
       </trans-unit>
     </body>
   </file>

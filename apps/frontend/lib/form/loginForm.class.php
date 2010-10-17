@@ -11,8 +11,8 @@ class LoginForm extends sfForm
     $this->widgetSchema->setNameFormat('login[%s]');
 
     $this->widgetSchema->setLabels(array(
-      'roomNo'     => 'Room Number',
-      'password'   => 'Password'
+      'roomNo'     => 'auth.roomNo',
+      'password'   => 'auth.password'
     ));
 
     $this->setValidators(array(

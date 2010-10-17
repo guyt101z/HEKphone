@@ -14,6 +14,6 @@ class Rooms extends BaseRooms
 {
   public function __toString()
   {
-    return $this->getRoomNo();
+    return str_pad($this->getRoomNo(), 3, "0", STR_PAD_LEFT);
   }
 }

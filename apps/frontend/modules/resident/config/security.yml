@@ -1,0 +1,10 @@
+index:
+  is_secure: true
+  credentials: hekphone
+  
+edit:
+  is_secure: true
+  credentials: hekphone
+
+all:
+  is_secure: true

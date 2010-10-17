@@ -10,7 +10,7 @@
     <?php echo $form ?>
     <tr>
       <td colspan="2">
-        <input type="submit" value="<?php echo __('Submit'); ?>" />
+        <input type="submit" value="<?php echo __('auth.submit'); ?>" />
       </td>
     </tr>
   </table>
@@ -18,3 +18,9 @@
 <?php else: ?>
 <div>You are already logged in. <?php echo link_to(__('Log out?'), 'auth/logout'); ?></div>
 <?php endif;?>
+
+<?php
+  // So the task i18n:extract does not delete the form labels
+   __('auth.password');
+   __('auth.roomNo');
+ ?>
