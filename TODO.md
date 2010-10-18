@@ -12,20 +12,19 @@ This is what it should look like to the user.
              /list         -> /resident/index
              /list/by[...] #order the list by room or alphabetically
              
-             /xxx/edit     # Edit the user with id xxx's details (such as unlocked, password, bankinfo)  |\
-            !/xxx/phone    # Edit the user with id xxx's phone settings                                  |=> requires credential "hekphone"
-             /xxx/lock     # Shortcut to lock a user                                                     |/
+             /xxx/edit     # Edit the user with id xxx's details (such as unlocked, password, bankinfo)  |=> requires credential "hekphone"
+            !/xxx/phone    # Edit the user with id xxx's phone settings                                  |/
+             /xxx/lock     # Shortcut to lock a user                                                     ||
              
-             /xxx/index    -> /calls/index    (for the user with id xxx)|=\
-             /xxx/calls    -> /calls/index    (for the user with id xxx)|= > view the user if you were logged in as he.
-             /xxx/vm       -> /vm/index       (for the user with id xxx)|=/   requires credential "hekphone"
+             /xxx/index    -> /calls/index    (for the user with id xxx)|= => view as if you were logged in as the user xxx
+             /xxx/calls    -> /calls/index    (for the user with id xxx)|==/  requires credential "hekphone"
+             /xxx/vm       -> /vm/index       (for the user with id xxx)|=/   
              /xxx/settings -> /settings/index (for the user with id xxx)||
              
-   !/phone/nnn            # edit the phone in room no nnn  |=> requires credential "hekphone"
-   !/phone/id/xxx         # edit the phone with id xxx     |/
-             
-    
-             
+   !/phone/nnn            # edit the phone in room no nnn  |= => requires credential "hekphone"
+   !/phone/edit/xxx       # edit the phone with id xxx     |==/  easy to implement, because it's
+   !/phone/new            # add new phone                  |=/   a basic crud operation
+   !/phone/delete         # delete a phone                 ||                  
     
 
 # TODO for the frontend #
