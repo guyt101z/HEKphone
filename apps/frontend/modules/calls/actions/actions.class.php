@@ -11,20 +11,34 @@
 class callsActions extends sfActions
 {
  /**
-  * Executes index action
+  * Lists a users unbilled calls/bills.
+  *
+  * If the action is called via the route @resident_calls (<-resident/:residentid/calls)
+  * the parameter residentid is set. The action now shows the calls/bills of the corresponding
+  * user, but only if the users id equals the $request[residentid] or if the user is part of the
+  * hekphone-staff (credential: hekphone)
+  *
+  * If the Action is called via the route @bills_detail (<-calls/:billid), the parameter billid
+  * is set and the action additionally shows the details of the bill with the matching id, but only
+  * if the user id requests the residentid associated with the bill.
+  *
+  * If the action is called via the route @calls(<-calls/index), residentid and billid are not set and
+  * the calls of the logged in user is shown.
+  *
+  * XXX: Is this secure? First thought: yes. but check again for weired combinations of billid and residentid
   *
   * @param sfRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
-    //if some resident tries to access calls of other users via resident/:residentid/calls
-    if ( isset($request['residentid']) &&
-         ! ($request['residentid'] == $this->getUser()->getAttribute('id') || $this->getUser()->hasCredential('hekphone')))
+    if ( $this->hasRequestParameter('residentid') &&
+         ! ( $request['residentid'] == $this->getUser()->getAttribute('id')
+             || $this->getUser()->hasCredential('hekphone')))
     {
       $this->forward('default', 'secure');
     }
 
-    if (isset($request['residentid']))
+    if ($this->hasRequestParameter('residentid'))
     {
       $residentid = $request['residentid'];
     }

@@ -1,4 +1,3 @@
-
 <h1><?php echo __("calls.list.heading") ?></h1>
 
 <table border="1">
@@ -18,6 +17,7 @@
     <?php endforeach;?>
 </table>
 
+
 <h1><?php echo __("calls.list.bills.heading") ?></h1>
 
 <table border="1">
@@ -32,15 +32,9 @@
       <td><?php echo $bill->amount?></td>
       <td><?php echo link_to(__('calls.list.bills.showdetails'), 'calls/index/?billid='.$bill->id) ?></td>
     </tr>
-      <?php if ($sf_request->getParameter('billid') == $bill->id):?>
-        <?php foreach($bill->Calls as $calldetail):?>
-    <tr>
-      <td><?php echo $calldetail->date ?></td>
-      <td><?php echo $calldetail->charges ?></td>
-      <td><?php echo $calldetail->destination ?></td>
-    </tr>
-        <?php endforeach;?>
-      <?php endif;?>
+    <?php if ($sf_request->getParameter('billid') == $bill->id): ?>
+    <tr><?php include_partial('billDetails', array('bill' => $bill)) ?></tr>
+    <?php endif;?>
     <?php endforeach;?>
 </table>
 
