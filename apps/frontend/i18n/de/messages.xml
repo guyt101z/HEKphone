@@ -50,51 +50,51 @@
       </trans-unit>
       <trans-unit id="39">
         <source>Log out?</source>
-        <target/>
+        <target></target>
       </trans-unit>
       <trans-unit id="40">
         <source>calls.list.heading</source>
-        <target/>
+        <target>unbezahlte Gespräche</target>
       </trans-unit>
       <trans-unit id="41">
         <source>calls.list.datetime</source>
-        <target/>
+        <target>Datum/Zeit</target>
       </trans-unit>
       <trans-unit id="42">
         <source>calls.list.duration</source>
-        <target/>
+        <target>Dauer (in sec)</target>
       </trans-unit>
       <trans-unit id="43">
         <source>calls.list.destination</source>
-        <target/>
+        <target>gewählte Nummer</target>
       </trans-unit>
       <trans-unit id="44">
         <source>calls.list.charge</source>
-        <target/>
+        <target>Kosten</target>
       </trans-unit>
       <trans-unit id="45">
         <source>calls.list.bills.heading</source>
-        <target/>
+        <target>letze Rechnungen</target>
       </trans-unit>
       <trans-unit id="46">
         <source>calls.list.bills.date</source>
-        <target/>
+        <target>Datum</target>
       </trans-unit>
       <trans-unit id="47">
         <source>calls.list.bills.amount</source>
-        <target/>
+        <target>Betrag</target>
       </trans-unit>
       <trans-unit id="48">
         <source>calls.list.bills.details</source>
-        <target/>
+        <target>Details</target>
       </trans-unit>
       <trans-unit id="49">
         <source>calls.list.bills.showdetails</source>
-        <target/>
+        <target>zeigen</target>
       </trans-unit>
       <trans-unit id="50">
         <source>auth.logout</source>
-        <target/>
+        <target>Abmelden</target>
       </trans-unit>
     </body>
   </file>

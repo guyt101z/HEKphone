@@ -33,10 +33,15 @@ class authActions extends sfActions
         if(null !== $resident && $resident->password === md5($request['login']['password']))
         {
           $this->getUser()->setAuthenticated(true);
-          $this->getUser()->addCredential('hekphone');
           $this->getUser()->setAttribute("name", $resident->first_name);
           $this->getUser()->setAttribute("id", $resident->id);
-          $this->getUser()->setAttribute("roomNo", $resident->room->roomNo);
+          $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
+
+          if($resident->hekphone)
+          {
+            $this->getUser()->addCredential('hekphone');
+          }
+
           $this->getUser()->setFlash('notice', 'Logged in successfully');
           $this->redirect('calls/index');
         }

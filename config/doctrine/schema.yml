@@ -536,6 +536,9 @@ Residents:
     account_number: string(10)
     bank_number: string(8)
     password: string(255)
+    hekphone: 
+      type: boolean
+      default: false
   relations:
     Rooms:
       local: room

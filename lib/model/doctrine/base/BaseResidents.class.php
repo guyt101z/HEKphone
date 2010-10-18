@@ -22,6 +22,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property string $account_number
  * @property string $bank_number
  * @property string $password
+ * @property boolean $hekphone
  * @property Rooms $Rooms
  * @property Banks $Banks
  * @property Doctrine_Collection $Comments
@@ -43,6 +44,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method string              getAccountNumber()           Returns the current record's "account_number" value
  * @method string              getBankNumber()              Returns the current record's "bank_number" value
  * @method string              getPassword()                Returns the current record's "password" value
+ * @method boolean             getHekphone()                Returns the current record's "hekphone" value
  * @method Rooms               getRooms()                   Returns the current record's "Rooms" value
  * @method Banks               getBanks()                   Returns the current record's "Banks" value
  * @method Doctrine_Collection getComments()                Returns the current record's "Comments" collection
@@ -63,6 +65,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setAccountNumber()           Sets the current record's "account_number" value
  * @method Residents           setBankNumber()              Sets the current record's "bank_number" value
  * @method Residents           setPassword()                Sets the current record's "password" value
+ * @method Residents           setHekphone()                Sets the current record's "hekphone" value
  * @method Residents           setRooms()                   Sets the current record's "Rooms" value
  * @method Residents           setBanks()                   Sets the current record's "Banks" value
  * @method Residents           setComments()                Sets the current record's "Comments" collection
@@ -143,6 +146,10 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasColumn('password', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
+             ));
+        $this->hasColumn('hekphone', 'boolean', null, array(
+             'type' => 'boolean',
+             'default' => false,
              ));
     }
 
