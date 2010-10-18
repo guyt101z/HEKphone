@@ -20,13 +20,13 @@ class ResidentsForm extends BaseResidentsForm
     unset($this['last_name']);
     unset($this['first_name']);
 
-    // We use identifiers for i18n
+    // We use identifiers for i18n so set the labels accordingly
     $this->getWidget('email')->setLabel('resident.email');
     $this->getWidget('bill_limit')->setLabel('resident.bill_limit');
     $this->getWidget('warning1')->setLabel('resident.warning1');
     $this->getWidget('warning2')->setLabel('resident.warning2');
     $this->getWidget('unlocked')->setLabel('resident.unlocked');
-    $this->getWidget('shortened_itemized_bill')->setLabel('resident.shortenied_itemized_bill');
+    $this->getWidget('shortened_itemized_bill')->setLabel('resident.shortened_itemized_bill');
     $this->getWidget('hekphone')->setLabel('resident.hekphone');
     $this->getWidget('account_number')->setLabel('resident.account_number');
 
