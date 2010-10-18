@@ -37,7 +37,8 @@
    * but why seperate them?
  * List users and edit details (doctrine:generate-admin)
    * includes: Unlock a user
-   * includes: manage comments
+   * includes: completely disable delete&new action
+   * includes: manage comments 
    * includes: change pin
    * **attach to asterisk-tables!**
    * Edit a users phone

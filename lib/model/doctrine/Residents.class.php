@@ -12,4 +12,13 @@
  */
 class Residents extends BaseResidents
 {
+    public function setPassword($password)
+    {
+      // don't update to empty password
+      if ($password == '')
+      {
+        return $this;
+      }
+        return $this->_set('password', md5($password));
+    }
 }

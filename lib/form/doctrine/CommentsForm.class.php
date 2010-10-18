@@ -12,5 +12,7 @@ class CommentsForm extends BaseCommentsForm
 {
   public function configure()
   {
+    unset($this['stamp']);
+    unset($this['resident']);
   }
 }
