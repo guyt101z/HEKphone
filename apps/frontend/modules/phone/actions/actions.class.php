@@ -35,7 +35,22 @@ class phoneActions extends sfActions
 
   public function executeEdit(sfWebRequest $request)
   {
-    $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
+    if ($this->request->hasParameter('roomno'))
+    {
+      //XXX: select right finder here
+      //XXX: if-clause does not work yet
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByRoomNo(array($request->getParameter('room'))), sprintf('Object phones does not exist (%s).', $request->getParameter('roomno')));
+    }
+    elseif ($this->request->hasParameter('residentid'))
+    {
+      //XXX: select right finder here
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByResident(array($request->getParameter('room'))), sprintf('Object phones does not exist (%s).', $request->getParameter('residentid')));
+    }
+    else
+    {
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
+    }
+
     $this->form = new PhonesForm($phones);
   }
 

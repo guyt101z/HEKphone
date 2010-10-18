@@ -21,10 +21,10 @@ This is what it should look like to the user.
              /xxx/vm       -> /vm/index       (for the user with id xxx)|=/   
              /xxx/settings -> /settings/index (for the user with id xxx)||
              
-   !/phone/nnn            # edit the phone in room no nnn  |= => requires credential "hekphone"
-   !/phone/edit/xxx       # edit the phone with id xxx     |==/  easy to implement, because it's
-   !/phone/new            # add new phone                  |=/   a basic crud operation
-   !/phone/delete         # delete a phone                 ||                  
+   /phone/edit/room/1     # edit the phone in room no nnn  |= => requires credential "hekphone"
+   /phone/edit/id/xxx     # edit the phone with id xxx     |==/  easy to implement, because it's
+   /phone/new             # add new phone                  |=/   a basic crud operation
+   /phone/delete          # delete a phone                 ||                  
     
 
 # TODO for the frontend #

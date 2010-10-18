@@ -1,12 +1,3 @@
-#residents:
-#  class: sfDoctrineRouteCollection
-#  options:
-#    model:                Residents
-#    module:               residents
-#    prefix_path:          /Residents
-#    column:               id
-#    with_wildcard_routes: true
-
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
@@ -76,6 +67,19 @@ resident_settings:
   requirements: 
     residentid: \d+    
     
+# CRUD for Phones
+phone_editByRoomNo:
+  url:   /phone/room/:roomno
+  param: {module: phone, action: edit}
+  requirements: 
+    roomno: \d+    
+
+phone_editByResidentId:
+  url:   /resident/:residentid/phone
+  param: {module: phone, action: edit}
+  requirements: 
+    residentid: \d+    
+  
 # generic rules
 # please, remove them by adding more specific rules
 default_index:
