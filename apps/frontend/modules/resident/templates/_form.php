@@ -16,13 +16,13 @@
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo __('resident.lastName') ?></th>
+        <th><?php echo __('resident.last_name') ?></th>
         <td>
           <?php echo $resident['last_name'] ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo __('resident.firstName') ?></th>
+        <th><?php echo __('resident.first_name') ?></th>
         <td>
           <?php echo $resident['first_name'] ?>
         </td>
@@ -42,7 +42,7 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo __('resident.roomNo') ?></th>
+        <th><?php echo __('resident.room_no') ?></th>
         <td>
           <?php echo $resident['Rooms']['room_no'] ?>
         </td>

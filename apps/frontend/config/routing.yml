@@ -43,7 +43,7 @@ resident_listByLastName:
   
 resident_listByMoveIn:
   url:   /resident/list/byMoveIn
-  param: {module: resident, action:index, orderby: movein}
+  param: {module: resident, action:index, orderby: move_in}
     
 resident_edit:
   url:   /resident/:id/edit
