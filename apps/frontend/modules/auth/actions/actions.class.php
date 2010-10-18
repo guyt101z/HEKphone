@@ -20,12 +20,12 @@ class authActions extends sfActions
     $this->form = new LoginForm();
 
     if( ! $request->isMethod('post')){
+      // If the user is not logged in guess his language
       $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
     }
     elseif($request->isMethod('post'))
     {
-
-      $this->form->bind($request->getParameter('login'));
+      $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid())
       {
         $residentsTable = Doctrine_Core::getTable('Residents');
@@ -39,24 +39,26 @@ class authActions extends sfActions
 
           if($resident->hekphone)
           {
+            // User is a HEKPhone staff member
             $this->getUser()->addCredential('hekphone');
           }
 
-          $this->getUser()->setFlash('notice', 'Logged in successfully');
+          $this->getUser()->setFlash('notice', 'auth.login.successfull');
           $this->redirect('calls/index');
         }
         else
         {
-          $this->getUser()->setFlash('notice', 'Login failed! Check room number and password.');
+          $this->getUser()->setFlash('notice', 'auth.login.failed');
           $this->redirect('auth/index');
         }
       }
     }
     }
+
   public function executeLogout(sfWebRequest $request)
   {
     $this->getUser()->setAuthenticated(false);
-    $this->getUser()->setFlash('notice', 'Logged out successfully');
+    $this->getUser()->setFlash('notice', 'auth.logout.successfull');
     $this->redirect('auth/index');
   }
 }
