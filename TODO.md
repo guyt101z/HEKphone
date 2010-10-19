@@ -13,7 +13,7 @@ This is what it should look like to the user.
              /list/by[...] #order the list by room or alphabetically
              
              /xxx/edit     # Edit the user with id xxx's details (such as unlocked, password, bankinfo)  |=> requires credential "hekphone"
-            !/xxx/phone    # Edit the user with id xxx's phone settings                                  |/
+             /xxx/phone    # Edit the user with id xxx's phone settings                                  |/
              /xxx/lock     # Shortcut to lock a user                                                     ||
              
              /xxx/index    -> /calls/index    (for the user with id xxx)|= => view as if you were logged in as the user xxx

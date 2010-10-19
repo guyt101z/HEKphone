@@ -88,6 +88,10 @@
         <source>calls.list.bills.showdetails</source>
         <target>zeigen</target>
       </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.hidedetails</source>
+        <target>ausblenden</target>
+      </trans-unit>
       <trans-unit id="50">
         <source>auth.logout</source>
         <target>Abmelden</target>

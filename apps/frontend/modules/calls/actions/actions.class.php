@@ -40,21 +40,21 @@ class callsActions extends sfActions
 
     if ($this->hasRequestParameter('residentid'))
     {
-      $residentid = $request['residentid'];
+      $this->residentid = $request['residentid'];
     }
     else
     {
-      $residentid = $this->getUser()->getAttribute('id');
+      $this->residentid = $this->getUser()->getAttribute('id');
     }
 
     $this->callsCollection = Doctrine_Query::create()
                             ->from('Calls c')
                             ->addWhere('c.bill = 0')
-                            ->addWhere('c.resident = ?', $residentid)
+                            ->addWhere('c.resident = ?', $this->residentid)
                             ->execute();
     $this->billsCollection = Doctrine_Query::create()
                             ->from('Bills b')
-                            ->addWhere('b.resident = ?', $residentid)
+                            ->addWhere('b.resident = ?', $this->residentid)
                             ->orderBy('b.date')
                             ->limit(12)
                             ->execute();
