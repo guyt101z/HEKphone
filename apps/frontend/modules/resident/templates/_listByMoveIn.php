@@ -20,7 +20,7 @@ $currentCol = -1;
       <td><?php echo $resident->getMoveIn() ?></td>
       <td><?php echo $resident->getLastName() ?></td>
       <td><?php echo $resident->getFirstName() ?></td>
-      <td><a href="<?php echo url_for('@resident_edit?id='.$resident->getId()) ?>"><?php echo str_pad($resident['Rooms']['room_no'], 3, "0", STR_PAD_LEFT);  ?></a></td>
+      <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo str_pad($resident['Rooms']['room_no'], 3, "0", STR_PAD_LEFT);  ?></a></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

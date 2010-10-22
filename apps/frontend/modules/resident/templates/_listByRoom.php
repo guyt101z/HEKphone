@@ -23,7 +23,7 @@ $currentCol = -1;
   <tbody>
   <?php endif; ?>
     <tr class="<?php echo (! $resident->getUnlocked()) ? 'locked' : 'unlocked' ?>">
-      <td><a href="<?php echo url_for('@resident_edit?id='.$resident->getId()) ?>"><?php echo $roomNo ?></a></td>
+      <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $roomNo ?></a></td>
       <td><?php echo $resident->getLastName() ?></td>
       <td><?php echo $resident->getFirstName() ?></td>
     </tr>

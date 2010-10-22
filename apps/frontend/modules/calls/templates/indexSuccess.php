@@ -42,5 +42,3 @@
     </tr>
     <?php endforeach;?>
 </table>
-
-<?php echo link_to(__('auth.logout') . '?', 'auth/logout') ?>

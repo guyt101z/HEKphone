@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-18T23:45:39Z" product-name="messages">
+  <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-22T15:29:06Z" product-name="messages">
     <header/>
     <body>
       <trans-unit id="17">
@@ -124,53 +124,101 @@
         <source>resident.move_in</source>
         <target>Einzugsdatum</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="66">
         <source>resident.email</source>
         <target>E-Mail</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="67">
         <source>resident.bill_limit</source>
         <target>Limit</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="68">
         <source>resident.warning1</source>
         <target>Warnung 1</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="69">
         <source>resident.warning2</source>
         <target>Warnung 2</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="70">
         <source>resident.unlocked</source>
         <target>Freigeschaltet</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="71">
         <source>resident.shortened_itemized_bill</source>
         <target>EVN gekürzt</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="72">
         <source>resident.hekphone</source>
         <target>HEKPhone-Mitglied</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="73">
         <source>resident.account_number</source>
         <target>Kontonummer</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="74">
         <source>resident.bank_number</source>
         <target>Bankleitzahl</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="75">
         <source>resident.edit.password</source>
         <target>Passwort</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="76">
         <source>resident.comment</source>
         <target>Kommentar</target>
       </trans-unit>
-      <trans-unit id="">
+      <trans-unit id="77">
         <source>resident.edit.save</source>
         <target>Abspeichern</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>navigation.calls</source>
+        <target>Gespräche/Rechnungen</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>navigation.vm</source>
+        <target>AB</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>navigation.settings</source>
+        <target>Einstellungen</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>navigation.residents</source>
+        <target>Bewohner</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>navigation.phones</source>
+        <target>Telefone</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>navigation.tasks</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>navigation.logout</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>navigation.resident.edit</source>
+        <target>Details bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>navigation.resident.phone</source>
+        <target>Telefon bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>navigation.resident.calls</source>
+        <target>Gespräche</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>navigation.resident.vm</source>
+        <target>AB</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>navigation.resident.settings</source>
+        <target>Einstellungen</target>
       </trans-unit>
     </body>
   </file>
