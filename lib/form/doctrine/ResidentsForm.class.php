@@ -47,7 +47,7 @@ class ResidentsForm extends BaseResidentsForm
     // changes to the default value we define here; We have to do this in the action.
     // The label should be "change password to" (or similar)
     unset($this['password']);
-    $this->setWidget('password', new sfWidgetFormInputText(array('label' => 'resident.edit.change_password')));
+    $this->setWidget('password', new sfWidgetFormInputText(array('label' => 'resident.edit.password')));
     $this->setValidator('password', new sfValidatorString(array('max_length' => 255, 'required' => false)));
 
 

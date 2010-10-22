@@ -124,6 +124,54 @@
         <source>resident.move_in</source>
         <target>Einzugsdatum</target>
       </trans-unit>
+      <trans-unit id="">
+        <source>resident.email</source>
+        <target>E-Mail</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.bill_limit</source>
+        <target>Limit</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.warning1</source>
+        <target>Warnung 1</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.warning2</source>
+        <target>Warnung 2</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.unlocked</source>
+        <target>Freigeschaltet</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.shortened_itemized_bill</source>
+        <target>EVN gekürzt</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.hekphone</source>
+        <target>HEKPhone-Mitglied</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.account_number</source>
+        <target>Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.bank_number</source>
+        <target>Bankleitzahl</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.edit.password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.comment</source>
+        <target>Kommentar</target>
+      </trans-unit>
+      <trans-unit id="">
+        <source>resident.edit.save</source>
+        <target>Abspeichern</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -18,8 +18,7 @@ $browser->info("1.1 - Exists?")->
 ;
 
 # Test a simple login
-$browser->info("2.1 - logging in with incorrect password but valid input");
-$browser->
+$browser->info("2.1 - logging in with incorrect password but valid input")->
   get('auth/index')->
 
   click('Absenden', array(
@@ -38,19 +37,15 @@ $browser->
 
   with('form')->begin()->
     hasErrors(false)->
-  end()->
+  end();
 
-  # got redirected to the login-form?
-  with('response')->isRedirected()->
-    followRedirect()->
-  with('request')->begin()->
-    isParameter('module','auth')->
-    isParameter('action','index')->
+$browser->info("2.1.1 - Are there untranslated Strings?")->
+  with('response')->begin()->
+    checkElement('body', '!/[T]/')->
   end();
 
 # Test a simple login
-$browser->info("2.2 - logging in with incorrect password and invalid input");
-$browser->
+$browser->info("2.2 - logging in with incorrect password and invalid input")->
   get('auth/index')->
 
   click('Absenden', array(
@@ -64,10 +59,14 @@ $browser->
 
   with('user')->begin()->
     isAuthenticated(false)->
+  end()->
+
+  info("2.2.1 - Are there untranslated Strings?")->
+  with('response')->begin()->
+    checkElement('body', '!/[T]/')->
   end();
 
-$browser->info("2.3 - logging in with correct password and valid input");
-$browser->
+$browser->info("2.3 - logging in with correct password and valid input")->
   get('auth/index')->
 
   click('Absenden', array(

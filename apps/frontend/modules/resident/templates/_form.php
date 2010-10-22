@@ -4,15 +4,6 @@
 <form action="<?php echo url_for('resident/update' . '?id='.$form->getObject()->getId()) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <input type="hidden" name="sf_method" value="put" />
   <table>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('resident/index') ?>">Back to list</a>
-          <input type="submit" value="Save" />
-        </td>
-      </tr>
-    </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
@@ -105,13 +96,18 @@
       </tr>
     </tbody>
   </table>
-  <ul>
+  <ul id="comments">
     <?php foreach ($form['comments'] as $commentFields): ?>
       <li>
-        <table><?php echo $commentFields ?></table>
+        <?php echo $commentFields ?>
         <a href="javascript:remove_comment(this)"><?php echo __('resident.edit.removeThisComment') ?></a>
       </li>
-    <?php endforeach ?>
+  <?php endforeach; ?>
   </ul>
   <a href="javascript:add_comment()"><?php echo __('resident.edit.addComment')?></a>
+  <div class="formFoot">
+    <?php echo $form->renderHiddenFields(false) ?>
+    &nbsp;<a href="<?php echo url_for('resident/index') ?>">Back to list</a>
+    <input type="submit" value="<?php echo __('resident.edit.save') ?>" />
+  </div>
 </form>

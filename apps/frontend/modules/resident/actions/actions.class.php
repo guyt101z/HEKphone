@@ -67,7 +67,7 @@ class residentActions extends sfActions
     $this->form['password']->getWidget()->setAttribute('value', '');
 
     // So we can access the resident's data from the template/view layer
-    $this->resident = $resident;
+   $this->resident = $resident;
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -76,8 +76,9 @@ class residentActions extends sfActions
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('id')));
     $this->form = new ResidentsForm($resident);
 
-    $this->processForm($request, $this->form);
+    $this->resident = $resident;
 
+    $this->processForm($request, $this->form);
     $this->setTemplate('edit');
   }
 
@@ -101,7 +102,8 @@ class residentActions extends sfActions
 
       #XXX: Insert asterisk connector HERE!
 
-      $this->redirect('resident/edit?id='.$residents->getId());
+      $this->getUser()->setFlash('notice', 'resident.edit.successfull');
+      $this->redirect('@resident_edit?id='.$residents->getId());
     }
   }
 }
