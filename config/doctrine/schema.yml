@@ -139,6 +139,18 @@ AsteriskExtensions:
       unsigned: false
       notnull: false
       primary: false
+      
+# This is not a table but a view. Unfortunately, there seems to be no way do
+# this in a clean way with doctrine. So after you built the database from the 
+# schema, you should DELETE the asterisk_sip table, and create a view with the
+# sql-file postgres02-asterisk_sip-view.sql.
+# Because the view uses a typecast from boolean (resident->locked) to the
+# enum 'context' which is either 0: locked or 1: unlocked, you have to create 
+# this typecast first. This can be done with the postgres-01-typecast-bool-context.sql
+# file. 
+# The typecast also automatically forces all telephones in rooms with no assigned
+# resident to be locked!
+# TODO: Try harder to create the view with doctrine.
 AsteriskSip:
   connection: hekphone
   tableName: asterisk_sip
@@ -407,9 +419,10 @@ AsteriskVoicemail:
 # This table is the skeleton of the view asterisk_sip which specifies the
 # sip friend of asterisk.
 # It contains every neccessary information except "context" which is either
-# "gesperrt" (outgoing calls denied) or "freigeschaltet" (allowed) because
+# "locked" (outgoing calls denied) or "unlocked" (allowed) because
 # this information belongs to an user not to a telephone. So its stored in
-# Bewohner->context
+# Bewohner->context.
+# See comment on asterisk_sip!
 
 Phones:
   connection: hekphone
@@ -484,7 +497,7 @@ Phones:
       type: integer
       default: '0'
   relations:
-    Zimmer:
+    Rooms:
       local: id
       foreign: telefon
       type: many
@@ -665,7 +678,7 @@ Calls:
       local: resident
       foreign: id
       type: one
-    Rate:
+    Rates:
       local: rate
       foreign: id
       type: one
