@@ -6,7 +6,7 @@
     <tr>
       <td colspan="3">
       <table class="calldetails" border=1>
-    <?php foreach($bill->Calls as $call):?>
+    <?php foreach($bill->getCalls() as $call):?>
         <tr>
           <th><?php echo __("calls.list.datetime") ?></th>
           <th><?php echo __("calls.list.duration") ?></th>

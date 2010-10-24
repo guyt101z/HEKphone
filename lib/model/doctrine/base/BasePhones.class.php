@@ -230,6 +230,6 @@ abstract class BasePhones extends sfDoctrineRecord
         parent::setUp();
         $this->hasMany('Rooms', array(
              'local' => 'id',
-             'foreign' => 'phone'));
+             'foreign' => 'telefon'));
     }
 }

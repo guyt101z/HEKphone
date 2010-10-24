@@ -710,10 +710,15 @@ Bills:
       local: resident
       foreign: id
       type: one
-    Calls:
-      local: id
-      foreign: bill
-      type: many
+#    Calls:
+#      local: id
+#      foreign: bill
+#      type: many
+# There's no relation to bills because as long as the call is not billed
+# theres no bill id set. Thus the relation would be violated.
+# This might be a flaw in the database design. (It's probably better to assign a     
+# call to a bill in the moment the call is "billed" (transfered from asterisk_cdr
+# to calls). A bill is then assigned to a user) FIXME?
 
 Providers:
   connection: hekphone
@@ -771,7 +776,7 @@ Regions:
     RatesRegions:
       local: id
       foreign: region
-      type: many
+      type: one # ONE or MANY?
     Prefixes:
       local: id
       foreign: region
