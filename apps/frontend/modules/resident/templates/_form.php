@@ -9,75 +9,75 @@
       <tr>
         <th><?php echo __('resident.last_name') ?></th>
         <td>
-          <?php echo $resident['last_name'] ?>
+          <?php echo $resident['last_name']  . "\n"?>
         </td>
       </tr>
       <tr>
         <th><?php echo __('resident.first_name') ?></th>
         <td>
-          <?php echo $resident['first_name'] ?>
+          <?php echo $resident['first_name'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['email']->renderLabel() ?></th>
         <td>
           <?php echo $form['email']->renderError() ?>
-          <?php echo $form['email'] ?>
+          <?php echo $form['email'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['bill_limit']->renderLabel() ?></th>
         <td>
           <?php echo $form['bill_limit']->renderError() ?>
-          <?php echo $form['bill_limit'] ?>
+          <?php echo $form['bill_limit'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo __('resident.room_no') ?></th>
         <td>
-          <?php echo $resident['Rooms']['room_no'] ?>
+          <?php echo $resident['Rooms']['room_no'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['warning1']->renderLabel() ?></th>
         <td>
           <?php echo $form['warning1']->renderError() ?>
-          <?php echo $form['warning1'] ?>
+          <?php echo $form['warning1'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['warning2']->renderLabel() ?></th>
         <td>
           <?php echo $form['warning2']->renderError() ?>
-          <?php echo $form['warning2'] ?>
+          <?php echo $form['warning2'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['unlocked']->renderLabel() ?></th>
         <td>
           <?php echo $form['unlocked']->renderError() ?>
-          <?php echo $form['unlocked'] ?>
+          <?php echo $form['unlocked'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['shortened_itemized_bill']->renderLabel() ?></th>
         <td>
           <?php echo $form['shortened_itemized_bill']->renderError() ?>
-          <?php echo $form['shortened_itemized_bill'] ?>
+          <?php echo $form['shortened_itemized_bill'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['hekphone']->renderLabel() ?></th>
         <td>
           <?php echo $form['hekphone']->renderError() ?>
-          <?php echo $form['hekphone'] ?>
+          <?php echo $form['hekphone'] . "\n" ?>
         </td>
       </tr>
       <tr>
         <th><?php echo $form['account_number']->renderLabel() ?></th>
         <td>
           <?php echo $form['account_number']->renderError() ?>
-          <?php echo $form['account_number'] ?>
+          <?php echo $form['account_number'] . "\n" ?>
         </td>
       </tr>
       <tr>
@@ -91,7 +91,7 @@
         <th><?php echo $form['password']->renderLabel() ?></th>
         <td>
           <?php echo $form['password']->renderError() ?>
-          <?php echo $form['password'] ?>
+          <?php echo $form['password'] . "\n" ?>
         </td>
       </tr>
     </tbody>
@@ -99,15 +99,16 @@
   <ul id="comments">
     <?php foreach ($form['comments'] as $commentFields): ?>
       <li>
+        <?php //FIXME: Print the timestamp of the comment here?>
         <?php echo $commentFields ?>
-        <a href="javascript:remove_comment(this)"><?php echo __('resident.edit.removeThisComment') ?></a>
+        <a href="#"><?php echo __('resident.edit.removeThisComment') ?></a>
       </li>
   <?php endforeach; ?>
   </ul>
-  <a href="javascript:add_comment()"><?php echo __('resident.edit.addComment')?></a>
+  <a id="addComment" href="#"><?php echo __('resident.edit.addComment')?></a>
   <div class="formFoot">
     <?php echo $form->renderHiddenFields(false) ?>
-    &nbsp;<a href="<?php echo url_for('resident/index') ?>">Back to list</a>
+    &nbsp;<?php echo link_to(__('resident.edit.backToList'), 'resident/index') ?>
     <input type="submit" value="<?php echo __('resident.edit.save') ?>" />
   </div>
 </form>
