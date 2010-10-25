@@ -1,3 +1,32 @@
+This is what it should look like to the user.
+
+
+ app/auth                  # Log in
+    /auth/logout           # Log out
+     
+    /calls/index           # List the logged in users calls and bills
+    /vm/index              # List the logged in users vm-messages
+    /settings/index        # Let the user modify his settings and the ones of his VM
+    
+    /resident/index        # List all users to edit them
+             /list         -> /resident/index
+             /list/by[...] #order the list by room or alphabetically
+             
+             /xxx/edit     # Edit the user with id xxx's details (such as unlocked, password, bankinfo)  |=> requires credential "hekphone"
+             /xxx/phone    # Edit the user with id xxx's phone settings                                  |/
+             /xxx/lock     # Shortcut to lock a user                                                     ||
+             
+             /xxx/index    -> /calls/index    (for the user with id xxx)|= => view as if you were logged in as the user xxx
+             /xxx/calls    -> /calls/index    (for the user with id xxx)|==/  requires credential "hekphone"
+             /xxx/vm       -> /vm/index       (for the user with id xxx)|=/   
+             /xxx/settings -> /settings/index (for the user with id xxx)||
+             
+   /phone/edit/room/1     # edit the phone in room no nnn  |= => requires credential "hekphone"
+   /phone/edit/id/xxx     # edit the phone with id xxx     |==/  easy to implement, because it's
+   /phone/new             # add new phone                  |=/   a basic crud operation
+   /phone/delete          # delete a phone                 ||                  
+    
+
 # TODO for the frontend #
   * Login/Logout Use symfony-default module
   * **Calls/Bills listing:**
@@ -37,7 +66,8 @@
    * but why seperate them?
  * List users and edit details (doctrine:generate-admin)
    * includes: Unlock a user
-   * includes: manage comments
+   * includes: completely disable delete&new action
+   * includes: manage comments 
    * includes: change pin
    * **attach to asterisk-tables!**
    * Edit a users phone

@@ -23,7 +23,7 @@ abstract class BaseCallsForm extends BaseFormDoctrine
       'destination' => new sfWidgetFormInputText(),
       'charges'     => new sfWidgetFormInputText(),
       'rate'        => new sfWidgetFormInputText(),
-      'bill'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Bills'), 'add_empty' => true)),
+      'bill'        => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -35,7 +35,7 @@ abstract class BaseCallsForm extends BaseFormDoctrine
       'destination' => new sfValidatorString(array('max_length' => 50)),
       'charges'     => new sfValidatorNumber(),
       'rate'        => new sfValidatorInteger(),
-      'bill'        => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Bills'), 'required' => false)),
+      'bill'        => new sfValidatorInteger(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('calls[%s]');

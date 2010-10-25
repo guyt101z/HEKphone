@@ -9,16 +9,16 @@ Doctrine_Manager::getInstance()->bindComponent('Regions', 'hekphone');
  * 
  * @property integer $id
  * @property string $name
- * @property Doctrine_Collection $RatesRegions
+ * @property RatesRegions $RatesRegions
  * @property Doctrine_Collection $Prefixes
  * 
  * @method integer             getId()           Returns the current record's "id" value
  * @method string              getName()         Returns the current record's "name" value
- * @method Doctrine_Collection getRatesRegions() Returns the current record's "RatesRegions" collection
+ * @method RatesRegions        getRatesRegions() Returns the current record's "RatesRegions" value
  * @method Doctrine_Collection getPrefixes()     Returns the current record's "Prefixes" collection
  * @method Regions             setId()           Sets the current record's "id" value
  * @method Regions             setName()         Sets the current record's "name" value
- * @method Regions             setRatesRegions() Sets the current record's "RatesRegions" collection
+ * @method Regions             setRatesRegions() Sets the current record's "RatesRegions" value
  * @method Regions             setPrefixes()     Sets the current record's "Prefixes" collection
  * 
  * @package    hekphone
@@ -47,7 +47,7 @@ abstract class BaseRegions extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('RatesRegions', array(
+        $this->hasOne('RatesRegions', array(
              'local' => 'id',
              'foreign' => 'region'));
 

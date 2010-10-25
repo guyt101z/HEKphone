@@ -1,37 +1,21 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
 
-<form action="<?php echo url_for('resident/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
-<?php if (!$form->getObject()->isNew()): ?>
+<form action="<?php echo url_for('resident/update' . '?residentid='.$form->getObject()->getId()) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <input type="hidden" name="sf_method" value="put" />
-<?php endif; ?>
   <table>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('resident/index') ?>">Back to list</a>
-          <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'resident/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
-          <?php endif; ?>
-          <input type="submit" value="Save" />
-        </td>
-      </tr>
-    </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo $form['last_name']->renderLabel() ?></th>
+        <th><?php echo __('resident.last_name') ?></th>
         <td>
-          <?php echo $form['last_name']->renderError() ?>
-          <?php echo $form['last_name'] ?>
+          <?php echo $resident['last_name'] ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['first_name']->renderLabel() ?></th>
+        <th><?php echo __('resident.first_name') ?></th>
         <td>
-          <?php echo $form['first_name']->renderError() ?>
-          <?php echo $form['first_name'] ?>
+          <?php echo $resident['first_name'] ?>
         </td>
       </tr>
       <tr>
@@ -49,10 +33,9 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['room']->renderLabel() ?></th>
+        <th><?php echo __('resident.room_no') ?></th>
         <td>
-          <?php echo $form['room']->renderError() ?>
-          <?php echo $form['room'] ?>
+          <?php echo $resident['Rooms']['room_no'] ?>
         </td>
       </tr>
       <tr>
@@ -84,17 +67,17 @@
         </td>
       </tr>
       <tr>
+        <th><?php echo $form['hekphone']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['hekphone']->renderError() ?>
+          <?php echo $form['hekphone'] ?>
+        </td>
+      </tr>
+      <tr>
         <th><?php echo $form['account_number']->renderLabel() ?></th>
         <td>
           <?php echo $form['account_number']->renderError() ?>
           <?php echo $form['account_number'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['password']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['password']->renderError() ?>
-          <?php echo $form['password'] ?>
         </td>
       </tr>
       <tr>
@@ -104,6 +87,27 @@
           <?php echo $form['bank_number'] ?>
         </td>
       </tr>
+      <tr>
+        <th><?php echo $form['password']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['password']->renderError() ?>
+          <?php echo $form['password'] ?>
+        </td>
+      </tr>
     </tbody>
   </table>
+  <ul id="comments">
+    <?php foreach ($form['comments'] as $commentFields): ?>
+      <li>
+        <?php echo $commentFields ?>
+        <a href="javascript:remove_comment(this)"><?php echo __('resident.edit.removeThisComment') ?></a>
+      </li>
+  <?php endforeach; ?>
+  </ul>
+  <a href="javascript:add_comment()"><?php echo __('resident.edit.addComment')?></a>
+  <div class="formFoot">
+    <?php echo $form->renderHiddenFields(false) ?>
+    &nbsp;<a href="<?php echo url_for('resident/index') ?>">Back to list</a>
+    <input type="submit" value="<?php echo __('resident.edit.save') ?>" />
+  </div>
 </form>

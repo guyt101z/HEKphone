@@ -1,12 +1,3 @@
-#residents:
-#  class: sfDoctrineRouteCollection
-#  options:
-#    model:                Residents
-#    module:               residents
-#    prefix_path:          /Residents
-#    column:               id
-#    with_wildcard_routes: true
-
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
@@ -16,13 +7,29 @@ homepage:
 
  
   
-
+# Display a users calls
+calls:
+  url: /calls
+  param: { module: calls, action: index}
+ 
 # Display the details of a bill within the bills list
 bill_detail:
   url:   /calls/:billid
   param: { module: calls, action: index }
   requirements:
     billid: \d+
+    
+# Display a users VM
+vm:
+  url: /vm
+  param: { module: vm, action: index}
+
+# Display a users settings 
+settings:
+  url: /settings
+  param: { module: settings, action: index}
+
+
 
 # Manage (admin) residents
 resident_list:
@@ -43,21 +50,21 @@ resident_listByLastName:
   
 resident_listByMoveIn:
   url:   /resident/list/byMoveIn
-  param: {module: resident, action:index, orderby: movein}
+  param: {module: resident, action:index, orderby: move_in}
     
 resident_edit:
-  url:   /resident/:id/edit
+  url:   /resident/:residentid/edit
   param: {module: resident, action: edit }
   requirements: 
-    id: \d+
+    residentid: \d+
   
-# Access the users actions as if you where the user
-resident_index:
+resident_edit_plain:
   url:   /resident/:residentid
-  param: {module: calls, action: index }
+  param: {module: resident, action: edit }
   requirements: 
-    residentid: \d+  
-    
+    residentid: \d+
+
+# Access the users actions as if you where the user    
 resident_calls:
   url:   /resident/:residentid/calls
   param: {module: calls, action: index }
@@ -75,7 +82,22 @@ resident_settings:
   param: {module: settings, action: index }
   requirements: 
     residentid: \d+    
+
+resident_phone:
+  url:   /resident/:residentid/phone
+  param: {module: phone, action: edit}
+  requirements: 
+    residentid: \d+    
+
     
+# CRUD for Phones
+phone_editByRoomNo:
+  url:   /phone/room/:roomno
+  param: {module: phone, action: edit}
+  requirements: 
+    roomno: \d+      
+  
+  
 # generic rules
 # please, remove them by adding more specific rules
 default_index:
