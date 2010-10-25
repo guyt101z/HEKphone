@@ -759,7 +759,7 @@ RatesRegions:
     Regions:
       local: region
       foreign: id
-      type: one
+      type: many #one???
 
 Regions:
   connection: hekphone
