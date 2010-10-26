@@ -11,7 +11,7 @@ class hekphoneBillcallTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even though it has been marked as billed already', 'false'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
-      // add your own options here
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application', 'frontend'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -36,7 +36,6 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    // add your code here
     $collCdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('uniqueid = ?', $arguments['uniqueid'])
