@@ -11,7 +11,8 @@
 class authActions extends sfActions
 {
  /**
-  * Executes index action
+  * Executes the login-action: Checks room no/password and then sets the user as
+  * authenticated, sets user attributes ('name', 'id', 'roomNo') and sets credentials
   *
   * @param sfRequest $request A request object
   */
@@ -33,9 +34,14 @@ class authActions extends sfActions
         if(null !== $resident && $resident->password === md5($request['login']['password']))
         {
           $this->getUser()->setAuthenticated(true);
+          // Set basic attributes of the signed in user.
           $this->getUser()->setAttribute("name", $resident->first_name);
           $this->getUser()->setAttribute("id", $resident->id);
           $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
+          // set the language according to what the user chose
+          // TODO: on the first login, this is always german it would be nice to
+          // set and save the culture of getPrefferedCulture() instead
+          $this->getUser()->setCulture($resident->culture);
 
           if($resident->hekphone)
           {

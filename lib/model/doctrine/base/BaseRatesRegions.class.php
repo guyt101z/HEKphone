@@ -11,18 +11,18 @@ Doctrine_Manager::getInstance()->bindComponent('RatesRegions', 'hekphone');
  * @property integer $rate
  * @property integer $region
  * @property Rates $Rates
- * @property Regions $Regions
+ * @property Doctrine_Collection $Regions
  * 
- * @method integer      getId()      Returns the current record's "id" value
- * @method integer      getRate()    Returns the current record's "rate" value
- * @method integer      getRegion()  Returns the current record's "region" value
- * @method Rates        getRates()   Returns the current record's "Rates" value
- * @method Regions      getRegions() Returns the current record's "Regions" value
- * @method RatesRegions setId()      Sets the current record's "id" value
- * @method RatesRegions setRate()    Sets the current record's "rate" value
- * @method RatesRegions setRegion()  Sets the current record's "region" value
- * @method RatesRegions setRates()   Sets the current record's "Rates" value
- * @method RatesRegions setRegions() Sets the current record's "Regions" value
+ * @method integer             getId()      Returns the current record's "id" value
+ * @method integer             getRate()    Returns the current record's "rate" value
+ * @method integer             getRegion()  Returns the current record's "region" value
+ * @method Rates               getRates()   Returns the current record's "Rates" value
+ * @method Doctrine_Collection getRegions() Returns the current record's "Regions" collection
+ * @method RatesRegions        setId()      Sets the current record's "id" value
+ * @method RatesRegions        setRate()    Sets the current record's "rate" value
+ * @method RatesRegions        setRegion()  Sets the current record's "region" value
+ * @method RatesRegions        setRates()   Sets the current record's "Rates" value
+ * @method RatesRegions        setRegions() Sets the current record's "Regions" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -60,7 +60,7 @@ abstract class BaseRatesRegions extends sfDoctrineRecord
              'local' => 'rate',
              'foreign' => 'id'));
 
-        $this->hasOne('Regions', array(
+        $this->hasMany('Regions', array(
              'local' => 'region',
              'foreign' => 'id'));
     }

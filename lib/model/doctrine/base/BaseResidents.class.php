@@ -23,6 +23,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property string $bank_number
  * @property string $password
  * @property boolean $hekphone
+ * @property string $culture
  * @property Rooms $Rooms
  * @property Banks $Banks
  * @property Doctrine_Collection $Comments
@@ -45,6 +46,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method string              getBankNumber()              Returns the current record's "bank_number" value
  * @method string              getPassword()                Returns the current record's "password" value
  * @method boolean             getHekphone()                Returns the current record's "hekphone" value
+ * @method string              getCulture()                 Returns the current record's "culture" value
  * @method Rooms               getRooms()                   Returns the current record's "Rooms" value
  * @method Banks               getBanks()                   Returns the current record's "Banks" value
  * @method Doctrine_Collection getComments()                Returns the current record's "Comments" collection
@@ -66,6 +68,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setBankNumber()              Sets the current record's "bank_number" value
  * @method Residents           setPassword()                Sets the current record's "password" value
  * @method Residents           setHekphone()                Sets the current record's "hekphone" value
+ * @method Residents           setCulture()                 Sets the current record's "culture" value
  * @method Residents           setRooms()                   Sets the current record's "Rooms" value
  * @method Residents           setBanks()                   Sets the current record's "Banks" value
  * @method Residents           setComments()                Sets the current record's "Comments" collection
@@ -150,6 +153,11 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasColumn('hekphone', 'boolean', null, array(
              'type' => 'boolean',
              'default' => false,
+             ));
+        $this->hasColumn('culture', 'string', 5, array(
+             'type' => 'string',
+             'default' => 'de_DE',
+             'length' => 5,
              ));
     }
 

@@ -66,13 +66,13 @@ $browser->info("2.2 - logging in with incorrect password and invalid input")->
     checkElement('body', '!/[T]/')->
   end();
 
-$browser->info("2.3 - logging in with correct password and valid input")->
+$browser->info("2.3 - logging in with correct password and valid input and as hekphone member")->
   get('auth/index')->
 
   click('Absenden', array(
     'login' => array(
-      'roomNo' => '405',
-      'password' => 'propel')))->
+      'roomNo'   => '405',
+      'password' => 'hekphone')))->
 
   with('form')->begin()->
     hasErrors(false)->
@@ -87,6 +87,22 @@ $browser->info("2.3 - logging in with correct password and valid input")->
   end()->
 
   # all should end in the user being authenticated
+  # and in our case: have hekphone credentials
   with('user')->begin()->
     isAuthenticated(true)->
+    hasCredential('hekphone')->
+  end();
+
+$browser->info("2.3 - logging in with correct password and valid input")->
+  get('auth/logout')->
+  get('auth/index')->
+
+  click('Absenden', array(
+    'login' => array(
+      'roomNo'   => '403',
+      'password' => 'dude')))->
+
+  with('user')->begin()->
+    isAuthenticated(true)->
+    hasCredential('hekphone', false)->
   end();

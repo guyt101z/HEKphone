@@ -28,6 +28,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'bank_number'             => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Banks'), 'add_empty' => true)),
       'password'                => new sfWidgetFormFilterInput(),
       'hekphone'                => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
+      'culture'                 => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
@@ -46,6 +47,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'bank_number'             => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Banks'), 'column' => 'bank_number')),
       'password'                => new sfValidatorPass(array('required' => false)),
       'hekphone'                => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
+      'culture'                 => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('residents_filters[%s]');
@@ -81,6 +83,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'bank_number'             => 'ForeignKey',
       'password'                => 'Text',
       'hekphone'                => 'Boolean',
+      'culture'                 => 'Text',
     );
   }
 }

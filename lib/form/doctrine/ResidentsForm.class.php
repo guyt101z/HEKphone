@@ -30,15 +30,16 @@ class ResidentsForm extends BaseResidentsForm
     $this->getWidget('hekphone')->setLabel('resident.hekphone');
     $this->getWidget('account_number')->setLabel('resident.account_number');
 
-
     // Don't provide a choice of all available banks, because there are just too much (<-performance)
     // Provide a simple text input widget. WouldBeNice: asynchronous lookup of the bank
     unset($this['bank_number']);
     $this->setWidget('bank_number', new sfWidgetFormInputText(array('label' => 'resident.bank_number')));
     $this->setValidator('bank_number', new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Banks'), 'required' => false)));
 
-    // Manage comments (add/remove) provided by sfDoctrineDynamicFormRelationsPlugin
-    $this->embedDynamicRelation('Comments');
+    // If unlocked is set to true there have to be bank account information in the form
+     $this->validatorSchema->setPostValidator(
+      new sfValidatorCallback(array('callback' => array($this, 'checkOnUnlock')))
+    );
 
     // The password is md5 encrypted (managed in the ResidentModel by defining a setPassword() function)
     // we don't want to display the md5-hash in the form, because we don't want to change the password at
@@ -50,6 +51,24 @@ class ResidentsForm extends BaseResidentsForm
     $this->setWidget('password', new sfWidgetFormInputText(array('label' => 'resident.edit.password')));
     $this->setValidator('password', new sfValidatorString(array('max_length' => 255, 'required' => false)));
 
-
+    // Manage comments (add/remove) provided by sfDoctrineDynamicFormRelationsPlugin
+    $this->embedDynamicRelation('Comments');
   }
+
+  /*
+   * If the user is unlocked, the bank_number and account_number has to be not empty.
+   * This function checks this.
+   */
+  public function checkOnUnlock($validator, $values)
+  {
+    if ($values['unlocked'] && ( ! $values['bank_number'] || ! $values['account_number']) )
+    {
+      // user is unlocked, empty account information, throw and error
+      throw new sfValidatorError($validator, 'resident.edit.error.unlockOnEmptyAccountInformation');
+    }
+
+    // if everything is correct, return "cleaned" values
+    return $values;
+  }
+
 }

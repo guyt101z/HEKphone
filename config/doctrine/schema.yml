@@ -552,6 +552,9 @@ Residents:
     hekphone: 
       type: boolean
       default: false
+    culture:
+      type: string(5)
+      default: 'de_DE'
   relations:
     Rooms:
       local: room

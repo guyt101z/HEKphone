@@ -12,6 +12,11 @@
  */
 class Residents extends BaseResidents
 {
+     /**
+     * Writes the residents password md5-encrypted to the database
+     *
+     * @param string $password
+     */
     public function setPassword($password)
     {
       // don't update to empty password
@@ -20,5 +25,30 @@ class Residents extends BaseResidents
         return $this;
       }
         return $this->_set('password', md5($password));
+    }
+
+    /**
+     * Sets a residents voicemail-settings. Modifies the asterisk_voicemail and
+     * asterisk_extensions database table.
+     *
+     * @param boolean $active
+     * @param integer $seconds
+     * @param boolean $mailOnNewMessage
+     * @param boolean $attachMessage
+     * @param boolean $mailOnMissedCall
+     */
+    public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $mailOnMissedCall)
+    {
+      var_dump($active);
+      var_dump($seconds);
+      var_dump($mailOnNewMessage);
+      var_dump($attachMessage);
+      var_dump($mailOnMissedCall);
+      //TODO: Implement this!
+    }
+
+    public function getVoicemailSettings()
+    {
+      //TODO: Implement this!
     }
 }

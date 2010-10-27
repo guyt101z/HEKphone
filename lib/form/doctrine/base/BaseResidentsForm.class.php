@@ -31,6 +31,7 @@ abstract class BaseResidentsForm extends BaseFormDoctrine
       'bank_number'             => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Banks'), 'add_empty' => true)),
       'password'                => new sfWidgetFormInputText(),
       'hekphone'                => new sfWidgetFormInputCheckbox(),
+      'culture'                 => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
@@ -50,6 +51,7 @@ abstract class BaseResidentsForm extends BaseFormDoctrine
       'bank_number'             => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Banks'), 'required' => false)),
       'password'                => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'hekphone'                => new sfValidatorBoolean(array('required' => false)),
+      'culture'                 => new sfValidatorString(array('max_length' => 5, 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

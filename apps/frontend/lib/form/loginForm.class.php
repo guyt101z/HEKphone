@@ -17,6 +17,7 @@ class LoginForm extends sfForm
 
     $this->setValidators(array(
       'roomNo'     => new sfValidatorInteger(array('min' => 1, 'max' => 900)),
-      'password'   => new sfValidatorString()));
+      'password'   => new sfValidatorString()
+    ));
   }
 }

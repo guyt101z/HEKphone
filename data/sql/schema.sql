@@ -12,7 +12,7 @@ CREATE TABLE providers (id SMALLINT, name VARCHAR(20) NOT NULL, PRIMARY KEY(id))
 CREATE TABLE rates (id BIGINT, provider SMALLINT NOT NULL, primary_time_begin TIME NOT NULL, primary_time_rate NUMERIC(18,2) NOT NULL, secondary_time_begin TIME, secondary_time_rate NUMERIC(18,2), weekend BOOLEAN DEFAULT 'true' NOT NULL, week BOOLEAN DEFAULT 'true' NOT NULL, pulsing VARCHAR(255) NOT NULL, name VARCHAR(80) NOT NULL, PRIMARY KEY(id));
 CREATE TABLE rates_regions (id BIGINT, rate BIGINT NOT NULL, region BIGINT, PRIMARY KEY(id));
 CREATE TABLE regions (id BIGINT, name VARCHAR(80) NOT NULL UNIQUE, PRIMARY KEY(id));
-CREATE TABLE residents (id BIGINT, last_name VARCHAR(50) NOT NULL, first_name VARCHAR(50) NOT NULL, email VARCHAR(255), move_in DATE NOT NULL, move_out DATE, bill_limit INT DEFAULT 75 NOT NULL, room INT, warning1 BOOLEAN DEFAULT 'false', warning2 BOOLEAN DEFAULT 'false', unlocked BOOLEAN DEFAULT 'false', shortened_itemized_bill BOOLEAN DEFAULT 'true', account_number VARCHAR(10), bank_number VARCHAR(8), password VARCHAR(255), hekphone BOOLEAN DEFAULT 'false', PRIMARY KEY(id));
+CREATE TABLE residents (id BIGINT, last_name VARCHAR(50) NOT NULL, first_name VARCHAR(50) NOT NULL, email VARCHAR(255), move_in DATE NOT NULL, move_out DATE, bill_limit INT DEFAULT 75 NOT NULL, room INT, warning1 BOOLEAN DEFAULT 'false', warning2 BOOLEAN DEFAULT 'false', unlocked BOOLEAN DEFAULT 'false', shortened_itemized_bill BOOLEAN DEFAULT 'true', account_number VARCHAR(10), bank_number VARCHAR(8), password VARCHAR(255), hekphone BOOLEAN DEFAULT 'false', culture VARCHAR(5) DEFAULT 'de_DE', PRIMARY KEY(id));
 CREATE TABLE rooms (id INT, room_no INT, comment TEXT, phone INT, PRIMARY KEY(id));
 CREATE SEQUENCE asterisk_extensions_id_seq INCREMENT 1 START 1;
 CREATE SEQUENCE asterisk_sip_id_seq INCREMENT 1 START 1;
@@ -27,7 +27,6 @@ ALTER TABLE calls ADD CONSTRAINT calls_resident_residents_id FOREIGN KEY (reside
 ALTER TABLE comments ADD CONSTRAINT comments_resident_residents_id FOREIGN KEY (resident) REFERENCES residents(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE prefixes ADD CONSTRAINT prefixes_region_regions_id FOREIGN KEY (region) REFERENCES regions(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE rates ADD CONSTRAINT rates_provider_providers_id FOREIGN KEY (provider) REFERENCES providers(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE rates_regions ADD CONSTRAINT rates_regions_region_regions_id FOREIGN KEY (region) REFERENCES regions(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE rates_regions ADD CONSTRAINT rates_regions_rate_rates_id FOREIGN KEY (rate) REFERENCES rates(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE residents ADD CONSTRAINT residents_room_rooms_id FOREIGN KEY (room) REFERENCES rooms(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE residents ADD CONSTRAINT residents_bank_number_banks_bank_number FOREIGN KEY (bank_number) REFERENCES banks(bank_number) NOT DEFERRABLE INITIALLY IMMEDIATE;

@@ -28,4 +28,8 @@ class PhonesTable extends Doctrine_Table
             return Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
         }
     }
+    public function findByRoomNo($roomNo)
+    {
+        //TODO: implement this
+    }
 }

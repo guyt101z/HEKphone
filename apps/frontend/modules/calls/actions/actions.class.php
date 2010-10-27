@@ -31,6 +31,8 @@ class callsActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
+    // Secure the action: Users can only access their own calls/bills except they're
+    // hekphone member (see function comment)
     if ( $this->hasRequestParameter('residentid') &&
          ! ( $request['residentid'] == $this->getUser()->getAttribute('id')
              || $this->getUser()->hasCredential('hekphone')))
@@ -38,6 +40,8 @@ class callsActions extends sfActions
       $this->forward('default', 'secure');
     }
 
+    // If the action is called via /resident/:residentid/calls display the
+    // calls/bills of the resident with the matching residentid
     if ($this->hasRequestParameter('residentid'))
     {
       $this->residentid = $request['residentid'];
@@ -47,6 +51,7 @@ class callsActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
+    // get the calls/bills and pass them to the view layer
     $this->callsCollection = Doctrine_Query::create()
                             ->from('Calls c')
                             ->addWhere('c.bill = 0')

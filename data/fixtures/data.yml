@@ -1,0 +1,1136 @@
+#Status: This file is parsed successfully but has not been tested for logical errors
+
+#done 
+Residents:
+  Residents_1:
+    id: 1
+    last_name: 'Madame'
+    first_name: 'DoesNotLiveHereAnymore'
+    email: 'mam@example.com'
+    move_in: '2009-11-01'
+    move_out: '2010-10-01'
+    bill_limit: 75
+    Rooms: Rooms_95 #RoomNo: 402
+    warning1: false
+    warning2: false
+    unlocked: true
+    shortened_itemized_bill: true
+    account_number: 123456789
+    password: madame # gets converted to md5sum
+    hekphone: false
+  Residents_2:
+    id: 2
+    last_name: 'Mister'
+    first_name: 'DoesNotYetLiveHere'
+    email: null
+    move_in: '2100-01-01'
+    move_out: null
+    bill_limit: 75
+    Rooms: Rooms_97 #RoomNo: 404
+    warning1: false
+    warning2: false
+    unlocked: false
+    shortened_itemized_bill: true
+    account_number: null
+    password: mister
+    hekphone: false
+  Residents_3:
+    id: 3
+    last_name: Dude
+    first_name: ThatLivesHere
+    email: null
+    move_in: '2010-08-01'
+    move_out: null
+    bill_limit: 75
+    Rooms: Rooms_96 #RoomNo: 403
+    warning1: false
+    warning2: false
+    unlocked: false
+    shortened_itemized_bill: true
+    account_number: null
+    password: dude
+    hekphone: false
+  Residents_943:
+    id: 943
+    last_name: Hekphone
+    first_name: StaffMember
+    email: null
+    move_in: '2010-09-01'
+    move_out: null
+    bill_limit: 75
+    Rooms: Rooms_98 #RoomNo: 405
+    warning1: false
+    warning2: false
+    unlocked: false
+    shortened_itemized_bill: true
+    account_number: null
+    password: hekphone
+    hekphone: true
+ 
+ # 50 more users just to fill the list
+ <?php for($i=5; $i<=50; $i++): echo "\n";?>
+  Residents_<?php echo $i ?>:
+    id: <?php echo $i."\n" ?>
+    last_name: Dummy
+    first_name: Resident <?php echo $i."\n" ?>
+    email: ''
+    move_in: '2005-04-01'
+    move_out: null
+    bill_limit: 75
+    Rooms: Rooms_<?php echo $i."\n" ?>
+    warning1: false
+    warning2: false
+    unlocked: false
+    shortened_itemized_bill: true
+    account_number: null
+    password: null
+    hekphone: false
+<?php endfor; ?>
+
+#done
+Comments:
+  Comments_1:
+    Residents: Residents_1
+    stamp: '2010-10-18 12:55:36.137975'
+    comment: 'This is comment number one on Resident 1'
+  Comments_2:
+    Residents: Residents_1
+    stamp: '2010-10-18 12:55:47.387975'
+    comment: 'This is comment number two on Resident 1'
+  Comments_3:
+    Residents: Residents_1
+    stamp: '2010-10-18 12:55:47.387975'
+    comment: 'This user was once registered at hekphone'
+  Comments_4:
+    Residents: Residents_943
+    stamp: '2010-10-18 12:56:47.387975'
+    comment: 'This is comment number one on Resident 2'
+
+#done
+# this essentially is a view that collects the phones data from phones and
+# the contex (which is either "locked" or "unlocked") from residents
+# This data is ONLY for testing, the whole table should be removed when the system
+# goes live and be replaced by a view as described in the comment for asterisk_sip
+# in schema.yml
+AsteriskSip:
+  AsteriskSip_1:
+    name: '1405'
+    accountcode: null
+    callerid: '1405'
+    canreinvite: no
+    context: unlocked
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1405'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.5
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  AsteriskSip_1:
+    name: '1402'
+    accountcode: null
+    callerid: '1402'
+    canreinvite: no
+    context: locked
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1402'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.2
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  AsteriskSip_1:
+    name: '1403'
+    accountcode: null
+    callerid: '1403'
+    canreinvite: no
+    context: unlocked
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1403'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.3
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  AsteriskSip_1:
+    name: '1404'
+    accountcode: null
+    callerid: '1404'
+    canreinvite: no
+    context: locked
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1404'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.4
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  AsteriskSip_1:
+    name: '1406'
+    accountcode: null
+    callerid: '1406'
+    canreinvite: no
+    context: unlocked
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1406'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.6
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+
+#done
+Phones:
+  Phones_1:
+    name: '1405'
+    accountcode: null
+    callerid: '1405'
+    canreinvite: no
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1405'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.5
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  Phones_2:
+    name: '1402'
+    accountcode: null
+    callerid: '1402'
+    canreinvite: no
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1402'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.2
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  Phones_3:
+    name: '1403'
+    accountcode: null
+    callerid: '1403'
+    canreinvite: no
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1403'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.3
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  Phones_4:
+    name: '1404'
+    accountcode: null
+    callerid: '1404'
+    canreinvite: no
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1404'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.4
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+  Phones_5:
+    name: '1406'
+    accountcode: null
+    callerid: '1406'
+    canreinvite: no
+    host: static
+    port: null
+    mailbox: null
+    md5secret: null
+    nat: no
+    permit: null
+    deny: null
+    mask: null
+    qualify: null
+    secret: null
+    type: friend
+    username: '1406'
+    defaultuser: null
+    useragent: null
+    fromuser: null
+    fromdomain: null
+    disallow: all
+    allow: ulaw;alaw
+    ipaddr: 192.168.4.6
+    mac: null
+    fullcontact: null
+    regexten: null
+    regserver: null
+    regseconds: 0
+    lastms: 0
+    
+#done
+Rooms:
+  Rooms_1:
+    room_no: 0
+  Rooms_2:
+    room_no: 1
+  Rooms_3:
+    room_no: 2
+  Rooms_4:
+    room_no: 3
+  Rooms_5:
+    room_no: 4
+  Rooms_6:
+    room_no: 5
+  Rooms_7:
+    room_no: 6
+  Rooms_8:
+    room_no: 7
+  Rooms_9:
+    room_no: 8
+  Rooms_10:
+    room_no: 9
+  Rooms_11:
+    room_no: 10
+  Rooms_12:
+    room_no: 11
+  Rooms_13:
+    room_no: 12
+  Rooms_14:
+    room_no: 13
+  Rooms_15:
+    room_no: 14
+  Rooms_16:
+    room_no: 15
+  Rooms_17:
+    room_no: 16
+  Rooms_18:
+    room_no: 17
+  Rooms_19:
+    room_no: 18
+  Rooms_20:
+    room_no: 19
+  Rooms_21:
+    room_no: 20
+  Rooms_22:
+    room_no: 21
+  Rooms_23:
+    room_no: 22
+  Rooms_24:
+    room_no: 100
+  Rooms_25:
+    room_no: 101
+  Rooms_26:
+    room_no: 102
+  Rooms_27:
+    room_no: 103
+  Rooms_28:
+    room_no: 104
+  Rooms_29:
+    room_no: 105
+  Rooms_30:
+    room_no: 106
+  Rooms_31:
+    room_no: 107
+  Rooms_32:
+    room_no: 108
+  Rooms_33:
+    room_no: 109
+  Rooms_34:
+    room_no: 110
+  Rooms_35:
+    room_no: 111
+  Rooms_36:
+    room_no: 112
+  Rooms_37:
+    room_no: 113
+  Rooms_38:
+    room_no: 114
+  Rooms_39:
+    room_no: 115
+  Rooms_40:
+    room_no: 116
+  Rooms_41:
+    room_no: 117
+  Rooms_42:
+    room_no: 118
+  Rooms_43:
+    room_no: 119
+  Rooms_44:
+    room_no: 120
+  Rooms_45:
+    room_no: 121
+  Rooms_46:
+    room_no: 122
+  Rooms_47:
+    room_no: 200
+  Rooms_48:
+    room_no: 201
+  Rooms_49:
+    room_no: 202
+  Rooms_50:
+    room_no: 203
+  Rooms_51:
+    room_no: 204
+  Rooms_52:
+    room_no: 205
+  Rooms_53:
+    room_no: 206
+  Rooms_54:
+    room_no: 207
+  Rooms_55:
+    room_no: 208
+  Rooms_56:
+    room_no: 209
+  Rooms_57:
+    room_no: 210
+  Rooms_58:
+    room_no: 211
+  Rooms_59:
+    room_no: 212
+  Rooms_60:
+    room_no: 213
+  Rooms_61:
+    room_no: 214
+  Rooms_62:
+    room_no: 215
+  Rooms_63:
+    room_no: 216
+  Rooms_64:
+    room_no: 217
+  Rooms_65:
+    room_no: 218
+  Rooms_66:
+    room_no: 219
+  Rooms_67:
+    room_no: 220
+  Rooms_68:
+    room_no: 221
+  Rooms_69:
+    room_no: 222
+  Rooms_70:
+    room_no: 300
+  Rooms_71:
+    room_no: 301
+  Rooms_72:
+    room_no: 302
+  Rooms_73:
+    room_no: 303
+  Rooms_74:
+    room_no: 304
+  Rooms_75:
+    room_no: 305
+  Rooms_76:
+    room_no: 306
+  Rooms_77:
+    room_no: 307
+  Rooms_78:
+    room_no: 308
+  Rooms_79:
+    room_no: 309
+  Rooms_80:
+    room_no: 310
+  Rooms_81:
+    room_no: 311
+  Rooms_82:
+    room_no: 312
+  Rooms_83:
+    room_no: 313
+  Rooms_84:
+    room_no: 314
+  Rooms_85:
+    room_no: 315
+  Rooms_86:
+    room_no: 316
+  Rooms_87:
+    room_no: 317
+  Rooms_88:
+    room_no: 318
+  Rooms_89:
+    room_no: 319
+  Rooms_90:
+    room_no: 320
+  Rooms_91:
+    room_no: 321
+  Rooms_92:
+    room_no: 322
+  Rooms_93:
+    room_no: 400
+  Rooms_94:
+    room_no: 401
+  Rooms_95:
+    room_no: 402
+    Phones: Phones_2
+  Rooms_96:
+    room_no: 403
+    Phones: Phones_3
+  Rooms_97:
+    room_no: 404
+    Phones: Phones_4
+  Rooms_98:
+    room_no: 405
+    Phones: Phones_1
+  Rooms_99:
+    room_no: 406
+    Phones: Phones_5
+  Rooms_100:
+    room_no: 407
+  Rooms_101:
+    room_no: 408
+  Rooms_102:
+    room_no: 409
+  Rooms_103:
+    room_no: 410
+  Rooms_104:
+    room_no: 411
+  Rooms_105:
+    room_no: 412
+  Rooms_106:
+    room_no: 413
+  Rooms_107:
+    room_no: 414
+  Rooms_108:
+    room_no: 415
+  Rooms_109:
+    room_no: 416
+  Rooms_110:
+    room_no: 417
+  Rooms_111:
+    room_no: 418
+  Rooms_112:
+    room_no: 419
+  Rooms_113:
+    room_no: 420
+  Rooms_114:
+    room_no: 421
+  Rooms_115:
+    room_no: 422
+  Rooms_116:
+    room_no: 500
+  Rooms_117:
+    room_no: 501
+  Rooms_118:
+    room_no: 502
+  Rooms_119:
+    room_no: 503
+  Rooms_120:
+    room_no: 504
+  Rooms_121:
+    room_no: 505
+  Rooms_122:
+    room_no: 506
+  Rooms_123:
+    room_no: 507
+  Rooms_124:
+    room_no: 508
+  Rooms_125:
+    room_no: 509
+  Rooms_126:
+    room_no: 510
+  Rooms_127:
+    room_no: 511
+  Rooms_128:
+    room_no: 512
+  Rooms_129:
+    room_no: 513
+  Rooms_130:
+    room_no: 514
+  Rooms_131:
+    room_no: 515
+  Rooms_132:
+    room_no: 516
+  Rooms_133:
+    room_no: 517
+  Rooms_134:
+    room_no: 518
+  Rooms_135:
+    room_no: 519
+  Rooms_136:
+    room_no: 520
+  Rooms_137:
+    room_no: 521
+  Rooms_138:
+    room_no: 522
+  Rooms_139:
+    room_no: 600
+  Rooms_140:
+    room_no: 601
+  Rooms_141:
+    room_no: 602
+  Rooms_142:
+    room_no: 603
+  Rooms_143:
+    room_no: 604
+  Rooms_144:
+    room_no: 605
+  Rooms_145:
+    room_no: 606
+  Rooms_146:
+    room_no: 607
+  Rooms_147:
+    room_no: 608
+  Rooms_148:
+    room_no: 609
+  Rooms_149:
+    room_no: 610
+  Rooms_150:
+    room_no: 611
+  Rooms_151:
+    room_no: 612
+  Rooms_152:
+    room_no: 613
+  Rooms_153:
+    room_no: 614
+  Rooms_154:
+    room_no: 615
+  Rooms_155:
+    room_no: 616
+  Rooms_156:
+    room_no: 617
+  Rooms_157:
+    room_no: 618
+  Rooms_158:
+    room_no: 619
+  Rooms_159:
+    room_no: 620
+  Rooms_160:
+    room_no: 621
+  Rooms_161:
+    room_no: 622
+  Rooms_162:
+    room_no: 700
+  Rooms_163:
+    room_no: 701
+  Rooms_164:
+    room_no: 702
+  Rooms_165:
+    room_no: 703
+  Rooms_166:
+    room_no: 704
+  Rooms_167:
+    room_no: 705
+  Rooms_168:
+    room_no: 706
+  Rooms_169:
+    room_no: 707
+  Rooms_170:
+    room_no: 708
+  Rooms_171:
+    room_no: 709
+  Rooms_172:
+    room_no: 710
+  Rooms_173:
+    room_no: 711
+  Rooms_174:
+    room_no: 712
+  Rooms_175:
+    room_no: 713
+  Rooms_176:
+    room_no: 714
+  Rooms_177:
+    room_no: 715
+  Rooms_178:
+    room_no: 716
+  Rooms_179:
+    room_no: 717
+  Rooms_180:
+    room_no: 718
+  Rooms_181:
+    room_no: 719
+  Rooms_182:
+    room_no: 720
+  Rooms_183:
+    room_no: 721
+  Rooms_184:
+    room_no: 722
+  Rooms_185:
+    room_no: 800
+  Rooms_186:
+    room_no: 801
+  Rooms_187:
+    room_no: 802
+  Rooms_188:
+    room_no: 803
+  Rooms_189:
+    room_no: 804
+  Rooms_190:
+    room_no: 805
+  Rooms_191:
+    room_no: 806
+  Rooms_192:
+    room_no: 807
+  Rooms_193:
+    room_no: 808
+  Rooms_194:
+    room_no: 809
+  Rooms_195:
+    room_no: 810
+  Rooms_196:
+    room_no: 811
+  Rooms_197:
+    room_no: 812
+  Rooms_198:
+    room_no: 813
+  Rooms_199:
+    room_no: 814
+  Rooms_200:
+    room_no: 815
+  Rooms_201:
+    room_no: 816
+  Rooms_202:
+    room_no: 817
+  Rooms_203:
+    room_no: 818
+  Rooms_204:
+    room_no: 819
+  Rooms_205:
+    room_no: 820
+  Rooms_206:
+    room_no: 821
+  Rooms_207:
+    room_no: 822
+  Rooms_208:
+    room_no: 179
+    comment: 'Per Hand am 07.02.10 eingefügt'
+
+
+
+#done
+Banks:
+  Banks_25069503:
+    name: 'Volksbank Diepholz-Barnstorf'
+    bank_number: 25069503
+    zip: '49356                                                                                                                                                                                                                                                          '
+    locality: Diepholz
+  Banks_25069830:
+    name: 'Volksbank Derental -alt-'
+    zip: '37697                                                                                                                                                                                                                                                          '
+    bank_number: 25069830
+    locality: Lauenförde
+  Banks_25070024:
+    name: 'Deutsche Bank Privat und Geschäftskunden'
+    zip: '30002                                                                                                                                                                                                                                                          '
+    bank_number: 25070024
+    locality: Hannover
+  Banks_25070066:
+    name: 'Deutsche Bank'
+    zip: '31642                                                                                                                                                                                                                                                          '
+    bank_number: 25070066
+    locality: Stadthagen
+  Banks_25070070:
+    name: 'Deutsche Bank'
+    zip: '30002                                                                                                                                                                                                                                                          '
+    bank_number: 25070070
+    locality: Hannover
+
+#done
+# This is what we get from asterisk
+AsteriskCdr:
+  AsteriskCdr_1:
+    calldate: '2010-02-20 17:30:00'
+    clid: '004972186951405'
+    src: '004972186951405'
+    dst: '004972109830949'
+    dcontext: anlage
+    channel: DAHDI/31-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/234234
+    duration: 505
+    billsec: 500
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266681862.1216'
+    userfield: 'Telekom'
+    billed: false
+  AsteriskCdr_2: # free call via *721
+    calldate: '2010-02-20 18:30:00'
+    clid: '004972186951404'
+    src: '004972186951404'
+    dst: '869502072139837249'
+    dcontext: anlage
+    channel: DAHDI/17-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/4525234
+    duration: 410
+    billsec: 400
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266686881.1279'
+    userfield: '*721'
+    billed: false
+  AsteriskCdr_3: #Venezuela-Caracass-Call using provider 1
+    calldate: '2010-02-20 19:12:00'
+    clid: '004972186951403'
+    src: '004972186951403'
+    dst: '005821293402938'
+    dcontext: anlage
+    channel: DAHDI/29-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/234234
+    duration: 606
+    billsec: 600
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1340'
+    userfield: 'Telekom'
+    billed: true
+  AsteriskCdr_4: #Venezuela-Caracass-Call using provider_2
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '004972186951405'
+    dst: '005821293402938'
+    dcontext: anlage
+    channel: DAHDI/20-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266688418.1303'
+    userfield: 'pbxnetwork'
+    billed: false
+  AsteriskCdr_5: #not answered!
+    calldate: '2010-02-20 20:42:00'
+    clid: '004972186951406'
+    src: '004972186951406'
+    dst: '00497111660843'
+    dcontext: anlage
+    channel: DAHDI/4-1
+    dstchannel: DAHDI/63-1
+    lastapp: Congestion
+    lastdata: ''
+    duration: 7
+    billsec: 0
+    disposition: 'NO ANSWER'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266695033.1368'
+    userfield: 'Telekom'
+    billed: false
+ 
+#done
+# the dates do not match to the bills date but this shouldn't make any difference
+Calls:
+  Calls_1:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '0049724345345345'
+    charges: '1.83'
+    rate: 1
+    bill: 1
+  Calls_2:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '00497345345345'
+    charges: '1.83'
+    rate: 1
+    bill: 1
+  Calls_3:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '00497345345345'
+    charges: '1.83'
+    rate: 1
+    bill: 1
+  Calls_4:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004972345345345'
+    charges: '1.83'
+    rate: 1
+    bill: 1
+  Calls_5:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004972345435345'
+    charges: '1.83'
+    rate: 1
+    bill: 2
+  Calls_6:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '0049724345345345'
+    charges: '1.83'
+    rate: 1
+    bill: NULL
+  Calls_7:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004973453453459'
+    charges: '1.83'
+    rate: 1
+    bill: NULL
+  Calls_8:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '00497345345345'
+    charges: '1.83'
+    rate: 1
+    bill: NULL
+  Calls_9:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-19 22:49:51'
+    duration: 740
+    destination: '00497218642792'
+    charges: '23.79'
+    rate: 1
+    bill: 3
+  Calls_10:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-19 22:49:51'
+    duration: 740
+    destination: '00497213453453'
+    charges: '23.79'
+    rate: 1
+    bill: 3
+  Calls_11:
+    Residents: Residents_943
+    extension: 1405
+    date: '2010-02-19 22:49:51'
+    duration: 740
+    destination: '0049721345345'
+    charges: '23.79'
+    rate: 1
+    bill: 3
+  Calls_12:
+    Residents: Residents_1
+    extension: 1402
+    date: '2010-02-20 10:37:01'
+    duration: 31
+    destination: '004972345345'
+    charges: '1.83'
+    rate: 1
+    bill: 4
+  Calls_13:
+    Residents: Residents_1
+    extension: 1402
+    date: '2010-02-20 13:29:26'
+    duration: 64
+    destination: '004972345345345'
+    charges: '3.66'
+    rate: 1
+    bill: 4
+  Calls_14:
+    Residents: Residents_1
+    extension: 1403
+    date: '2010-02-20 13:48:45'
+    duration: 95
+    destination: '004972323452342'
+    charges: '3.66'
+    rate: 1
+    bill: 4
+
+#done
+Bills:
+  Bills_1:
+    id: 1
+    Residents: Residents_943
+    date: '2010-10-15'
+    amount: '5.00'
+    debit_failed: false
+  Bills_2:
+    id: 2
+    Residents: Residents_943
+    date: '2010-09-15'
+    amount: '5.00'
+    debit_failed: false
+  Bills_3:
+    id: 3
+    Residents: Residents_943
+    date: '2010-08-15'
+    amount: '5.00'
+    debit_failed: false
+  Bills_4:
+    id: 4
+    Residents: Residents_1
+    date: '2010-10-15'
+    amount: '5.00'
+    debit_failed: false
+  Bills_5: # has no entries
+    id: 5
+    Residents: Residents_2
+    date: '2010-10-15'
+    amount: '5.00'
+    debit_failed: false
+    

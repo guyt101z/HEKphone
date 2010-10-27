@@ -10,6 +10,13 @@
  */
 class residentActions extends sfActions
 {
+  /**
+   * Displays a list of all current residents which can be sorted by
+   * room number, last name or move in date via the :orderedby parameter
+   * of the request.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeIndex(sfWebRequest $request)
   {
     $response = $this->getResponse();
@@ -39,6 +46,11 @@ class residentActions extends sfActions
     $response->addStyleSheet('ResidentsList');
   }
 
+  /**
+   * Displays the form to edit a residents details.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
@@ -51,18 +63,33 @@ class residentActions extends sfActions
     $this->resident = $resident;
   }
 
+  /**
+   * Updates a residents details. The form created in the view belonging to
+   * executeEdit() calls this action.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
     $this->form = new ResidentsForm($resident);
 
+    // So we can access the resident's data from the template/view layer
     $this->resident = $resident;
 
     $this->processForm($request, $this->form);
     $this->setTemplate('edit');
   }
 
+  /**
+   * actually apply changes, made to the resident, to the database
+   * in this step, the asterisk_* tables also get updated, the neccesairy
+   * vm-settings created and-so-on
+   *
+   * @param sfWebRequest $request
+   * @param sfForm $form
+   */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
