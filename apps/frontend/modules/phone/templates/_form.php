@@ -28,10 +28,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['accountcode']->renderLabel() ?></th>
+        <th><?php echo $form['type']->renderLabel() ?></th>
         <td>
-          <?php echo $form['accountcode']->renderError() ?>
-          <?php echo $form['accountcode'] ?>
+          <?php echo $form['type']->renderError() ?>
+          <?php echo $form['type'] ?>
         </td>
       </tr>
       <tr>
@@ -42,10 +42,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['canreinvite']->renderLabel() ?></th>
+        <th><?php echo $form['secret']->renderLabel() ?></th>
         <td>
-          <?php echo $form['canreinvite']->renderError() ?>
-          <?php echo $form['canreinvite'] ?>
+          <?php echo $form['secret']->renderError() ?>
+          <?php echo $form['secret'] ?>
         </td>
       </tr>
       <tr>
@@ -56,129 +56,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['port']->renderLabel() ?></th>
+        <th><?php echo $form['defaultip']->renderLabel() ?></th>
         <td>
-          <?php echo $form['port']->renderError() ?>
-          <?php echo $form['port'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['mailbox']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['mailbox']->renderError() ?>
-          <?php echo $form['mailbox'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['md5secret']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['md5secret']->renderError() ?>
-          <?php echo $form['md5secret'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['nat']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['nat']->renderError() ?>
-          <?php echo $form['nat'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['permit']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['permit']->renderError() ?>
-          <?php echo $form['permit'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['deny']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['deny']->renderError() ?>
-          <?php echo $form['deny'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['mask']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['mask']->renderError() ?>
-          <?php echo $form['mask'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['qualify']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['qualify']->renderError() ?>
-          <?php echo $form['qualify'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['secret']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['secret']->renderError() ?>
-          <?php echo $form['secret'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['type']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['type']->renderError() ?>
-          <?php echo $form['type'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['username']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['username']->renderError() ?>
-          <?php echo $form['username'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['defaultuser']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['defaultuser']->renderError() ?>
-          <?php echo $form['defaultuser'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['useragent']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['useragent']->renderError() ?>
-          <?php echo $form['useragent'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['fromuser']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['fromuser']->renderError() ?>
-          <?php echo $form['fromuser'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['fromdomain']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['fromdomain']->renderError() ?>
-          <?php echo $form['fromdomain'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['disallow']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['disallow']->renderError() ?>
-          <?php echo $form['disallow'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['allow']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['allow']->renderError() ?>
-          <?php echo $form['allow'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['ipaddr']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['ipaddr']->renderError() ?>
-          <?php echo $form['ipaddr'] ?>
+          <?php echo $form['defaultip']->renderError() ?>
+          <?php echo $form['defaultip'] ?>
         </td>
       </tr>
       <tr>
@@ -189,10 +70,24 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['fullcontact']->renderLabel() ?></th>
+        <th><?php echo $form['language']->renderLabel() ?></th>
         <td>
-          <?php echo $form['fullcontact']->renderError() ?>
-          <?php echo $form['fullcontact'] ?>
+          <?php echo $form['language']->renderError() ?>
+          <?php echo $form['language'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['mailbox']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['mailbox']->renderError() ?>
+          <?php echo $form['mailbox'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['defaultuser']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['defaultuser']->renderError() ?>
+          <?php echo $form['defaultuser'] ?>
         </td>
       </tr>
       <tr>
@@ -214,6 +109,48 @@
         <td>
           <?php echo $form['regseconds']->renderError() ?>
           <?php echo $form['regseconds'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['fromuser']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['fromuser']->renderError() ?>
+          <?php echo $form['fromuser'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['fromdomain']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['fromdomain']->renderError() ?>
+          <?php echo $form['fromdomain'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['ipaddr']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['ipaddr']->renderError() ?>
+          <?php echo $form['ipaddr'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['port']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['port']->renderError() ?>
+          <?php echo $form['port'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['fullcontact']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['fullcontact']->renderError() ?>
+          <?php echo $form['fullcontact'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['useragent']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['useragent']->renderError() ?>
+          <?php echo $form['useragent'] ?>
         </td>
       </tr>
       <tr>

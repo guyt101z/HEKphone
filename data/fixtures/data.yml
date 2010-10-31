@@ -115,312 +115,157 @@ Comments:
 AsteriskSip:
   AsteriskSip_1:
     name: '1405'
-    accountcode: null
     callerid: '1405'
-    canreinvite: no
-    context: unlocked
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '943@default'
     secret: null
     type: friend
-    username: '1405'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1405'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.5
+    defaultip: 192.168.4.5
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
-  AsteriskSip_1:
+  AsteriskSip_2:
     name: '1402'
-    accountcode: null
     callerid: '1402'
-    canreinvite: no
-    context: locked
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '1@default'
     secret: null
     type: friend
-    username: '1402'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1402'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.2
+    defaultip: 192.168.4.2
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
-  AsteriskSip_1:
+  AsteriskSip_3:
     name: '1403'
-    accountcode: null
     callerid: '1403'
-    canreinvite: no
-    context: unlocked
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '3@default'
     secret: null
     type: friend
-    username: '1403'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1403'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.3
+    defaultip: 192.168.4.3
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
-  AsteriskSip_1:
+  AsteriskSip_4:
     name: '1404'
-    accountcode: null
     callerid: '1404'
-    canreinvite: no
-    context: locked
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '4@default'
     secret: null
     type: friend
-    username: '1404'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1404'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.4
+    defaultip: 192.168.4.4
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
-  AsteriskSip_1:
+  AsteriskSip_5:
     name: '1406'
-    accountcode: null
     callerid: '1406'
-    canreinvite: no
-    context: unlocked
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '6@default'
     secret: null
     type: friend
-    username: '1406'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1406'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.6
+    defaultip: 192.168.4.6
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
-
+    
 #done
 Phones:
   Phones_1:
     name: '1405'
-    accountcode: null
     callerid: '1405'
-    canreinvite: no
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '943@default'
     secret: null
     type: friend
-    username: '1405'
-    defaultuser: null
-    useragent: null
+
+    defaultuser: '1405'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.5
+    defaultip: 192.168.4.5
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
   Phones_2:
     name: '1402'
-    accountcode: null
     callerid: '1402'
-    canreinvite: no
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '1@default'
     secret: null
     type: friend
-    username: '1402'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1402'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.2
+    defaultip: 192.168.4.2
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
   Phones_3:
     name: '1403'
-    accountcode: null
     callerid: '1403'
-    canreinvite: no
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
-    secret: null
+    host: dynamic
+    mailbox: '3@default'
     type: friend
-    username: '1403'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1403'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.3
+    defaultip: 192.168.4.3
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
   Phones_4:
     name: '1404'
-    accountcode: null
     callerid: '1404'
-    canreinvite: no
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '4@default'
     secret: null
     type: friend
-    username: '1404'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1404'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.4
+    defaultip: 192.168.4.4
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
   Phones_5:
     name: '1406'
-    accountcode: null
     callerid: '1406'
-    canreinvite: no
-    host: static
-    port: null
-    mailbox: null
-    md5secret: null
-    nat: no
-    permit: null
-    deny: null
-    mask: null
-    qualify: null
+    host: dynamic
+    mailbox: '6@default'
     secret: null
     type: friend
-    username: '1406'
-    defaultuser: null
-    useragent: null
+    defaultuser: '1406'
     fromuser: null
     fromdomain: null
-    disallow: all
-    allow: ulaw;alaw
-    ipaddr: 192.168.4.6
+    defaultip: 192.168.4.6
     mac: null
-    fullcontact: null
     regexten: null
     regserver: null
     regseconds: 0
-    lastms: 0
     
 #done
 Rooms:

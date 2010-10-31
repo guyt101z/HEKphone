@@ -139,283 +139,201 @@ AsteriskExtensions:
       unsigned: false
       notnull: false
       primary: false
-      
-# This is not a table but a view. Unfortunately, there seems to be no way do
-# this in a clean way with doctrine. So after you built the database from the 
-# schema, you should DELETE the asterisk_sip table, and create a view with the
-# sql-file postgres02-asterisk_sip-view.sql.
+
+AsteriskVoicemail:
+  connection: hekphone
+  tableName: asterisk_voicemail
+  columns:
+    uniqueid:
+      type: integer
+      notnull: true
+    customer_id:
+      type: string(11)
+      notnull: true
+      default: '0'
+    context:
+      type: string(50)
+      notnull: true
+      default: '0'
+    mailbox:
+      type: string(11)
+      notnull: true
+      default: '0'
+    password:
+      type: string(10)
+      notnull: true
+      default: '0'
+    fullname:
+      type: string(150)
+      notnull: true
+      default: ''
+    email:
+      type: string(50)
+      email: true
+      notnull: true
+    pager:
+      type: string(50)
+      notnull: true
+      default: ''
+    tz:
+      type: string(10)
+      notnull: true
+      default: 'central'
+    attach:
+      type: string(4)
+      notnull: true
+      default: 'yes'
+    saycid:
+      type: string(4)
+      notnull: true
+      default: 'yes'
+    dialout:
+      type: string(4)
+      notnull: true
+      default: ''
+    callback:
+      type: string(10)
+      notnull: true
+      default: ''
+    review:
+      type: string(4)
+      notnull: true
+      default: 'no'
+    operator:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    envelope:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    sayduration:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    saydurationm:
+      type: integer(4)  
+      notnull: true
+      default: 1
+    sendvoicemail:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    delete:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    nextaftercmd:
+      type: string(4)  
+      notnull: true
+      default: 'yes'
+    forcename:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    forcegreetings:
+      type: string(4)  
+      notnull: true
+      default: 'no'
+    hidefromdir:
+      type: string(4)  
+      notnull: true
+      default: 'yes'
+    stamp:
+      type: timestamp
+   
+# We want to reduce redundant information in the database and the state "unlocked/
+# locked" belongs to a user, not a phone, this "table" asterisk_sip is supposed to
+# be a view that collects all data from Phones and additionally fetches the
+# locked/unlocked state from residents. (TODO: and the culture/language!?)      
+# Unfortunatele, it seems impossible to implement this in a clean way with doctrine.
+# So after you build the database from the schema, you should DELETE the 
+# the asterisk_sip table and create the view.
+# As asterisk needs to write to some fields in asterisk_sip some 
+# "onupdate do instead" rules should be defined.
 # Because the view uses a typecast from boolean (resident->locked) to the
 # enum 'context' which is either 0: locked or 1: unlocked, you have to create 
 # this typecast first. This can be done with the postgres-01-typecast-bool-context.sql
-# file. 
+# file. (psql <database> <username> - f postgres-01-typecast-bool-context.sql)
 # The typecast also automatically forces all telephones in rooms with no assigned
 # resident to be locked!
-# TODO: Try harder to create the view with doctrine.
+# Now, table can be dropped and the view and the rules can can easily be created 
+# via postgres02-asterisk_sip-view.sql:
+#   psql <database> <username> - f postgres-02-asterisk_sip-view.sql
 AsteriskSip:
   connection: hekphone
   tableName: asterisk_sip
   columns:
     id:
-      type: integer(4)
-      fixed: false
-      unsigned: false
+      type: integer(11)
+      notnull: true
       primary: true
-      sequence: asterisk_sip_id
+      autoincrement: true
+##  FIXME: name == 1XXX (XXX: room number) ?
     name:
-      type: string()
-      fixed: false
-      unsigned: false
+      type: string(80)
       notnull: true
-      primary: false
-    accountcode:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
+      default: ''
+    'type':
+      type: enum
+      length: 6
+      values: ['user','peer','friend']
+      notnull: true
+      default: 'friend'
     callerid:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    canreinvite:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: yes
-      primary: false
-    context:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-    host:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-    port:
-      type: integer(4)
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    mailbox:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    md5secret:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    nat:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      default: no
-      primary: false
-    permit:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    deny:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    mask:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    qualify:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    secret:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    type:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      default: friend
-      primary: false
-    username:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
+      type: string(80)
+## Parameter to identify the user:
     defaultuser:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    useragent:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    fromuser:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: 'NULL'
-      primary: false
-    fromdomain:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: 'NULL'
-      primary: false
-    disallow:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: all
-      primary: false
-    allow:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: ulaw;alaw
-      primary: false
-    ipaddr:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
+      type: string(80)
+      notnull: true
+      default: ''
+    secret:
+      type: string(80)
+## As our telephones desperately try to register, we need host=dynamic:
+    host:
+      type: string(31)
+      notnull: true
+      default: dynamic
+## With host = dynamic: This "defaultip" is used, if the client is not registered.
+## The DHCP configuration is created from this field and the following: 
+    defaultip:
+      type: string(15)
     mac:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
-    fullcontact:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
+      type: string(20)
       default: ''
-      primary: false
-    regexten:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: ''
-      primary: false
-    regserver:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: ''
-      primary: false
-    regseconds:
-      type: integer(8)
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: '0'
-      primary: false
-    lastms:
-      type: integer(8)
-      fixed: false
-      unsigned: false
-      notnull: false
-      default: '0'
-      primary: false
-AsteriskVoicemail:
-  connection: hekphone
-  tableName: asterisk_voicemail
-  columns:
-    id:
-      type: integer(4)
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-      sequence: asterisk_voicemail_id
-    customer_id:
-      type: integer(8)
-      fixed: false
-      unsigned: false
-      notnull: true
-      default: '0'
-      primary: false
-    context:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
+## Maybe also fetch the language via a view from the residents table (->culture):
+    language:
+      type: string(2)
+      default: 'de'
+## The field mailbox (contains "mailboxid@context") equals a users id.
     mailbox:
-      type: integer(8)
-      fixed: false
-      unsigned: false
+      type: string(50)
+## These fields are obviousely required by asterisk:
+    regserver:
+      type: string(20)
+    regseconds:    # updated by asterisk periodically!
+      type: string(20)
+    ipaddr:        # updated by asterisk periodically!
+      type: string(15)
       notnull: true
-      default: '0'
-      primary: false
-    password:
-      type: string()
-      fixed: false
-      unsigned: false
+      default: ''
+    port:          # updated by asterisk periodically!
+      type: string(5)
+      unsigned: true
       notnull: true
-      default: '0'
-      primary: false
-    fullname:
-      type: string()
-      fixed: false
-      unsigned: false
+      default: ''
+    fullcontact:
+      type: string(80)
       notnull: true
-      primary: false
-    email:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-    pager:
-      type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-    stamp:
-      type: timestamp(25)
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
-
+      default: ''
+    useragent:     # updated by asterisk!
+      type: string(20)
+      default: ''
+## The field lastms...
+    lastms:
+      type: string(11)
+      default: ''
+         
 # This table is the skeleton of the view asterisk_sip which specifies the
 # sip friend of asterisk.
 # It contains every neccessary information except "context" which is either
@@ -423,88 +341,305 @@ AsteriskVoicemail:
 # this information belongs to an user not to a telephone. So its stored in
 # Bewohner->context.
 # See comment on asterisk_sip!
-
 Phones:
   connection: hekphone
   tableName: phones
   columns:
-    id: 
-      type: integer
+    id:
+      type: integer(11)
+      notnull: true
       primary: true
-      sequence: phone_id
-    name: 
-      type: string
-      unique: true
+      autoincrement: true
+##  FIXME: name == 1XXX (XXX: room number) ?
+    name:
+      type: string(80)
       notnull: true
-    accountcode: string
-    callerid: string
-    canreinvite: 
-      type: string
-      default: yes
-    host: 
-      type: string
-      notnull: true
-    port: integer
-    mailbox: string
-    md5secret: string
-    nat: 
-      type: string
-      notnull: true
-      default: no
-    permit: string
-    deny: string
-    mask: string
-    qualify: string
-    secret: string
-    type: 
-      type: string
-      notnull: true
-      default: friend
-    username: 
-      type: string
-      notnull: true
-    defaultuser: string
-    useragent: string
-    fromuser: 
-      type: string 
       default: ''
-    fromdomain: 
-      type: string
+    'type':
+      type: enum
+      length: 6
+      values: ['user','peer','friend']
+      notnull: true
+      default: 'friend'
+    callerid:
+      type: string(80)
+## Parameter to identify the user:
+    defaultuser:
+      type: string(80)
+      notnull: true
       default: ''
-    disallow: 
-      type: string
-      default: all
-    allow: 
-      type: string
-      default: ulaw;alaw
-    ipaddr: string
+    secret:
+      type: string(80)
+## As our telephones desperately try to register, we need host=dynamic:
+    host:
+      type: string(31)
+      notnull: true
+      default: dynamic
+## With host = dynamic: This "defaultip" is used, if the client is not registered.
+## The DHCP configuration is created from this field and the following: 
+    defaultip:
+      type: string(15)
     mac:
-      type: string
-      unique: true
-    fullcontact: 
-      type: string
+      type: string(20)
       default: ''
-    regexten: 
-      type: string
+## Maybe also fetch the language via a view from the residents table (->culture):
+    language:
+      type: string(2)
+      default: 'de'
+## The field mailbox (contains "mailboxid@context") equals a users id.
+    mailbox:
+      type: string(50)
+## These fields are obviousely required by asterisk:
+    regserver:
+      type: string(20)
+    regseconds:    # updated by asterisk periodically (with time elapsed since registration?)
+      type: string(20)
+    ipaddr:        # updated by asterisk periodically with the current ip of the registered phone
+      type: string(15)
+      notnull: true
       default: ''
-    regserver: 
-      type: string
+    port:          # updated by asterisk periodically with the port of the registered phone
+      type: string(5)
+      unsigned: true
+      notnull: true
       default: ''
-    regseconds: 
-      type: integer
-      default: '0'
-    lastms: 
-      type: integer
-      default: '0'
-  relations:
-    Rooms:
-      local: id
-      foreign: telefon
-      type: many
+    fullcontact:
+      type: string(80)
+      notnull: true
+      default: ''
+    useragent:     # updated by asterisk (with the useragent of the registered phone?)
+      type: string(20)
+      default: ''
+## The field lastms contains the time when qualify was checked for the last time.
+## see https://issues.asterisk.org/view.php?id=14196
+    lastms:       # updated by asterisk every time asterisk pings (qualifys) the phone
+      type: string(11)
+      default: ''
+## Maybe required fields
+#    regexten:   # not required (no warning if it's not present)
+#      type: string(20)
+#    fromuser:   # not required (no warning if it's not present)
+#      type: string(20)
+#    fromdomain: # not required (no warning if it's not present)
+#      type: string(20)
+#    callingpres:
+#      type: enum
+#      length: 20
+#      values: ['allowed_not_screened','allowed_passed_screen','allowed_failed_screen','allowed','prohib_not_screened','prohib_passed_screen','prohib_failed_screen','prohib','unavailable']
+#      default: 'allowed_not_screened'
+#    permit: 
+#      type: string(95)
+#      default: 'NULL'
+#    deny:
+#      type: string(95)
+#      default: 'NULL'
+#      default: 'NULL'
+#    md5secret:
+#      type: string(80)
+#      default: 'NULL'
+#    remotesecret:
+#      type: string(250)
+##      default: 'NULL'
+#    transport:
+#      type: enum
+#      length: 7
+#      values: ['tcp','udp','tcp,udp']
+#      default: 'NULL'
+#      default: 'NULL'
+#    nat:
+#      type: string(5)
+#      notnull: true
+#      default: 'no'
+#    accountcode:
+#      type: string(20)
+#      default: 'NULL'
+#    amaflags:
+#      type: string(13)
+#      default: 'NULL'
+#    callergroup:
+#      type: string(10)
+#      default: 'NULL'
+#      default: 'NULL'
+#      default: 'NULL'
+## Defaults to rfc2833 which we use so we don't need it
+#    dtmfmode:
+#      type: string(7)
+#      default: 'NULL'
+#    fromuser:
+#      type: string(80)
+#      default: 'NULL'
+#    fromdomain:
+#      type: string(80)
+#      default: 'NULL'
+## Comment on http://www.voip-info.org/wiki/view/Asterisk+sip+insecure
+## "this does not seem to work with 1.6+" we did not try it
+#    insecure:
+#      type: string(4)
+#      default: 'NULL'
+#      default: 'NULL'
+#      default: 'NULL'
+#    pickupgroup:
+#       type: string(10)
+#      default: 'NULL'
+## Qualify Can be yes, no or a time in ms. This is done in sip.conf/general
+#    qualify:
+#      type: string(5)
+#      default: yes
+#      default: 'NULL'
+#    regexten:
+#      type: string(80)
+#      default: 'NULL'
+#    rtptimeout:
+#      type: string(3)
+#      default: 'NULL'
+#    rtpholdtimeout:
+#      type: string(3)
+#      default: 'NULL'
+#    setvar:
+#      type: string(100)
+#      default: 'NULL'
+## Done in sip.conf/general
+#    disallow:
+#      type: string(100)
+#      default: 'all'
+#    allow:
+#      type: string(100)
+#      default: 'g729;ilbc;gsm;ulaw;alaw'
+## Asterisk 1.6 uses defaultuser instead of username afaik
+#    username:
+#      type: string(80)
+#      notnull: true
+#      default: ''
+#    subscribecontext:
+#      type: string(80)
+#      default: null
+#    directmedia:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: 'NULL'
+#    trustrpid:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: no'
+#    sendrpid:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: 'no'
+#    progressinband:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: 'no'
+#    promiscredir:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: 'no'
+#    useclientcode:
+#      type: enum
+#      length: 3
+#      values: ['yes','no']
+#      default: yes
+#    callcounter:
+#      type: enum
+#      length: 3
+#      default: 'no'
+#      values: ['yes', 'no']
+#    busylevel:
+#      type: integer(10)
+#      unsigned: true
+#      default: 'NULL'
+#    allowoverlap:
+#      type: enum
+#      length: 3
+#      values: ['yes', 'no']
+#      default: 'yes'
+#    allowsubscribe:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'yes'
+#    allowtransfer:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'yes'
+#    ignoresdpversion:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'no'
+#    template:
+#      type: string(100)
+#      default: 'NULL'
+#    videosupport:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'no'
+#    maxcallbitrate:
+#      type: integer(10)
+#      unsigned: true
+#      default: 'NULL'
+#     rfc2833compensate:
+#      type: enum
+#      length: 3
+#      values: ['yes', 'no']
+#      default: 'yes'
+#    #'session-timers':
+#    #  type: enum
+#    #  values: ['yes', 'no']
+#    #  default: 'no'
+#    #'session-expires':
+#    #  type: integer(5)
+#    #  unsigned: true
+#    #  default: '1800'
+#    #'session-minse':
+#    #  type: integer(5)
+#    #  unsigned: true
+#    #  default: '90'
+#    #'session-refresher':
+#    #  type: enum
+#    #  values: ['uac', 'uas']
+#    #  default: 'uas'
+#    t38pt_usertpsource:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'no'
+#    outboundproxy:
+#      type: string(250)
+##      default: 'NULL'
+#    callbackextension:
+#      type: string(150)
+##      default: 'NULL'
+#    registertrying:
+#      type: enum
+#      values: ['yes', 'no']
+#      default: 'yes'
+#    timtert1:
+#      type: integer(5)
+#      unsigned: true
+#      default: 500
+#    timerb:
+#      type: integer(8)
+#      unsigned: true
+#      default: 'NULL'
+#    qualifyfreq:
+#      type: integer(5)
+#      unsigned: true
+#      default: 120
+#    contactpermit:
+#      type: string(250)
+##      default: 'NULL'
+#    contactdeny:
+#      type: string(250)
+##      default: 'NULL'
+#    lastms:
+#      type: integer(11)
+#      notnull: true
 
 # ===
 # Actual HEKPhone Tables 
-# ==
+# ===
 
 Residents:
   connection: hekphone
