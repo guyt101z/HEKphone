@@ -104,41 +104,26 @@ AsteriskExtensions:
   columns:
     id:
       type: integer(4)
-      fixed: false
-      unsigned: false
       primary: true
-      sequence: asterisk_extensions_id
+      autoincrement: true
     context:
       type: string()
-      fixed: false
-      unsigned: false
       notnull: true
-      primary: false
+      default: 'default'
     exten:
       type: string()
-      fixed: false
-      unsigned: false
-      notnull: true
-      primary: false
+      notnull: false
     priority:
       type: integer(2)
-      fixed: false
-      unsigned: false
+      unsigned: true
       notnull: true
       default: '0'
-      primary: false
     app:
       type: string()
-      fixed: false
-      unsigned: false
       notnull: true
-      primary: false
     appdata:
       type: string()
-      fixed: false
-      unsigned: false
-      notnull: false
-      primary: false
+      default: ''
 
 AsteriskVoicemail:
   connection: hekphone
@@ -280,6 +265,7 @@ AsteriskSip:
       values: ['user','peer','friend']
       notnull: true
       default: 'friend'
+## 
     callerid:
       type: string(80)
 ## Parameter to identify the user:
@@ -350,7 +336,7 @@ Phones:
       notnull: true
       primary: true
       autoincrement: true
-##  FIXME: name == 1XXX (XXX: room number) ?
+##  TODO: name == 1XXX (XXX: room number) ?
     name:
       type: string(80)
       notnull: true
@@ -361,9 +347,10 @@ Phones:
       values: ['user','peer','friend']
       notnull: true
       default: 'friend'
+## Set the callerid in the asterisk_sip view?
     callerid:
       type: string(80)
-## Parameter to identify the user:
+## Parameter to identify the phone:
     defaultuser:
       type: string(80)
       notnull: true
@@ -386,7 +373,9 @@ Phones:
     language:
       type: string(2)
       default: 'de'
-## The field mailbox (contains "mailboxid@context") equals a users id.
+## The field mailbox (contains "mailboxid@context") equals a users id
+## This field is used by the phones MWI: The denoted mailbox is checked for
+## new messages and if some are available it's indicated to the phone.
     mailbox:
       type: string(50)
 ## These fields are obviousely required by asterisk:
@@ -403,16 +392,16 @@ Phones:
       unsigned: true
       notnull: true
       default: ''
-    fullcontact:
+    fullcontact:   # updated by asterisk with the a full <sip://uri>
       type: string(80)
       notnull: true
       default: ''
     useragent:     # updated by asterisk (with the useragent of the registered phone?)
       type: string(20)
       default: ''
-## The field lastms contains the time when qualify was checked for the last time.
+## The field lastms contains the time when qualify was checked for the last time.(?)
 ## see https://issues.asterisk.org/view.php?id=14196
-    lastms:       # updated by asterisk every time asterisk pings (qualifys) the phone
+    lastms:       # updated by asterisk every time asterisk qualifys the phone
       type: string(11)
       default: ''
 ## Maybe required fields

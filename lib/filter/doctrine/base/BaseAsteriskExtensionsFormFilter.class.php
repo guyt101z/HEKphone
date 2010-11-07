@@ -14,7 +14,7 @@ abstract class BaseAsteriskExtensionsFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'context'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'exten'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'exten'    => new sfWidgetFormFilterInput(),
       'priority' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'app'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'appdata'  => new sfWidgetFormFilterInput(),

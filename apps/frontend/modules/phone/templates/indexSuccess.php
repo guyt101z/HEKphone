@@ -14,11 +14,8 @@
       <th>Language</th>
       <th>Mailbox</th>
       <th>Defaultuser</th>
-      <th>Regexten</th>
       <th>Regserver</th>
       <th>Regseconds</th>
-      <th>Fromuser</th>
-      <th>Fromdomain</th>
       <th>Ipaddr</th>
       <th>Port</th>
       <th>Fullcontact</th>
@@ -40,11 +37,8 @@
       <td><?php echo $phones->getLanguage() ?></td>
       <td><?php echo $phones->getMailbox() ?></td>
       <td><?php echo $phones->getDefaultuser() ?></td>
-      <td><?php echo $phones->getRegexten() ?></td>
       <td><?php echo $phones->getRegserver() ?></td>
       <td><?php echo $phones->getRegseconds() ?></td>
-      <td><?php echo $phones->getFromuser() ?></td>
-      <td><?php echo $phones->getFromdomain() ?></td>
       <td><?php echo $phones->getIpaddr() ?></td>
       <td><?php echo $phones->getPort() ?></td>
       <td><?php echo $phones->getFullcontact() ?></td>

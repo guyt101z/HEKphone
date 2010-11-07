@@ -45,7 +45,7 @@ EOF;
         $dhcpConf .= '
         host phone'.$phone->name.'{
           hardware ethernet '.$phone->mac.'
-          fixed-address '.$phone->ipaddr.'
+          fixed-address '.$phone->defaultip.'
         }';
     }
 

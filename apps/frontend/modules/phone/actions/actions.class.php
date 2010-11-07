@@ -41,7 +41,6 @@ class phoneActions extends sfActions
     }
     elseif ($this->request->hasParameter('residentid'))
     {
-      //XXX: select right finder here
       $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByResidentId(array($request->getParameter('residentid'))), sprintf('Object phones does not exist (%s).', $request->getParameter('residentid')));
     }
     else

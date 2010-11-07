@@ -25,8 +25,8 @@ abstract class BaseAsteriskExtensionsForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'       => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'context'  => new sfValidatorString(),
-      'exten'    => new sfValidatorString(),
+      'context'  => new sfValidatorString(array('required' => false)),
+      'exten'    => new sfValidatorString(array('required' => false)),
       'priority' => new sfValidatorInteger(array('required' => false)),
       'app'      => new sfValidatorString(),
       'appdata'  => new sfValidatorString(array('required' => false)),

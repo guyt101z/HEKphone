@@ -39,51 +39,36 @@ abstract class BaseAsteriskExtensions extends sfDoctrineRecord
         $this->setTableName('asterisk_extensions');
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => true,
-             'sequence' => 'asterisk_extensions_id',
+             'autoincrement' => true,
              'length' => 4,
              ));
         $this->hasColumn('context', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
              'notnull' => true,
-             'primary' => false,
+             'default' => 'default',
              'length' => '',
              ));
         $this->hasColumn('exten', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'notnull' => true,
-             'primary' => false,
+             'notnull' => false,
              'length' => '',
              ));
         $this->hasColumn('priority', 'integer', 2, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
+             'unsigned' => true,
              'notnull' => true,
              'default' => '0',
-             'primary' => false,
              'length' => 2,
              ));
         $this->hasColumn('app', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
              'notnull' => true,
-             'primary' => false,
              'length' => '',
              ));
         $this->hasColumn('appdata', 'string', null, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'notnull' => false,
-             'primary' => false,
+             'default' => '',
              'length' => '',
              ));
     }

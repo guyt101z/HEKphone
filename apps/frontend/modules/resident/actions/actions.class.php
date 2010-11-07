@@ -85,7 +85,8 @@ class residentActions extends sfActions
   /**
    * actually apply changes, made to the resident, to the database
    * in this step, the asterisk_* tables also get updated, the neccesairy
-   * vm-settings created and-so-on
+   * vm-settings created, the extension is modified to point to the correct
+   * voicemailbox and so on
    *
    * @param sfWebRequest $request
    * @param sfForm $form
@@ -98,6 +99,8 @@ class residentActions extends sfActions
       $residents = $form->save();
 
       #XXX: Insert asterisk connector HERE!
+      Doctrine_Core::getTable('AsteriskExtensions')
+          ->updateResidentsExtension("1" . $this->resident['Rooms']['room_no'], $this->resident['id']);
 
       $this->getUser()->setFlash('notice', 'resident.edit.successfull');
       $this->redirect('@resident_edit?residentid='.$residents->getId());

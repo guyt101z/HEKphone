@@ -11,18 +11,15 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @property string $name
  * @property enum $type
  * @property string $callerid
+ * @property string $defaultuser
  * @property string $secret
  * @property string $host
  * @property string $defaultip
  * @property string $mac
  * @property string $language
  * @property string $mailbox
- * @property string $defaultuser
- * @property string $regexten
  * @property string $regserver
  * @property string $regseconds
- * @property string $fromuser
- * @property string $fromdomain
  * @property string $ipaddr
  * @property string $port
  * @property string $fullcontact
@@ -34,18 +31,15 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @method string              getName()        Returns the current record's "name" value
  * @method enum                getType()        Returns the current record's "type" value
  * @method string              getCallerid()    Returns the current record's "callerid" value
+ * @method string              getDefaultuser() Returns the current record's "defaultuser" value
  * @method string              getSecret()      Returns the current record's "secret" value
  * @method string              getHost()        Returns the current record's "host" value
  * @method string              getDefaultip()   Returns the current record's "defaultip" value
  * @method string              getMac()         Returns the current record's "mac" value
  * @method string              getLanguage()    Returns the current record's "language" value
  * @method string              getMailbox()     Returns the current record's "mailbox" value
- * @method string              getDefaultuser() Returns the current record's "defaultuser" value
- * @method string              getRegexten()    Returns the current record's "regexten" value
  * @method string              getRegserver()   Returns the current record's "regserver" value
  * @method string              getRegseconds()  Returns the current record's "regseconds" value
- * @method string              getFromuser()    Returns the current record's "fromuser" value
- * @method string              getFromdomain()  Returns the current record's "fromdomain" value
  * @method string              getIpaddr()      Returns the current record's "ipaddr" value
  * @method string              getPort()        Returns the current record's "port" value
  * @method string              getFullcontact() Returns the current record's "fullcontact" value
@@ -56,18 +50,15 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @method Phones              setName()        Sets the current record's "name" value
  * @method Phones              setType()        Sets the current record's "type" value
  * @method Phones              setCallerid()    Sets the current record's "callerid" value
+ * @method Phones              setDefaultuser() Sets the current record's "defaultuser" value
  * @method Phones              setSecret()      Sets the current record's "secret" value
  * @method Phones              setHost()        Sets the current record's "host" value
  * @method Phones              setDefaultip()   Sets the current record's "defaultip" value
  * @method Phones              setMac()         Sets the current record's "mac" value
  * @method Phones              setLanguage()    Sets the current record's "language" value
  * @method Phones              setMailbox()     Sets the current record's "mailbox" value
- * @method Phones              setDefaultuser() Sets the current record's "defaultuser" value
- * @method Phones              setRegexten()    Sets the current record's "regexten" value
  * @method Phones              setRegserver()   Sets the current record's "regserver" value
  * @method Phones              setRegseconds()  Sets the current record's "regseconds" value
- * @method Phones              setFromuser()    Sets the current record's "fromuser" value
- * @method Phones              setFromdomain()  Sets the current record's "fromdomain" value
  * @method Phones              setIpaddr()      Sets the current record's "ipaddr" value
  * @method Phones              setPort()        Sets the current record's "port" value
  * @method Phones              setFullcontact() Sets the current record's "fullcontact" value
@@ -113,6 +104,12 @@ abstract class BasePhones extends sfDoctrineRecord
              'type' => 'string',
              'length' => 80,
              ));
+        $this->hasColumn('defaultuser', 'string', 80, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '',
+             'length' => 80,
+             ));
         $this->hasColumn('secret', 'string', 80, array(
              'type' => 'string',
              'length' => 80,
@@ -141,29 +138,11 @@ abstract class BasePhones extends sfDoctrineRecord
              'type' => 'string',
              'length' => 50,
              ));
-        $this->hasColumn('defaultuser', 'string', 80, array(
-             'type' => 'string',
-             'notnull' => true,
-             'default' => '',
-             'length' => 80,
-             ));
-        $this->hasColumn('regexten', 'string', 20, array(
-             'type' => 'string',
-             'length' => 20,
-             ));
         $this->hasColumn('regserver', 'string', 20, array(
              'type' => 'string',
              'length' => 20,
              ));
         $this->hasColumn('regseconds', 'string', 20, array(
-             'type' => 'string',
-             'length' => 20,
-             ));
-        $this->hasColumn('fromuser', 'string', 20, array(
-             'type' => 'string',
-             'length' => 20,
-             ));
-        $this->hasColumn('fromdomain', 'string', 20, array(
              'type' => 'string',
              'length' => 20,
              ));

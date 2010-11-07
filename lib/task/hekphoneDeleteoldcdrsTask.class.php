@@ -10,10 +10,7 @@ class hekphoneDeleteoldcdrsTask extends sfBaseTask
     // ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
-      // add your own options here
+      new sfCommandOption('months', null, sfCommandOption::PARAMETER_REQUIRED, 'Delete the data from how many preceeding months?'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -33,6 +30,16 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    // add your code here
+    // determine how many months to delete
+    if ($options['months'])
+    {
+        $months = $options['months'];
+    }
+    else
+    {
+        $months = 3;
+    }
+
+
   }
 }
