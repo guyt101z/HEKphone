@@ -38,7 +38,7 @@ class settingsActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
-
+    // Create the form
     $this->form = new SettingsForm();
 
     if($request->isMethod('post'))
@@ -84,7 +84,6 @@ class settingsActions extends sfActions
         // Set a users lanuage
         // $resident->setCulture($request['settings']['language']);
 
-        // TODO: implement the setVoiceMailSettings() method
         $resident->setVoicemailSettings($request['settings']['vm_active'],
                                         $request['settings']['vm_seconds'],
                                         $request['settings']['vm_sendEmailOnNewMessage'],

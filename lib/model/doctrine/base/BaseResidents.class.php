@@ -18,6 +18,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property boolean $warning1
  * @property boolean $warning2
  * @property boolean $unlocked
+ * @property boolean $vm_active
+ * @property int $vm_seconds
+ * @property boolean $mail_on_missed_call
  * @property boolean $shortened_itemized_bill
  * @property string $account_number
  * @property string $bank_number
@@ -41,6 +44,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method boolean             getWarning1()                Returns the current record's "warning1" value
  * @method boolean             getWarning2()                Returns the current record's "warning2" value
  * @method boolean             getUnlocked()                Returns the current record's "unlocked" value
+ * @method boolean             getVmActive()                Returns the current record's "vm_active" value
+ * @method int                 getVmSeconds()               Returns the current record's "vm_seconds" value
+ * @method boolean             getMailOnMissedCall()        Returns the current record's "mail_on_missed_call" value
  * @method boolean             getShortenedItemizedBill()   Returns the current record's "shortened_itemized_bill" value
  * @method string              getAccountNumber()           Returns the current record's "account_number" value
  * @method string              getBankNumber()              Returns the current record's "bank_number" value
@@ -63,6 +69,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setWarning1()                Sets the current record's "warning1" value
  * @method Residents           setWarning2()                Sets the current record's "warning2" value
  * @method Residents           setUnlocked()                Sets the current record's "unlocked" value
+ * @method Residents           setVmActive()                Sets the current record's "vm_active" value
+ * @method Residents           setVmSeconds()               Sets the current record's "vm_seconds" value
+ * @method Residents           setMailOnMissedCall()        Sets the current record's "mail_on_missed_call" value
  * @method Residents           setShortenedItemizedBill()   Sets the current record's "shortened_itemized_bill" value
  * @method Residents           setAccountNumber()           Sets the current record's "account_number" value
  * @method Residents           setBankNumber()              Sets the current record's "bank_number" value
@@ -133,6 +142,21 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasColumn('unlocked', 'boolean', null, array(
              'type' => 'boolean',
              'default' => false,
+             ));
+        $this->hasColumn('vm_active', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => false,
+             ));
+        $this->hasColumn('vm_seconds', 'int', null, array(
+             'type' => 'int',
+             'notnull' => true,
+             'default' => 15,
+             ));
+        $this->hasColumn('mail_on_missed_call', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => true,
              ));
         $this->hasColumn('shortened_itemized_bill', 'boolean', null, array(
              'type' => 'boolean',

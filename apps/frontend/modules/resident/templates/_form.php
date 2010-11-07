@@ -67,6 +67,27 @@
         </td>
       </tr>
       <tr>
+        <th><?php echo $form['vm_active']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['vm_active']->renderError() ?>
+          <?php echo $form['vm_active'] . "\n" ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['vm_seconds']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['vm_seconds']->renderError() ?>
+          <?php echo $form['vm_seconds'] . "\n" ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo $form['mail_on_missed_call']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['mail_on_missed_call']->renderError() ?>
+          <?php echo $form['mail_on_missed_call'] . "\n" ?>
+        </td>
+      </tr>
+      <tr>
         <th><?php echo $form['hekphone']->renderLabel() ?></th>
         <td>
           <?php echo $form['hekphone']->renderError() ?>

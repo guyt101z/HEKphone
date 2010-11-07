@@ -19,7 +19,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
 
     /**
      * The function updates/creates the extension neccesary to dial to the sip
-     * phone of a user
+     * phone of a user.
      *
      * The extensions are generated in the context 'phones' which can be
      * included in the context 'locked' and 'unlocked' and 'amt' (which is
@@ -29,35 +29,48 @@ class AsteriskExtensionsTable extends Doctrine_Table
      * @param integer $residentid
      * @return string
      */
-    public function updateResidentsExtension($extension, $residentid = false)
+    public function updateResidentsExtension(Residents $resident)
     {
         $extensionPrefix = '_8695';
-        $context  = 'phones';
-        $resident = Doctrine_Core::getTable('Residents')->findOneById($residentid);
+        if ( ! $extension = "1" . $resident['Rooms']['room_no']) {
+          sfContext::getInstance()->getLogger()->warning('Tried to update extension of a resident ' . $residentid . ' not living in a room. Extension not updated.');
+          return false;
+        }
+        $phone     = Doctrine_Core::getTable('Phones')->findOneByName($extension);
+        $context   = ($resident['unlocked'])? 'unlocked' : 'locked';
+
 
         // Merciless delete any old entries of the room/phone: //
         $this->createQuery()
+           ->delete()
            ->where('exten = ?', $extensionPrefix . $extension)
-           ->addWhere('context = ', $context)
-           ->delete();
+           ->execute();
 
         // Prepare the extensions entries: //
         // call the phone located in the room
-        $arrayExtensions[] = array(
+        $arrayExtensions[0] = array(
              'exten'        => $extensionPrefix . $extension,
              'priority'     => 1,
              'context'      => $context,
              'app'          => 'Dial',
-             'appdata'      => 'SIP/' . $extension
         );
+        if ($resident['vm_active']) {
+            // in case the voicemail is activated, only ring for a specified number
+            // of times
+            $arrayExtensions[0]['appdata'] = $phone['technologie'] . '/' . $extension
+                                           . '|' . $resident['vm_seconds'];
+        } else {
+            // if not, ring until the caller hangs up
+            $arrayExtensions[0]['appdata'] = $phone['technologie'] . '/' . $extension;
+        }
 
         // include forwarding to mailbox if it's active
         // this is resident specific so only insert it if
         // there's a residentid provided
         $vm_active = true;
-        if ($vm_active && $residentid)
+        if ($resident['vm_active'])
         {
-            $arrayExtensions[] = array(
+            $arrayExtensions[1] = array(
                 'exten'        => $extensionPrefix . $extension,
                 'priority'     => 2,
                 'context'      => $context,
@@ -67,7 +80,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
         }
 
         // hangup after the call finished
-        $arrayExtensions[] = array(
+        $arrayExtensions[2] = array(
             'exten'        => $extensionPrefix . $extension,
             'priority'     => 99,
             'context'      => $context,

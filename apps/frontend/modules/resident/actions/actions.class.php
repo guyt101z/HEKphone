@@ -98,9 +98,11 @@ class residentActions extends sfActions
     {
       $residents = $form->save();
 
-      #XXX: Insert asterisk connector HERE!
-      Doctrine_Core::getTable('AsteriskExtensions')
-          ->updateResidentsExtension("1" . $this->resident['Rooms']['room_no'], $this->resident['id']);
+      // This connects to asterisk;
+      if( ! Doctrine_Core::getTable('AsteriskExtensions')
+            ->updateResidentsExtension($this->resident)){
+          $this->getUser()->setFlash('error', 'resident.edit.asteriskConnectorFailed');
+      }
 
       $this->getUser()->setFlash('notice', 'resident.edit.successfull');
       $this->redirect('@resident_edit?residentid='.$residents->getId());

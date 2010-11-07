@@ -39,12 +39,17 @@ class Residents extends BaseResidents
      */
     public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $mailOnMissedCall)
     {
-      var_dump($active);
-      var_dump($seconds);
-      var_dump($mailOnNewMessage);
-      var_dump($attachMessage);
-      var_dump($mailOnMissedCall);
-      //TODO: Implement this!
+      $this->set('vm_active', $active);
+      $this->set('vm_seconds', $seconds);
+      $this->set('mail_on_missed_call', $mailOnMissedCall);
+      // This updates the users extension
+      if( ! Doctrine_Core::getTable('AsteriskExtensions')
+            ->updateResidentsExtension($this)){
+
+          return false;
+      }
+
+      return true;
     }
 
     public function getVoicemailSettings()

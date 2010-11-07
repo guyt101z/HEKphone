@@ -336,6 +336,14 @@ Phones:
       notnull: true
       primary: true
       autoincrement: true
+## By which technologie the telephone is adressed. In case of DAHDI, 
+## the group (span) has to be provided.                               
+    technologie:
+      type: enum
+      length: 20
+      values: ['SIP', 'DAHDI/g1', 'DAHDI/g3']
+      notnull: true
+      default: 'SIP'
 ##  TODO: name == 1XXX (XXX: room number) ?
     name:
       type: string(80)
@@ -667,6 +675,18 @@ Residents:
     unlocked:
       type: boolean
       default: false
+    vm_active:
+      type: boolean
+      notnull: true
+      default: false
+    vm_seconds:
+      type: int
+      notnull: true
+      default: 15
+    mail_on_missed_call:
+      type: boolean
+      notnull: true
+      default: true
     shortened_itemized_bill: 
       type: boolean
       default: true
@@ -805,10 +825,10 @@ Calls:
       local: resident
       foreign: id
       type: one
-    Rates:
-      local: rate
-      foreign: id
-      type: one
+    #Rates:
+      #local: rate
+      #foreign: id
+      #type: one
 
 Bills:
   connection: hekphone
