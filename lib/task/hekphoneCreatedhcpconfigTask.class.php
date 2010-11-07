@@ -7,6 +7,7 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
 
     $this->addOptions(array(
       new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', '/etc/dhcp3/dhcpd.phones'),
+      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'hekphone'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -25,7 +26,7 @@ EOF;
   {
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase('hekphone')->getConnection();
+    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
 
     $collPhones  = Doctrine_Query::create()
