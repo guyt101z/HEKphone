@@ -39,17 +39,15 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['warning1']->renderLabel() ?></th>
+        <th><?php echo __('resident.warning1') ?></th>
         <td>
-          <?php echo $form['warning1']->renderError() ?>
-          <?php echo $form['warning1'] . "\n" ?>
+          <?php echo ( $resident['warning1'] )? __('resident.warning.true') : __('resident.warning.false'); ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['warning2']->renderLabel() ?></th>
+        <th><?php echo __('resident.warning2') ?></th>
         <td>
-          <?php echo $form['warning2']->renderError() ?>
-          <?php echo $form['warning2'] . "\n" ?>
+          <?php echo ( $resident['warning2'] )? __('resident.warning.true') : __('resident.warning.false'); ?>
         </td>
       </tr>
       <tr>
@@ -64,27 +62,6 @@
         <td>
           <?php echo $form['shortened_itemized_bill']->renderError() ?>
           <?php echo $form['shortened_itemized_bill'] . "\n" ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['vm_active']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['vm_active']->renderError() ?>
-          <?php echo $form['vm_active'] . "\n" ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['vm_seconds']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['vm_seconds']->renderError() ?>
-          <?php echo $form['vm_seconds'] . "\n" ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['mail_on_missed_call']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['mail_on_missed_call']->renderError() ?>
-          <?php echo $form['mail_on_missed_call'] . "\n" ?>
         </td>
       </tr>
       <tr>
