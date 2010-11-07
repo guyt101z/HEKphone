@@ -10,13 +10,13 @@
 </div>
 <?php endif;?>
 
-<form action="<?php echo url_for('settings/index') ?>" method="POST">
+<form action="<?php echo url_for('settings/index') ?>" method="post">
   <table>
-  <?php echo $form ?>
   <tfoot>
     <tr>
       <td><input type="submit" value="<?php echo __('resident.settings.submit'); ?>" /></td>
     </tr>
   </tfoot>
+  <?php echo $form ?>
   </table>
 </form>

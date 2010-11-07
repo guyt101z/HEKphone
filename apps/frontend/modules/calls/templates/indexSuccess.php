@@ -30,9 +30,7 @@
     </tr>
     <?php foreach($billsCollection as $bill): ?>
     <?php if ($sf_request->getParameter('billid') == $bill->id): ?>
-    <tr>
       <?php include_partial('billDetails', array('bill' => $bill, 'residentid' => $residentid)) ?>
-    </tr>
     <?php continue; ?>
     <?php endif;?>
     <tr>

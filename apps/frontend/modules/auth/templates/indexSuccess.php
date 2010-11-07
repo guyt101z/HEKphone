@@ -5,7 +5,7 @@
 <?php endif;?>
 
 <?php if ( ! $sf_user->isAuthenticated()): ?>
-<form action="<?php echo url_for('auth/index') ?>" method="POST">
+<form action="<?php echo url_for('auth/index') ?>" method="post">
   <table>
     <?php echo $form ?>
     <tr>

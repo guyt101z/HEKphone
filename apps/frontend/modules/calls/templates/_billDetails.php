@@ -5,7 +5,7 @@
     </tr>
     <tr>
       <td colspan="3">
-      <table class="calldetails" border=1>
+      <table class="calldetails" border="1">
     <?php foreach($bill->getCalls() as $call):?>
         <tr>
           <th><?php echo __("calls.list.datetime") ?></th>
@@ -19,6 +19,7 @@
           <td><?php echo $call->destination ?></td>
           <td><?php echo $call->charges ?></td>
         </tr>
-<?php endforeach;?>
+    <?php endforeach;?>
         </table>
         </td>
+     </tr>
