@@ -1,4 +1,4 @@
 cache/
-log/
+frontend_*.log
 .project
 .settings
