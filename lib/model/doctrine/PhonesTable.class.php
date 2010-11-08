@@ -19,7 +19,8 @@ class PhonesTable extends Doctrine_Table
 
     public function findByResidentId($resident)
     {
-        if ( ! $resident = Doctrine_Core::getTable('Residents')->findOneById($resident))
+        $resident = Doctrine_Core::getTable('Residents')->findOneById($resident);
+        if ( $resident['Rooms']->phone == NULL )
         {
             return false;
         }
@@ -31,13 +32,14 @@ class PhonesTable extends Doctrine_Table
 
     public function findByRoomNo($roomNo)
     {
-        if ( ! $room = Doctrine_Core::getTable('Rooms')->findOneBy('room_no', $roomNo))
+        $room = Doctrine_Core::getTable('Rooms')->findOneBy('room_no', $roomNo);
+        if ( $room['phone'] == NULL )
         {
             return false;
         }
         else
         {
-            return Doctrine_Core::getTable('Phones')->findOneById($room->phone);
+            return Doctrine_Core::getTable('Phones')->findOneById($room['phone']);
         }
     }
 }

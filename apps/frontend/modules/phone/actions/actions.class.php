@@ -37,11 +37,15 @@ class phoneActions extends sfActions
   {
     if ($this->request->hasParameter('roomno'))
     {
-      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByRoomNo(array($request->getParameter('roomno'))), sprintf('Object phones does not exist (%s).', $request->getParameter('roomno')));
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByRoomNo($request->getParameter('roomno')), sprintf('Object phones does not exist (%s).', $request->getParameter('roomno')));
+    }
+    elseif ($this->request->hasParameter('room'))
+    {
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByRoomNo($request->getParameter('room')), sprintf('Object phones does not exist (%s).', $request->getParameter('room')));
     }
     elseif ($this->request->hasParameter('residentid'))
     {
-      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByResidentId(array($request->getParameter('residentid'))), sprintf('Object phones does not exist (%s).', $request->getParameter('residentid')));
+      $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->findByResidentId($request->getParameter('residentid')), sprintf('Object phones does not exist (%s).', $request->getParameter('residentid')));
     }
     else
     {
