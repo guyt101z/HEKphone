@@ -1,4 +1,6 @@
-cache/
+cache/frontend/
+cache/tmp
+cache/project_autoload.cache
 frontend_*.log
 .project
 .settings
