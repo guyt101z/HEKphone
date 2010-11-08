@@ -17,26 +17,13 @@ class settingsActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    // Redirect user that try to edit anothers settings without having the
-    // right credentials ('hekphone') (see also callsIndex action.)
-    if ( $this->hasRequestParameter('residentid') &&
-         ! ( $request['residentid'] == $this->getUser()->getAttribute('id')
-             || $this->getUser()->hasCredential('hekphone')))
-    {
-      $this->forward('default', 'secure');
-    }
-
     // If the action is accessed via /resident/xxx/settings :residentid is set
     // and should be used. If the action is called via /settings/index the users
     // id should be used.
-    if ($this->hasRequestParameter('residentid'))
-    {
-      $this->residentid = $request['residentid'];
-    }
-    else
-    {
-      $this->residentid = $this->getUser()->getAttribute('id');
-    }
+    $this->residentid = ($this->hasRequestParameter('residentid')) ? $request['residentid'] : $this->getUser()->getAttribute('id');
+
+    // check, if the user exists
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
 
     // Create the form
     $this->form = new SettingsForm();
@@ -46,8 +33,6 @@ class settingsActions extends sfActions
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid())
       {
-        $resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid);
-
         // Change password if the newPassword field is not empty
         if ($request['settings']['newPassword'] != '')
         {

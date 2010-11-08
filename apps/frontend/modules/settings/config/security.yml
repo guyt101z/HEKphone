@@ -3,4 +3,5 @@ login:
 
 all:
   is_secure: true
+  credentials: [[hekphone, owner]]
   
