@@ -15,7 +15,8 @@ class callsActions extends sfActions
   *
   * If the action is called via the route @resident_calls (<-resident/:residentid/calls)
   * the parameter residentid is set. The action now shows the calls/bills of the corresponding
-  * user, but only if the users id equals the $request[residentid] or if the user is part of the
+  * user, but only if the users id equals the $request[residentid] and therefore has the
+  * credential "owner" which is determinded in the filter cahin, or if the user is part of the
   * hekphone-staff (credential: hekphone)
   *
   * If the Action is called via the route @bills_detail (<-calls/:billid), the parameter billid
@@ -25,26 +26,16 @@ class callsActions extends sfActions
   * If the action is called via the route @calls(<-calls/index), residentid and billid are not set and
   * the calls of the logged in user is shown.
   *
-  * XXX: Is this secure? First thought: yes. but check again for weired combinations of billid and residentid
-  *
   * @param sfRequest $request A request object
   */
   public function executeIndex(sfWebRequest $request)
   {
-    // Secure the action: Users can only access their own calls/bills except they're
-    // hekphone member (see function comment)
-    if ( $this->hasRequestParameter('residentid') &&
-         ! ( $request['residentid'] == $this->getUser()->getAttribute('id')
-             || $this->getUser()->hasCredential('hekphone')))
-    {
-      $this->forward('default', 'secure');
-    }
-
     // If the action is called via /resident/:residentid/calls display the
     // calls/bills of the resident with the matching residentid
     if ($this->hasRequestParameter('residentid'))
     {
       $this->residentid = $request['residentid'];
+      $this->forward404Unless(Doctrine_Core::getTable('Residents')->createQuery()->where('id = ?', $this->residentid)->count() == 1);
     }
     else
     {

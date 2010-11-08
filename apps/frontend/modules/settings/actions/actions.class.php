@@ -20,7 +20,14 @@ class settingsActions extends sfActions
     // If the action is accessed via /resident/xxx/settings :residentid is set
     // and should be used. If the action is called via /settings/index the users
     // id should be used.
-    $this->residentid = ($this->hasRequestParameter('residentid')) ? $request['residentid'] : $this->getUser()->getAttribute('id');
+    if ($this->hasRequestParameter('residentid'))
+    {
+      $this->residentid = $request['residentid'];
+    }
+    else
+    {
+      $this->residentid = $this->getUser()->getAttribute('id');
+    }
 
     // check, if the user exists
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
