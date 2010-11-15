@@ -15,6 +15,7 @@ Residents:
     warning2: false
     unlocked: true
     shortened_itemized_bill: true
+    bank_number: 25070070
     account_number: 123456789
     password: madame # gets converted to md5sum
     hekphone: false
@@ -63,10 +64,13 @@ Residents:
     warning2: false
     unlocked: false
     shortened_itemized_bill: true
-    account_number: null
+    account_number: 0505862799
+    bank_number: 25069503
     password: hekphone
     hekphone: true
- 
+    
+
+   
  # 50 more users just to fill the list
  <?php for($i=5; $i<=50; $i++): echo "\n";?>
   Residents_<?php echo $i ?>:
@@ -936,6 +940,16 @@ Calls:
     charges: '3.66'
     rate: 1
     bill: 4
+    
+  Calls_15:
+    Residents: Residents_1
+    extension: 1403
+    date: '2010-02-20 13:50:45'
+    duration: 95
+    destination: '004972323452343'
+    charges: '3.66'
+    rate: 1
+    bill: 0
 
 #done
 Bills:
