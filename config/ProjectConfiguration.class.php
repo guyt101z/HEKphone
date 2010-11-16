@@ -9,5 +9,12 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     $this->enablePlugins('sfDoctrinePlugin');
     $this->enablePlugins('sfDoctrineDynamicFormRelationsPlugin');
+    
+    //These parameters are used for creating the dtaus-file (*.ctl) when the bills are generated
+    sfConfig::set("TransactionName", "RECHNUNG HEK-PHONE");
+    sfConfig::set("myName", "HEK-PHONE");
+    sfConfig::set("myAccountnumber", "105010993");
+    sfConfig::set("myBanknumber", "52060410");
+   
   }
 }
