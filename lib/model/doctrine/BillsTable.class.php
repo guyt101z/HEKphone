@@ -16,4 +16,92 @@ class BillsTable extends Doctrine_Table
     {
         return Doctrine_Core::getTable('Bills');
     }
+    
+
+     /**
+     * All unbillded calls are billed and the bill id is set to the now billed call
+     * @param string $options['fromDate'] Start date for bill period
+     * @param string $options['toDate'] End date for the bill period
+     * @return boolean
+     */  
+    public function createBills($options = null)
+    {  
+        //Choose last month as bill date if the user doesn't specify a time period via $options['fromDate'] and $options['toDate']
+    	if ( $options['fromDate'] == null && $options['toDate'] == null || $options == null)
+    	{
+    	
+    	   $options = array('fromDate' => date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d")))), 
+    	               'toDate' => date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01")))));
+    	}
+    	
+    	elseif ( $options['fromDate'] == null)
+        {
+            $options['fromDate'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
+        }
+         
+        elseif ( $options['toDate'] == null)
+        {
+            throw new Exception('toDate Parameter is missing');
+        }
+    	   
+        //fetch all unbilled calls from the given time period
+        $unbilledCalls = Doctrine_Query::create()
+                            ->from('Calls')
+                            ->addWhere('bill = 0')
+                            ->addWhere('date <= ?', $options['toDate'])
+                            ->addWhere('date >= ?', $options['fromDate']);
+        
+        if ( ! $unbilledCalls = $unbilledCalls->execute())
+        {
+            //if there are no unbilled calls, false is returned	
+            
+        	return false;
+        }
+        
+        //Calculate the amount of all unbilled calls for one resident
+        foreach ($unbilledCalls as $unbilledCall)
+        {
+        	$sums[$unbilledCall['resident']] += $unbilledCall['charges'];
+        	
+        }
+ 
+        if ( ! isset($sums)){
+            // If there are unbilled calls but all free calls, false is returned        	
+        	return false;
+        }
+        
+        foreach ($sums as $residentid => $amount)
+        {
+        	//Prepare the bills for each resident
+        	$billsArray[] = array(
+        	               'resident'  => $residentid,
+        	               'amount'    => $amount,
+        	               'date'      => date("Y-m-d") 
+        	 );
+        }
+        
+        //Create the bills and save into the database. $billsCollection now contains the bill id
+        $billsCollection = new BillsCollection('Bills'); 
+        $billsCollection->fromArray($billsArray);
+     
+        $billsCollection->save();
+        print_r($billsCollection->toArray());
+        //Assign the bill id to the now billed calls
+        $billsArray = $billsCollection->toArray();
+        foreach ($unbilledCalls as $key => $unbilledCall)
+        {
+        	foreach ($billsArray as $bill)
+        	{
+        	   if($unbilledCall['resident'] == $bill['resident'])
+        	   {
+        	   	$currentBillId = $bill['id'];
+        	   }
+        	}        	
+        	$unbilledCalls[$key]->set('bill', $currentBillId);        	
+        }
+        print_r($unbilledCalls->toArray());
+        $unbilledCalls->save();
+   
+       return $billsCollection->getDtaus(array("fromDate" => $options["fromDate"], "toDate" =>  $options["toDate"]));
+    }
 }
