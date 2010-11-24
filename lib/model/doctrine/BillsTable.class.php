@@ -27,19 +27,19 @@ class BillsTable extends Doctrine_Table
     public function createBills($options = null)
     {  
         //Choose last month as bill date if the user doesn't specify a time period via $options['fromDate'] and $options['toDate']
-    	if ( $options['fromDate'] == null && $options['toDate'] == null || $options == null)
+    	if ( $options['start'] == null && $options['end'] == null || $options == null)
     	{
     	
-    	   $options = array('fromDate' => date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d")))), 
-    	               'toDate' => date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01")))));
+    	   $options = array('start' => date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d")))), 
+    	               'end' => date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01")))));
     	}
     	
-    	elseif ( $options['fromDate'] == null)
+    	elseif ( $options['start'] == null)
         {
-            $options['fromDate'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
+            $options['start'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
         }
          
-        elseif ( $options['toDate'] == null)
+        elseif ( $options['end'] == null)
         {
             throw new Exception('toDate Parameter is missing');
         }
@@ -47,9 +47,9 @@ class BillsTable extends Doctrine_Table
         //fetch all unbilled calls from the given time period
         $unbilledCalls = Doctrine_Query::create()
                             ->from('Calls')
-                            ->addWhere('bill = 0')
-                            ->addWhere('date <= ?', $options['toDate'])
-                            ->addWhere('date >= ?', $options['fromDate']);
+                            ->addWhere('bill is null')
+                            ->addWhere('date <= ?', $options['end'])
+                            ->addWhere('date >= ?', $options['start']);
         
         if ( ! $unbilledCalls = $unbilledCalls->execute())
         {
@@ -61,12 +61,14 @@ class BillsTable extends Doctrine_Table
         //Calculate the amount of all unbilled calls for one resident
         foreach ($unbilledCalls as $unbilledCall)
         {
+        	
         	$sums[$unbilledCall['resident']] += $unbilledCall['charges'];
         	
         }
- 
+        
         if ( ! isset($sums)){
-            // If there are unbilled calls but all free calls, false is returned        	
+            // If there are unbilled calls but all free calls, false is returned      
+            
         	return false;
         }
         
@@ -83,10 +85,11 @@ class BillsTable extends Doctrine_Table
         //Create the bills and save into the database. $billsCollection now contains the bill id
         $billsCollection = new BillsCollection('Bills'); 
         $billsCollection->fromArray($billsArray);
-     
         $billsCollection->save();
-        print_r($billsCollection->toArray());
-        //Assign the bill id to the now billed calls
+        
+        //print_r($billsCollection->toArray());
+        //Assign the bill id to the now billed calls 
+           
         $billsArray = $billsCollection->toArray();
         foreach ($unbilledCalls as $key => $unbilledCall)
         {
@@ -99,9 +102,24 @@ class BillsTable extends Doctrine_Table
         	}        	
         	$unbilledCalls[$key]->set('bill', $currentBillId);        	
         }
-        print_r($unbilledCalls->toArray());
-        $unbilledCalls->save();
-   
-       return $billsCollection->getDtaus(array("fromDate" => $options["fromDate"], "toDate" =>  $options["toDate"]));
+        //print_r($unbilledCalls->toArray());
+        $unbilledCalls->save(); 
+
+        //get for each bill and unlocked resident the String with the itemised bill information
+        $billsCollection->loadRelated('Calls');       
+        foreach ($billsCollection as $bill)
+         {
+         	if ($bill['Residents']['unlocked'] == true)
+         	{
+         	  echo $bill->getItemisedBill(array("date" => date("Y-m-d")));
+            //TODO Send bill via mail	
+         	}
+            
+         }
+      
+         return $billsCollection->getDtaus(array("start" => $options["start"], "end" =>  $options["start"]));
+         
+       
+       
     }
 }
