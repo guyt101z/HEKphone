@@ -62,7 +62,7 @@ Residents:
     Rooms: Rooms_98 #RoomNo: 405
     warning1: false
     warning2: false
-    unlocked: false
+    unlocked: true
     shortened_itemized_bill: true
     account_number: 0505862799
     bank_number: 25069503
@@ -811,6 +811,9 @@ AsteriskCdr:
     userfield: 'Telekom'
     billed: false
  
+ 
+ 
+ 
 #done
 # the dates do not match to the bills date but this shouldn't make any difference
 Calls:
@@ -819,137 +822,102 @@ Calls:
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '0049724345345345'
-    charges: '1.83'
+    destination: '0049511622222'
+    charges: '3.20'
     rate: 1
-    bill: 1
+    bill: null
   Calls_2:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '00497345345345'
-    charges: '1.83'
+    destination: '0049511644444'
+    charges: '3.00'
     rate: 1
-    bill: 1
+    bill: null
   Calls_3:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '00497345345345'
-    charges: '1.83'
-    rate: 1
-    bill: 1
+    destination: '0049721863333'
+    charges: '0.01'
+    rate: 2
+    bill: null
   Calls_4:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '004972345345345'
-    charges: '1.83'
-    rate: 1
-    bill: 1
+    destination: '004972132323232'
+    charges: '0.01'
+    rate: 2
+    bill: null
   Calls_5:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '004972345435345'
-    charges: '1.83'
-    rate: 1
-    bill: 2
+    destination: '004940222422'
+    charges: '1.95'
+    rate: 3
+    bill: null
   Calls_6:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '0049724345345345'
+    destination: '004940222422'
     charges: '1.83'
-    rate: 1
-    bill: NULL
+    rate: 3
+    bill: null
   Calls_7:
     Residents: Residents_943
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '004973453453459'
+    destination: '004940222422'
     charges: '1.83'
-    rate: 1
-    bill: NULL
+    rate: 4
+    bill: null
   Calls_8:
-    Residents: Residents_943
+    Residents: Residents_1
     extension: 1405
     date: '2010-02-20 17:31:46'
     duration: 39
-    destination: '00497345345345'
-    charges: '1.83'
-    rate: 1
-    bill: NULL
+    destination: '004940222422'
+    charges: '10.00'
+    rate: 4
+    bill: 4  
+  Calls_8:
+    Residents: Residents_1
+    extension: 1405
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004940222422'
+    charges: '19.00'
+    rate: 4
+    bill: 4 
   Calls_9:
-    Residents: Residents_943
+    Residents: Residents_1
     extension: 1405
-    date: '2010-02-19 22:49:51'
-    duration: 740
-    destination: '00497218642792'
-    charges: '23.79'
-    rate: 1
-    bill: 3
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004940222422'
+    charges: '18.00'
+    rate: 4
+    bill: null 
   Calls_10:
-    Residents: Residents_943
+    Residents: Residents_3
     extension: 1405
-    date: '2010-02-19 22:49:51'
-    duration: 740
-    destination: '00497213453453'
-    charges: '23.79'
-    rate: 1
-    bill: 3
-  Calls_11:
-    Residents: Residents_943
-    extension: 1405
-    date: '2010-02-19 22:49:51'
-    duration: 740
-    destination: '0049721345345'
-    charges: '23.79'
-    rate: 1
-    bill: 3
-  Calls_12:
-    Residents: Residents_1
-    extension: 1402
-    date: '2010-02-20 10:37:01'
-    duration: 31
-    destination: '004972345345'
-    charges: '1.83'
-    rate: 1
-    bill: 4
-  Calls_13:
-    Residents: Residents_1
-    extension: 1402
-    date: '2010-02-20 13:29:26'
-    duration: 64
-    destination: '004972345345345'
-    charges: '3.66'
-    rate: 1
-    bill: 4
-  Calls_14:
-    Residents: Residents_1
-    extension: 1403
-    date: '2010-02-20 13:48:45'
-    duration: 95
-    destination: '004972323452342'
-    charges: '3.66'
-    rate: 1
-    bill: 4
-    
-  Calls_15:
-    Residents: Residents_1
-    extension: 1403
-    date: '2010-02-20 13:50:45'
-    duration: 95
-    destination: '004972323452343'
-    charges: '3.66'
-    rate: 1
-    bill: 0
+    date: '2010-02-20 17:31:46'
+    duration: 39
+    destination: '004940222422'
+    charges: '0.0'
+    rate: 5
+    bill: null 
+  
+ 
 
 #done
 Bills:
@@ -983,6 +951,101 @@ Bills:
     date: '2010-10-15'
     amount: '5.00'
     debit_failed: false
+
+    
+Providers:
+  Providers_1:
+    id: 1      
+    name: Telekom   
+  Provers_2:
+    id: 2
+    name: Vodafone  
+
+RatesRegions:
+  RatesRegions_1:
+    id: 1      
+    rate: 1      
+    region: 1
+  RatesRegions_2:
+    id: 2      
+    rate: 2      
+    region: 2       
+  RatesRegions_3:
+    id: 3      
+    rate: 3      
+    region: 1
+  RatesRegions_4:
+    id: 4      
+    rate: 4      
+    region: 1
+
+    
+Regions:
+  Regions_1:
+    id: 1      
+    name: Fern Deutschland
+  Regions_2:
+    id: 2    
+    name: Karlsruhe         
+  
+Rates:
+  Rates_1:
+    id: 1      
+    provider: 1      
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 1      
+    #secondary_time_begin:    
+    #secondary_time_rate:     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Super Billig
+    
+  Rates_2:
+    id: 2      
+    provider: 1      
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 10      
+    #secondary_time_begin:    
+    #secondary_time_rate:     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Lokal-Scheiße
+  Rates_3:
+    id: 3      
+    provider: 2      
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 120      
+    #secondary_time_begin:    
+    #secondary_time_rate:     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Extra Teuer     
+  Rates_4:
+    id: 4      
+    provider: 2      
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 120      
+    #secondary_time_begin:    
+    #secondary_time_rate:     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Hamburg Spezial
+  Rates_5:
+    id: 5      
+    provider: 1      
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 0      
+    #secondary_time_begin:    
+    #secondary_time_rate:     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Hamburg Spezial
+      
     
 #Load Fixtures for the prefixes from an sql-file
 <?php
