@@ -19,4 +19,75 @@ class Bills extends BaseBills
                ->addWhere('c.bill = ?', $this->id)
                ->execute();
     }
+    
+    
+ 
+    /**
+     * For one bill the Content for the *.ctl file for the dtaus program is returned. If there are not enough parameter given, 
+     * false is returned 
+     * @param $options["fromDate"] Start date for bill period
+     * @param $options["toDate"] End date for the bill period
+     * @param $options["myName"] Name of the creator of the bills (e.g. You as Provider)
+     * @param $options["TransactionName"] Name of the Transaction (e.g. HEKphone-Rechnung)
+     * @param $options["myAccountnumber"] Your account number
+     * @param $options["myBanknumber"] Your bank number
+     * @return string
+     */
+    public function getDtausEntry($options)
+    {
+    	if ( ! isset($options["fromDate"]) || ! isset($options["toDate"]) || ! isset($options["TransactionName"]) ||  
+    	     ! isset($options["myAccountnumber"]) || ! isset($options["myName"]) || ! isset($options["myBanknumber"]))
+    	{
+    		throw new Exception("Missing arguments!");
+    	}
+    	if ($this['amount'] == 0)
+    	{
+    		return false;
+    	}
+    	
+        $dtausEntry = "{
+  Name  ". $this['Residents']['last_name'] . "
+  Konto ". $this['Residents']['account_number'] ."
+  BLZ   ". $this['Residents']['bank_number'] . "
+  Transaktion   Einzug
+  Betrag    ".$this['amount']."
+  Zweck ".$options["TransactionName"]."
+  myName  ".$options["myName"]."
+  myKonto ".$options["myAccountnumber"]."
+  myBLZ ".$options["myBanknumber"]."
+  Text  ".$options["fromDate"]." BIS " .$options["toDate"]." 
+}
+";
+    
+    return $dtausEntry;
+    
+
+
+    	
+    	    	
+    }
+    
+    /**
+     * A string with all itemised Bill entries for each related call of the bill is returned 
+     * @param $options
+     * @return string
+     */
+    public function getItemisedBill($options)
+    {
+    	$ib = null;
+        foreach($this['Calls'] as $call)
+        {
+            if ($this['date'] == $options['date'])
+            {
+                $ib .= $call->getItemisedBillEntry()."\n";
+                
+            }   	
+        	
+        	
+        	
+        }
+        return $ib;
+            
+     
+    }
 }
