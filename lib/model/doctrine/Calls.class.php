@@ -12,4 +12,22 @@
  */
 class Calls extends BaseCalls
 {
+	
+    /**
+     * This function returns a string of this call for an itemised bill
+     * 
+     * @return String
+     */
+    public function getItemisedBillEntry()
+    {
+        
+        //Each value has a fix number of characters to get a nice format 
+        $ibe = str_pad($this['date'],21)
+                      .str_pad($this['duration'],8)
+                      .str_pad($this['destination'],18)
+                      .str_pad($this['charges'],8)
+                      .str_pad($this['Rates']['name'],18);
+         
+        return $ibe ;  
+    }
 }
