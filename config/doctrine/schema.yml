@@ -819,16 +819,17 @@ Calls:
       notnull: true
     bill: 
       type: integer(6)
-      default: '0'
+      default: null
   relations:
     Residents:
       local: resident
       foreign: id
       type: one
-    #Rates:
-      #local: rate
-      #foreign: id
-      #type: one
+    Rates:
+      local: rate
+      foreign: id
+      type: one
+
 
 Bills:
   connection: hekphone
@@ -857,10 +858,10 @@ Bills:
       local: resident
       foreign: id
       type: one
-#    Calls:
-#      local: id
-#      foreign: bill
-#      type: many
+    Calls:
+      local: id
+      foreign: bill
+      type: many
 # There's no relation to bills because as long as the call is not billed
 # theres no bill id set. Thus the relation would be violated.
 # This might be a flaw in the database design. (It's probably better to assign a     

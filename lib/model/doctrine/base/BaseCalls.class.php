@@ -17,6 +17,8 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * @property integer $rate
  * @property integer $bill
  * @property Residents $Residents
+ * @property Rates $Rates
+ * @property Bills $Bills
  * 
  * @method integer   getId()          Returns the current record's "id" value
  * @method integer   getResident()    Returns the current record's "resident" value
@@ -28,6 +30,8 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * @method integer   getRate()        Returns the current record's "rate" value
  * @method integer   getBill()        Returns the current record's "bill" value
  * @method Residents getResidents()   Returns the current record's "Residents" value
+ * @method Rates     getRates()       Returns the current record's "Rates" value
+ * @method Bills     getBills()       Returns the current record's "Bills" value
  * @method Calls     setId()          Sets the current record's "id" value
  * @method Calls     setResident()    Sets the current record's "resident" value
  * @method Calls     setExtension()   Sets the current record's "extension" value
@@ -38,6 +42,8 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * @method Calls     setRate()        Sets the current record's "rate" value
  * @method Calls     setBill()        Sets the current record's "bill" value
  * @method Calls     setResidents()   Sets the current record's "Residents" value
+ * @method Calls     setRates()       Sets the current record's "Rates" value
+ * @method Calls     setBills()       Sets the current record's "Bills" value
  * 
  * @package    hekphone
  * @subpackage model
@@ -91,7 +97,6 @@ abstract class BaseCalls extends sfDoctrineRecord
              ));
         $this->hasColumn('bill', 'integer', 6, array(
              'type' => 'integer',
-             'default' => '0',
              'length' => 6,
              ));
     }
@@ -101,6 +106,14 @@ abstract class BaseCalls extends sfDoctrineRecord
         parent::setUp();
         $this->hasOne('Residents', array(
              'local' => 'resident',
+             'foreign' => 'id'));
+
+        $this->hasOne('Rates', array(
+             'local' => 'rate',
+             'foreign' => 'id'));
+
+        $this->hasOne('Bills', array(
+             'local' => 'bill',
              'foreign' => 'id'));
     }
 }

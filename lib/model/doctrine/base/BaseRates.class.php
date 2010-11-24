@@ -19,6 +19,7 @@ Doctrine_Manager::getInstance()->bindComponent('Rates', 'hekphone');
  * @property string $name
  * @property Doctrine_Collection $RatesRegions
  * @property Providers $Providers
+ * @property Doctrine_Collection $Calls
  * 
  * @method integer             getId()                   Returns the current record's "id" value
  * @method integer             getProvider()             Returns the current record's "provider" value
@@ -32,6 +33,7 @@ Doctrine_Manager::getInstance()->bindComponent('Rates', 'hekphone');
  * @method string              getName()                 Returns the current record's "name" value
  * @method Doctrine_Collection getRatesRegions()         Returns the current record's "RatesRegions" collection
  * @method Providers           getProviders()            Returns the current record's "Providers" value
+ * @method Doctrine_Collection getCalls()                Returns the current record's "Calls" collection
  * @method Rates               setId()                   Sets the current record's "id" value
  * @method Rates               setProvider()             Sets the current record's "provider" value
  * @method Rates               setPrimaryTimeBegin()     Sets the current record's "primary_time_begin" value
@@ -44,6 +46,7 @@ Doctrine_Manager::getInstance()->bindComponent('Rates', 'hekphone');
  * @method Rates               setName()                 Sets the current record's "name" value
  * @method Rates               setRatesRegions()         Sets the current record's "RatesRegions" collection
  * @method Rates               setProviders()            Sets the current record's "Providers" value
+ * @method Rates               setCalls()                Sets the current record's "Calls" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -120,5 +123,9 @@ abstract class BaseRates extends sfDoctrineRecord
         $this->hasOne('Providers', array(
              'local' => 'provider',
              'foreign' => 'id'));
+
+        $this->hasMany('Calls', array(
+             'local' => 'id',
+             'foreign' => 'rate'));
     }
 }
