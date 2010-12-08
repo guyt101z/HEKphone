@@ -18,16 +18,16 @@ class Calls extends BaseCalls
      * 
      * @return String
      */
-    public function getItemisedBillEntry()
+    public function getItemizedBillEntry()
     {
         
         //Each value has a fix number of characters to get a nice format 
-        $ibe = str_pad($this['date'],21)
-                      .str_pad($this['duration'],8)
-                      .str_pad($this['destination'],18)
-                      .str_pad($this['charges'],8)
-                      .str_pad($this['Rates']['name'],18);
+        $itemizedBillEntry = str_pad($this['date'],21)
+                            .str_pad($this['duration'],8)
+                            .str_pad($this['destination'],18)
+                            .str_pad($this['charges'],8)
+                            .str_pad($this['Rates']['name'],18);
          
-        return $ibe ;  
+        return $itemizedBillEntry;  
     }
 }
