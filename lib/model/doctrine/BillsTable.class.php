@@ -34,14 +34,15 @@ class BillsTable extends Doctrine_Table
     	               'end' => date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01")))));
     	}
     	
-    	elseif ( $options['start'] == null)
-        {
-            $options['start'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
-        }
-         
+        elseif ( $options['start'] == null)
+       {
+            throw new Exception('start Parameter is missing'); 
+             //$options['start'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
+       }
+
         elseif ( $options['end'] == null)
         {
-            throw new Exception('toDate Parameter is missing');
+            throw new Exception('end Parameter is missing'); 
         }
     	   
         //fetch all unbilled calls from the given time period
@@ -105,19 +106,19 @@ class BillsTable extends Doctrine_Table
         //print_r($unbilledCalls->toArray());
         $unbilledCalls->save(); 
 
-        //get for each bill and unlocked resident the String with the itemised bill information
+        //get for each bill and unlocked resident the String with the itemized bill information
         $billsCollection->loadRelated('Calls');       
         foreach ($billsCollection as $bill)
          {
          	if ($bill['Residents']['unlocked'] == true)
          	{
-         	  echo $bill->getItemisedBill(array("date" => date("Y-m-d")));
+         	  echo $bill->getItemizedBill();
             //TODO Send bill via mail	
          	}
             
          }
-      
-         return $billsCollection->getDtaus(array("start" => $options["start"], "end" =>  $options["start"]));
+        
+         return $billsCollection->getDtaus($options['start'], $options['end']);
          
        
        
