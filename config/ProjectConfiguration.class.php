@@ -14,10 +14,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set("usergroup", "hekphone");
     
     //These parameters are used for creating the dtaus-file (*.ctl) when the bills are generated
-    sfConfig::set("TransactionName", "RECHNUNG HEK-PHONE");
-    sfConfig::set("myName", "HEK-PHONE");
-    sfConfig::set("myAccountnumber", "111111111");
-    sfConfig::set("myBanknumber", "52060410");
+    sfConfig::set("transactionName", "RECHNUNG HEK-PHONE");
+    sfConfig::set("hekphoneName", "HEK-PHONE");
+    sfConfig::set("hekphoneAccountnumber", "111111111");
+    sfConfig::set("hekphoneBanknumber", "52060410");
    
   }
 }
