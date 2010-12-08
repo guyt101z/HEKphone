@@ -3,7 +3,14 @@
 class billsCollection extends Doctrine_Collection 
 {
 	
-	public function getDtaus($options){
+	/**
+	 * This function generates the dtaus-Files and executes the program dtaus. 
+	 * @param string $start Date of the beginning of the billing period
+	 * @param string $end Date of the end of the billing period
+	 * @return boolean
+	 */
+	public function getDtaus($start, $end)
+	{
 		$date = date("d.m.Y",mktime(0, 0, 0, date("m"), date ("d"), date("Y")));
         
         //Head of the *.ctl File for the dtaus program The dtaus File (*.ctl) is needed for
@@ -24,16 +31,7 @@ class billsCollection extends Doctrine_Collection
 	$dtausContent = "";	
 	foreach ($this as $bill)
         {
-            if ( ! $dtausContent .= $bill->getDtausEntry(array("fromDate" => $options["start"],
-                                                            "toDate" =>  $options["end"],
-                                                            "myName" =>  sfConfig::get("myName"),
-                                                            "TransactionName" => sfConfig::get("TransactionName"),
-                                                            "myAccountnumber" => sfConfig::get("myAccountnumber"), 
-                                                            "myBanknumber" => sfConfig::get("myBanknumber"))))
-            {
-               //TODO //sfLogger::logMessage("No dtaus entry for bill ".$bill['id'], 'info');//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
-               
-            }
+            $dtausContent .= $bill->getDtausEntry($start, $end);
                     
         }
         
