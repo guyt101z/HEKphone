@@ -21,72 +21,54 @@ class Bills extends BaseBills
     }
     
     
- 
     /**
-     * For one bill the Content for the *.ctl file for the dtaus program is returned. If there are not enough parameter given, 
-     * false is returned 
-     * @param $options["fromDate"] Start date for bill period
-     * @param $options["toDate"] End date for the bill period
-     * @param $options["myName"] Name of the creator of the bills (e.g. You as Provider)
-     * @param $options["TransactionName"] Name of the Transaction (e.g. HEKphone-Rechnung)
-     * @param $options["myAccountnumber"] Your account number
-     * @param $options["myBanknumber"] Your bank number
-     * @return string
+     * For one bill the Content for the *.ctl file for the dtaus program is returned. 
+     * @param $start Start date for bill period
+     * @param $end End date for the bill period
+     * @return string The string of the dtaus entry or an empty string if the dtaus entry could not be generated
      */
-    public function getDtausEntry($options)
+    public function getDtausEntry($start, $end)
     {
-    	if ( ! isset($options["fromDate"]) || ! isset($options["toDate"]) || ! isset($options["TransactionName"]) ||  
-    	     ! isset($options["myAccountnumber"]) || ! isset($options["myName"]) || ! isset($options["myBanknumber"]))
+    	$dtausEntry = null;
+    	//If there is not the required information given to generate the dtaus entry  for a resident an empty string is returned
+    	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null )
     	{
-    		throw new Exception("Missing arguments!");
+    		//TODO sfContext::getInstance()->getLogger()->info("No dtaus entry for bill ".$bill['id']." with amount ".$this['amount']."EUR");//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
+    		echo "No dtaus entry for bill ".$this['id']." with amount ".$this['amount']." EUR";
     	}
-    	if ($this['amount'] == 0)
+    	else
     	{
-    		return false;
-    	}
-    	
         $dtausEntry = "{
   Name  ". $this['Residents']['last_name'] . "
   Konto ". $this['Residents']['account_number'] ."
   BLZ   ". $this['Residents']['bank_number'] . "
   Transaktion   Einzug
   Betrag    ".$this['amount']."
-  Zweck ".$options["TransactionName"]."
-  myName  ".$options["myName"]."
-  myKonto ".$options["myAccountnumber"]."
-  myBLZ ".$options["myBanknumber"]."
-  Text  ".$options["fromDate"]." BIS " .$options["toDate"]." 
+  Zweck ".sfConfig::get("transactionName")."
+  myName  ".sfConfig::get("hekphoneName")."
+  myKonto ".sfConfig::get("hekphoneAccountnumber")."
+  myBLZ ".sfConfig::get("hekphoneBanknumber")."
+  Text  ".$start." BIS " .$end." 
 }
 ";
+     	}
     
     return $dtausEntry;
-    
-
-
-    	
     	    	
     }
     
     /**
-     * A string with all itemised Bill entries for each related call of the bill is returned 
-     * @param $options
+     * A string with all itemized Bill entries for each related call of the bill is returned 
      * @return string
      */
-    public function getItemisedBill($options)
+    public function getItemizedBill()
     {
-    	$ib = null;
+    	$itemizedBill = null;
         foreach($this['Calls'] as $call)
         {
-            if ($this['date'] == $options['date'])
-            {
-                $ib .= $call->getItemisedBillEntry()."\n";
-                
-            }   	
-        	
-        	
-        	
-        }
-        return $ib;
+            $itemizedBill .= $call->getItemizedBillEntry()."\n";
+  	    }
+        return $itemizedBill;
             
      
     }
