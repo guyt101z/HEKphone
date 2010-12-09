@@ -9,15 +9,14 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     $this->enablePlugins('sfDoctrinePlugin');
     $this->enablePlugins('sfDoctrineDynamicFormRelationsPlugin');
-    
+
     //usergroup of the linux system which gets access to the dtaus-files
     sfConfig::set("usergroup", "hekphone");
-    
+
     //These parameters are used for creating the dtaus-file (*.ctl) when the bills are generated
     sfConfig::set("transactionName", "RECHNUNG HEK-PHONE");
     sfConfig::set("hekphoneName", "HEK-PHONE");
     sfConfig::set("hekphoneAccountnumber", "111111111");
     sfConfig::set("hekphoneBanknumber", "52060410");
-   
   }
 }

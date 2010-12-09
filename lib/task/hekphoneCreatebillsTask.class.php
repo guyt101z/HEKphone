@@ -35,21 +35,31 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
-    $billsTable = Doctrine_Core::getTable('Bills');
     
-    
-    if ($billsTable->createBills(array("start" => $options['start'], "end" => $options['end'])))
-    {  
-    	
-        $this->log($this->formatter->format("Bills succesfully created", 'INFO'));	
-        
-        
+    // Choose last month as bill date if the user doesn't specify a time period via $options['fromDate'] and $options['toDate']
+    if($options['start'] == null && $options['end'] == null)
+    {
+        $start  = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d")))); 
+        $end    = date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01"))));
+    }    	
+    elseif($options['start'] == null)
+    {
+       throw new Exception('start Parameter is missing'); 
     }
-    
- 
+    elseif($options['end'] == null)
+    {
+       throw new Exception('end Parameter is missing'); 
+    }
 
-    
-    
+    // Create Bills
+    $billsTable = Doctrine_Core::getTable('Bills');
+    if($billsTable->createBills($options['start'], $options['end']))
+    {  	
+        $this->log($this->formatter->format("Bills succesfully created", 'INFO'));	   
+    }    
+    else
+    {
+        $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
+    }
   }
 }

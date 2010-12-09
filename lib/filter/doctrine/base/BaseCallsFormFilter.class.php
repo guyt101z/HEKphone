@@ -19,8 +19,8 @@ abstract class BaseCallsFormFilter extends BaseFormFilterDoctrine
       'duration'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'destination' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'charges'     => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'rate'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'bill'        => new sfWidgetFormFilterInput(),
+      'rate'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Rates'), 'add_empty' => true)),
+      'bill'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Bills'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
@@ -30,8 +30,8 @@ abstract class BaseCallsFormFilter extends BaseFormFilterDoctrine
       'duration'    => new sfValidatorPass(array('required' => false)),
       'destination' => new sfValidatorPass(array('required' => false)),
       'charges'     => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
-      'rate'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'bill'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'rate'        => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Rates'), 'column' => 'id')),
+      'bill'        => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Bills'), 'column' => 'id')),
     ));
 
     $this->widgetSchema->setNameFormat('calls_filters[%s]');
@@ -58,8 +58,8 @@ abstract class BaseCallsFormFilter extends BaseFormFilterDoctrine
       'duration'    => 'Text',
       'destination' => 'Text',
       'charges'     => 'Number',
-      'rate'        => 'Number',
-      'bill'        => 'Number',
+      'rate'        => 'ForeignKey',
+      'bill'        => 'ForeignKey',
     );
   }
 }

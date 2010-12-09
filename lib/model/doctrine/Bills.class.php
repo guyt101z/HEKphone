@@ -12,6 +12,9 @@
  */
 class Bills extends BaseBills
 {
+    /**
+     * Get all calls associated with the bill.
+     */
     public function getCalls()
     {
         return Doctrine_query::create()
@@ -19,10 +22,10 @@ class Bills extends BaseBills
                ->addWhere('c.bill = ?', $this->id)
                ->execute();
     }
-    
-    
+
+
     /**
-     * For one bill the Content for the *.ctl file for the dtaus program is returned. 
+     * For one bill the content for the *.ctl file for the dtaus program is returned.
      * @param $start Start date for bill period
      * @param $end End date for the bill period
      * @return string The string of the dtaus entry or an empty string if the dtaus entry could not be generated
@@ -30,35 +33,35 @@ class Bills extends BaseBills
     public function getDtausEntry($start, $end)
     {
     	$dtausEntry = null;
-    	//If there is not the required information given to generate the dtaus entry  for a resident an empty string is returned
+
+    	//If there is not the required information given to generate the dtaus entry for a resident an empty string is returned
     	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null )
     	{
-    		//TODO sfContext::getInstance()->getLogger()->info("No dtaus entry for bill ".$bill['id']." with amount ".$this['amount']."EUR");//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
-    		echo "No dtaus entry for bill ".$this['id']." with amount ".$this['amount']." EUR";
+    		//TODO: sfContext::getInstance()->getLogger()->info("No dtaus entry for bill ".$bill['id']." with amount ".$this['amount']."EUR");//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
+    		echo "No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR" . PHP_EOL;
     	}
     	else
     	{
-        $dtausEntry = "{
-  Name  ". $this['Residents']['last_name'] . "
-  Konto ". $this['Residents']['account_number'] ."
-  BLZ   ". $this['Residents']['bank_number'] . "
+            $dtausEntry = "{
+  Name  " . $this['Residents']['last_name'] . "
+  Konto " . $this['Residents']['account_number'] ."
+  BLZ   " . $this['Residents']['bank_number'] . "
   Transaktion   Einzug
-  Betrag    ".$this['amount']."
-  Zweck ".sfConfig::get("transactionName")."
-  myName  ".sfConfig::get("hekphoneName")."
-  myKonto ".sfConfig::get("hekphoneAccountnumber")."
-  myBLZ ".sfConfig::get("hekphoneBanknumber")."
-  Text  ".$start." BIS " .$end." 
+  Betrag    " . $this['amount']."
+  Zweck " . sfConfig::get("transactionName")."
+  myName  " . sfConfig::get("hekphoneName")."
+  myKonto " . sfConfig::get("hekphoneAccountnumber")."
+  myBLZ " . sfConfig::get("hekphoneBanknumber")."
+  Text  " . $start . " BIS " . $end."
 }
 ";
      	}
-    
+
     return $dtausEntry;
-    	    	
     }
-    
+
     /**
-     * A string with all itemized Bill entries for each related call of the bill is returned 
+     * A string with all itemized Bill entries for each related call of the bill is returned
      * @return string
      */
     public function getItemizedBill()
@@ -68,8 +71,7 @@ class Bills extends BaseBills
         {
             $itemizedBill .= $call->getItemizedBillEntry()."\n";
   	    }
+
         return $itemizedBill;
-            
-     
     }
 }

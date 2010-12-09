@@ -24,45 +24,25 @@ class BillsTable extends Doctrine_Table
      * @param string $options['toDate'] End date for the bill period
      * @return boolean
      */  
-    public function createBills($options = null)
-    {  
-        //Choose last month as bill date if the user doesn't specify a time period via $options['fromDate'] and $options['toDate']
-    	if ( $options['start'] == null && $options['end'] == null || $options == null)
-    	{
-    	
-    	   $options = array('start' => date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d")))), 
-    	               'end' => date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-01")))));
-    	}
-    	
-        elseif ( $options['start'] == null)
-       {
-            throw new Exception('start Parameter is missing'); 
-             //$options['start'] = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
-       }
-
-        elseif ( $options['end'] == null)
-        {
-            throw new Exception('end Parameter is missing'); 
-        }
-    	   
+    public function createBills($start, $end)
+    {
         //fetch all unbilled calls from the given time period
         $unbilledCalls = Doctrine_Query::create()
                             ->from('Calls')
                             ->addWhere('bill is null')
-                            ->addWhere('date <= ?', $options['end'])
-                            ->addWhere('date >= ?', $options['start']);
+                            ->addWhere('date <= ?', $end)
+                            ->addWhere('date >= ?', $start);
         
         if ( ! $unbilledCalls = $unbilledCalls->execute())
         {
             //if there are no unbilled calls, false is returned	
             
-        	return false;
+            return false;
         }
         
         //Calculate the amount of all unbilled calls for one resident
         foreach ($unbilledCalls as $unbilledCall)
         {
-        	
         	$sums[$unbilledCall['resident']] += $unbilledCall['charges'];
         	
         }
@@ -70,7 +50,7 @@ class BillsTable extends Doctrine_Table
         if ( ! isset($sums)){
             // If there are unbilled calls but all free calls, false is returned      
             
-        	return false;
+            return false;
         }
         
         foreach ($sums as $residentid => $amount)
@@ -113,14 +93,11 @@ class BillsTable extends Doctrine_Table
          	if ($bill['Residents']['unlocked'] == true)
          	{
          	  echo $bill->getItemizedBill();
-            //TODO Send bill via mail	
+            //TODO: Send bill via mail	
          	}
             
          }
         
-         return $billsCollection->getDtaus($options['start'], $options['end']);
-         
-       
-       
+         return $billsCollection->getDtaus($start, $end);
     }
 }
