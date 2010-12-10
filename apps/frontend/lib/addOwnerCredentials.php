@@ -1,4 +1,13 @@
 <?php
+/**
+ * This filter checks wheter the user tries to access his own details/calls/settings
+ * or the ones of another user by specifying the request parameter 'residentid'
+ * (have a look at the routing.yml)
+ * If he accesses his own, the credential "owner" is added temporarly.
+ *
+ * @author hannes
+ *
+ */
 class addOwnerCredentials extends sfFilter
 {
 // Credits go to tilmann at stackoverflow for his snippet

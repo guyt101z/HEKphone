@@ -48,6 +48,10 @@
         <source>auth.roomNo</source>
         <target>Zimmernummer</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>auth.logout.successfull</source>
+        <target>Erfolgreich ausgeloggt.</target>      
+      </trans-unit>
       <trans-unit id="40">
         <source>calls.list.heading</source>
         <target>unbezahlte Gespräche</target>
@@ -108,6 +112,10 @@
         <source>resident.edit.addComment</source>
         <target>Noch einen Kommentar hinzufügen</target>
       </trans-unit>
+      <trans-unit id="69">
+        <source>resident.edit.backToList</source>
+        <target>Zurück zur Liste</target>
+      </trans-unit>
       <trans-unit id="54">
         <source>auth.login.failed</source>
         <target>Anmelden fehlgeschlagen. Überprüfe bitte Zimmernummer und Passwort.</target>
@@ -139,6 +147,14 @@
       <trans-unit id="69">
         <source>resident.warning2</source>
         <target>Warnung 2</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.warning.false</source>
+        <target>Nein</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.warning.true</source>
+        <target>Gesendet</target>
       </trans-unit>
       <trans-unit id="70">
         <source>resident.unlocked</source>
@@ -219,6 +235,54 @@
       <trans-unit id="82">
         <source>navigation.resident.settings</source>
         <target>Einstellungen</target>
+      </trans-unit>
+            <trans-unit id="1">
+        <source>resident.settings.newEmail</source>
+        <target>E-Mail</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>resident.settings.newEmailRepeat</source>
+        <target>E-Mail (wiederholen)</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>resident.settings.oldPassword</source>
+        <target>altes Passwort</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>resident.settings.newPassword</source>
+        <target>neues Passwort</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>resident.settings.newPasswordRepeat</source>
+        <target>neues Passwort (wiederholen)</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>resident.settings.newPin</source>
+        <target>Neuer AB-Pin</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>resident.settings.reducedCdrs</source>
+        <target>gekürzter EVN</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>resident.settings.vm_active</source>
+        <target>Anrufbeantworter</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>resident.settings.vm_seconds</source>
+        <target>Sekunden bis der AB abnimmt</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>resident.settings.vm_sendEmailOnNewMessage</source>
+        <target>Email bei neuer AB-Nachricht senden</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.vm_attachMessage</source>
+        <target>Sprachnachricht an die AB-Email anhängen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.vm_sendEmailOnMissedCall</source>
+        <target>Benachrichtigungsemail senden, auch wenn der AB nicht ranging</target>
       </trans-unit>
     </body>
   </file>

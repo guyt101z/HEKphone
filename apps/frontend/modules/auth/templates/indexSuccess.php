@@ -16,7 +16,7 @@
   </table>
 </form>
 <?php else: ?>
-<div>You are already logged in. <?php echo link_to(__('auth.logout'), 'auth/logout'); ?></div>
+<div><?php echo __('auth.alreadyLoggedIn') ?> <?php echo link_to(__('auth.logout'), 'auth/logout') ?></div>
 <?php endif;?>
 
 <?php

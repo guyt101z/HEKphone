@@ -75,7 +75,7 @@ class residentActions extends sfActions
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
     $this->form = new ResidentsForm($resident);
 
-    // So we can access the resident's data from the template/view layer
+    // pass the residents data to the view layer
     $this->resident = $resident;
 
     $this->processForm($request, $this->form);

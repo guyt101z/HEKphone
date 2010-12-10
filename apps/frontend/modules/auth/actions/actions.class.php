@@ -10,21 +10,22 @@
  */
 class authActions extends sfActions
 {
- /**
-  * Executes the login-action: Checks room no/password and then sets the user as
-  * authenticated, sets user attributes ('name', 'id', 'roomNo') and sets credentials
-  *
-  * @param sfRequest $request A request object
-  */
+  /**
+   * Executes the login-action: Checks room no/password and then sets the user as
+   * authenticated, sets user attributes ('name', 'id', 'roomNo', culture) and sets credentials
+   *
+   * @param sfRequest $request A request object
+   */
   public function executeIndex(sfWebRequest $request)
   {
-    $this->form = new LoginForm();
-
-    if( ! $request->isMethod('post')){
-      // If the user is not logged in guess his language
+    if( ! $this->getUser()->isAuthenticated())
+    {
       $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
     }
-    elseif($request->isMethod('post'))
+
+    $this->form = new LoginForm();
+
+    if($request->isMethod('post'))
     {
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid())
@@ -34,10 +35,12 @@ class authActions extends sfActions
         if(null !== $resident && $resident->password === md5($request['login']['password']))
         {
           $this->getUser()->setAuthenticated(true);
+
           // Set basic attributes of the signed in user.
           $this->getUser()->setAttribute("name", $resident->first_name);
           $this->getUser()->setAttribute("id", $resident->id);
           $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
+
           // set the language according to what the user chose
           // TODO: on the first login, this is always german it would be nice to
           // set and save the culture of getPrefferedCulture() instead
@@ -45,7 +48,7 @@ class authActions extends sfActions
 
           if($resident->hekphone)
           {
-            // User is a HEKPhone staff member
+            // user is a HEKPhone staff member
             $this->getUser()->addCredential('hekphone');
           }
 
@@ -59,7 +62,7 @@ class authActions extends sfActions
         }
       }
     }
-    }
+  }
 
   public function executeLogout(sfWebRequest $request)
   {
