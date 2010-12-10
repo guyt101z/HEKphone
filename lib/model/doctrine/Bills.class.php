@@ -74,4 +74,25 @@ class Bills extends BaseBills
 
         return $itemizedBill;
     }
+
+     /**
+     * Send the bill via Email to the resident.
+     */
+    public function sendEmail()
+    {
+        // check for non_empty email-field rather than unlocked user?
+        if ($this['Residents']['unlocked'] == true)
+        {
+            echo $this->getItemizedBill();
+
+            // compose the message
+            $messageBody = get_partial('global/mail', array('firstName' => $this['Residents']['first_name']));
+            $message = Swift_Message::newInstance()
+                ->setFrom('hekphone@hek.uni-karlsruhe.de')
+                ->setTo('noone@example.com')
+                ->setSubject('deine Rechnung vom ...')
+                ->setBody($messageBody);
+            sfContext::getInstance()->getMailer()->send($message);
+        }
+    }
 }

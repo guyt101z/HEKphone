@@ -24,9 +24,11 @@ test:
       delivery_strategy: none
 
 dev:
-  mailer:
-    param:
-      delivery_strategy: none
+    mailer:
+      param:
+        delivery_strategy: spool
+        spool_class: Swift_FileSpool
+        spool_arguments: ['/tmp/mail']
 
 all:
   routing:
@@ -55,4 +57,3 @@ all:
           cache_dir:                 %SF_I18N_CACHE_DIR%
           lifetime:                  31556926
           prefix:                    %SF_APP_DIR%/i18n
-      

@@ -51,4 +51,12 @@ class BillsCollection extends Doctrine_Collection
             return false;
         }
 	}
+
+	public function sendEmails()
+	{
+	    foreach($this as $bill)
+	    {
+	        $bill->sendEmail();
+	    }
+	}
 }

@@ -1,0 +1,19 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/05-Factories
+
+all:
+  mailer:
+    class: sfMailer
+    param:
+      logging: %SF_LOGGING_ENABLED%
+      charset: %SF_CHARSET%
+      delivery_strategy: realtime
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host: smtp.hek.uni-karlsruhe.de
+          port: 25
+          encryption: ~
+          username: ~
+          password: ~
+      
