@@ -55,11 +55,11 @@ Residents:
     id: 943
     last_name: Hekphone
     first_name: StaffMember
-    email: null
-    move_in: '2010-09-01'
+    email: 'hambohne@gmail.com'
+    move_in: '2010-01-01'
     move_out: null
     bill_limit: 75
-    Rooms: Rooms_98 #RoomNo: 405
+    Rooms: Rooms_98 #RoomNumber: 405
     warning1: false
     warning2: false
     unlocked: true
@@ -724,14 +724,14 @@ AsteriskCdr:
     calldate: '2010-02-20 17:30:00'
     clid: '004972186951405'
     src: '004972186951405'
-    dst: '004972109830949'
+    dst: '004971120393920'
     dcontext: anlage
     channel: DAHDI/31-1
     dstchannel: DAHDI/63-1
     lastapp: Dial
     lastdata: DAHDI/g3/234234
     duration: 505
-    billsec: 500
+    billsec: 120
     disposition: ANSWERED
     amaflags: 3
     accountcode: ''
@@ -740,8 +740,8 @@ AsteriskCdr:
     billed: false
   AsteriskCdr_2: # free call via *721
     calldate: '2010-02-20 18:30:00'
-    clid: '004972186951404'
-    src: '004972186951404'
+    clid: '004972186951405'
+    src: '004972186951405'
     dst: '869502072139837249'
     dcontext: anlage
     channel: DAHDI/17-1
@@ -754,7 +754,7 @@ AsteriskCdr:
     amaflags: 3
     accountcode: ''
     uniqueid: '1266686881.1279'
-    userfield: '*721'
+    userfield: 'free'
     billed: false
   AsteriskCdr_3: #Venezuela-Caracass-Call using provider 1
     calldate: '2010-02-20 19:12:00'
@@ -791,7 +791,7 @@ AsteriskCdr:
     accountcode: ''
     uniqueid: '1266688418.1303'
     userfield: 'pbxnetwork'
-    billed: false
+    billed: true
   AsteriskCdr_5: #not answered!
     calldate: '2010-02-20 20:42:00'
     clid: '004972186951406'
@@ -810,7 +810,24 @@ AsteriskCdr:
     uniqueid: '1266695033.1368'
     userfield: 'Telekom'
     billed: false
- 
+  AsteriskCdr_4: #Incoming call
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '005821293402938'
+    dst: '004972186951405'
+    dcontext: amt
+    channel: DAHDI/63-1
+    dstchannel: DAHDI/20-1
+    lastapp: Dial
+    lastdata: DAHDI/g1/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266688418.1303'
+    userfield: ''
+    billed: false 
  
  
  
@@ -897,7 +914,7 @@ Calls:
     destination: '004940222422'
     charges: '19.00'
     rate: 4
-    bill: 4 
+    Bills: Bills_4
   Calls_9:
     Residents: Residents_1
     extension: 1405
@@ -992,15 +1009,14 @@ Rates:
   Rates_1:
     id: 1      
     provider: 1      
-    primary_time_begin: 00:00:00      
-    primary_time_rate: 1      
-    #secondary_time_begin:    
-    #secondary_time_rate:     
+    primary_time_begin: 06:00:00      
+    primary_time_rate: 2      
+    secondary_time_begin: 18:00:00    
+    secondary_time_rate: 1
     weekend: true      
     week: true      
     pulsing: 1/1      
-    name: Super Billig
-    
+    name: Super Billig 
   Rates_2:
     id: 2      
     provider: 1      
@@ -1045,7 +1061,13 @@ Rates:
     week: true      
     pulsing: 1/1      
     name: Hamburg Spezial
-      
+
+Prefixes:
+  Prefixes_1:
+    id: 1
+    prefix: 49711
+    name: Stuttgart
+    region: 1
     
 #Load Fixtures for the prefixes from an sql-file
 <?php
