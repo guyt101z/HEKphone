@@ -32,7 +32,7 @@ class AsteriskCdrTable extends Doctrine_Table
             ->addWhere("c.calldate >= '$from'")
             ->addwhere("c.calldate <= '$to'")
             ->addWhere("c.disposition = 'ANSWERED'")
-            ->addWhere("c.dcontext = 'anlage'");
+            ->andWhereNotIn("c.dcontext", sfConfig::get('asteriskIncomingContext'));
          return $q->execute();
     }
 }

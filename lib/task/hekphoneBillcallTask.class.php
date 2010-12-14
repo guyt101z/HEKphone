@@ -9,7 +9,7 @@ class hekphoneBillcallTask extends sfBaseTask
     ));
 
     $this->addOptions(array(
-      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even though it has been marked as billed already', 'false'),
+      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even if it has been marked as billed already', false),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
     ));
 
