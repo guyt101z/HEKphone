@@ -22,5 +22,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     // These parameters are used in asterisk and are needed for billing purposes
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt'); // contexts of phones that are allowed to make external calls
+    
+    sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
   }
 }

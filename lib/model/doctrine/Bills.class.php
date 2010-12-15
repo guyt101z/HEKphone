@@ -97,7 +97,7 @@ class Bills extends BaseBills
                                                                 'bankNumber' => $this['Residents']['bank_number'],
                                                                 'itemizedBill' => $this->getItemizedBill()));
             $message = Swift_Message::newInstance()
-                ->setFrom('hekphone@hek.uni-karlsruhe.de')
+                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['Residents']['email'])
                 ->setSubject('deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
