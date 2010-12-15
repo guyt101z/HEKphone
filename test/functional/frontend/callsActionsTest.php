@@ -24,19 +24,19 @@ $browser->info('1.2 is there a bill listed and has a clickable "show details" bu
   get('/calls/index')->with('response')->begin()->
     checkElement('body', '/zeigen/')->
     checkElement('td', '!/ausblenden/')->
-    checkElement('body', '!/[T]/')->
+    //checkElement('body', '!/[T]/')->
   end();
 
 $browser->info('1.3 are the details of a bill shown?')->
   get('/calls/index', array('billid' => '1'))->with('response')->begin()->
     checkElement('body', '/ausblenden/')->
-    checkElement('body', '!/[T]/')->
+    //checkElement('body', '!/[T]/')->
   end();
 
 $browser->info('1.3 the details of a bill of an other user should not be shown')->
   get('/calls/index', array('billid' => '3'))->with('response')->begin()->
     checkElement('body', '!/ausblenden/')->
-    checkElement('body', '!/[T]/')->
+    //checkElement('body', '!/[T]/')->
   end();
 
 $browser->info('2 checking /resident/xxx/urls');

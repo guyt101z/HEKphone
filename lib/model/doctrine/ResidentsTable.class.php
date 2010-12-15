@@ -20,7 +20,7 @@ class ResidentsTable extends Doctrine_Table
     /**
      * @param integer $roomNo  Room No; format: NNNN (n=[0..9])
      * @param string $date     Date at which to look for the user: default = now
-     * @return Doctrine_Collection
+     * @return Doctrine_Record
      */
     function findByRoomNo($roomNo, $date = "now") {
         if ($date == "now")

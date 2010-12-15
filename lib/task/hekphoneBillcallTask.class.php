@@ -9,7 +9,7 @@ class hekphoneBillcallTask extends sfBaseTask
     ));
 
     $this->addOptions(array(
-      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even though it has been marked as billed already', 'false'),
+      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even if it has been marked as billed already', false),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
     ));
 
@@ -35,16 +35,20 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $collCdr  = Doctrine_Query::create()
+    $cdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('uniqueid = ?', $arguments['uniqueid'])
               ->fetchOne();
-    if ( ! $collCdr)
+    if ( ! $cdr)
        throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
 
     try
     {
-      $collCdr->bill($options['rebill']);
+      if($options['rebill'] == true) {
+          $cdr->rebill();
+      } else {
+          $cdr->bill();
+      }
     }
     catch (Exception $e)
     {

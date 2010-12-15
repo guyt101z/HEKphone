@@ -24,41 +24,44 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskCdr', 'hekphone');
  * @property string $uniqueid
  * @property string $userfield
  * @property boolean $billed
+ * @property Doctrine_Collection $Calls
  * 
- * @method timestamp   getCalldate()    Returns the current record's "calldate" value
- * @method string      getClid()        Returns the current record's "clid" value
- * @method string      getSrc()         Returns the current record's "src" value
- * @method string      getDst()         Returns the current record's "dst" value
- * @method string      getDcontext()    Returns the current record's "dcontext" value
- * @method string      getChannel()     Returns the current record's "channel" value
- * @method string      getDstchannel()  Returns the current record's "dstchannel" value
- * @method string      getLastapp()     Returns the current record's "lastapp" value
- * @method string      getLastdata()    Returns the current record's "lastdata" value
- * @method integer     getDuration()    Returns the current record's "duration" value
- * @method integer     getBillsec()     Returns the current record's "billsec" value
- * @method string      getDisposition() Returns the current record's "disposition" value
- * @method integer     getAmaflags()    Returns the current record's "amaflags" value
- * @method string      getAccountcode() Returns the current record's "accountcode" value
- * @method string      getUniqueid()    Returns the current record's "uniqueid" value
- * @method string      getUserfield()   Returns the current record's "userfield" value
- * @method boolean     getBilled()      Returns the current record's "billed" value
- * @method AsteriskCdr setCalldate()    Sets the current record's "calldate" value
- * @method AsteriskCdr setClid()        Sets the current record's "clid" value
- * @method AsteriskCdr setSrc()         Sets the current record's "src" value
- * @method AsteriskCdr setDst()         Sets the current record's "dst" value
- * @method AsteriskCdr setDcontext()    Sets the current record's "dcontext" value
- * @method AsteriskCdr setChannel()     Sets the current record's "channel" value
- * @method AsteriskCdr setDstchannel()  Sets the current record's "dstchannel" value
- * @method AsteriskCdr setLastapp()     Sets the current record's "lastapp" value
- * @method AsteriskCdr setLastdata()    Sets the current record's "lastdata" value
- * @method AsteriskCdr setDuration()    Sets the current record's "duration" value
- * @method AsteriskCdr setBillsec()     Sets the current record's "billsec" value
- * @method AsteriskCdr setDisposition() Sets the current record's "disposition" value
- * @method AsteriskCdr setAmaflags()    Sets the current record's "amaflags" value
- * @method AsteriskCdr setAccountcode() Sets the current record's "accountcode" value
- * @method AsteriskCdr setUniqueid()    Sets the current record's "uniqueid" value
- * @method AsteriskCdr setUserfield()   Sets the current record's "userfield" value
- * @method AsteriskCdr setBilled()      Sets the current record's "billed" value
+ * @method timestamp           getCalldate()    Returns the current record's "calldate" value
+ * @method string              getClid()        Returns the current record's "clid" value
+ * @method string              getSrc()         Returns the current record's "src" value
+ * @method string              getDst()         Returns the current record's "dst" value
+ * @method string              getDcontext()    Returns the current record's "dcontext" value
+ * @method string              getChannel()     Returns the current record's "channel" value
+ * @method string              getDstchannel()  Returns the current record's "dstchannel" value
+ * @method string              getLastapp()     Returns the current record's "lastapp" value
+ * @method string              getLastdata()    Returns the current record's "lastdata" value
+ * @method integer             getDuration()    Returns the current record's "duration" value
+ * @method integer             getBillsec()     Returns the current record's "billsec" value
+ * @method string              getDisposition() Returns the current record's "disposition" value
+ * @method integer             getAmaflags()    Returns the current record's "amaflags" value
+ * @method string              getAccountcode() Returns the current record's "accountcode" value
+ * @method string              getUniqueid()    Returns the current record's "uniqueid" value
+ * @method string              getUserfield()   Returns the current record's "userfield" value
+ * @method boolean             getBilled()      Returns the current record's "billed" value
+ * @method Doctrine_Collection getCalls()       Returns the current record's "Calls" collection
+ * @method AsteriskCdr         setCalldate()    Sets the current record's "calldate" value
+ * @method AsteriskCdr         setClid()        Sets the current record's "clid" value
+ * @method AsteriskCdr         setSrc()         Sets the current record's "src" value
+ * @method AsteriskCdr         setDst()         Sets the current record's "dst" value
+ * @method AsteriskCdr         setDcontext()    Sets the current record's "dcontext" value
+ * @method AsteriskCdr         setChannel()     Sets the current record's "channel" value
+ * @method AsteriskCdr         setDstchannel()  Sets the current record's "dstchannel" value
+ * @method AsteriskCdr         setLastapp()     Sets the current record's "lastapp" value
+ * @method AsteriskCdr         setLastdata()    Sets the current record's "lastdata" value
+ * @method AsteriskCdr         setDuration()    Sets the current record's "duration" value
+ * @method AsteriskCdr         setBillsec()     Sets the current record's "billsec" value
+ * @method AsteriskCdr         setDisposition() Sets the current record's "disposition" value
+ * @method AsteriskCdr         setAmaflags()    Sets the current record's "amaflags" value
+ * @method AsteriskCdr         setAccountcode() Sets the current record's "accountcode" value
+ * @method AsteriskCdr         setUniqueid()    Sets the current record's "uniqueid" value
+ * @method AsteriskCdr         setUserfield()   Sets the current record's "userfield" value
+ * @method AsteriskCdr         setBilled()      Sets the current record's "billed" value
+ * @method AsteriskCdr         setCalls()       Sets the current record's "Calls" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -137,6 +140,7 @@ abstract class BaseAsteriskCdr extends sfDoctrineRecord
         $this->hasColumn('uniqueid', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
+             'unique' => true,
              ));
         $this->hasColumn('userfield', 'string', null, array(
              'type' => 'string',
@@ -152,6 +156,8 @@ abstract class BaseAsteriskCdr extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+        $this->hasMany('Calls', array(
+             'local' => 'uniqueid',
+             'foreign' => 'asterisk_uniqueid'));
     }
 }

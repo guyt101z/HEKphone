@@ -29,7 +29,7 @@ class Rates extends BaseRates
         }
 
         $time = date("H:i:s", $timestamp);
-        if ($time <= $this->primary_time_begin || $time >=$this->secondary_time_begin) {
+        if ($time <= $this->primary_time_begin || $time >=$this->secondary_time_begin && $this->secondary_time_begin != NULL) {
             $rate = $this->secondary_time_rate;
         } else {
             $rate = $this->primary_time_rate;
