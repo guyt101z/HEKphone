@@ -31,8 +31,6 @@ This is what it should look like to the user.
   * Login/Logout Use symfony-default module
   * **Calls/Bills listing:**
     * Display Bill Detail _(implemented but template does not look nice)_
-      * ... using AJAX
-      * ... routes for simple access
     * What's the cost of a call at (default: now) to ...?
   * **Answearing Machine:**
     * List Messages:
@@ -62,16 +60,16 @@ This is what it should look like to the user.
 
 # TODO for the backend #
  * List users and edit details
-   * includes: Unlock a user
-   * ... write eMail for the resident
+   * <strike> includes: Unlock a user </strike>
+   * ... write eMail for the resident (constantin)
    * <strike>includes: manage comments</strike> 
    * <strike>includes: change pin</strike>
    * **attach to asterisk-tables!**
    * </strike>Edit a users phone</strike>
    * Asynchronous lookup of the banknumber->bankname relation? :)
  * View, edit and delete a users cdrs and bills
- * View and edit group-calls
- * Execute Tasks? (Create Bills,...?)
+ * View and edit group-calls (hannes)
+ * Execute Tasks? (Create Bills,...?) (hannes)
  * Edit Rates/Prefixes
 
 # TODO for the commandline #
@@ -81,8 +79,9 @@ This is what it should look like to the user.
   * <strike> Create Bills (migrate old script to symfony)</strike>
   * <strike>Create Bill Mails (in progres)</strike> 
   * <strike>Create the DHCP-Config from the phones-Table</strike>
-  * <strike>Sync the residents data between hekdb and hekphone</strike>
-  * Delete old billing information and cdrs (privacy) (skeleton exists)
-  * Warn in case of unallocated calls via eMail
-  * Task to lock all residents moving out today and notify the user via eMail
-  *  
+  * <strike>Sync the residents data between hekdb and hekphone</strike> _Refractor and write unit test_
+  * Delete old billing information and cdrs (privacy) (skeleton exists) (Hannes)
+  * Warn in case of unallocated calls via eMail (Constantin)
+  * Task to lock all residents moving out today and notify the user via eMail (Constantin)
+  * Create Warning mails when limit is reached (Constantin)
+  * Write migration scripts from the old database to the new one (constantin)
