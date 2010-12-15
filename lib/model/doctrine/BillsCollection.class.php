@@ -52,11 +52,11 @@ class BillsCollection extends Doctrine_Collection
         }
 	}
 
-	public function sendEmails()
+	public function sendEmails($start, $end)
 	{
 	    foreach($this as $bill)
 	    {
-	        $bill->sendEmail();
+	        $bill->sendEmail($start, $end);
 	    }
 	}
 }

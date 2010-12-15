@@ -77,20 +77,29 @@ class Bills extends BaseBills
 
      /**
      * Send the bill via Email to the resident.
+     * @param string $start Start of the billing period
+     * @param string $end End of the billing period
      */
-    public function sendEmail()
+    public function sendEmail($start, $end)
     {
         // check for non_empty email-field rather than unlocked user?
         if ($this['Residents']['unlocked'] == true)
         {
-            echo $this->getItemizedBill();
-
+            
+            
             // compose the message
-            $messageBody = get_partial('global/mail', array('firstName' => $this['Residents']['first_name']));
+            $messageBody = get_partial('global/billingMail', array('firstName' => $this['Residents']['first_name'],
+                                                                'start' => $start,
+                                                                'end' => $end,
+                                                                'billId' => $this['id'],
+                                                                'amount' => $this['amount'],
+                                                                'accountNumber' => $this['Residents']['account_number'],
+                                                                'bankNumber' => $this['Residents']['bank_number'],
+                                                                'itemizedBill' => $this->getItemizedBill()));
             $message = Swift_Message::newInstance()
                 ->setFrom('hekphone@hek.uni-karlsruhe.de')
-                ->setTo('noone@example.com')
-                ->setSubject('deine Rechnung vom ...')
+                ->setTo($this['Residents']['email'])
+                ->setSubject('deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
         }

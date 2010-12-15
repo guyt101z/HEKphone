@@ -81,7 +81,7 @@ class BillsTable extends Doctrine_Table
 
         // send the bills as email to the residents
         $billsCollection->loadRelated('Calls');
-        $billsCollection->sendEmails();
+        $billsCollection->sendEmails($start, $end);
 
         return true;
     }
