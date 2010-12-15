@@ -27,7 +27,7 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'disposition' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'amaflags'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'accountcode' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'uniqueid'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'uniqueid'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'), 'add_empty' => true)),
       'userfield'   => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'billed'      => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
     ));
@@ -47,7 +47,7 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'disposition' => new sfValidatorPass(array('required' => false)),
       'amaflags'    => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'accountcode' => new sfValidatorPass(array('required' => false)),
-      'uniqueid'    => new sfValidatorPass(array('required' => false)),
+      'uniqueid'    => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Calls'), 'column' => 'id')),
       'userfield'   => new sfValidatorPass(array('required' => false)),
       'billed'      => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
     ));
@@ -84,7 +84,7 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'disposition' => 'Text',
       'amaflags'    => 'Number',
       'accountcode' => 'Text',
-      'uniqueid'    => 'Text',
+      'uniqueid'    => 'ForeignKey',
       'userfield'   => 'Text',
       'billed'      => 'Boolean',
     );

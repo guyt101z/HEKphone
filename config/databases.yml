@@ -1,3 +1,4 @@
+#BUG?: as long as all:hekphone is defined rebuilding the test environment fails
 test:
   hekphone:
     class: sfDoctrineDatabase

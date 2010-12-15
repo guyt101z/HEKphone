@@ -35,16 +35,20 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $collCdr  = Doctrine_Query::create()
+    $cdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('uniqueid = ?', $arguments['uniqueid'])
               ->fetchOne();
-    if ( ! $collCdr)
+    if ( ! $cdr)
        throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
 
     try
     {
-      $collCdr->bill($options['rebill']);
+      if($options['rebill'] == true) {
+          $cdr->rebill();
+      } else {
+          $cdr->bill();
+      }
     }
     catch (Exception $e)
     {

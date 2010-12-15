@@ -33,14 +33,14 @@ $charge = $rate->getCharge(120);
 $t->is($charge, 240);
 
 
-
-$t->comment('try to bill call with uniqueid 1266681862.1216. should be a call...');
+$uniqueidNonfree = '1266681862.1216';
+$t->comment('try to bill call with uniqueid ' . $uniqueidNonfree . '. should be a call...');
 $t->comment('... to 49711 and provider "Telekom" so rate 1');
 $t->comment('... from room 405');
 $t->comment('... initially not billed');
 $t->comment('Charge should be 2ct! CHECK MANUALLY');
 $cdrsTable = Doctrine_Core::getTable('AsteriskCdr');
-$cdr = $cdrsTable->findOneBy('uniqueid', '1266681862.1216');
+$cdr = $cdrsTable->findOneBy('uniqueid', $uniqueidNonfree);
 $cdr->bill();
 $t->pass('rebilled the cdr successfully');
 
@@ -55,10 +55,16 @@ catch (Exception $e)
   $t->pass($e->getMessage());
 }
 
-
 $t->comment('try to bill it again with rebille=true. should work');
-$cdr->bill(true);
+$cdr->rebill(true);
 $t->pass('rebilled the cdr successfully');
+
+//$t->comment('deleting the created calls entry should also delete the asterisk_cdr');
+//$cdr->free();
+//Doctrine_Query::create()->delete('Calls c')->where('c.asterisk_uniqueid = ?', $uniqueidNonfree)->execute();
+//$deleteFetchResult = Doctrine_Query::create()->select()->from('AsteriskCdr')->where('uniqueid = ?', $uniqueidNonfree)->execute();
+//print_r($deleteFetchResult->count());
+//$t->is($deleteFetchResult->count(), 0);
 
 $t->comment('Allocate a free call');
 $t->comment('... denoted by userfield = free');

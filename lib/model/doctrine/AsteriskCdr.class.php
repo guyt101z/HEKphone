@@ -86,16 +86,29 @@ class AsteriskCdr extends BaseAsteriskCdr
         }
     }
 
+
+    function rebill() {
+        // Delete old entry if it exists
+        Doctrine_Query::create()
+            ->delete('Calls')
+            ->where('asterisk_uniqueid = ?', $this->uniqueid)
+            ->execute();
+
+        // mark cdr as unbilled
+        $this->billed = false;
+
+        //bill cdr again
+        return $this->bill();
+    }
     /**
      * Calculates the cost of an AsteriskCdr-Record (a finished call), creates
      * an record in the Calls table and marks the AsteriskCdr-Record as billed.
-     * @param bool $rebill
      * @throws Exception
      * @return AsteriskCdr
      */
-    function bill($rebill = false) {
+    function bill() {
         /* Warn and abort if the call is already billed and no rebilling is whished */
-        if($this->billed && ! $rebill) {
+        if($this->billed) {
             throw New Exception("The call with uniqueid={$this->uniqueid} has already been billed");
         }
         /* Only bill outgoing calls */
@@ -122,11 +135,12 @@ class AsteriskCdr extends BaseAsteriskCdr
 
         // Create an entry in the calls table
         $call = New Calls();
-        $call->resident    = $resident->id;
-        $call->extension   = 1000+$roomNumber;
-        $call->date        = $this->calldate;
-        $call->duration    = $this->billsec;
-        $call->destination = $destination;
+        $call->resident     = $resident->id;
+        $call->extension    = 1000+$roomNumber;
+        $call->date         = $this->calldate;
+        $call->duration     = $this->billsec;
+        $call->destination  = $destination;
+        $call->asterisk_uniqueid = $this->uniqueid;
 
         /* Calculate the cost of the outgoing call */
         if($this->isFreeCall()) {

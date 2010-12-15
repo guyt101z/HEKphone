@@ -90,6 +90,7 @@ AsteriskCdr:
     uniqueid: 
       type: string
       notnull: true
+      unique: true
     userfield: 
       type: string
       notnull: true
@@ -97,7 +98,7 @@ AsteriskCdr:
       type: boolean
       notnull: true
       default: 'false' 
-
+      
 AsteriskExtensions:
   connection: hekphone
   tableName: asterisk_extensions
@@ -811,6 +812,11 @@ Calls:
     destination: 
       type: string(50)
       notnull: true
+    asterisk_uniqueid:
+      type: string(30)
+      notnull: false
+      default: null
+      unique: true
     charges: 
       type: decimal(18)
       notnull: true
@@ -829,7 +835,10 @@ Calls:
       local: rate
       foreign: id
       type: one
-
+    AsteriskCdr:
+      local: asterisk_uniqueid
+      foreign: uniqueid
+      type: one
 
 Bills:
   connection: hekphone
