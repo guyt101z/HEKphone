@@ -61,16 +61,13 @@ This is what it should look like to the user.
   * _**WRITE TESTS!**_
 
 # TODO for the backend #
- * Implement singel sign in for frontend&backend using credentials
-   * could be kind of tricky if frontend and backend are seperated applications
-   * but why seperate them?
- * List users and edit details (doctrine:generate-admin)
+ * List users and edit details
    * includes: Unlock a user
-   * includes: completely disable delete&new action
-   * includes: manage comments 
-   * includes: change pin
+   * ... write eMail for the resident
+   * <strike>includes: manage comments</strike> 
+   * <strike>includes: change pin</strike>
    * **attach to asterisk-tables!**
-   * Edit a users phone
+   * </strike>Edit a users phone</strike>
    * Asynchronous lookup of the banknumber->bankname relation? :)
  * View, edit and delete a users cdrs and bills
  * View and edit group-calls
@@ -80,10 +77,12 @@ This is what it should look like to the user.
 # TODO for the commandline #
   * Always use symfony-Exceptions and produce a nice output 
   * <strike>Bill Call _(done)_</strike>
-    * enable call billing for SIP-Phones
-  * Create Bills (migrate old script to symfony)
-  * Create Bill Mails (keep using the MailTemplate-Enginge or migrate to symfony) (skeleton exists; merge with create bills?)
-  * Create one singel bill (skeleton exists)
+  * <strke>enable call billing for SIP-Phones</strike>
+  * <strike> Create Bills (migrate old script to symfony)</strike>
+  * <strike>Create Bill Mails (in progres)</strike> 
   * <strike>Create the DHCP-Config from the phones-Table</strike>
   * <strike>Sync the residents data between hekdb and hekphone</strike>
   * Delete old billing information and cdrs (privacy) (skeleton exists)
+  * Warn in case of unallocated calls via eMail
+  * Task to lock all residents moving out today and notify the user via eMail
+  *  
