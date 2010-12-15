@@ -24,7 +24,10 @@ class Residents extends BaseResidents
       {
         return $this;
       }
+      else
+      {
         return $this->_set('password', md5($password));
+      }
     }
 
     /**
@@ -55,5 +58,29 @@ class Residents extends BaseResidents
     public function getVoicemailSettings()
     {
       //TODO: Implement this!
+    }
+
+    public function sendLockUnlockEmail()
+    {
+      if($this->unlocked)
+      {
+        $this->sendUnlockEmail();
+      }
+      else
+      {
+        $this->sendLockEmail();
+      }
+    }
+
+    public function sendUnlockEmail()
+    {
+      $mailer = sfContext::getInstance()->getMailer();
+      // TODO: load partial and send email
+    }
+
+    public function sendLockEmail()
+    {
+      $mailer = sfContext::getInstance()->getMailer();
+      // TODO: load partial and send Email
     }
 }
