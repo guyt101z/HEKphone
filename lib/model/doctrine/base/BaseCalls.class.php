@@ -126,10 +126,7 @@ abstract class BaseCalls extends sfDoctrineRecord
 
         $this->hasOne('AsteriskCdr', array(
              'local' => 'asterisk_uniqueid',
-             'foreign' => 'uniqueid',
-             'cascade' => array(
-             0 => 'delete',
-             )));
+             'foreign' => 'uniqueid'));
 
         $this->hasOne('Bills', array(
              'local' => 'bill',

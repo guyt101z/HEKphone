@@ -1,4 +1,5 @@
 #BUG?: as long as all:hekphone is defined rebuilding the test environment fails
+# SORT ORDER MATTERS!
 test:
   hekphone:
     class: sfDoctrineDatabase
@@ -8,16 +9,16 @@ test:
       password: popel
 
 all:
-  hekphone:
-    class: sfDoctrineDatabase
-    param:
-      dsn: 'pgsql:host=localhost;dbname=hekphone'
-      username: nasen
-      password: popel
   hekdb:
     class: sfDoctrineDatabase
     param:
       dsn: 'pgsql:host=localhost;dbname=hekdb_mirror'
+      username: nasen
+      password: popel
+  hekphone:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'pgsql:host=localhost;dbname=hekphone'
       username: nasen
       password: popel
       

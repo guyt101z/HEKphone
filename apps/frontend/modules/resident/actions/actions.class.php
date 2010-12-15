@@ -96,6 +96,12 @@ class residentActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
+      // has the locked-state changed? if yes: notify the user via email.
+      if($form->getValue('unlocked') != $this->resident->getUnlocked())
+      {
+        $this->resident->set('unlocked', $form->getValue('unlocked'));
+        $this->resident->sendLockUnlockEmail();
+      }
       $residents = $form->save();
 
       // This connects to asterisk;
