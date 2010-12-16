@@ -810,7 +810,7 @@ AsteriskCdr:
     uniqueid: '1266695033.1368'
     userfield: 'Telekom'
     billed: false
-  AsteriskCdr_4: #Incoming call
+  AsteriskCdr_6: #Incoming call
     calldate: '2010-02-20 18:50:00'
     clid: '004972186951405'
     src: '005821293402938'
@@ -825,7 +825,7 @@ AsteriskCdr:
     disposition: 'ANSWERED'
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266688418.1303'
+    uniqueid: '1266688418.1305'
     userfield: ''
     billed: false 
  
