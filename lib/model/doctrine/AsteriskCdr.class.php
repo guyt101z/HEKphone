@@ -132,7 +132,6 @@ class AsteriskCdr extends BaseAsteriskCdr
             throw new Exception("[uniqueid={$this->uniqueid}] ".$e->getMessage());
         }
 
-
         // Create an entry in the calls table
         $call = New Calls();
         $call->resident     = $resident->id;
@@ -170,6 +169,10 @@ class AsteriskCdr extends BaseAsteriskCdr
         // This message will show up in the postgres-logfile
         echo "[NOTICE][uniqueid={$this->uniqueid}] Billed call. Extension:" . $call->extension
              . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
+
+        /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/
+        $resident->checkIfBillLimitIsAlmostReached();
+
         return $this;
     }
 }
