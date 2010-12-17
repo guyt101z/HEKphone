@@ -35,4 +35,12 @@ class AsteriskCdrTable extends Doctrine_Table
             ->andWhereNotIn("c.dcontext", sfConfig::get('asteriskIncomingContext'));
          return $q->execute();
     }
+
+    public function deleteOldCdrs()
+    {
+        $this->createQuery()
+            ->delete()
+            ->where('calldate <= ?', date('Y-m-d',strtotime('-' . sfConfig::get('monthsToKeepCdrsFor') . ' months')))
+            ->execute();
+    }
 }

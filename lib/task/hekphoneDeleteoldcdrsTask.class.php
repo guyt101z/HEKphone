@@ -10,7 +10,6 @@ class hekphoneDeleteoldcdrsTask extends sfBaseTask
     // ));
     $this->addOptions(array(
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
-      new sfCommandOption('months', null, sfCommandOption::PARAMETER_REQUIRED, 'Delete the data from how many preceeding months?'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -26,20 +25,12 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
+      // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    // determine how many months to delete
-    if ($options['months'])
-    {
-        $months = $options['months'];
-    }
-    else
-    {
-        $months = 3;
-    }
-
-
+    Doctrine_Core::getTable('Calls')->deleteOldCalls();
+    Doctrine_Core::getTable('AsteriskCdr')->deleteOldCdrs();
+    Doctrine_Core::getTable('Bills')->deleteOldBills();
   }
 }

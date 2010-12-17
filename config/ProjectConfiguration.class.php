@@ -19,10 +19,16 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('hekphoneAccountnumber', '111111111');
     sfConfig::set('hekphoneBanknumber', '52060410');
 
+    sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
+
     // These parameters are used in asterisk and are needed for billing purposes
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt'); // contexts of phones that are allowed to make external calls
-    
-    sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
+
+    // Privacy settings delete cdrs and bills after a specific period of time. Affects the task hekphone:delete-old-cdrs
+    // which should be run periodically via cronjob
+    sfConfig::set('monthsToKeepCdrsFor',  3);
+    sfConfig::set('monthsToKeepBillsFor', 6);
+
   }
 }
