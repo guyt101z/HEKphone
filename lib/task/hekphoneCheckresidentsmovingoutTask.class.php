@@ -19,13 +19,13 @@ class hekphoneResident_movesoutTask extends sfBaseTask
     ));
 
     $this->namespace        = 'hekphone';
-    $this->name             = 'resident_movesout';
+    $this->name             = 'check-residents-moving-out';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [hekphone:resident_movesout|INFO] task does things.
+The [hekphone:check-residents-moving-out|INFO] task does things.
 Call it with:
 
-  [php symfony hekphone:resident_movesout|INFO]
+  [php symfony hekphone:check-residents-moving-out|INFO]
 EOF;
   }
 
