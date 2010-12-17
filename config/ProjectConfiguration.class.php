@@ -30,5 +30,16 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('monthsToKeepCdrsFor',  3);
     sfConfig::set('monthsToKeepBillsFor', 6);
 
+    // Ugly workaround for bug DC-740:
+    // http://www.doctrine-project.org/jira/browse/DC-740
+    // took half a day to figure this out...
+    $this->dispatcher->connect('doctrine.configure', array($this, 'doctrineBinder'));
   }
+
+  public function doctrineBinder(sfEvent $event)
+  {
+    $manager = Doctrine_Manager::getInstance();
+    $manager->bindComponent('HekdbCurrentResidents', 'hekdb');
+  }
+
 }
