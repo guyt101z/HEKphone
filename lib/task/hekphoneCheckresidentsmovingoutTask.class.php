@@ -1,6 +1,6 @@
 <?php
 
-class hekphoneBillallunbilledcallsTask extends sfBaseTask
+class hekphoneResident_movesoutTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -14,16 +14,18 @@ class hekphoneBillallunbilledcallsTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'hekphone'),
       // add your own options here
+      new sfCommandOption('mail', null, sfCommandOption::PARAMETER_OPTIONAL, 'Resident gets an informational email'),
+      new sfCommandOption('lock', null, sfCommandOption::PARAMETER_OPTIONAL, 'All residents who move out today get locked')
     ));
 
     $this->namespace        = 'hekphone';
-    $this->name             = 'bill-all-unbilled-calls';
+    $this->name             = 'check-residents-moving-out';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [hekphone:bill-all-unbilled-calls|INFO] task does things.
+The [hekphone:check-residents-moving-out|INFO] task does things.
 Call it with:
 
-  [php symfony hekphone:bill-all-unbilled-calls|INFO]
+  [php symfony hekphone:check-residents-moving-out|INFO]
 EOF;
   }
 
@@ -33,18 +35,19 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $collCdr  = Doctrine_Query::create()
-              ->from('AsteriskCdr')
-              ->where('billed = ?', false)
-              ->addWhere('dcontext = ? ', 'anlage')
-              ->execute();
-
-    if ( ! $collCdr)
-       throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
-
-    foreach($collCdr as $cdr)
+    // add your code here
+    $date_tomorrow = date("Y-m-d", strtotime("+1 day", strtotime(date("Y-m-d"))));
+    $residentsMovingOutTomorrow = Doctrine_Query::create()
+        ->from('Residents')
+        ->where('move_out = ?', $date_tomorrow)
+        ->execute();
+     
+    
+    foreach ($residentsMovingOutTomorrow as $resident)
     {
-        $cdr->bill();
+        $resident->sendLockEmail();
     }
+    
+    
   }
 }
