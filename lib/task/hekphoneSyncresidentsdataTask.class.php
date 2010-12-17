@@ -33,6 +33,7 @@ EOF;
   {
     // initialize the database connections
     $databaseManager = new sfDatabaseManager($this->configuration);
+    $databaseManager->
     $connSource = $databaseManager->getDatabase($options['sourceDb'])->getConnection();
     $connDestination = $databaseManager->getDatabase($options['destinationDb'])->getConnection();
 
@@ -64,8 +65,8 @@ EOF;
         } else {
             if ($destinationResidents[$sourceResident->id]->first_name != $sourceResident->first_name
                 && $destinationResidents[$sourceResident->id]->first_name != $sourceResident->last_name) {
-                $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$sourceResident->first_name} {$sourceResident->last_name}' "
-                    ."to '{$hekdphoneResident->first_name} {$destinationResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Something might be wrong.
+                    $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$destinationResidents[$sourceResident->id]->first_name} {$destinationResidents[$sourceResident->id]->last_name}' "
+                    ."to '{$sourceResident->first_name} {$sourceResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Some
             }
             $numOld++;
         }
