@@ -45,12 +45,11 @@ class Rates extends BaseRates
         $pulsing = explode('/', $this->pulsing);
         $fullMinutes = floor($duration/60);
         $additionalSeconds = $duration%60;
-
         $charge = $fullMinutes*$rate;
-        if ( $fullMinutes = 0 ) {
-            $charge += ceil($additionalSeconds/$pulsing[0])*$rate*$pulsing[0]/60;
+        if ( $fullMinutes == 0 ) {
+            $charge += ceil($additionalSeconds/(60/$pulsing[0]))*$rate/60*60/$pulsing[0];
         } else {
-            $charge += ceil($additionalSeconds/$pulsing[1])*$rate*$pulsing[1]/60;
+            $charge += ceil($additionalSeconds/(60/$pulsing[1]))*$rate/60*60/$pulsing[1];
         }
 
         return $charge;
