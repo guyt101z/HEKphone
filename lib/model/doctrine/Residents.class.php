@@ -109,7 +109,15 @@ class Residents extends BaseResidents
      */
     public function checkIfBillLimitIsAlmostReached()
     {
-    	$percentage = $currentBillAmount/$limit;
+        $collCurrentBillAmount = Doctrine_Query::create()
+            ->from('Calls c')
+            ->select('SUM(c.charges)')
+            ->where('bill IS NULL')
+            ->addWhere('resident = ?', $this->id)
+            ->execute();
+        $currentBillAmount = $collCurrentBillAmount[0]['SUM'];
+
+    	$percentage = ($currentBillAmount/100)/$this->bill_limit; // divide by 100: unit conversion ct/eur
     	if ($percentage > 1)
     	{
     		$this->setUnlocked(false);
