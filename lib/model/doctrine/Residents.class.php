@@ -60,6 +60,10 @@ class Residents extends BaseResidents
       //TODO: Implement this!
     }
 
+
+    /**
+     * Sends a lock/unlock email depending on the residents "unlocked" property
+     */
     public function sendLockUnlockEmail()
     {
       if($this->unlocked)
@@ -72,7 +76,12 @@ class Residents extends BaseResidents
       }
     }
 
-    public function sendUnlockEmail($lockDate)
+
+    /**
+     * Sends an E-Mail containing information about him being unlocked and
+     * about general information to a resident.
+     */
+    public function sendUnlockEmail()
     {
       $messageBody = get_partial('global/movingInMail', array('bank_number' => $this['bank_number'],
                                                               'account_number' => $this['account_number'],
@@ -86,18 +95,23 @@ class Residents extends BaseResidents
       sfContext::getInstance()->getMailer()->send($message);
     }
 
-    public function sendLockEmail()
+    /**
+     * Notifies a user that he's going to be locked at $lockDate.
+     *
+     * @param string $lockDate
+     */
+    public function sendLockEmail($lockDate)
     {
 
       $messageBody = get_partial('global/movingOutMail', array('first_name' => $this['first_name'],
-                                                            'lockDate' => $lockDate));
+                                                               'lockDate' => $lockDate));
 
-            $message = Swift_Message::newInstance()
-                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-                ->setTo($this['email'])
-                ->setSubject('Dein Auszug')
-                ->setBody($messageBody);
-            sfContext::getInstance()->getMailer()->send($message);
+      $message = Swift_Message::newInstance()
+          ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+          ->setTo($this['email'])
+          ->setSubject('Dein Auszug')
+          ->setBody($messageBody);
+      sfContext::getInstance()->getMailer()->send($message);
     }
 
 
@@ -135,6 +149,13 @@ class Residents extends BaseResidents
         }
     }
 
+    /**
+     * Notifies a resident that he almost reached his bill_limit.
+     * $billLimitThreshold represents the percentage of the limit he has reached
+     * $currentBillAmount holds the residents sum of all the Residents unbilled calls
+     * @param unknown_type $billLimitThreshold
+     * @param unknown_type $currentBillAmount
+     */
     public function sendLimitWarningEmail($billLimitThreshold, $currentBillAmount)
     {
 
@@ -154,6 +175,10 @@ class Residents extends BaseResidents
     }
 
 
+    /**
+     * Notifies a resident that he reached his limit and is now locked and can't
+     * do any more calls
+     */
     public function sendLimitReachedEmail()
     {
         $messageBody = get_partial('global/currentBillAmountReachedLimitMail',
