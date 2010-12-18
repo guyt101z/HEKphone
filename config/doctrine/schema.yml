@@ -339,7 +339,7 @@ Phones:
       autoincrement: true
 ## By which technologie the telephone is adressed. In case of DAHDI, 
 ## the group (span) has to be provided.                               
-    technologie:
+    technology:
       type: enum
       length: 20
       values: ['SIP', 'DAHDI/g1', 'DAHDI/g3']
