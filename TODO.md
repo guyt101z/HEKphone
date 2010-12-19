@@ -80,8 +80,8 @@ This is what it should look like to the user.
   * <strike>Create Bill Mails (in progres)</strike> 
   * <strike>Create the DHCP-Config from the phones-Table</strike>
   * <strike>Sync the residents data between hekdb and hekphone</strike> _Refractor and write unit test_
-  * <strike>Delete old billing information and cdrs (privacy) (skeleton exists)</strike>
+  * Delete old billing information and cdrs (privacy) (skeleton exists) (Hannes)
   * Warn in case of unallocated calls via eMail (Constantin)
   * Task to lock all residents moving out today and notify the user via eMail (Constantin)
   * Create Warning mails when limit is reached (Constantin)
-  * Write migration scripts from the old database to the new one (Constantin/Hannes)
+  * Write migration scripts from the old database to the new one (constantin)
