@@ -144,7 +144,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         /* Calculate the cost of the outgoing call */
         if($this->isFreeCall()) {
             $call->charges = 0;
-            $call->rate = 0;
+            $call->rate    = 9999;
         } else {
             // Get the provider
             $provider = $this->userfield;

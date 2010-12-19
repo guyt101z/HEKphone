@@ -31,12 +31,6 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connections
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $databaseManager->
-    $connSource = $databaseManager->getDatabase($options['sourceDb'])->getConnection();
-    $connDestination = $databaseManager->getDatabase($options['destinationDb'])->getConnection();
-
     $sourceResidentsTable = Doctrine_Core::getTable($options['source']);
     $destinationResidentsTable = Doctrine_Core::getTable($options['destination']);
     $roomTable = Doctrine_Core::getTable('Rooms');
