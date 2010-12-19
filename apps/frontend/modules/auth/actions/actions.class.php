@@ -31,8 +31,14 @@ class authActions extends sfActions
       if ($this->form->isValid())
       {
         $residentsTable = Doctrine_Core::getTable('Residents');
-        $resident = $residentsTable->findByRoomNo($form->getValue('roomNo'));
-        if(null !== $resident && $resident->password === md5($form->getValue('password')))
+        try
+        {
+          $resident = $residentsTable->findByRoomNo($this->form->getValue('roomNo'));
+        } catch(Exception $e) {
+          $this->getUser()->setFlash('notice', 'auth.login.failed');
+          $this->redirect('auth/index');
+        }
+        if(null !== $resident && $resident->password === md5($this->form->getValue('password')))
         {
           $this->getUser()->setAuthenticated(true);
 
