@@ -39,8 +39,10 @@ EOF;
               ->from('AsteriskCdr')
               ->where('uniqueid = ?', $arguments['uniqueid'])
               ->fetchOne();
-    if ( ! $cdr)
-       throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
+    if ( ! $cdr) {
+        $this->log($this->formatter->format("[uniqueid='" . $arguments['uniqueid'] . "'] Cdr not present in asterisk_cdr", 'ERROR'));
+        die;
+    }
 
     try
     {
@@ -52,7 +54,7 @@ EOF;
     }
     catch (Exception $e)
     {
-      throw new sfCommandException($e->getMessage());
+      throw new sfCommandException("[uniqueid='{$cdr->uniqueid}']" . $e->getMessage());
     }
 
   }

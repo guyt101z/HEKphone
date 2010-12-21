@@ -140,8 +140,8 @@ class Residents extends BaseResidents
     	elseif( $percentage >= sfConfig::get('billLimitSecondThreshold'))
     	{
             $this->set('warning2',true);
-    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'), $currentBillAmount); 
-    	} 
+    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'), $currentBillAmount);
+    	}
     	elseif ($percentage >= sfConfig::get('billLimitFirstThreshold'))
     	{
     	    $this->sendLimitWarningEmail(sfConfig::get('billLimitFirstThreshold'), $currentBillAmount);
@@ -186,13 +186,13 @@ class Residents extends BaseResidents
                        array('first_name' => $this['first_name'],
                              'limit' => $this['bill_limit'],
                              'currentBillAmount' => $currentBillAmount));
-                             
+
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
             ->setTo($this['email'])
             ->setSubject('HEKphone: Gebuehrenlimit ueberschritten!')
             ->setBody($messageBody);
-            
+
         sfContext::getInstance()->getMailer()->send($message);
     }
 }

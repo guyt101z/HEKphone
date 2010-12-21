@@ -35,7 +35,7 @@ EOF;
         try {
             $cdr->bill();
         } catch (Exception $e) {
-            $this->log($this->formatter->format($e->getMessage(), 'ERROR'));
+            $this->log($this->formatter->format("[uniqueid='{$cdr->uniqueid}']" . $e->getMessage(), 'ERROR'));
         }
     }
   }
