@@ -27,6 +27,7 @@ EOF;
               ->from('AsteriskCdr')
               ->where('billed = ?', false)
               ->addWhere('dcontext = ? ', 'anlage')
+              ->addWhere('disposition = ?', 'ANSWERED')
               ->limit($options['count'])
               ->execute();
 

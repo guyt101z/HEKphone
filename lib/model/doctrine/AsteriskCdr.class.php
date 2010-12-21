@@ -153,6 +153,10 @@ class AsteriskCdr extends BaseAsteriskCdr
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
             echo "[security warning] locked user made an outgoing call";
         }
+        /* Recheck if somebody really picked up */
+        if($this->disposition != 'ANSWERED') {
+            return false;
+        }
 
         /* Parse the calls details */
         $destinationToBill = $this->getFormattedDestination();

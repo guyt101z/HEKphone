@@ -54,7 +54,7 @@ EOF;
     }
     catch (Exception $e)
     {
-      throw new sfCommandException("[uniqueid='{$cdr->uniqueid}']" . $e->getMessage());
+      throw new sfCommandException("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
     }
 
   }
