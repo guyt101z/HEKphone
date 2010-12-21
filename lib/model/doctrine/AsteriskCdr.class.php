@@ -160,7 +160,7 @@ class AsteriskCdr extends BaseAsteriskCdr
 
         /* Create an entry in the calls table */
         $call = New Calls();
-        $call->resident     = $this-getResident()->id;
+        $call->resident     = $this->getResident()->id;
         $call->extension    = 1000+$this->getRoomNumber();
         $call->date         = $this->calldate;
         $call->duration     = $this->billsec;
