@@ -82,7 +82,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return string
      */
     function getFormattedDestination() {
-        if ( ! $this->isIncomingCall()) {
+        if ($this->isIncomingCall()) {
             return $this->dst;
         }
 
@@ -197,7 +197,7 @@ class AsteriskCdr extends BaseAsteriskCdr
              . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
 
         /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/
-        $resident->checkIfBillLimitIsAlmostReached();
+        $this->getResident()->checkIfBillLimitIsAlmostReached();
 
         return $this;
     }
