@@ -5,12 +5,13 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
   protected function configure()
   {
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
 
-      new sfCommandOption('mail', null, sfCommandOption::PARAMETER_OPTIONAL, 'Resident gets an informational email'),
-      new sfCommandOption('lock', null, sfCommandOption::PARAMETER_OPTIONAL, 'All residents who move out today get locked'),
-      new sfCommandOption('notifyTeam', null, sfCommandOption::PARAMETER_OPTIONAL, 'The hekphone team gets a summary of who\'s moving out'),
+      new sfCommandOption('mail', null, sfCommandOption::PARAMETER_NONE, 'Residents who move out tomorrow get an informational email'),
+      new sfCommandOption('lock', null, sfCommandOption::PARAMETER_NONE, 'All residents who move out today get locked'),
+      new sfCommandOption('notifyTeam', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out. NOT IMPLEMENTED.'),
+
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Supress informative output, only print errors')
     ));
 
     $this->namespace        = 'hekphone';
@@ -19,7 +20,7 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
     $this->detailedDescription = <<<EOF
 The [hekphone:check-residents-moving-out|INFO] fetches all users moving out tomorrow. Sends a goodbye-email
 to them and locks them.
-If called withoud parameters it only prints a list
+If called withoud parameters it prints a list of all residents moving out today and tomorrow.
 Call it with:
 
   [php symfony hekphone:check-residents-moving-out|INFO]
@@ -51,7 +52,7 @@ EOF;
     }
 
     /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
-    if( ! $options['lock'] && ! $options['mail'] && ! $options['notifyTeam'] ) {
+    if( ! $options['lock'] && ! $options['mail'] && ! $options['notifyTeam'] && ! $options['silent']) {
         if(count($residentsMovingOutToday) < 0) {
             $this->log($this->formatter->format("Residents moving out today:", 'INFO'));
             print_r($residentsMovingOutToday->toArray());

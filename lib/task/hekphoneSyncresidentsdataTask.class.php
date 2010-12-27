@@ -10,6 +10,7 @@ class hekphoneSyncresidentsdataTask extends sfBaseTask
     // ));
 
     $this->addOptions(array(
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('sourceDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The source connection name', 'hekdb'),
       new sfCommandOption('destinationDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination connection name', 'hekphone'),
       new sfCommandOption('source', null, sfCommandOption::PARAMETER_REQUIRED, 'The source db name', 'HekdbCurrentResidents'),

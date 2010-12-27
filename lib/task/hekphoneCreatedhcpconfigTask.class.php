@@ -6,8 +6,8 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
   {
 
     $this->addOptions(array(
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Print the generated output'),
       new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', '/etc/dhcp3/dhcpd.phones'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'hekphone'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -24,13 +24,9 @@ EOF;
   }
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
-
     $collPhones  = Doctrine_Query::create()
                  ->from('Phones')
+                 ->where('technology = ?', 'SIP')
                  ->execute();
 
     $dhcpConf = '# Phone configuration'.PHP_EOL
@@ -50,11 +46,14 @@ EOF;
         }';
     }
 
-    // Echo what we'll write
-    // echo($dhcpConf);
+    /* Be verbose */
+    if( $options['verbose'] == true)
+    {
+      echo $dhcpConf;
+    }
 
     // Write file
-    if ( ! $fileHandle = @fopen($options['filename'], 'w+'))
+    if( ! $fileHandle = @fopen($options['filename'], 'w+'))
       throw new sfCommandException('Could not open file. Are you root?');
     if ( ! fwrite($fileHandle, $dhcpConf))
       throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');

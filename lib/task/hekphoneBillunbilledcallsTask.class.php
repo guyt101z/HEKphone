@@ -23,6 +23,7 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    /* get last (count) call detail records from AsteriskCdr */
     $collCdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('billed = ?', false)
@@ -31,6 +32,7 @@ EOF;
               ->limit($options['count'])
               ->execute();
 
+    /* Bill every fetched call. Dont quit on one exception but log the error. */
     foreach($collCdr as $cdr)
     {
         try {

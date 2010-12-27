@@ -5,9 +5,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
   protected function configure()
   {
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'hekphone'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
       new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills')
     ));
@@ -31,12 +29,9 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
     // choose the last month as bill date if the user doesn't specify
     // a time period via $options['fromDate'] and $options['toDate']
+    // if he only provided one of the parameters quit.
     if($options['start'] == null && $options['end'] == null)
     {
         $start  = date("Y-m-01", strtotime("-1 month", strtotime(date("Y-m-d"))));
@@ -44,14 +39,14 @@ EOF;
     }
     elseif($options['start'] == null)
     {
-       throw new Exception('start Parameter is missing');
+       throw new sfCommandException('start parameter is missing. Provide both parameters or none.');
     }
     elseif($options['end'] == null)
     {
-       throw new Exception('end Parameter is missing');
+       throw new sfCommandException('end parameter is missing. Provide both parameters or none');
     }
 
-    // Create Bills
+    /* Create Bills */
     $billsTable = Doctrine_Core::getTable('Bills');
     if($billsTable->createBills($options['start'], $options['end']))
     {

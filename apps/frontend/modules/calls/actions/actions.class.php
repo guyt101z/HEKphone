@@ -47,6 +47,7 @@ class callsActions extends sfActions
                             ->from('Calls c')
                             ->addWhere('c.bill IS NULL')
                             ->addWhere('c.resident = ?', $this->residentid)
+                            ->orderBy('date desc')
                             ->execute();
     $this->billsCollection = Doctrine_Query::create()
                             ->from('Bills b')
