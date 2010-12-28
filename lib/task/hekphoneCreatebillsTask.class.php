@@ -10,7 +10,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
       new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills')
     ));
 
-    // Prepare rendering of Partials (load the PartialHelper)
+    // Prepare rendering of partials (load the PartialHelper)
     $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'dev', true);
     sfContext::createInstance($configuration);
     sfProjectConfiguration::getActive()->loadHelpers("Partial");
@@ -20,7 +20,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->briefDescription = 'Creates bills for residents for a given time period [default:last month]';
     $this->detailedDescription = <<<EOF
 The [hekphone:create-bills|INFO] creates for all unbilled calls in a given time period a bill for the dedicated user.
-Furthermore it creates an itemised Bill and sends it via mail to the resident.
+Furthermore it creates an itemized Bill and sends it via mail to the resident.
 Call it with:
 
   [php symfony hekphone:create-bills|INFO]

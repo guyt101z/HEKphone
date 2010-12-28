@@ -12,6 +12,29 @@
  */
 class Residents extends BaseResidents
 {
+    private $currentBillAmount = NULL; // holds sum of the charges of the residents calls which are not assigned to any bill
+                                       // (all the calls he made in the current month) in Euros
+
+    /*
+     * Gets the residents current bills amount. This function will query the database
+     * if neccesary and take the value stored in $this->currentBillAmount otherwise.
+     * Value is returned in Euros not in Cents!
+     */
+    private function getCurrentBillAmount() {
+        if( is_null($this->currentBillAmount)) {
+            $collCurrentBillAmount = Doctrine_Query::create()
+                ->from('Calls c')
+                ->select('SUM(c.charges)')
+                ->where('bill IS NULL')
+                ->addWhere('resident = ?', $this->id)
+                ->execute();
+
+            $this->currentBillAmount = $collCurrentBillAmount[0]['SUM'];
+        }
+
+        return $this->currentBillAmount;
+    }
+
      /**
      * Writes the residents password md5-encrypted to the database
      *
@@ -121,16 +144,7 @@ class Residents extends BaseResidents
      */
     public function checkIfBillLimitIsAlmostReached()
     {
-        $collCurrentBillAmount = Doctrine_Query::create()
-            ->from('Calls c')
-            ->select('SUM(c.charges)')
-            ->where('bill IS NULL')
-            ->addWhere('resident = ?', $this->id)
-            ->execute();
-
-        $currentBillAmount = $collCurrentBillAmount[0]['SUM']; //TODO: Move $currentBillAmount to a member variable of the objec
-
-    	$percentage = ($currentBillAmount/100)/$this->bill_limit; // divide by 100: unit conversion ct/eur
+    	$percentage = $this->getCurrentBillAmount()/$this->bill_limit;
 
     	if ($percentage > 1)
     	{
@@ -140,11 +154,11 @@ class Residents extends BaseResidents
     	elseif( $percentage >= sfConfig::get('billLimitSecondThreshold'))
     	{
             $this->set('warning2',true);
-    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'), $currentBillAmount);
+    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'));
     	}
     	elseif ($percentage >= sfConfig::get('billLimitFirstThreshold'))
     	{
-    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitFirstThreshold'), $currentBillAmount);
+    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitFirstThreshold'));
     	    $this->set('warning1',true);
         }
     }
@@ -156,15 +170,13 @@ class Residents extends BaseResidents
      * @param unknown_type $billLimitThreshold
      * @param unknown_type $currentBillAmount
      */
-    public function sendLimitWarningEmail($billLimitThreshold, $currentBillAmount)
+    public function sendLimitWarningEmail($billLimitThreshold)
     {
-
-
     	$messageBody = get_partial('global/currentBillAmountReachedThresholdMail',
     	               array('first_name' => $this['first_name'],
     	                     'threshold' => $billLimitThreshold,
     	                     'limit' => $this['bill_limit'],
-    	                     'currentBillAmount' => $currentBillAmount));
+    	                     'currentBillAmount' => $this->getCurrentBillAmount));
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
@@ -185,12 +197,12 @@ class Residents extends BaseResidents
         $messageBody = get_partial('global/currentBillAmountReachedLimitMail',
                        array('first_name' => $this['first_name'],
                              'limit' => $this['bill_limit'],
-                             'currentBillAmount' => $currentBillAmount));
+                             'currentBillAmount' => $this->getCurrentBillAmount));
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
             ->setTo($this['email'])
-            ->setSubject('HEKphone: Gebuehrenlimit ueberschritten!')
+            ->setSubject('HEKphone: Gebührenlimit überschritten!')
             ->setBody($messageBody);
 
         sfContext::getInstance()->getMailer()->send($message);
