@@ -176,7 +176,7 @@ class Residents extends BaseResidents
     	               array('first_name' => $this['first_name'],
     	                     'threshold' => $billLimitThreshold,
     	                     'limit' => $this['bill_limit'],
-    	                     'currentBillAmount' => $this->getCurrentBillAmount));
+    	                     'currentBillAmount' => $this->getCurrentBillAmount()));
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
@@ -197,7 +197,7 @@ class Residents extends BaseResidents
         $messageBody = get_partial('global/currentBillAmountReachedLimitMail',
                        array('first_name' => $this['first_name'],
                              'limit' => $this['bill_limit'],
-                             'currentBillAmount' => $this->getCurrentBillAmount));
+                             'currentBillAmount' => $this->getCurrentBillAmount()));
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
