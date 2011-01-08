@@ -4,3 +4,4 @@ cache/project_autoload.cache
 frontend_*.log
 .project
 .settings
+*~

@@ -63,4 +63,17 @@ class ResidentsTable extends Doctrine_Table
 
         return $residents;
     }
+
+    public function findResidentsMovingOutTomorrow() {
+        $tomorrow = date("Y-m-d", strtotime("+1 day", strtotime(date("Y-m-d"))));
+        return $this->createQuery()
+           ->where('move_out = ?', $tomorrow)
+           ->execute();
+    }
+
+    public function findResidentsMovingOutToday() {
+        return $this->createQuery()
+            ->where('move_out = ?', date("Y-m-d"))
+            ->execute();
+    }
 }

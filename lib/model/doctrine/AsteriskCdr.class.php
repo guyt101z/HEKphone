@@ -13,6 +13,36 @@
 
 class AsteriskCdr extends BaseAsteriskCdr
 {
+    private $resident = NULL; // holds the resident associated with the call
+
+
+    /*
+     * Gets the resident associated with the call. This function will fetch the
+     * resident from the database only if neccesary.
+     */
+    private function getResident() {
+        if( ! ($this->resident instanceof Residents)) {
+            $roomNumber = $this->getRoomNumber();
+
+            /* Find the user living in this room at the calldate */
+            $residentsTable = Doctrine_Core::getTable('Residents');
+            $this->resident = $residentsTable->findByRoomNo($roomNumber,$this->calldate);
+        }
+
+        return $this->resident;
+    }
+
+    private function getRoomNumber() {
+        // Extract the room number from the source.
+        // The expression matches analog telephones were
+        // $this->src is like 004972186951NNN as well as SIP phones which
+        // have $this->src = "SIP/1NNN" where NNN is the room number.
+        if($this->isIncomingCall()) {
+            return substr($this->dst, -3);
+        } else {
+            return substr($this->src, -3);
+        }
+    }
 
     /**
      * Checks wheter the cdr represents a free call. Determined by the userfield
@@ -40,8 +70,9 @@ class AsteriskCdr extends BaseAsteriskCdr
 
     /**
      * Returns the destination number as string conformed to the prefixes
-     * stored in the Prefixes relation
-     * e.g. 072186951 results in 00497218695
+     * stored in the Prefixes relation e.g. 072186951 results in 00497218695.
+     * It's supposed to work on outgoing calls on incoming calls it returns
+     * $destination unmodified.
      *
      * Free calls specific to our Asterisk setup
      * (RSH: 0313NNN -> 00497211306NNN) are also taken into account
@@ -51,6 +82,10 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return string
      */
     function getFormattedDestination() {
+        if ($this->isIncomingCall()) {
+            return $this->dst;
+        }
+
         /* Conform $this->dst to  "0049+prefix+number" */
         if ( substr($this->dst,0,7) == '8695020' ) {
              //It's a free call using *721
@@ -68,24 +103,23 @@ class AsteriskCdr extends BaseAsteriskCdr
          } elseif ( substr($this->dst,0,1) > 0 ) {
              $destination = '0049721' . $this->dst;
          } else {
-             throw new Exception("[uniqueid={$this->uniqueid}] Unable to match dialed number to any pattern");
+             throw new Exception("Unable to match dialed number to any pattern");
          }
 
          return $destination;
     }
 
-    function getRoomNumber() {
-        // Extract the room number from the source.
-        // The expression matches analog telephones were
-        // $this->src is like 004972186951NNN as well as SIP phones which
-        // have $this->src = "SIP/1NNN" where NNN is the room number.
-        if($this->isIncomingCall()) {
-            return substr($this->dst, -3);
+    /*
+     * Replace last 3 digits of the destination with xxx
+     * if $resident->shortened_itemized_bill is true.
+     */
+    function shortenDestination() {
+        if ( $this->getResident()->shortened_itemized_bill) {
+            return substr($this->dst, 0, -3) . 'xxx';
         } else {
-            return substr($this->src, -3);
+            return $this->dst;
         }
     }
-
 
     function rebill() {
         // Delete old entry if it exists
@@ -109,52 +143,44 @@ class AsteriskCdr extends BaseAsteriskCdr
     function bill() {
         /* Warn and abort if the call is already billed and no rebilling is whished */
         if($this->billed) {
-            throw New Exception("The call with uniqueid={$this->uniqueid} has already been billed");
+            throw New Exception("The cdr has already been billed");
         }
         /* Only bill outgoing calls */
         if($this->isIncomingCall()) {
-            throw new Exception("[uniqueid={$this->uniqueid}] Trying to bill an incoming call");
+            throw new Exception("Trying to bill an incoming call");
         }
         /* Warn if trying to bill outgoing non-free calls of locked users */
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
-            echo "[security warning][uniqueid={$this->uniqueid}] locked user made an outgoing call";
+            echo "[security warning] locked user made an outgoing call";
+        }
+        /* Recheck if somebody really picked up */
+        if($this->disposition != 'ANSWERED') {
+            return false;
         }
 
         /* Parse the calls details */
-        $destination = $this->getFormattedDestination();
-        $roomNumber  = $this->getRoomNumber();
+        $destinationToBill = $this->getFormattedDestination();
+        $destinationToSave = $this->shortenDestination();
 
-        // Find the user living in this room at the calldate
-        $residentsTable = Doctrine_Core::getTable('Residents');
-        try {
-            $resident = $residentsTable->findByRoomNo($roomNumber,$this->calldate);
-        } catch (Exception $e) {
-            throw new Exception("[uniqueid={$this->uniqueid}] ".$e->getMessage());
-        }
-
-        // Create an entry in the calls table
+        /* Create an entry in the calls table */
         $call = New Calls();
-        $call->resident     = $resident->id;
-        $call->extension    = 1000+$roomNumber;
+        $call->resident     = $this->getResident()->id;
+        $call->extension    = 1000+$this->getRoomNumber();
         $call->date         = $this->calldate;
         $call->duration     = $this->billsec;
-        $call->destination  = $destination;
+        $call->destination  = $destinationToSave;
         $call->asterisk_uniqueid = $this->uniqueid;
 
         /* Calculate the cost of the outgoing call */
         if($this->isFreeCall()) {
             $call->charges = 0;
-            $call->rate = 0;
+            $call->rate    = 9999;
         } else {
             // Get the provider
             $provider = $this->userfield;
 
             $ratesTable = Doctrine_Core::getTable('Rates');
-            try{
-                $collRate = $ratesTable->findByNumberAndProvider(substr($destination,2), $provider);
-            } catch (Exception $e) {
-                throw new Exception("[uniqueid={$this->uniqueid}] ".$e->getMessage());
-            }
+            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider);
 
             $call->charges     = $collRate->getCharge($this->billsec);
             $call->rate        = $collRate->id;
@@ -167,11 +193,11 @@ class AsteriskCdr extends BaseAsteriskCdr
         $this->save();
 
         // This message will show up in the postgres-logfile
-        echo "[NOTICE][uniqueid={$this->uniqueid}] Billed call. Extension:" . $call->extension
+        echo "[NOTICE] Billed call. Extension:" . $call->extension
              . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
 
         /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/
-        $resident->checkIfBillLimitIsAlmostReached();
+        $this->getResident()->checkIfBillLimitIsAlmostReached();
 
         return $this;
     }

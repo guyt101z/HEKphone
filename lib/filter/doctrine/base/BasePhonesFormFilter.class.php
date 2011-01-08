@@ -13,7 +13,7 @@ abstract class BasePhonesFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'technologie' => new sfWidgetFormChoice(array('choices' => array('' => '', 'SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
+      'technology'  => new sfWidgetFormChoice(array('choices' => array('' => '', 'SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
       'name'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'type'        => new sfWidgetFormChoice(array('choices' => array('' => '', 'user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
       'callerid'    => new sfWidgetFormFilterInput(),
@@ -34,7 +34,7 @@ abstract class BasePhonesFormFilter extends BaseFormFilterDoctrine
     ));
 
     $this->setValidators(array(
-      'technologie' => new sfValidatorChoice(array('required' => false, 'choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
+      'technology'  => new sfValidatorChoice(array('required' => false, 'choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
       'name'        => new sfValidatorPass(array('required' => false)),
       'type'        => new sfValidatorChoice(array('required' => false, 'choices' => array('user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
       'callerid'    => new sfValidatorPass(array('required' => false)),
@@ -72,7 +72,7 @@ abstract class BasePhonesFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'          => 'Number',
-      'technologie' => 'Enum',
+      'technology'  => 'Enum',
       'name'        => 'Text',
       'type'        => 'Enum',
       'callerid'    => 'Text',

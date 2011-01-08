@@ -16,7 +16,7 @@ abstract class BasePhonesForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'          => new sfWidgetFormInputHidden(),
-      'technologie' => new sfWidgetFormChoice(array('choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
+      'technology'  => new sfWidgetFormChoice(array('choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
       'name'        => new sfWidgetFormInputText(),
       'type'        => new sfWidgetFormChoice(array('choices' => array('user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
       'callerid'    => new sfWidgetFormInputText(),
@@ -38,7 +38,7 @@ abstract class BasePhonesForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'technologie' => new sfValidatorChoice(array('choices' => array(0 => 'SIP', 1 => 'DAHDI/g1', 2 => 'DAHDI/g3'), 'required' => false)),
+      'technology'  => new sfValidatorChoice(array('choices' => array(0 => 'SIP', 1 => 'DAHDI/g1', 2 => 'DAHDI/g3'), 'required' => false)),
       'name'        => new sfValidatorString(array('max_length' => 80, 'required' => false)),
       'type'        => new sfValidatorChoice(array('choices' => array(0 => 'user', 1 => 'peer', 2 => 'friend'), 'required' => false)),
       'callerid'    => new sfValidatorString(array('max_length' => 80, 'required' => false)),

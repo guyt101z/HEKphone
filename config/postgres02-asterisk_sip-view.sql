@@ -1,41 +1,43 @@
 drop view if exists asterisk_sip;
 drop table if exists asterisk_sip;
-create view asterisk_sip as Select
-        c.id, 
-        c.name,
-        c.accountcode,
-        c.callerid,   
-        c.canreinvite,
+CREATE VIEW asterisk_sip AS 
+    SELECT
+        p.id, 
+        p.name,
+        p.type,
+        p.callerid,   
+        p.defaultuser,
+        p.secret,
+        p.host,
+        p.defaultip,
+        p.mac,
+        p.language,
+        p.mailbox,
+        p.regserver,
+        p.regseconds,
+        p.ipaddr,
+        p.port,
+        p.fullcontact,
+        p.useragent,
+        p.lastms,
         (SELECT 
                 (case
-                        when (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = c.id) is not NULL
-                        then (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = c.id )::context
+                        when (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
+                        then (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = p.id )::context
                         else 'locked'::context
                 end)
-        ) AS context,
+        ) AS context
+        from phones p ;
 
-        c.host,
-        c.port,
-        c.mailbox,
-        c.md5secret,
-        c.nat, 
-        c.permit,
-        c.deny,  
-        c.mask,  
-        c.qualify,
-        c.secret, 
-        c.type,   
-        c.username,
-        c.defaultuser,
-        c.useragent,  
-        c.fromuser,   
-        c.fromdomain, 
-        c.disallow,   
-        c.allow,      
-        c.ipaddr,     
-        c.mac,        
-        c.fullcontact,
-        c.regexten,   
-        c.regserver,  
-        c.regseconds, 
-        c.lastms from phones c ;
+CREATE RULE asterisk_cdr_update AS
+    ON UPDATE TO asterisk_sip
+    DO INSTEAD 
+        UPDATE phones SET
+            regserver = NEW.regserver,
+            regseconds = NEW.regseconds,
+            ipaddr = NEW.ipaddr,
+            port = NEW.port,
+            fullcontact = NEW.fullcontact,
+            useragent = NEW.useragent,
+            lastms = NEW.lastms
+        WHERE id = NEW.id;

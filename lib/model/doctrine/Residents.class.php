@@ -12,6 +12,29 @@
  */
 class Residents extends BaseResidents
 {
+    private $currentBillAmount = NULL; // holds sum of the charges of the residents calls which are not assigned to any bill
+                                       // (all the calls he made in the current month) in Euros
+
+    /*
+     * Gets the residents current bills amount. This function will query the database
+     * if neccesary and take the value stored in $this->currentBillAmount otherwise.
+     * Value is returned in Euros not in Cents!
+     */
+    private function getCurrentBillAmount() {
+        if( is_null($this->currentBillAmount)) {
+            $collCurrentBillAmount = Doctrine_Query::create()
+                ->from('Calls c')
+                ->select('SUM(c.charges)')
+                ->where('bill IS NULL')
+                ->addWhere('resident = ?', $this->id)
+                ->execute();
+
+            $this->currentBillAmount = $collCurrentBillAmount[0]['SUM'];
+        }
+
+        return $this->currentBillAmount;
+    }
+
      /**
      * Writes the residents password md5-encrypted to the database
      *
@@ -60,6 +83,10 @@ class Residents extends BaseResidents
       //TODO: Implement this!
     }
 
+
+    /**
+     * Sends a lock/unlock email depending on the residents "unlocked" property
+     */
     public function sendLockUnlockEmail()
     {
       if($this->unlocked)
@@ -72,7 +99,12 @@ class Residents extends BaseResidents
       }
     }
 
-    public function sendUnlockEmail($lockDate)
+
+    /**
+     * Sends an E-Mail containing information about him being unlocked and
+     * about general information to a resident.
+     */
+    public function sendUnlockEmail()
     {
       $messageBody = get_partial('global/movingInMail', array('bank_number' => $this['bank_number'],
                                                               'account_number' => $this['account_number'],
@@ -86,20 +118,23 @@ class Residents extends BaseResidents
       sfContext::getInstance()->getMailer()->send($message);
     }
 
-    public function sendLockEmail()
+    /**
+     * Notifies a user that he's going to be locked at $lockDate.
+     *
+     * @param string $lockDate
+     */
+    public function sendLockEmail($lockDate)
     {
-
       $messageBody = get_partial('global/movingOutMail', array('first_name' => $this['first_name'],
-                                                            'lockDate' => $lockDate));
+                                                               'lockDate' => $lockDate));
 
-            $message = Swift_Message::newInstance()
-                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-                ->setTo($this['email'])
-                ->setSubject('Dein Auszug')
-                ->setBody($messageBody);
-            sfContext::getInstance()->getMailer()->send($message);
+      $message = Swift_Message::newInstance()
+          ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+          ->setTo($this['email'])
+          ->setSubject('Dein Auszug')
+          ->setBody($messageBody);
+      sfContext::getInstance()->getMailer()->send($message);
     }
-
 
     /**
      * Checks and acts upon almost (or completely) reached bill limit.
@@ -109,55 +144,67 @@ class Residents extends BaseResidents
      */
     public function checkIfBillLimitIsAlmostReached()
     {
-    	$percentage = $currentBillAmount/$limit;
+    	$percentage = $this->getCurrentBillAmount()/$this->bill_limit;
+
     	if ($percentage > 1)
     	{
-    		$this->setUnlocked(false);
-    		$this->sendLimitReachedEmail();
+            $this->setUnlocked(false);
+            $this->sendLimitReachedEmail();
     	}
     	elseif( $percentage >= sfConfig::get('billLimitSecondThreshold'))
     	{
-    		$this->set('warning2',true);
-    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'), $currentBillAmount); //TODO: Move $currentBillAmount to a member variable of the object
+            $this->set('warning2',true);
+    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitSecondThreshold'));
     	}
     	elseif ($percentage >= sfConfig::get('billLimitFirstThreshold'))
     	{
-    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitFirstThreshold'), $currentBillAmount);
+    	    $this->sendLimitWarningEmail(sfConfig::get('billLimitFirstThreshold'));
     	    $this->set('warning1',true);
         }
     }
 
-    public function sendLimitWarningEmail($billLimitThreshold, $currentBillAmount)
+    /**
+     * Notifies a resident that he almost reached his bill_limit.
+     * $billLimitThreshold represents the percentage of the limit he has reached
+     * $currentBillAmount holds the residents sum of all the Residents unbilled calls
+     * @param unknown_type $billLimitThreshold
+     * @param unknown_type $currentBillAmount
+     */
+    public function sendLimitWarningEmail($billLimitThreshold)
     {
-
-
     	$messageBody = get_partial('global/currentBillAmountReachedThresholdMail',
     	               array('first_name' => $this['first_name'],
     	                     'threshold' => $billLimitThreshold,
     	                     'limit' => $this['bill_limit'],
-    	                     'currentBillAmount' => $currentBillAmount));
+    	                     'currentBillAmount' => $this->getCurrentBillAmount()));
 
-            $message = Swift_Message::newInstance()
-                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-                ->setTo($this['email'])
-                ->setSubject('HEKphone: Gebuehrenwarnung!')
-                ->setBody($messageBody);
-            sfContext::getInstance()->getMailer()->send($message);
+        $message = Swift_Message::newInstance()
+            ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+            ->setTo($this['email'])
+            ->setSubject('HEKphone: Gebührenwarnung!')
+            ->setBody($messageBody);
+
+        sfContext::getInstance()->getMailer()->send($message);
     }
 
 
+    /**
+     * Notifies a resident that he reached his limit and is now locked and can't
+     * do any more calls
+     */
     public function sendLimitReachedEmail()
     {
         $messageBody = get_partial('global/currentBillAmountReachedLimitMail',
                        array('first_name' => $this['first_name'],
                              'limit' => $this['bill_limit'],
-                             'currentBillAmount' => $currentBillAmount));
+                             'currentBillAmount' => $this->getCurrentBillAmount()));
 
-            $message = Swift_Message::newInstance()
-                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-                ->setTo($this['email'])
-                ->setSubject('HEKphone: Gebuehrenlimit ueberschritten!')
-                ->setBody($messageBody);
-            sfContext::getInstance()->getMailer()->send($message);
+        $message = Swift_Message::newInstance()
+            ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+            ->setTo($this['email'])
+            ->setSubject('HEKphone: Gebührenlimit überschritten!')
+            ->setBody($messageBody);
+
+        sfContext::getInstance()->getMailer()->send($message);
     }
 }

@@ -9,8 +9,8 @@ class hekphoneBillcallTask extends sfBaseTask
     ));
 
     $this->addOptions(array(
-      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_REQUIRED, 'Bill a given call even if it has been marked as billed already', false),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+      new sfCommandOption('rebill', null, sfCommandOption::PARAMETER_NONE, 'Bill a given call even if it has been marked as billed already'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -31,17 +31,17 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
+    /* get the call detail record from AsteriskCdr */
     $cdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('uniqueid = ?', $arguments['uniqueid'])
               ->fetchOne();
-    if ( ! $cdr)
-       throw new sfCommandException("A call with uniqueid=".$arguments['uniqueid']." is not present in asterisk_cdr");
+    if ( ! $cdr) {
+        $this->log($this->formatter->format("[uniqueid='" . $arguments['uniqueid'] . "'] Cdr not present in asterisk_cdr", 'ERROR'));
+        die;
+    }
 
+    /* bill it and catch every possible error, format it and rethrow it */
     try
     {
       if($options['rebill'] == true) {
@@ -52,7 +52,7 @@ EOF;
     }
     catch (Exception $e)
     {
-      throw new sfCommandException($e->getMessage());
+      throw new sfCommandException("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
     }
 
   }

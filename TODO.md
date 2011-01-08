@@ -24,15 +24,15 @@ This is what it should look like to the user.
    /phone/edit/room/1     # edit the phone in room no nnn  |= => requires credential "hekphone"
    /phone/edit/id/xxx     # edit the phone with id xxx     |==/  easy to implement, because it's
    /phone/new             # add new phone                  |=/   a basic crud operation
-   /phone/delete          # delete a phone                 ||                  
+   /phone/delete          # delete a phone                 ||    (-> done)              
     
 
 # TODO for the frontend #
-  * Login/Logout Use symfony-default module
+  * <strike>Login/Logout Use symfony-default module</strike>
   * **Calls/Bills listing:**
-    * Display Bill Detail _(implemented but template does not look nice)_
+    * <strike>Display Bill Detail</strike> _(implemented but template does not look nice)_
     * What's the cost of a call at (default: now) to ...?
-  * **Answearing Machine:**
+  * **Voicemail:**
     * List Messages:
       * ... distinguish between read and unread messages
       * ... mark as read & delete messages
@@ -45,14 +45,14 @@ This is what it should look like to the user.
     * Change email-adress
       * confirm email adress
     * Change password (should this equal the pin?)
-    * AM settings:
+    * VM settings:
       * [option:] number of seconds till the machine answears
       * [option:] send and email on new message
         * [option:]  attach message to email
       * [option:] send email on missed call
     * Display which bank information is provided
   * **Symfony**
-    * Adapt routing so we have clean urls
+    * <strike>Adapt routing so we have clean urls</strike>
     * Provide a "stay signed in" option?
     * Provide a "your last login" option?
   * **Use i18n**
@@ -75,13 +75,13 @@ This is what it should look like to the user.
 # TODO for the commandline #
   * Always use symfony-Exceptions and produce a nice output 
   * <strike>Bill Call _(done)_</strike>
-  * <strke>enable call billing for SIP-Phones</strike>
+  * <strike>enable call billing for SIP-Phones</strike>
   * <strike> Create Bills (migrate old script to symfony)</strike>
   * <strike>Create Bill Mails (in progres)</strike> 
   * <strike>Create the DHCP-Config from the phones-Table</strike>
   * <strike>Sync the residents data between hekdb and hekphone</strike> _Refractor and write unit test_
-  * <strike>Delete old billing information and cdrs (privacy) (skeleton exists)</strike>
+  * <strike>Delete old billing information and cdrs (privacy) (skeleton exists) (Hannes)</strike>
   * Warn in case of unallocated calls via eMail (Constantin)
-  * Task to lock all residents moving out today and notify the user via eMail (Constantin)
-  * Create Warning mails when limit is reached (Constantin)
-  * Write migration scripts from the old database to the new one (Constantin/Hannes)
+  * <strike>Task to lock all residents moving out today and notify the user via eMail (Constantin)</strike>
+  * <strike>Create Warning mails when limit is reached (Constantin/Hannes)</strike>
+  * <strike>Write migration scripts from the old database to the new one (Constantin/Hannes)<strike>

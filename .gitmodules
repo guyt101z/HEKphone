@@ -1,0 +1,3 @@
+[submodule "plugins/sfDoctrineDynamicFormRelationsPlugin"]
+	path = plugins/sfDoctrineDynamicFormRelationsPlugin
+	url = git://github.com/kriswallsmith/sfDoctrineDynamicFormRelationsPlugin.git

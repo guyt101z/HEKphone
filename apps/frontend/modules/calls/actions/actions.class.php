@@ -45,8 +45,9 @@ class callsActions extends sfActions
     // get the calls/bills and pass them to the view layer
     $this->callsCollection = Doctrine_Query::create()
                             ->from('Calls c')
-                            ->addWhere('c.bill = 0')
+                            ->addWhere('c.bill IS NULL')
                             ->addWhere('c.resident = ?', $this->residentid)
+                            ->orderBy('date desc')
                             ->execute();
     $this->billsCollection = Doctrine_Query::create()
                             ->from('Bills b')

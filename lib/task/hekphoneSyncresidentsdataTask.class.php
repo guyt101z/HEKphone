@@ -10,6 +10,7 @@ class hekphoneSyncresidentsdataTask extends sfBaseTask
     // ));
 
     $this->addOptions(array(
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('sourceDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The source connection name', 'hekdb'),
       new sfCommandOption('destinationDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination connection name', 'hekphone'),
       new sfCommandOption('source', null, sfCommandOption::PARAMETER_REQUIRED, 'The source db name', 'HekdbCurrentResidents'),
@@ -31,11 +32,6 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connections
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connSource = $databaseManager->getDatabase($options['sourceDb'])->getConnection();
-    $connDestination = $databaseManager->getDatabase($options['destinationDb'])->getConnection();
-
     $sourceResidentsTable = Doctrine_Core::getTable($options['source']);
     $destinationResidentsTable = Doctrine_Core::getTable($options['destination']);
     $roomTable = Doctrine_Core::getTable('Rooms');
@@ -64,8 +60,8 @@ EOF;
         } else {
             if ($destinationResidents[$sourceResident->id]->first_name != $sourceResident->first_name
                 && $destinationResidents[$sourceResident->id]->first_name != $sourceResident->last_name) {
-                $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$sourceResident->first_name} {$sourceResident->last_name}' "
-                    ."to '{$hekdphoneResident->first_name} {$destinationResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Something might be wrong.
+                    $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$destinationResidents[$sourceResident->id]->first_name} {$destinationResidents[$sourceResident->id]->last_name}' "
+                    ."to '{$sourceResident->first_name} {$sourceResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Some
             }
             $numOld++;
         }

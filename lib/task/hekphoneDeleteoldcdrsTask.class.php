@@ -9,7 +9,7 @@ class hekphoneDeleteoldcdrsTask extends sfBaseTask
     //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
     // ));
     $this->addOptions(array(
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The database connection name', 'hekphone'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -25,10 +25,6 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-      // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
     Doctrine_Core::getTable('Calls')->deleteOldCalls();
     Doctrine_Core::getTable('AsteriskCdr')->deleteOldCdrs();
     Doctrine_Core::getTable('Bills')->deleteOldBills();
