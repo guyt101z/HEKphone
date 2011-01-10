@@ -41,13 +41,11 @@ EOF;
     $destinationResidentsTable->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'id');
     $roomTable->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'id');
 
-    // Limit the fetched entry from hekDb to the ones of the last year.
-    // We fetch changes which only affect the past, so we don't miss corrective actions.
-    // You could limit this even more, but performance doesn't matter in this case.
-    // XXX: Think about this again. How does Doctrine lock entries in the Table? READ!
-    $thisYear = date('Y');
-    $sourceResidents = $sourceResidentsTable->findByDql("move_out > ? OR move_out IS NULL ORDER BY id", $thisYear.'-01-01');
-    $destinationResidents = $destinationResidentsTable->findByDql("move_out > ? OR move_out IS NULL", $thisYear.'-01-01');
+
+    /* Fetch all source and destination residents */
+    // FIXME: This is non-performant.
+    $sourceResidents = $sourceResidentsTable->findAll();
+    $destinationResidents = $destinationResidentsTable->findAll();
 
     $numNew = 0;
     $numOld = 0;
@@ -59,9 +57,9 @@ EOF;
             $numNew++;
         } else {
             if ($destinationResidents[$sourceResident->id]->first_name != $sourceResident->first_name
-                && $destinationResidents[$sourceResident->id]->first_name != $sourceResident->last_name) {
+                && $destinationResidents[$sourceResident->id]->last_name != $sourceResident->last_name) {
                     $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$destinationResidents[$sourceResident->id]->first_name} {$destinationResidents[$sourceResident->id]->last_name}' "
-                    ."to '{$sourceResident->first_name} {$sourceResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Some
+                    ."to '{$sourceResident->first_name} {$sourceResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Something might be wrong
             }
             $numOld++;
         }
