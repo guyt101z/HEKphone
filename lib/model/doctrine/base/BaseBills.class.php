@@ -43,7 +43,7 @@ abstract class BaseBills extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
-             'sequence' => 'bills_id',
+             'autoincrement' => true,
              'length' => 6,
              ));
         $this->hasColumn('resident', 'integer', 6, array(

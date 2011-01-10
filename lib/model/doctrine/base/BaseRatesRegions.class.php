@@ -37,7 +37,7 @@ abstract class BaseRatesRegions extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
-             'sequence' => 'rates_regions_id',
+             'autoincrement' => true,
              'length' => 6,
              ));
         $this->hasColumn('rate', 'integer', 6, array(

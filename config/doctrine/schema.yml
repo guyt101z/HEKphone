@@ -945,7 +945,7 @@ Rates:
   columns:
     id: 
       type: integer(6)
-      primary: true 
+      primary: true
     provider: 
       type: integer(1)
       notnull: true
