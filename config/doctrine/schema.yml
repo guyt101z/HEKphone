@@ -796,7 +796,7 @@ Calls:
     id: 
       type: integer(7)
       primary: true
-      sequence: calls_id
+      autoincrement: true
     resident: 
       type: integer(6)
       notnull: true
@@ -847,7 +847,7 @@ Bills:
     id: 
       type: integer(6)
       primary: true
-      sequence: bills_id
+      autoincrement: true
     resident: 
       type: integer(6)
       notnull: true
@@ -900,7 +900,7 @@ RatesRegions:
     id: 
       type: integer(6)
       primary: true
-      sequence: rates_regions_id
+      autoincrement: true
     rate:
       type: integer(6)
       notnull: true
@@ -945,7 +945,7 @@ Rates:
   columns:
     id: 
       type: integer(6)
-      primary: true
+      primary: true 
     provider: 
       type: integer(1)
       notnull: true
@@ -991,7 +991,7 @@ Prefixes:
     id: 
       type: integer(6)
       primary: true
-      sequence: prefixes_id
+      autoincrement: true
     prefix: 
       type: string(20)
       notnull: true
