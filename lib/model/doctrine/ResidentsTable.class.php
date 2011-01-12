@@ -33,7 +33,7 @@ class ResidentsTable extends Doctrine_Table
             ->addWhere("residents.move_in<= ?", $date)
             ->addWhere("residents.move_out >= ? OR residents.move_out IS NULL", $date);
 
-        if ($q->count()>0) {
+        if ($q->count() == 1) {
             return $q->fetchOne();
         } elseif($q->count()>1) {
             throw New Exception("According to the database there is more than one person living in room no $roomNo at $date.");

@@ -31,9 +31,10 @@ class BillsTable extends Doctrine_Table
                             ->from('Calls')
                             ->addWhere('bill is null')
                             ->addWhere('date <= ?', $end)
-                            ->addWhere('date >= ?', $start);
+                            ->addWhere('date >= ?', $start)
+                            ->execute();
 
-        if ( ! $unbilledCalls = $unbilledCalls->execute())
+        if ( $unbilledCalls->count() == 0)
         {
             return false; // no bills were created
         }
@@ -41,7 +42,7 @@ class BillsTable extends Doctrine_Table
         //Calculate the amount of all unbilled calls for one resident
         foreach ($unbilledCalls as $unbilledCall)
         {
-        	$sums[$unbilledCall['resident']] += $unbilledCall['charges'];
+        	$sums[$unbilledCall['resident']] += $unbilledCall['charges']/100; // bills amount is in EUR, calls charges are in ct
         }
 
         if ( ! isset($sums)){
@@ -53,9 +54,10 @@ class BillsTable extends Doctrine_Table
         	//Prepare the bills for each resident
         	$billsArray[] = array(
         	               'resident'  => $residentid,
-        	               'amount'    => $amount,
+        	               'amount'    => round($amount, 2),
         	               'date'      => date("Y-m-d")
         	 );
+        	 echo("Bill for: $residentid with amount $amount " . PHP_EOL);
         }
 
         //Create the bills and save them into the database.
@@ -78,7 +80,9 @@ class BillsTable extends Doctrine_Table
         	$unbilledCalls[$key]->set('bill', $currentBillId);
         }
         $unbilledCalls->save();
-
+        
+        $billsCollection->createDtausFiles($start, $end);
+        
         // send the bills as email to the residents
         $billsCollection->loadRelated('Calls');
         $billsCollection->sendEmails($start, $end);

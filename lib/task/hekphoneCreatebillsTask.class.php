@@ -45,10 +45,15 @@ EOF;
     {
        throw new sfCommandException('end parameter is missing. Provide both parameters or none');
     }
+    else
+    {
+       $start = $options['start'];
+       $end   = $options['end'];
+    }
 
     /* Create Bills */
     $billsTable = Doctrine_Core::getTable('Bills');
-    if($billsTable->createBills($options['start'], $options['end']))
+    if($billsTable->createBills($start, $end))
     {
         $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
     }

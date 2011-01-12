@@ -200,7 +200,7 @@ class AsteriskCdr extends BaseAsteriskCdr
             $provider = $this->userfield;
 
             $ratesTable = Doctrine_Core::getTable('Rates');
-            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider);
+            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider, $this->calldate);
 
             $call->charges     = $collRate->getCharge($this->billsec);
             $call->rate        = $collRate->id;
@@ -213,7 +213,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         $this->save();
 
         // This message will show up in the postgres-logfile
-        echo "[NOTICE] Billed call. Extension:" . $call->extension
+        echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $call->extension
              . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
 
         /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/
