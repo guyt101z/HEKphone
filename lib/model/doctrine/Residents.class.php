@@ -29,7 +29,7 @@ class Residents extends BaseResidents
                 ->addWhere('resident = ?', $this->id)
                 ->execute();
 
-            $this->currentBillAmount = $collCurrentBillAmount[0]['SUM'];
+            $this->currentBillAmount = $collCurrentBillAmount[0]['SUM']/100;
         }
 
         return $this->currentBillAmount;
