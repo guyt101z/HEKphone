@@ -115,9 +115,9 @@ class AsteriskCdr extends BaseAsteriskCdr
      */
     function shortenDestination() {
         if ( $this->getResident()->shortened_itemized_bill) {
-            return substr($this->dst, 0, -3) . 'xxx';
+            return substr($this->getFormattedDestination(), 0, -3) . 'xxx';
         } else {
-            return $this->dst;
+            return $this->getFormattedDestination();
         }
     }
 
