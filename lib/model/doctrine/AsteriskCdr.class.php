@@ -45,6 +45,15 @@ class AsteriskCdr extends BaseAsteriskCdr
     }
 
     /**
+     * Checks if the calls origin is a public room (common room, bar, ...)
+     * Configure the rooms in ProjectConfiguration.class.php
+     * @return bool
+     */
+    private function isFromPublicRoom(){
+        return in_array($this->getRoomNumber(), sfConfig::get('hekphonePublicRooms'));
+    }
+
+    /**
      * Checks wheter the cdr represents a free call. Determined by the userfield
      * @return bool
      */
@@ -152,6 +161,17 @@ class AsteriskCdr extends BaseAsteriskCdr
         /* Warn if trying to bill outgoing non-free calls of locked users */
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
             echo "[security warning] locked user made an outgoing call";
+        }
+        /* Check if the call originated from a public room and exit with an error if it's non-free */
+        if($this->isFromPublicRoom()) {
+            if( ! $this->isFreeCall()) {
+                throw new Exception("Non free call from public room: ". $this->getRoomNumber());
+            } else {
+              // Mark the call as billed
+              $this->billed = true;
+              $this->save();
+              return true;
+            }
         }
         /* Recheck if somebody really picked up */
         if($this->disposition != 'ANSWERED') {
