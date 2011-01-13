@@ -16,12 +16,12 @@ class BillsCollection extends Doctrine_Collection
         //Head of the *.ctl File for the dtaus program. The dtaus File (*.ctl) is needed for
         //the execution of the dtaus program which creates the files for the bank transactions
         $dtausHead = "BEGIN {
-  Art   LK
-  Name  " . sfConfig::get('hekphoneName') . "
-  Konto " . sfConfig::get('hekphoneAccountnumber') . "
-  BLZ   " . sfConfig::get('hekphoneBanknumber') . "
-  Datum $date
-  Ausfuehrung   $date
+  Art	LK
+  Name	" . sfConfig::get('hekphoneName') . "
+  Konto	" . sfConfig::get('hekphoneAccountnumber') . "
+  BLZ	" . sfConfig::get('hekphoneBanknumber') . "
+  Datum	$date
+  Ausfuehrung	$date
   Euro
 }
 
@@ -34,12 +34,11 @@ class BillsCollection extends Doctrine_Collection
           $sumBankNumbers += $bill['Residents']['bank_number'];
         }
       //Footer of the *.ctl file for the dtaus program.
-      $dtausFooter = 
-"END {
- Anzahl        ".count($this)."
- Summe ".$sumAmount."
- Kontos        ".$sumAccounts."
- BLZs  ".$sumBankNumbers."
+      $dtausFooter = "END {
+  Anzahl	".count($this)."
+  Summe	" . $sumAmount."
+  Kontos	" . $sumAccounts."
+  BLZs	" . $sumBankNumbers."
 }";
 
         $dtausContent = "";

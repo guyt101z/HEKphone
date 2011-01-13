@@ -43,16 +43,16 @@ class Bills extends BaseBills
     	else
     	{
             $dtausEntry = "{
-  Name  " . $this['Residents']['last_name'] . "
-  Konto " . $this['Residents']['account_number'] ."
-  BLZ   " . $this['Residents']['bank_number'] . "
-  Transaktion   Einzug
-  Betrag    " . $this['amount']."
-  Zweck " . sfConfig::get("transactionName")."
-  myName  " . sfConfig::get("hekphoneName")."
-  myKonto " . sfConfig::get("hekphoneAccountnumber")."
-  myBLZ " . sfConfig::get("hekphoneBanknumber")."
-  Text  " . $start . " BIS " . $end."
+  Name	" . $this['Residents']['last_name'] . "
+  Konto	" . $this['Residents']['account_number'] ."
+  BLZ	" . $this['Residents']['bank_number'] . "
+  Transaktion	Einzug
+  Betrag	" . $this['amount']."
+  Zweck	" . sfConfig::get("transactionName")."
+  myName	" . sfConfig::get("hekphoneName")."
+  myKonto	" . sfConfig::get("hekphoneAccountnumber")."
+  myBLZ	" . sfConfig::get("hekphoneBanknumber")."
+  Text	" . $start . " BIS " . $end."
 }
 ";
      	}
