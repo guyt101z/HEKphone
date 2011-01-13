@@ -16,8 +16,8 @@ class ProjectConfiguration extends sfProjectConfiguration
     // These parameters are used for creating the dtaus-file (*.ctl) when the bills are generated
     sfConfig::set('transactionName', 'RECHNUNG HEK-PHONE');
     sfConfig::set('hekphoneName', 'HEK-PHONE');
-    sfConfig::set('hekphoneAccountnumber', '111111111');
-    sfConfig::set('hekphoneBanknumber', '52060410');
+    sfConfig::set('hekphoneAccountnumber', '123123123');
+    sfConfig::set('hekphoneBanknumber', '123123123');
 
     sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
 
@@ -30,6 +30,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     // These parameters are used in asterisk and are needed for billing purposes
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt');                              // context of incoming calls
+
+    // Rooms where every resident can enter and do calls (common rooms, media room, bar, ...)
+    // These rooms are only allowed to place free calls.
+    sfConfig::set('hekphonePublicRooms', array('000'));
 
     // Privacy settings delete cdrs and bills after a specific period of time. Affects the task hekphone:delete-old-cdrs
     // which should be run periodically via cronjob

@@ -37,7 +37,7 @@ abstract class BasePrefixes extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', 6, array(
              'type' => 'integer',
              'primary' => true,
-             'sequence' => 'prefixes_id',
+             'autoincrement' => true,
              'length' => 6,
              ));
         $this->hasColumn('prefix', 'string', 20, array(

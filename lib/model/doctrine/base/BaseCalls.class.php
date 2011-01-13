@@ -64,7 +64,7 @@ abstract class BaseCalls extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', 7, array(
              'type' => 'integer',
              'primary' => true,
-             'sequence' => 'calls_id',
+             'autoincrement' => true,
              'length' => 7,
              ));
         $this->hasColumn('resident', 'integer', 6, array(

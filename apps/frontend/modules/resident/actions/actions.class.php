@@ -93,6 +93,7 @@ class residentActions extends sfActions
    */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
+    sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
@@ -100,7 +101,7 @@ class residentActions extends sfActions
       if($form->getValue('unlocked') != $this->resident->getUnlocked())
       {
         $this->resident->set('unlocked', $form->getValue('unlocked'));
-        $this->resident->sendLockUnlockEmail();
+        $this->resident->sendLockUnlockEmail(date('d.m.Y'));
       }
       $residents = $form->save();
 

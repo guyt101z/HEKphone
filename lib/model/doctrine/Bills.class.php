@@ -99,7 +99,7 @@ class Bills extends BaseBills
             $message = Swift_Message::newInstance()
                 ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['Residents']['email'])
-                ->setSubject('deine Rechnung vom '.$this['date'])
+                ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
         }

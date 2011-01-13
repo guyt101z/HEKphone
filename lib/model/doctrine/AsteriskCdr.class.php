@@ -45,6 +45,15 @@ class AsteriskCdr extends BaseAsteriskCdr
     }
 
     /**
+     * Checks if the calls origin is a public room (common room, bar, ...)
+     * Configure the rooms in ProjectConfiguration.class.php
+     * @return bool
+     */
+    private function isFromPublicRoom(){
+        return in_array($this->getRoomNumber(), sfConfig::get('hekphonePublicRooms'));
+    }
+
+    /**
      * Checks wheter the cdr represents a free call. Determined by the userfield
      * @return bool
      */
@@ -115,9 +124,9 @@ class AsteriskCdr extends BaseAsteriskCdr
      */
     function shortenDestination() {
         if ( $this->getResident()->shortened_itemized_bill) {
-            return substr($this->dst, 0, -3) . 'xxx';
+            return substr($this->getFormattedDestination(), 0, -3) . 'xxx';
         } else {
-            return $this->dst;
+            return $this->getFormattedDestination();
         }
     }
 
@@ -153,6 +162,17 @@ class AsteriskCdr extends BaseAsteriskCdr
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
             echo "[security warning] locked user made an outgoing call";
         }
+        /* Check if the call originated from a public room and exit with an error if it's non-free */
+        if($this->isFromPublicRoom()) {
+            if( ! $this->isFreeCall()) {
+                throw new Exception("Non free call from public room: ". $this->getRoomNumber());
+            } else {
+              // Mark the call as billed
+              $this->billed = true;
+              $this->save();
+              return true;
+            }
+        }
         /* Recheck if somebody really picked up */
         if($this->disposition != 'ANSWERED') {
             return false;
@@ -180,7 +200,7 @@ class AsteriskCdr extends BaseAsteriskCdr
             $provider = $this->userfield;
 
             $ratesTable = Doctrine_Core::getTable('Rates');
-            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider);
+            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider, $this->calldate);
 
             $call->charges     = $collRate->getCharge($this->billsec);
             $call->rate        = $collRate->id;
@@ -193,7 +213,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         $this->save();
 
         // This message will show up in the postgres-logfile
-        echo "[NOTICE] Billed call. Extension:" . $call->extension
+        echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $call->extension
              . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
 
         /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/

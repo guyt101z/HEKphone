@@ -6,13 +6,13 @@
     <tr>
       <td colspan="3">
       <table class="calldetails" border="1">
-    <?php foreach($bill->getCalls() as $call):?>
         <tr>
           <th><?php echo __("calls.list.datetime") ?></th>
           <th><?php echo __("calls.list.duration") ?></th>
           <th><?php echo __("calls.list.destination") ?></th>
           <th><?php echo __("calls.list.charge") ?></th>
         </tr>
+    <?php foreach($bill->getCalls() as $call):?>
         <tr>
           <td><?php echo $call->date ?></td>
           <td><?php echo $call->duration?></td>

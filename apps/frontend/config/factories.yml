@@ -23,12 +23,12 @@ test:
     param:
       delivery_strategy: none
 
-dev:
-    mailer:
-      param:
-        delivery_strategy: spool
-        spool_class: Swift_FileSpool
-        spool_arguments: ['/tmp/mail']
+#dev:
+#    mailer:
+#      param:
+#        delivery_strategy: spool
+#        spool_class: Swift_FileSpool
+#        spool_arguments: ['/tmp/mail']
 
 all:
   routing:
