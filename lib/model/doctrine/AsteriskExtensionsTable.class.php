@@ -18,6 +18,60 @@ class AsteriskExtensionsTable extends Doctrine_Table
     }
 
     /**
+     * Gets all extensions belonging to the group call with number
+     * (extension like 1234) $groupCallNumber as DoctrineCollection
+     * @param string $groupCallNumber An extension like 1234
+     * @return Doctrine_Collection
+     * @return bool false if the group calls does not exist.
+     */
+    private function getGroupCall($groupCallNumber) {
+
+    }
+
+    /**
+     * Returns the list of extensions in the group call
+     * @param string $groupCallNumber An extension like 1234
+     * @return array With the extensions in the group call may be empty.
+     * @return bool false if the group call does not exist
+     */
+    public function getGroupCallInfo($groupCallNumber) {
+
+    }
+
+    /**
+     * Adds a residents extension to a group call.
+     * @param unknown_type $resident
+     * @param unknown_type $groupCallNumber
+     */
+    public function addToGroupCall($resident, $groupCallNumber) {
+
+    }
+    /**
+     * Removes a residents extension from a group call.
+     * If it was the last number in the group call, the group-call gets deleted.
+     * @param unknown_type $resident
+     * @param unknown_type $groupCallNumber
+     * @return bool true If succeded, false if the the resident was not in the group call
+     */
+    public function removeFromGroupCall($resident, $groupCallNumber) {
+
+    }
+
+    /** Deletes the entire group call even if there are still extensions in it.
+     * @param unknown_type $groupCallNumber
+     */
+    public function deleteGroupCall($groupCallNumber) {
+
+    }
+
+    /**
+     * @param unknown_type $groupCallNumber
+     */
+    public function cleanGroupCall($groupCallNumber) {
+
+    }
+
+    /**
      * The function updates/creates the extension neccesary to dial to the sip
      * phone of a user.
      *
@@ -57,11 +111,11 @@ class AsteriskExtensionsTable extends Doctrine_Table
         if ($resident['vm_active']) {
             // in case the voicemail is activated, only ring for a specified number
             // of times
-            $arrayExtensions[0]['appdata'] = $phone['technologie'] . '/' . $extension
+            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension
                                            . '|' . $resident['vm_seconds'];
         } else {
             // if not, ring until the caller hangs up
-            $arrayExtensions[0]['appdata'] = $phone['technologie'] . '/' . $extension;
+            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension;
         }
 
         // include forwarding to mailbox if it's active

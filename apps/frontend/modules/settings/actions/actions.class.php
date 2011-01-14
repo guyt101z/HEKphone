@@ -29,11 +29,15 @@ class settingsActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
+
+    echo$this->form->getCSRFToken();
     // check, if the user exists
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
 
     // Create the form
     $this->form = new SettingsForm();
+    throw new Exception($this->form->getCSRFToken());
+
 
     if($request->isMethod('post'))
     {
