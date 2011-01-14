@@ -14,36 +14,24 @@
       <th>Language</th>
       <th>Mailbox</th>
       <th>Defaultuser</th>
-      <th>Regserver</th>
-      <th>Regseconds</th>
-      <th>Ipaddr</th>
-      <th>Port</th>
-      <th>Fullcontact</th>
-      <th>Useragent</th>
-      <th>Lastms</th>
+      <th>current Ipaddr</th>
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($phoness as $phones): ?>
+    <?php foreach ($phones as $phone): ?>
     <tr>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phones->getId()) ?>"><?php echo $phones->getId() ?></a></td>
-      <td><?php echo $phones->getName() ?></td>
-      <td><?php echo $phones->getType() ?></td>
-      <td><?php echo $phones->getCallerid() ?></td>
-      <td><?php echo $phones->getSecret() ?></td>
-      <td><?php echo $phones->getHost() ?></td>
-      <td><?php echo $phones->getDefaultip() ?></td>
-      <td><?php echo $phones->getMac() ?></td>
-      <td><?php echo $phones->getLanguage() ?></td>
-      <td><?php echo $phones->getMailbox() ?></td>
-      <td><?php echo $phones->getDefaultuser() ?></td>
-      <td><?php echo $phones->getRegserver() ?></td>
-      <td><?php echo $phones->getRegseconds() ?></td>
-      <td><?php echo $phones->getIpaddr() ?></td>
-      <td><?php echo $phones->getPort() ?></td>
-      <td><?php echo $phones->getFullcontact() ?></td>
-      <td><?php echo $phones->getUseragent() ?></td>
-      <td><?php echo $phones->getLastms() ?></td>
+      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getId() ?></a></td>
+      <td><?php echo $phone->getName() ?></td>
+      <td><?php echo $phone->getType() ?></td>
+      <td><?php echo $phone->getCallerid() ?></td>
+      <td><?php echo $phone->getSecret() ?></td>
+      <td><?php echo $phone->getHost() ?></td>
+      <td><?php echo $phone->getDefaultip() ?></td>
+      <td><?php echo $phone->getMac() ?></td>
+      <td><?php echo $phone->getLanguage() ?></td>
+      <td><?php echo $phone->getMailbox() ?></td>
+      <td><?php echo $phone->getDefaultuser() ?></td>
+      <td><?php echo $phone->getIpaddr() ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

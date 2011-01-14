@@ -29,7 +29,7 @@ EOF;
               ->where('billed = ?', false)
               ->andWhereIn('dcontext', sfConfig::get('asteriskUnlockedPhonesContexts'))
               ->addWhere('disposition = ?', 'ANSWERED')
-              ->addWhere('userfield =! ?', 'intern')
+              ->addWhere('userfield != ?', 'intern')
               ->limit($options['count'])
               ->execute();
 
