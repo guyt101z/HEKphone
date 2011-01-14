@@ -27,8 +27,9 @@ EOF;
     $collCdr  = Doctrine_Query::create()
               ->from('AsteriskCdr')
               ->where('billed = ?', false)
-              ->addWhere('dcontext = ? ', 'anlage')
+              ->andWhereIn('dcontext', sfConfig::get('asteriskUnlockedPhonesContexts'))
               ->addWhere('disposition = ?', 'ANSWERED')
+              ->addWhere('userfield =! ?', 'intern')
               ->limit($options['count'])
               ->execute();
 

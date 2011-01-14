@@ -65,6 +65,14 @@ class AsteriskCdr extends BaseAsteriskCdr
         }
     }
 
+    function isInternalCall() {
+      if($this->userfield == 'intern') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     /**
      * Checks wheter the call is an incoming call or not.
      * @return bool
@@ -154,9 +162,13 @@ class AsteriskCdr extends BaseAsteriskCdr
         if($this->billed) {
             throw New Exception("The cdr has already been billed");
         }
-        /* Only bill outgoing calls */
+        /* Only bill outgoing calls no incoming calls*/
         if($this->isIncomingCall()) {
             throw new Exception("Trying to bill an incoming call");
+        }
+        /* and no internal calls*/
+        if($this->isInternalCall()) {
+          return false;
         }
         /* Warn if trying to bill outgoing non-free calls of locked users */
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {

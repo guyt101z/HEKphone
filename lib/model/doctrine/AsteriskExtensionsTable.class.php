@@ -91,8 +91,8 @@ class AsteriskExtensionsTable extends Doctrine_Table
           return false;
         }
         $phone     = Doctrine_Core::getTable('Phones')->findOneByName($extension);
-        $context   = ($resident['unlocked'])? 'unlocked' : 'locked';
-
+        //$context   = ($resident['unlocked'])? 'unlocked' : 'locked';
+        $context   = 'phones';
 
         // Merciless delete any old entries of the room/phone: //
         $this->createQuery()
