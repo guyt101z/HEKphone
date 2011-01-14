@@ -34,16 +34,16 @@ EOF;
     $num = 0;
     foreach ($collPhones as $phone) {
         // don't generate corrupt config
-        if ( ! $phone->name or ! $phone->mac or ! $phone->ipaddr )
+        if ( ! $phone->name or ! $phone->mac or ! $phone->defaultip )
           continue;
 
         // else add section in the config file
         ++$num;
         $dhcpConf .= '
         host phone'.$phone->name.'{
-          hardware ethernet '.$phone->mac.'
-          fixed-address '.$phone->defaultip.'
-        }';
+          hardware ethernet '.$phone->mac.';
+          fixed-address '.$phone->defaultip.';
+        }' . PHP_EOL;
     }
 
     /* Be verbose */
