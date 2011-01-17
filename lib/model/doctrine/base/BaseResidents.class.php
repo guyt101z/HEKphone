@@ -32,6 +32,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property Doctrine_Collection $Comments
  * @property Doctrine_Collection $Calls
  * @property Doctrine_Collection $Bills
+ * @property AsteriskVoicemail $AsteriskVoicemail
  * 
  * @method integer             getId()                      Returns the current record's "id" value
  * @method string              getLastName()                Returns the current record's "last_name" value
@@ -58,6 +59,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Doctrine_Collection getComments()                Returns the current record's "Comments" collection
  * @method Doctrine_Collection getCalls()                   Returns the current record's "Calls" collection
  * @method Doctrine_Collection getBills()                   Returns the current record's "Bills" collection
+ * @method AsteriskVoicemail   getAsteriskVoicemail()       Returns the current record's "AsteriskVoicemail" value
  * @method Residents           setId()                      Sets the current record's "id" value
  * @method Residents           setLastName()                Sets the current record's "last_name" value
  * @method Residents           setFirstName()               Sets the current record's "first_name" value
@@ -83,6 +85,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setComments()                Sets the current record's "Comments" collection
  * @method Residents           setCalls()                   Sets the current record's "Calls" collection
  * @method Residents           setBills()                   Sets the current record's "Bills" collection
+ * @method Residents           setAsteriskVoicemail()       Sets the current record's "AsteriskVoicemail" value
  * 
  * @package    hekphone
  * @subpackage model
@@ -207,5 +210,9 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasMany('Bills', array(
              'local' => 'id',
              'foreign' => 'resident'));
+
+        $this->hasOne('AsteriskVoicemail', array(
+             'local' => 'id',
+             'foreign' => 'uniqueid'));
     }
 }

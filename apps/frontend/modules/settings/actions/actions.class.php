@@ -75,12 +75,13 @@ class settingsActions extends sfActions
 
         // Set a users lanuage
         // $resident->setCulture($request['settings']['language']);
-
-        $resident->setVoicemailSettings($request['settings']['vm_active'],
+        if(isset($resident->email)) {
+          $resident->setVoicemailSettings($request['settings']['vm_active'],
                                         $request['settings']['vm_seconds'],
                                         $request['settings']['vm_sendEmailOnNewMessage'],
                                         $request['settings']['vm_attachMessage'],
                                         $request['settings']['vm_sendEmailOnMissedCall']);
+        }
         $resident->save();
 
         $this->getUser()->setFlash('notice', 'resident.settings.successfull');

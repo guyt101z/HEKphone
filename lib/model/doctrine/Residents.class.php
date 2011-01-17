@@ -54,6 +54,21 @@ class Residents extends BaseResidents
     }
 
     /**
+     * Creates a residents voicemailbox-entry if it does not exist yet
+     * @return true when a new mailbox is created, false otherwise
+     */
+    public function createVoicemailbox() {
+      if( ! isset($this->AsteriskVoicemail)) {
+        $this->AsteriskVoicemail->set('uniqueid', $this->get('id'));
+        $this->AsteriskVoicemail->set('email', $this->get('email'));
+
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    /**
      * Sets a residents voicemail-settings. Modifies the asterisk_voicemail and
      * asterisk_extensions database table.
      *
@@ -65,9 +80,8 @@ class Residents extends BaseResidents
      */
     public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $mailOnMissedCall)
     {
-      if( ! $this->AsteriskVoicemail) {
-        $this->createVoicemailbox();
-      }
+      /* Create Voicemailbox, if it does not exist yet */
+      $this->createVoicemailbox();
 
       $this->set('vm_active', $active);
       $this->set('vm_seconds', $seconds);
