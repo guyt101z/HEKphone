@@ -30,6 +30,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     // These parameters are used in asterisk and are needed for billing purposes
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt');                              // context of incoming calls
+    sfConfig::set('asteriskInternalUserfield', 'internal');                       // userfield of internal calls is set to this
 
     // Rooms where every resident can enter and do calls (common rooms, media room, bar, ...)
     // These rooms are only allowed to place free calls.

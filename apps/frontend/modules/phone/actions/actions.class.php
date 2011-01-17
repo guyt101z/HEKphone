@@ -14,6 +14,7 @@ class phoneActions extends sfActions
   {
     $this->phones = Doctrine_Core::getTable('Phones')
       ->createQuery('a')
+      ->orderBy('name')
       ->execute();
   }
 
@@ -54,10 +55,9 @@ class phoneActions extends sfActions
 
     $this->form = new PhonesForm($phone);
 
-    // get the room where the phone is located in.
     $selectOldRoomQuery  = Doctrine_Query::Create()->from('Rooms')->addWhere('phone = ?', $phone->getId());
     if($selectOldRoomQuery->count() > 1) {
-      throw new Exception('Phone ' . $phone->getId() . ' is a quantum mechanical phone and exists in many rooms simultaneousely.');
+      $this->getUser()->setFlash('notice', 'Phone ' . $phone->getId() . ' is a quantum mechanical phone and exists in many rooms simultaneousely. On submitting the form, all references will be deleted and the phone will be allocated to the room you choose.');
     }
     $this->oldRoomRecord = $selectOldRoomQuery->fetchOne();
 
@@ -71,12 +71,6 @@ class phoneActions extends sfActions
     $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
     $this->form = new PhonesForm($phones);
 
-    $selectOldRoomQuery  = Doctrine_Query::Create()->from('Rooms')->addWhere('phone = ?', $phones->getId());
-    if($selectOldRoomQuery->count() > 1) {
-      throw new Exception('Phone ' . $phones->getId() . ' is a quantum mechanical phone and exists in many rooms simultaneousely.');
-    }
-    $this->oldRoomRecord = $selectOldRoomQuery->fetchOne();
-
     $this->processForm($request, $this->form);
 
     $this->setTemplate('edit');
@@ -88,8 +82,12 @@ class phoneActions extends sfActions
 
     $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
 
-    // delete any reference to the phone in the rooms table
-    Doctrine_Query::Create()->update('Rooms')->set('phone', 'NULL')->where('phone = ?', $phone->getId())->execute();
+    // delete any reference to the phone in the rooms table or we will violate a foreign key when deleting the phone
+    Doctrine_Query::Create()
+      ->update('Rooms')
+      ->set('phone', 'NULL')
+      ->where('phone = ?', $phone->getId())
+      ->execute();
 
     $phone->delete();
 
@@ -101,40 +99,40 @@ class phoneActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      // remove the phone from the rooms table (we'll add it later again)
-      if($this->oldRoomRecord) {
-        $this->oldRoomRecord->set('phone', null);
-        $this->oldRoomRecord->save();
-      }
-
-      // save the form at this point to get an ID, if it's a new entry
+      // If the phone is being newly created, we have no id yet. We save the form so we get an id.
       $phone = $form->save();
 
-      // update the rooms table with the phones id
-      $roomRecord = Doctrine_Core::getTable('Rooms')->findOneBy('id', $form->getValue('room'));
-      $roomRecord->set('phone', $phone->getId());
-      $roomRecord->save();
+      /* Update the Rooms table... */
+      // ... remove any reference to the phone
+      Doctrine_Query::Create()
+       ->update('Rooms')->set('phone', 'NULL')
+       ->where('phone = ?', $phone->getId())
+       ->execute();
+      // ... reference the room at the correct room
+      $room = Doctrine_Core::getTable('Rooms')->findOneBy('id', $form->getValue('room'));
+      $room->set('phone', $phone->getId());
+      $room->save();
 
-      // set the phones properties according to the room number
-      $extension = '1' . str_pad($roomRecord->get('room_no'), 3, "0", STR_PAD_LEFT);
-      $phone->set('name', $extension);
-      $phone->set('callerid', $extension);
-      $phone->set('defaultuser', $extension);
-      $phone->set('defaultip', '192.168.' . substr($extension,1,1) . "." . (int)substr($extension,2,3));
 
-      // set the phones properties according to who's living in the room
+      print_r($phone->Rooms->toArray()); die;
+
+      /* Set the phones properties... */
+      // ... according to the room it is located in
+      $phone->updateForRoom($room);
+      // ... according to who lives in the room
       try {
-     	$resident = Doctrine_Core::getTable('Residents')->findByRoomNo($roomRecord->room_no);
-
-      	$phone->set('callerid', $resident->first_name . " " . $resident->last_name . '<' . $extension . '>');
-      	$phone->set('language', substr($resident->culture,0,2));
-      	$phone->set('mailbox', $resident->id . "@default");
+     	$resident = Doctrine_Core::getTable('Residents')->findByRoomNo($room->room_no);
+     	$phone->updateForResident($resident);
+     	Doctrine_Core::getTable('AsteriskExtensions')->updateResidentsExtension($resident);
       }catch(Exception $e)
       {
-        ;
+        $this->getUser()->setFlash('notice', $e->getMessage());
       }
 
       $phone->save();
+
+      /* Notify the user and redirect back to the form */
+      $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . "Update successful.");
       $this->redirect('phone/edit?id='.$phone->getId());
     }
   }

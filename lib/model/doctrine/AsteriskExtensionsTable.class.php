@@ -85,23 +85,27 @@ class AsteriskExtensionsTable extends Doctrine_Table
      */
     public function updateResidentsExtension(Residents $resident)
     {
-        $extensionPrefix = '_8695';
+        DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
+
+        /* Get the extension of the residents phone */
+        $extensionPrefix = '8695';
         if ( ! $extension = "1" . $resident['Rooms']['room_no']) {
           sfContext::getInstance()->getLogger()->warning('Tried to update extension of a resident ' . $residentid . ' not living in a room. Extension not updated.');
           return false;
         }
-        $phone     = Doctrine_Core::getTable('Phones')->findOneByName($extension);
-        //$context   = ($resident['unlocked'])? 'unlocked' : 'locked';
         $context   = 'phones';
 
-        // Merciless delete any old entries of the room/phone: //
+        $phone     = Doctrine_Core::getTable('Phones')->findOneByName($extension);
+
+        /* Delete any old entries of the room/phone */
         $this->createQuery()
            ->delete()
            ->where('exten = ?', $extensionPrefix . $extension)
+           ->orWhere('exten = ?', $extension)
            ->execute();
 
-        // Prepare the extensions entries: //
-        // call the phone located in the room
+        /* Prepare the extensions entries */
+        // Calls to the phone from the PSTN
         $arrayExtensions[0] = array(
              'exten'        => $extensionPrefix . $extension,
              'priority'     => 1,
@@ -111,8 +115,8 @@ class AsteriskExtensionsTable extends Doctrine_Table
         if ($resident['vm_active']) {
             // in case the voicemail is activated, only ring for a specified number
             // of times
-            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension
-                                           . '|' . $resident['vm_seconds'];
+            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension . ASTERISK_PARAMETER_SEPARATOR
+                                           . $resident['vm_seconds'];
         } else {
             // if not, ring until the caller hangs up
             $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension;
@@ -140,6 +144,24 @@ class AsteriskExtensionsTable extends Doctrine_Table
             'context'      => $context,
             'app'          => 'Hangup',
             'appdata'      => ''
+        );
+
+        // Calls to the phone from other sip phones
+        $arrayExtensions[3] = array(
+             'exten'        => $extension,
+             'priority'     => 1,
+             'context'      => $context,
+             'app'          => 'Set',
+             'appdata'      => 'CDR(userfield)=internal'
+        );
+        $arrayExtensions[4] = array(
+             'exten'        => $extension,
+             'priority'     => 2,
+             'context'      => $context,
+             'app'          => 'GoTo',
+             'appdata'      => $context . ASTERISK_PARAMETER_SEPARATOR
+                             . $extensionPrefix . $extension . ASTERISK_PARAMETER_SEPARATOR
+                             . '1' //Goto(context,extension,priority)
         );
 
         // Insert the new extension in the database: //
