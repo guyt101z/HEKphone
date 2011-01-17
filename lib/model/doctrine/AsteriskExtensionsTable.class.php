@@ -112,7 +112,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
              'context'      => $context,
              'app'          => 'Dial',
         );
-        if ($resident['vm_active']) {
+        if ($resident['vm_active'] && $phone['technology'] == 'SIP') {
             // in case the voicemail is activated, only ring for a specified number
             // of times
             $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension . ASTERISK_PARAMETER_SEPARATOR
@@ -126,7 +126,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
         // this is resident specific so only insert it if
         // there's a residentid provided
         $vm_active = true;
-        if ($resident['vm_active'])
+        if ($resident['vm_active'] && $phone['technology'] == 'SIP')
         {
             $arrayExtensions[1] = array(
                 'exten'        => $extensionPrefix . $extension,
