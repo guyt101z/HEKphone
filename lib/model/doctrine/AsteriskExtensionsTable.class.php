@@ -72,97 +72,36 @@ class AsteriskExtensionsTable extends Doctrine_Table
     }
 
     /**
-     * The function updates/creates the extension neccesary to dial to the sip
-     * phone of a user.
+     * Deletes all entries in AsteriskExtension related to the phone $phone
+     * @param Phones $phone
+     */
+    public function deletePhonesExtensions(Phones $phone)
+    {
+        $extensionPrefix = '8695';
+        $this->createQuery()
+            ->delete()
+            ->where('exten = ?', $extensionPrefix . $phone->getExtension())
+            ->orWhere('exten = ?', $phone->getExtension())
+            ->execute();
+    }
+
+    /**
+     * The function updates/creates the extension neccesary to dial a SIP-Phone.
+     * If a resident is associated with the room, the extension is customized with
+     * voicemailsettings etc.
      *
      * The extensions are generated in the context 'phones' which can be
      * included in the context 'locked' and 'unlocked' and 'amt' (which is
      * what you reach if you call from outside)
      *
-     * @param integer $extension
-     * @param integer $residentid
-     * @return string
+     * @param Phones $phone
+     * @return bool
      */
-    public function updateResidentsExtension(Residents $resident)
+    public function updatePhonesExtensions(Phones $phone)
     {
-        DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
-
-        /* Get the extension of the residents phone */
-        $extensionPrefix = '8695';
-        if ( ! $extension = "1" . $resident['Rooms']['room_no']) {
-          sfContext::getInstance()->getLogger()->warning('Tried to update extension of a resident ' . $residentid . ' not living in a room. Extension not updated.');
-          return false;
+        if( ! $arrayExtensions = $phone->getExtensionsAsArray()) {
+            return false;
         }
-        $context   = 'phones';
-
-        $phone     = Doctrine_Core::getTable('Phones')->findOneByName($extension);
-
-        /* Delete any old entries of the room/phone */
-        $this->createQuery()
-           ->delete()
-           ->where('exten = ?', $extensionPrefix . $extension)
-           ->orWhere('exten = ?', $extension)
-           ->execute();
-
-        /* Prepare the extensions entries */
-        // Calls to the phone from the PSTN
-        $arrayExtensions[0] = array(
-             'exten'        => $extensionPrefix . $extension,
-             'priority'     => 1,
-             'context'      => $context,
-             'app'          => 'Dial',
-        );
-        if ($resident['vm_active'] && $phone['technology'] == 'SIP') {
-            // in case the voicemail is activated, only ring for a specified number
-            // of times
-            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension . ASTERISK_PARAMETER_SEPARATOR
-                                           . $resident['vm_seconds'];
-        } else {
-            // if not, ring until the caller hangs up
-            $arrayExtensions[0]['appdata'] = $phone['technology'] . '/' . $extension;
-        }
-
-        // include forwarding to mailbox if it's active
-        // this is resident specific so only insert it if
-        // there's a residentid provided
-        $vm_active = true;
-        if ($resident['vm_active'] && $phone['technology'] == 'SIP')
-        {
-            $arrayExtensions[1] = array(
-                'exten'        => $extensionPrefix . $extension,
-                'priority'     => 2,
-                'context'      => $context,
-                'app'          => 'Voicemail',
-                'appdata'      => $resident->id . '@default'
-            );
-        }
-
-        // hangup after the call finished
-        $arrayExtensions[2] = array(
-            'exten'        => $extensionPrefix . $extension,
-            'priority'     => 99,
-            'context'      => $context,
-            'app'          => 'Hangup',
-            'appdata'      => ''
-        );
-
-        // Calls to the phone from other sip phones
-        $arrayExtensions[3] = array(
-             'exten'        => $extension,
-             'priority'     => 1,
-             'context'      => $context,
-             'app'          => 'Set',
-             'appdata'      => 'CDR(userfield)=internal'
-        );
-        $arrayExtensions[4] = array(
-             'exten'        => $extension,
-             'priority'     => 2,
-             'context'      => $context,
-             'app'          => 'GoTo',
-             'appdata'      => $context . ASTERISK_PARAMETER_SEPARATOR
-                             . $extensionPrefix . $extension . ASTERISK_PARAMETER_SEPARATOR
-                             . '1' //Goto(context,extension,priority)
-        );
 
         // Insert the new extension in the database: //
         $collExtensions = Doctrine_Collection::create('AsteriskExtensions');

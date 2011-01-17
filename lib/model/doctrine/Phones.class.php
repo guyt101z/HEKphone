@@ -16,7 +16,7 @@ class Phones extends BasePhones
    * Update the phones details according to the room where it's currently located in.
    *
    * @param $room Doctrine_Record of the room where the phone is located
-   * @return unknown
+   * @return Phones $this
    */
   public function updateForRoom($room) {
       $extension = '1' . str_pad($room->get('room_no'), 3, "0", STR_PAD_LEFT);
@@ -32,7 +32,7 @@ class Phones extends BasePhones
    * Update the phones details according to who lives in the room. If the room is not inhabitated nothing is set.
    *
    * @param $resident Doctrine_Record of the resident
-   * @return unknown
+   * @return Phones $this
    */
   public function updateForResident($resident) {
       $this->set('callerid', $resident->first_name . " " . $resident->last_name . ' <' . $this->name . '>');
@@ -40,5 +40,104 @@ class Phones extends BasePhones
       $this->set('mailbox', $resident->id . "@default");
 
       return $this;
+  }
+
+  /**
+   * Returns the extension of the phone (like 1400) if it's located in any room.
+   * False if the room is not allocated to any room
+   *
+   * @return string
+   */
+  public function getExtension() {
+    if(isset($this->Rooms[0])) {
+      return $extension = "1" . $this->Rooms[0];
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Returns the extension neccesair to call the phone as array
+   * (Intended for use with asteriskExtensions->fromArray())
+   *
+   * @return array()
+   */
+  public function getExtensionsAsArray() {
+      DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
+
+      $context   = 'phones';
+
+      $extensionPrefix = '8695';
+      if ( ! $extension = $this->getExtension()) {
+          sfContext::getInstance()->getLogger()->warning('Failed to update extension of a phone (' . $this->get('id') . ') which is not in any room.');
+          return false;
+      }
+
+      if(isset($this->Rooms[0]->Residents)) {
+          $resident = $this->Rooms[0]->Residents;
+      } else {
+          $resident = false;
+      }
+
+      /* Prepare the extensions entries */
+      // Calls to the phone from the PSTN
+      $arrayExtensions[0] = array(
+           'exten'        => $extensionPrefix . $extension,
+           'priority'     => 1,
+           'context'      => $context,
+           'app'          => 'Dial',
+      );
+      if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP') {
+          // for SIP-Phones and in case the voicemail is activated, only ring for a specified period of time
+          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension . ASTERISK_PARAMETER_SEPARATOR
+                                         . $resident['vm_seconds'];
+      } elseif($this['technology'] == 'DAHDI/g1') {
+          // For analog phones don't activate the vm box and dial with prefix so the PBX gets what we want
+          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extensionPrefix . $extension;
+      } else {
+          // for every other phone don't activate the mailbox
+          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension;
+      }
+
+      // include forwarding to mailbox if the resident turned on the vm
+      if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP')
+      {
+          $arrayExtensions[1] = array(
+              'exten'        => $extensionPrefix . $extension,
+              'priority'     => 2,
+              'context'      => $context,
+              'app'          => 'Voicemail',
+              'appdata'      => $resident->id . '@default'
+          );
+      }
+
+      // hangup after the call finished
+      $arrayExtensions[2] = array(
+          'exten'        => $extensionPrefix . $extension,
+          'priority'     => 99,
+          'context'      => $context,
+          'app'          => 'Hangup',
+          'appdata'      => ''
+      );
+
+      // Calls to the phone from other sip phones
+      $arrayExtensions[3] = array(
+           'exten'        => $extension,
+           'priority'     => 1,
+           'context'      => $context,
+           'app'          => 'Set',
+           'appdata'      => 'CDR(userfield)=internal'
+      );
+      $arrayExtensions[4] = array(
+           'exten'        => $extension,
+           'priority'     => 2,
+           'context'      => $context,
+           'app'          => 'GoTo',
+           'appdata'      => $context . ASTERISK_PARAMETER_SEPARATOR
+                           . $extensionPrefix . $extension . ASTERISK_PARAMETER_SEPARATOR
+                           . '1' //Goto(context,extension,priority)
+      );
+
+      return $arrayExtensions;
   }
 }

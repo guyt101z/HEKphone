@@ -102,7 +102,9 @@ class phoneActions extends sfActions
       // If the phone is being newly created, we have no id yet. We save the form so we get an id.
       $phone = $form->save();
 
-      /* Update the Rooms table... */
+      /* Update the relation Phone<->Room... */
+      // ... delete the extensions of the phone connected to the room
+      Doctrine_Core::getTable('AsteriskExtensions')->deletePhonesExtensions($phone);
       // ... remove any reference to the phone
       Doctrine_Query::Create()
        ->update('Rooms')->set('phone', 'NULL')
@@ -112,24 +114,27 @@ class phoneActions extends sfActions
       $room = Doctrine_Core::getTable('Rooms')->findOneBy('id', $form->getValue('room'));
       $room->set('phone', $phone->getId());
       $room->save();
+      // ... update the phones object
+      $phone->refreshRelated('Rooms');
+      // ... insert new extension
+      if( ! Doctrine_Core::getTable('AsteriskExtensions')->updatePhonesExtensions($phone)) {
+        $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Creating Extensions failed. Phone is not reachable by number.");
+      } else {
+         $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Extensions of the phone updated.");
+      }
 
-      /* Set the phones properties... */
+      /* Update the phones properties... */
       // ... according to the room it is located in
       $phone->updateForRoom($room);
       // ... according to who lives in the room
-      try {
-     	$resident = Doctrine_Core::getTable('Residents')->findByRoomNo($room->room_no);
-     	$phone->updateForResident($resident);
-     	Doctrine_Core::getTable('AsteriskExtensions')->updateResidentsExtension($resident);
-      }catch(Exception $e)
-      {
-        $this->getUser()->setFlash('notice', $e->getMessage());
+      if(isset($room->Residents)) {
+        $phone->updateForResident($room->Residents[0]);
       }
-
       $phone->save();
 
+
       /* Notify the user and redirect back to the form */
-      $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . "Update successful.");
+      $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Update successful.");
       $this->redirect('phone/edit?id='.$phone->getId());
     }
   }
