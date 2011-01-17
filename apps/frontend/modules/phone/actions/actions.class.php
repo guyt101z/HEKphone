@@ -127,9 +127,13 @@ class phoneActions extends sfActions
       // ... according to the room it is located in
       $phone->updateForRoom($room);
       // ... according to who lives in the room
-      if(isset($room->Residents)) {
-        $phone->updateForResident($room->Residents[0]);
+      try {
+        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($room->get('room_no'));
+        $phone->updateForResident($resident);
+      } catch (Exception $e) {
+        $resident = false;
       }
+
       $phone->save();
 
 

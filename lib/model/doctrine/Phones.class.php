@@ -59,24 +59,31 @@ class Phones extends BasePhones
   /**
    * Returns the extension neccesair to call the phone as array
    * (Intended for use with asteriskExtensions->fromArray())
+   * Creates voicemailbox for the resident associated with the phone if he activated it.
    *
    * @return array()
    */
   public function getExtensionsAsArray() {
       DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
-
       $context   = 'phones';
-
       $extensionPrefix = '8695';
+
+      /* Check wheter the phone is really in a room */
       if ( ! $extension = $this->getExtension()) {
           sfContext::getInstance()->getLogger()->warning('Failed to update extension of a phone (' . $this->get('id') . ') which is not in any room.');
           return false;
       }
 
+      /* Look for a resident in the phones room */
       try {
         $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('id'));
       } catch (Exception $e) {
         $resident = false;
+      }
+
+      /* Prepare the mailbox if whished */
+      if($resident && $resident['vm_active']) {
+        $resident->createVoicemailbox();
       }
 
       /* Prepare the extensions entries */
