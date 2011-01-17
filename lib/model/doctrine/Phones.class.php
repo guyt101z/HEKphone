@@ -73,10 +73,10 @@ class Phones extends BasePhones
           return false;
       }
 
-      if(isset($this->Rooms[0]->Residents)) {
-          $resident = $this->Rooms[0]->Residents;
-      } else {
-          $resident = false;
+      try {
+        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('id'));
+      } catch (Exception $e) {
+        $resident = false;
       }
 
       /* Prepare the extensions entries */
