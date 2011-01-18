@@ -33,6 +33,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property Doctrine_Collection $Calls
  * @property Doctrine_Collection $Bills
  * @property AsteriskVoicemail $AsteriskVoicemail
+ * @property Doctrine_Collection $Groupcalls
  * 
  * @method integer             getId()                      Returns the current record's "id" value
  * @method string              getLastName()                Returns the current record's "last_name" value
@@ -60,6 +61,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Doctrine_Collection getCalls()                   Returns the current record's "Calls" collection
  * @method Doctrine_Collection getBills()                   Returns the current record's "Bills" collection
  * @method AsteriskVoicemail   getAsteriskVoicemail()       Returns the current record's "AsteriskVoicemail" value
+ * @method Doctrine_Collection getGroupcalls()              Returns the current record's "Groupcalls" collection
  * @method Residents           setId()                      Sets the current record's "id" value
  * @method Residents           setLastName()                Sets the current record's "last_name" value
  * @method Residents           setFirstName()               Sets the current record's "first_name" value
@@ -86,6 +88,7 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setCalls()                   Sets the current record's "Calls" collection
  * @method Residents           setBills()                   Sets the current record's "Bills" collection
  * @method Residents           setAsteriskVoicemail()       Sets the current record's "AsteriskVoicemail" value
+ * @method Residents           setGroupcalls()              Sets the current record's "Groupcalls" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -214,5 +217,10 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasOne('AsteriskVoicemail', array(
              'local' => 'id',
              'foreign' => 'uniqueid'));
+
+        $this->hasMany('Groupcalls', array(
+             'refClass' => 'ResidentsGroupcalls',
+             'local' => 'resident_id',
+             'foreign' => 'groupcall_id'));
     }
 }

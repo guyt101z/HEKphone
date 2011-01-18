@@ -35,6 +35,7 @@ abstract class BaseResidentsForm extends BaseFormDoctrine
       'password'                => new sfWidgetFormInputText(),
       'hekphone'                => new sfWidgetFormInputCheckbox(),
       'culture'                 => new sfWidgetFormInputText(),
+      'groupcalls_list'         => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Groupcalls')),
     ));
 
     $this->setValidators(array(
@@ -58,6 +59,7 @@ abstract class BaseResidentsForm extends BaseFormDoctrine
       'password'                => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'hekphone'                => new sfValidatorBoolean(array('required' => false)),
       'culture'                 => new sfValidatorString(array('max_length' => 5, 'required' => false)),
+      'groupcalls_list'         => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Groupcalls', 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
@@ -76,6 +78,62 @@ abstract class BaseResidentsForm extends BaseFormDoctrine
   public function getModelName()
   {
     return 'Residents';
+  }
+
+  public function updateDefaultsFromObject()
+  {
+    parent::updateDefaultsFromObject();
+
+    if (isset($this->widgetSchema['groupcalls_list']))
+    {
+      $this->setDefault('groupcalls_list', $this->object->Groupcalls->getPrimaryKeys());
+    }
+
+  }
+
+  protected function doSave($con = null)
+  {
+    $this->saveGroupcallsList($con);
+
+    parent::doSave($con);
+  }
+
+  public function saveGroupcallsList($con = null)
+  {
+    if (!$this->isValid())
+    {
+      throw $this->getErrorSchema();
+    }
+
+    if (!isset($this->widgetSchema['groupcalls_list']))
+    {
+      // somebody has unset this widget
+      return;
+    }
+
+    if (null === $con)
+    {
+      $con = $this->getConnection();
+    }
+
+    $existing = $this->object->Groupcalls->getPrimaryKeys();
+    $values = $this->getValue('groupcalls_list');
+    if (!is_array($values))
+    {
+      $values = array();
+    }
+
+    $unlink = array_diff($existing, $values);
+    if (count($unlink))
+    {
+      $this->object->unlink('Groupcalls', array_values($unlink));
+    }
+
+    $link = array_diff($values, $existing);
+    if (count($link))
+    {
+      $this->object->link('Groupcalls', array_values($link));
+    }
   }
 
 }

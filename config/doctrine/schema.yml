@@ -728,7 +728,12 @@ Residents:
       local: id
       foreign: uniqueid
       type: one
-
+    Groupcalls:
+      class: GroupCalls
+      local: resident_id
+      foreign: groupcall_id
+      refClass: ResientsGroupcalls
+      
 Rooms:
   connection: hekphone
   tableName: rooms
@@ -1013,3 +1018,33 @@ Prefixes:
       local: region
       foreign: id
       type: one
+      
+# Groupcalls with a many-to-many relation to residents
+Groupcalls:
+  connection: hekphone
+  tableName: groupcalls
+  columns:
+    id:
+      type: integer(3)
+      primary: true
+      autoincrement: true
+    extension:
+      type: string
+      unique: true
+    name: 
+      type: string
+  relations:
+    Residents:
+      class: Residents
+      local: groupcall_id
+      foreign: resident_id
+      refClass: ResidentsGroupcalls
+      
+ResidentsGroupcalls:
+  columns:
+    resident_id:
+      type: integer
+      primary: true
+    groupcall_id:
+      type: integer
+      primary: true

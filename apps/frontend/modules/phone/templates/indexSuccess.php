@@ -11,10 +11,9 @@
       <th>Host</th>
       <th>Defaultip</th>
       <th>Mac</th>
-      <th>Language</th>
       <th>Mailbox</th>
-      <th>Defaultuser</th>
-      <th>current Ipaddr</th>
+      <th>Technology</th>
+      <th>Ipaddr</th>
     </tr>
   </thead>
   <tbody>
@@ -28,9 +27,8 @@
       <td><?php echo $phone->getHost() ?></td>
       <td><?php echo $phone->getDefaultip() ?></td>
       <td><?php echo $phone->getMac() ?></td>
-      <td><?php echo $phone->getLanguage() ?></td>
       <td><?php echo $phone->getMailbox() ?></td>
-      <td><?php echo $phone->getDefaultuser() ?></td>
+      <td><?php echo $phone->getTechnology() ?></td>
       <td><?php echo $phone->getIpaddr() ?></td>
     </tr>
     <?php endforeach; ?>
