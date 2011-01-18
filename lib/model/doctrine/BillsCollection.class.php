@@ -15,7 +15,7 @@ class BillsCollection extends Doctrine_Collection
 
         //Head of the *.ctl File for the dtaus program. The dtaus File (*.ctl) is needed for
         //the execution of the dtaus program which creates the files for the bank transactions
-        $dtausHead = "BEGIN {
+        $dtausHeader = "BEGIN {
   Art	LK
   Name	" . sfConfig::get('hekphoneName') . "
   Konto	" . sfConfig::get('hekphoneAccountnumber') . "
@@ -26,12 +26,19 @@ class BillsCollection extends Doctrine_Collection
 }
 
 ";
-        //get the required data for the dtaus footer
-        foreach ($this as $bill)
+        
+        $dtausContent = "";
+        
+        //get the required data for the dtaus content and footer
+        foreach ($this as $bill)        
         {
-          $sumAmount += $bill['amount'];
-          $sumAccounts += $bill['Residents']['account_number'];
-          $sumBankNumbers += $bill['Residents']['bank_number'];
+        	if  ($bill['amount'] > 0) 
+        	{
+                $sumAmount += $bill['amount'];
+                $sumAccounts += $bill['Residents']['account_number'];
+                $sumBankNumbers += $bill['Residents']['bank_number'];
+                $dtausContent .= $bill->getDtausEntry($start, $end);
+        	}
         }
       //Footer of the *.ctl file for the dtaus program.
       $dtausFooter = "END {
@@ -41,18 +48,13 @@ class BillsCollection extends Doctrine_Collection
   BLZs	" . $sumBankNumbers."
 }";
 
-        $dtausContent = "";
-	    foreach ($this as $bill)
-        {
-            $dtausContent .= $bill->getDtausEntry($start, $end);
-        }
 
 	//Creates the .ctl file for the dtaus programm and executes dtaus. Results are saved in /tmp/
         if (! $dtausContent == "")
         {
             $fileprefix = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . "dtaus.$date";
             $ctl_handler = fopen($fileprefix.".ctl", "w+"); // Create file
-            fWrite($ctl_handler, $dtausHead.$dtausContent.$dtausFooter);
+            fWrite($ctl_handler, $dtausHeader.$dtausContent.$dtausFooter);
             exec("cd " . sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR );
             exec("dtaus -dtaus -c $fileprefix.ctl -d $fileprefix.txt -o $fileprefix.sik -b $fileprefix.doc");
             exec ("chmod 770 $fileprefix.*");
