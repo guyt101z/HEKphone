@@ -16,15 +16,15 @@ abstract class BaseGroupcallsForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'             => new sfWidgetFormInputHidden(),
-      'extension'      => new sfWidgetFormTextarea(),
-      'name'           => new sfWidgetFormTextarea(),
+      'extension'      => new sfWidgetFormInputText(),
+      'name'           => new sfWidgetFormInputText(),
       'residents_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Residents')),
     ));
 
     $this->setValidators(array(
       'id'             => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'extension'      => new sfValidatorString(array('required' => false)),
-      'name'           => new sfValidatorString(array('required' => false)),
+      'extension'      => new sfValidatorString(array('max_length' => 4, 'required' => false)),
+      'name'           => new sfValidatorString(array('max_length' => 30, 'required' => false)),
       'residents_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Residents', 'required' => false)),
     ));
 

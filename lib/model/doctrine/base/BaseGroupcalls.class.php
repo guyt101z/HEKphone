@@ -37,12 +37,14 @@ abstract class BaseGroupcalls extends sfDoctrineRecord
              'autoincrement' => true,
              'length' => 3,
              ));
-        $this->hasColumn('extension', 'string', null, array(
+        $this->hasColumn('extension', 'string', 4, array(
              'type' => 'string',
              'unique' => true,
+             'length' => 4,
              ));
-        $this->hasColumn('name', 'string', null, array(
+        $this->hasColumn('name', 'string', 30, array(
              'type' => 'string',
+             'length' => 30,
              ));
     }
 

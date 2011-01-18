@@ -1029,10 +1029,10 @@ Groupcalls:
       primary: true
       autoincrement: true
     extension:
-      type: string
+      type: string(4)
       unique: true
     name: 
-      type: string
+      type: string(30)
   relations:
     Residents:
       class: Residents
