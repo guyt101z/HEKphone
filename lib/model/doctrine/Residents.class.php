@@ -88,6 +88,7 @@ class Residents extends BaseResidents
       $this->set('mail_on_missed_call', $mailOnMissedCall);
 
       $this->AsteriskVoicemail->set('attach', $attachMessage);
+      $this->save();
 
       // Update the extension for the users phone so the changes apply
       if( ! Doctrine_Core::getTable('AsteriskExtensions')

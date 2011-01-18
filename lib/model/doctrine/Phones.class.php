@@ -76,13 +76,13 @@ class Phones extends BasePhones
 
       /* Look for a resident in the phones room */
       try {
-        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('id'));
+        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('room_no'));
       } catch (Exception $e) {
         $resident = false;
       }
 
       /* Prepare the mailbox if whished */
-      if($resident && $resident['vm_active']) {
+      if($resident['vm_active']) {
         $resident->createVoicemailbox();
       }
 

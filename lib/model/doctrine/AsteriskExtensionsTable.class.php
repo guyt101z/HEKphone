@@ -97,7 +97,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
      * @param Phones $phone
      * @return bool
      */
-    public function updatePhonesExtensions(Phones $phone)
+    public function createPhonesExtensions(Phones $phone)
     {
         if( ! $arrayExtensions = $phone->getExtensionsAsArray()) {
             return false;
@@ -109,5 +109,12 @@ class AsteriskExtensionsTable extends Doctrine_Table
         $collExtensions->save();
 
         return true;
+    }
+
+    public function updateResidentsExtension(Residents $resident){
+        $phone = Doctrine_Core::getTable('Phones')->findByResidentId($resident->get('id'));
+
+        $this->deletePhonesExtensions($phone);
+        $this->createPhonesExtensions($phone);
     }
 }

@@ -117,7 +117,7 @@ class phoneActions extends sfActions
       // ... update the phones object
       $phone->refreshRelated('Rooms');
       // ... insert new extension
-      if( ! Doctrine_Core::getTable('AsteriskExtensions')->updatePhonesExtensions($phone)) {
+      if( ! Doctrine_Core::getTable('AsteriskExtensions')->createPhonesExtensions($phone)) {
         $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Creating Extensions failed. Phone is not reachable by number.");
       } else {
          $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Extensions of the phone updated.");
