@@ -29,15 +29,11 @@ class settingsActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
-
-    echo$this->form->getCSRFToken();
     // check, if the user exists
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
 
     // Create the form
     $this->form = new SettingsForm();
-    throw new Exception($this->form->getCSRFToken());
-
 
     if($request->isMethod('post'))
     {
@@ -79,12 +75,13 @@ class settingsActions extends sfActions
 
         // Set a users lanuage
         // $resident->setCulture($request['settings']['language']);
-
-        $resident->setVoicemailSettings($request['settings']['vm_active'],
-                                        $request['settings']['vm_seconds'],
-                                        $request['settings']['vm_sendEmailOnNewMessage'],
-                                        $request['settings']['vm_attachMessage'],
-                                        $request['settings']['vm_sendEmailOnMissedCall']);
+        if(isset($resident->email)) {
+          $resident->setVoicemailSettings($this->form->getValue('vm_active'),
+                                          $this->form->getValue('vm_seconds'),
+                                          $this->form->getValue('vm_sendEmailOnNewMessage'),
+                                          $this->form->getValue('vm_attachMessage'),
+                                          $this->form->getValue('vm_sendEmailOnMissedCall'));
+        }
         $resident->save();
 
         $this->getUser()->setFlash('notice', 'resident.settings.successfull');

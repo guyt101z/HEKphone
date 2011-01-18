@@ -32,6 +32,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'password'                => new sfWidgetFormFilterInput(),
       'hekphone'                => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
       'culture'                 => new sfWidgetFormFilterInput(),
+      'groupcalls_list'         => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Groupcalls')),
     ));
 
     $this->setValidators(array(
@@ -54,6 +55,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'password'                => new sfValidatorPass(array('required' => false)),
       'hekphone'                => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
       'culture'                 => new sfValidatorPass(array('required' => false)),
+      'groupcalls_list'         => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Groupcalls', 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('residents_filters[%s]');
@@ -63,6 +65,24 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
     $this->setupInheritance();
 
     parent::setup();
+  }
+
+  public function addGroupcallsListColumnQuery(Doctrine_Query $query, $field, $values)
+  {
+    if (!is_array($values))
+    {
+      $values = array($values);
+    }
+
+    if (!count($values))
+    {
+      return;
+    }
+
+    $query
+      ->leftJoin($query->getRootAlias().'.ResidentsGroupcalls ResidentsGroupcalls')
+      ->andWhereIn('ResidentsGroupcalls.groupcall_id', $values)
+    ;
   }
 
   public function getModelName()
@@ -93,6 +113,7 @@ abstract class BaseResidentsFormFilter extends BaseFormFilterDoctrine
       'password'                => 'Text',
       'hekphone'                => 'Boolean',
       'culture'                 => 'Text',
+      'groupcalls_list'         => 'ManyKey',
     );
   }
 }

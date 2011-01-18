@@ -16,7 +16,7 @@ abstract class BaseAsteriskVoicemailForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'             => new sfWidgetFormInputHidden(),
-      'uniqueid'       => new sfWidgetFormInputText(),
+      'uniqueid'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'), 'add_empty' => false)),
       'customer_id'    => new sfWidgetFormInputText(),
       'context'        => new sfWidgetFormInputText(),
       'mailbox'        => new sfWidgetFormInputText(),
@@ -40,12 +40,13 @@ abstract class BaseAsteriskVoicemailForm extends BaseFormDoctrine
       'forcename'      => new sfWidgetFormInputText(),
       'forcegreetings' => new sfWidgetFormInputText(),
       'hidefromdir'    => new sfWidgetFormInputText(),
+      'minsecs'        => new sfWidgetFormInputText(),
       'stamp'          => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'id'             => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'uniqueid'       => new sfValidatorInteger(),
+      'uniqueid'       => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'))),
       'customer_id'    => new sfValidatorString(array('max_length' => 11, 'required' => false)),
       'context'        => new sfValidatorString(array('max_length' => 50, 'required' => false)),
       'mailbox'        => new sfValidatorString(array('max_length' => 11, 'required' => false)),
@@ -69,6 +70,7 @@ abstract class BaseAsteriskVoicemailForm extends BaseFormDoctrine
       'forcename'      => new sfValidatorString(array('max_length' => 4, 'required' => false)),
       'forcegreetings' => new sfValidatorString(array('max_length' => 4, 'required' => false)),
       'hidefromdir'    => new sfValidatorString(array('max_length' => 4, 'required' => false)),
+      'minsecs'        => new sfValidatorPass(array('required' => false)),
       'stamp'          => new sfValidatorDateTime(array('required' => false)),
     ));
 

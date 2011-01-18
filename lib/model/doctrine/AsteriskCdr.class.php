@@ -66,7 +66,7 @@ class AsteriskCdr extends BaseAsteriskCdr
     }
 
     function isInternalCall() {
-      if($this->userfield == 'intern') {
+      if($this->userfield ==  sfConfig::get('asteriskInternalUserfield')) {
         return true;
       } else {
         return false;

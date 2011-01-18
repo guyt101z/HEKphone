@@ -13,7 +13,7 @@ abstract class BaseAsteriskVoicemailFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'uniqueid'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'uniqueid'       => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'), 'add_empty' => true)),
       'customer_id'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'context'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'mailbox'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
@@ -37,11 +37,12 @@ abstract class BaseAsteriskVoicemailFormFilter extends BaseFormFilterDoctrine
       'forcename'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'forcegreetings' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'hidefromdir'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'minsecs'        => new sfWidgetFormFilterInput(),
       'stamp'          => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
 
     $this->setValidators(array(
-      'uniqueid'       => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'uniqueid'       => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Residents'), 'column' => 'id')),
       'customer_id'    => new sfValidatorPass(array('required' => false)),
       'context'        => new sfValidatorPass(array('required' => false)),
       'mailbox'        => new sfValidatorPass(array('required' => false)),
@@ -65,6 +66,7 @@ abstract class BaseAsteriskVoicemailFormFilter extends BaseFormFilterDoctrine
       'forcename'      => new sfValidatorPass(array('required' => false)),
       'forcegreetings' => new sfValidatorPass(array('required' => false)),
       'hidefromdir'    => new sfValidatorPass(array('required' => false)),
+      'minsecs'        => new sfValidatorPass(array('required' => false)),
       'stamp'          => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 00:00:00')), 'to_date' => new sfValidatorDateTime(array('required' => false, 'datetime_output' => 'Y-m-d 23:59:59')))),
     ));
 
@@ -86,7 +88,7 @@ abstract class BaseAsteriskVoicemailFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'             => 'Number',
-      'uniqueid'       => 'Number',
+      'uniqueid'       => 'ForeignKey',
       'customer_id'    => 'Text',
       'context'        => 'Text',
       'mailbox'        => 'Text',
@@ -110,6 +112,7 @@ abstract class BaseAsteriskVoicemailFormFilter extends BaseFormFilterDoctrine
       'forcename'      => 'Text',
       'forcegreetings' => 'Text',
       'hidefromdir'    => 'Text',
+      'minsecs'        => 'Text',
       'stamp'          => 'Date',
     );
   }

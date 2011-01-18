@@ -31,58 +31,64 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskVoicemail', 'hekphone');
  * @property string $forcename
  * @property string $forcegreetings
  * @property string $hidefromdir
+ * @property int $minsecs
  * @property timestamp $stamp
+ * @property Doctrine_Collection $Residents
  * 
- * @method integer           getUniqueid()       Returns the current record's "uniqueid" value
- * @method string            getCustomerId()     Returns the current record's "customer_id" value
- * @method string            getContext()        Returns the current record's "context" value
- * @method string            getMailbox()        Returns the current record's "mailbox" value
- * @method string            getPassword()       Returns the current record's "password" value
- * @method string            getFullname()       Returns the current record's "fullname" value
- * @method string            getEmail()          Returns the current record's "email" value
- * @method string            getPager()          Returns the current record's "pager" value
- * @method string            getTz()             Returns the current record's "tz" value
- * @method string            getAttach()         Returns the current record's "attach" value
- * @method string            getSaycid()         Returns the current record's "saycid" value
- * @method string            getDialout()        Returns the current record's "dialout" value
- * @method string            getCallback()       Returns the current record's "callback" value
- * @method string            getReview()         Returns the current record's "review" value
- * @method string            getOperator()       Returns the current record's "operator" value
- * @method string            getEnvelope()       Returns the current record's "envelope" value
- * @method string            getSayduration()    Returns the current record's "sayduration" value
- * @method integer           getSaydurationm()   Returns the current record's "saydurationm" value
- * @method string            getSendvoicemail()  Returns the current record's "sendvoicemail" value
- * @method string            getDelete()         Returns the current record's "delete" value
- * @method string            getNextaftercmd()   Returns the current record's "nextaftercmd" value
- * @method string            getForcename()      Returns the current record's "forcename" value
- * @method string            getForcegreetings() Returns the current record's "forcegreetings" value
- * @method string            getHidefromdir()    Returns the current record's "hidefromdir" value
- * @method timestamp         getStamp()          Returns the current record's "stamp" value
- * @method AsteriskVoicemail setUniqueid()       Sets the current record's "uniqueid" value
- * @method AsteriskVoicemail setCustomerId()     Sets the current record's "customer_id" value
- * @method AsteriskVoicemail setContext()        Sets the current record's "context" value
- * @method AsteriskVoicemail setMailbox()        Sets the current record's "mailbox" value
- * @method AsteriskVoicemail setPassword()       Sets the current record's "password" value
- * @method AsteriskVoicemail setFullname()       Sets the current record's "fullname" value
- * @method AsteriskVoicemail setEmail()          Sets the current record's "email" value
- * @method AsteriskVoicemail setPager()          Sets the current record's "pager" value
- * @method AsteriskVoicemail setTz()             Sets the current record's "tz" value
- * @method AsteriskVoicemail setAttach()         Sets the current record's "attach" value
- * @method AsteriskVoicemail setSaycid()         Sets the current record's "saycid" value
- * @method AsteriskVoicemail setDialout()        Sets the current record's "dialout" value
- * @method AsteriskVoicemail setCallback()       Sets the current record's "callback" value
- * @method AsteriskVoicemail setReview()         Sets the current record's "review" value
- * @method AsteriskVoicemail setOperator()       Sets the current record's "operator" value
- * @method AsteriskVoicemail setEnvelope()       Sets the current record's "envelope" value
- * @method AsteriskVoicemail setSayduration()    Sets the current record's "sayduration" value
- * @method AsteriskVoicemail setSaydurationm()   Sets the current record's "saydurationm" value
- * @method AsteriskVoicemail setSendvoicemail()  Sets the current record's "sendvoicemail" value
- * @method AsteriskVoicemail setDelete()         Sets the current record's "delete" value
- * @method AsteriskVoicemail setNextaftercmd()   Sets the current record's "nextaftercmd" value
- * @method AsteriskVoicemail setForcename()      Sets the current record's "forcename" value
- * @method AsteriskVoicemail setForcegreetings() Sets the current record's "forcegreetings" value
- * @method AsteriskVoicemail setHidefromdir()    Sets the current record's "hidefromdir" value
- * @method AsteriskVoicemail setStamp()          Sets the current record's "stamp" value
+ * @method integer             getUniqueid()       Returns the current record's "uniqueid" value
+ * @method string              getCustomerId()     Returns the current record's "customer_id" value
+ * @method string              getContext()        Returns the current record's "context" value
+ * @method string              getMailbox()        Returns the current record's "mailbox" value
+ * @method string              getPassword()       Returns the current record's "password" value
+ * @method string              getFullname()       Returns the current record's "fullname" value
+ * @method string              getEmail()          Returns the current record's "email" value
+ * @method string              getPager()          Returns the current record's "pager" value
+ * @method string              getTz()             Returns the current record's "tz" value
+ * @method string              getAttach()         Returns the current record's "attach" value
+ * @method string              getSaycid()         Returns the current record's "saycid" value
+ * @method string              getDialout()        Returns the current record's "dialout" value
+ * @method string              getCallback()       Returns the current record's "callback" value
+ * @method string              getReview()         Returns the current record's "review" value
+ * @method string              getOperator()       Returns the current record's "operator" value
+ * @method string              getEnvelope()       Returns the current record's "envelope" value
+ * @method string              getSayduration()    Returns the current record's "sayduration" value
+ * @method integer             getSaydurationm()   Returns the current record's "saydurationm" value
+ * @method string              getSendvoicemail()  Returns the current record's "sendvoicemail" value
+ * @method string              getDelete()         Returns the current record's "delete" value
+ * @method string              getNextaftercmd()   Returns the current record's "nextaftercmd" value
+ * @method string              getForcename()      Returns the current record's "forcename" value
+ * @method string              getForcegreetings() Returns the current record's "forcegreetings" value
+ * @method string              getHidefromdir()    Returns the current record's "hidefromdir" value
+ * @method int                 getMinsecs()        Returns the current record's "minsecs" value
+ * @method timestamp           getStamp()          Returns the current record's "stamp" value
+ * @method Doctrine_Collection getResidents()      Returns the current record's "Residents" collection
+ * @method AsteriskVoicemail   setUniqueid()       Sets the current record's "uniqueid" value
+ * @method AsteriskVoicemail   setCustomerId()     Sets the current record's "customer_id" value
+ * @method AsteriskVoicemail   setContext()        Sets the current record's "context" value
+ * @method AsteriskVoicemail   setMailbox()        Sets the current record's "mailbox" value
+ * @method AsteriskVoicemail   setPassword()       Sets the current record's "password" value
+ * @method AsteriskVoicemail   setFullname()       Sets the current record's "fullname" value
+ * @method AsteriskVoicemail   setEmail()          Sets the current record's "email" value
+ * @method AsteriskVoicemail   setPager()          Sets the current record's "pager" value
+ * @method AsteriskVoicemail   setTz()             Sets the current record's "tz" value
+ * @method AsteriskVoicemail   setAttach()         Sets the current record's "attach" value
+ * @method AsteriskVoicemail   setSaycid()         Sets the current record's "saycid" value
+ * @method AsteriskVoicemail   setDialout()        Sets the current record's "dialout" value
+ * @method AsteriskVoicemail   setCallback()       Sets the current record's "callback" value
+ * @method AsteriskVoicemail   setReview()         Sets the current record's "review" value
+ * @method AsteriskVoicemail   setOperator()       Sets the current record's "operator" value
+ * @method AsteriskVoicemail   setEnvelope()       Sets the current record's "envelope" value
+ * @method AsteriskVoicemail   setSayduration()    Sets the current record's "sayduration" value
+ * @method AsteriskVoicemail   setSaydurationm()   Sets the current record's "saydurationm" value
+ * @method AsteriskVoicemail   setSendvoicemail()  Sets the current record's "sendvoicemail" value
+ * @method AsteriskVoicemail   setDelete()         Sets the current record's "delete" value
+ * @method AsteriskVoicemail   setNextaftercmd()   Sets the current record's "nextaftercmd" value
+ * @method AsteriskVoicemail   setForcename()      Sets the current record's "forcename" value
+ * @method AsteriskVoicemail   setForcegreetings() Sets the current record's "forcegreetings" value
+ * @method AsteriskVoicemail   setHidefromdir()    Sets the current record's "hidefromdir" value
+ * @method AsteriskVoicemail   setMinsecs()        Sets the current record's "minsecs" value
+ * @method AsteriskVoicemail   setStamp()          Sets the current record's "stamp" value
+ * @method AsteriskVoicemail   setResidents()      Sets the current record's "Residents" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -107,7 +113,7 @@ abstract class BaseAsteriskVoicemail extends sfDoctrineRecord
         $this->hasColumn('context', 'string', 50, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => '0',
+             'default' => 'default',
              'length' => 50,
              ));
         $this->hasColumn('mailbox', 'string', 11, array(
@@ -236,6 +242,11 @@ abstract class BaseAsteriskVoicemail extends sfDoctrineRecord
              'default' => 'yes',
              'length' => 4,
              ));
+        $this->hasColumn('minsecs', 'int', 2, array(
+             'type' => 'int',
+             'default' => 3,
+             'length' => 2,
+             ));
         $this->hasColumn('stamp', 'timestamp', null, array(
              'type' => 'timestamp',
              ));
@@ -244,6 +255,8 @@ abstract class BaseAsteriskVoicemail extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+        $this->hasMany('Residents', array(
+             'local' => 'uniqueid',
+             'foreign' => 'id'));
     }
 }
