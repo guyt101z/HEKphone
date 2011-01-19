@@ -19,6 +19,7 @@
         <li class="adminnav"><?php echo link_to(__('navigation.residents'), 'resident_list') ?></li>
         <li class="adminnav"><?php echo link_to(__('navigation.phones'), 'phone/index') ?></li>
         <li class="adminnav"><?php echo link_to(__('navigation.tasks'), 'tasks/index') ?></li>
+        <li class="adminnav"><?php echo link_to(__('navigation.groupcalls'), 'groupcalls/index') ?></li>
         <?php endif;?>
 
         <li><?php echo link_to(__('navigation.logout'), 'auth/logout') ?></li>
