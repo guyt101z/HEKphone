@@ -64,7 +64,6 @@ class Phones extends BasePhones
    * @return array()
    */
   public function getExtensionsAsArray() {
-      DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
       $context   = 'phones';
       $extensionPrefix = '8695';
 

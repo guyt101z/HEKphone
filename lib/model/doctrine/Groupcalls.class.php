@@ -14,7 +14,6 @@ class Groupcalls extends BaseGroupcalls
 {
   public function getExtensionsAsArray() {
     $context = 'groupcalls';
-
     $phonesList = '';
     foreach($this->Residents as $Resident) {
         if($Resident->Rooms->Phones->get('technology') == 'DAHDI/g1')
@@ -24,10 +23,10 @@ class Groupcalls extends BaseGroupcalls
           $prefix = '1';
         }
 
-        $phonesList .= $Resident->Rooms->Phones->get('technology') . '/' . $prefix . $Resident->Rooms . '|';
+        $phonesList .= $Resident->Rooms->Phones->get('technology') . '/' . $prefix . $Resident->Rooms . ASTERISK_PARAMETER_SEPARATOR;
         ;
     }
-    $phonesList = substr($phonesList, 0, -1); //strip the last parameter separator
+    $phonesList = substr($phonesList, 0, -1 * strlen(ASTERISK_PARAMETER_SEPARATOR)); //strip the last parameter separator
 
     $arrayExtensions[0] = array(
          'exten'        => $this->extension,
