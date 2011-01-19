@@ -60,8 +60,8 @@ class groupcallsActions extends sfActions
   {
     $request->checkCSRFProtection();
 
-    $this->forward404Unless($Groupcall = Doctrine_Core::getTable('Groupcalls')->find(array($request->getParameter('id'))), sprintf('Object Groupcall does not exist (%s).', $request->getParameter('id')));
-    $Groupcall->delete();
+    $this->forward404Unless($groupcall = Doctrine_Core::getTable('Groupcalls')->find(array($request->getParameter('id'))), sprintf('Object Groupcall does not exist (%s).', $request->getParameter('id')));
+    $groupcall->delete();
 
     $this->redirect('groupcalls/index');
   }

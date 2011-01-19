@@ -12,6 +12,10 @@
  */
 class Residents extends BaseResidents
 {
+    public function __toString()
+    {
+        return $this->get('Rooms') . " " . $this->first_name . " " . $this->last_name;
+    }
     private $currentBillAmount = NULL; // holds sum of the charges of the residents calls which are not assigned to any bill
                                        // (all the calls he made in the current month) in Euros
 
@@ -109,7 +113,7 @@ class Residents extends BaseResidents
     /**
      * Sends a lock/unlock email depending on the residents "unlocked" property
      */
-    public function sendLockUnlockEmail()
+    public function sendLockUnlockEmail($date)
     {
       if($this->unlocked)
       {
@@ -117,7 +121,7 @@ class Residents extends BaseResidents
       }
       else
       {
-        $this->sendLockEmail();
+        $this->sendLockEmail($date);
       }
     }
 
