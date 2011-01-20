@@ -7,7 +7,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 {
   public function setup()
   {
-    DEFINE('ASTERISK_PARAMETER_SEPARATOR', ',');
+    sfConfig::set('asteriskParameterSeparator', ',');
 
     $this->enablePlugins('sfDoctrinePlugin');
     $this->enablePlugins('sfDoctrineDynamicFormRelationsPlugin');

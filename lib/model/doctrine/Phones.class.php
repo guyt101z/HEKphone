@@ -95,7 +95,7 @@ class Phones extends BasePhones
       );
       if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP') {
           // for SIP-Phones and in case the voicemail is activated, only ring for a specified period of time
-          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension . ASTERISK_PARAMETER_SEPARATOR
+          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension . sfConfig::get('asteriskParameterSeparator')
                                          . $resident['vm_seconds'];
       } elseif($this['technology'] == 'DAHDI/g1') {
           // For analog phones don't activate the vm box and dial with prefix so the PBX gets what we want
@@ -139,8 +139,8 @@ class Phones extends BasePhones
            'priority'     => 2,
            'context'      => $context,
            'app'          => 'GoTo',
-           'appdata'      => $context . ASTERISK_PARAMETER_SEPARATOR
-                           . $extensionPrefix . $extension . ASTERISK_PARAMETER_SEPARATOR
+           'appdata'      => $context . sfConfig::get('asteriskParameterSeparator')
+                           . $extensionPrefix . $extension . sfConfig::get('asteriskParameterSeparator')
                            . '1' //Goto(context,extension,priority)
       );
 
