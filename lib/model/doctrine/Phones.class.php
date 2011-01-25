@@ -12,4 +12,21 @@
  */
 class Phones extends BasePhones
 {
+	
+	public function createPhoneConfigFile($overrideUserSettings = false)
+	{
+
+		$configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
+                                                                             'sip1PhoneNumber' => $this['name'],
+                                                                             'sip1DisplayName' => $this['callerid'],
+                                                                             'sip1User' => $this['defaultuser'],
+		                                                                     'sip1Pwd' => $this['Rooms']['Residents']['password'],
+		                                                                     'overrideUserSettings' => $overrideUserSettings));
+		
+		
+		$fileprefix = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR . $this['name'];
+		$ctl_handler = fopen($fileprefix . "-config.txt", "w+"); // Create file
+		fWrite($ctl_handler, $configFileContent);
+		return $fileprefix."-config.txt";
+	}
 }
