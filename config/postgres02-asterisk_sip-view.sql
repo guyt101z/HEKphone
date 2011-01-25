@@ -20,6 +20,7 @@ CREATE VIEW asterisk_sip AS
         p.fullcontact,
         p.useragent,
         p.lastms,
+        '00497218695' || p.name AS cid_number,
         (SELECT 
                 (case
                         when (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
@@ -27,12 +28,24 @@ CREATE VIEW asterisk_sip AS
                         else 'locked'::context
                 end)
         ) AS context
-        from phones p ;
+        from phones p 
+        where technology = 'SIP';
 
-CREATE RULE asterisk_cdr_update AS
+CREATE RULE asterisk_sip_update AS
     ON UPDATE TO asterisk_sip
-    DO INSTEAD 
+    DO INSTEAD
         UPDATE phones SET
+            id = NEW.id, 
+            name = NEW.name,
+            type = NEW.type,
+            callerid = NEW.callerid,   
+            defaultuser = NEW.defaultuser,
+            secret = NEW.secret,
+            host = NEW.host,
+            defaultip = NEW.defaultip,
+            mac = NEW.mac,
+            language = NEW.language,
+            mailbox = NEW.mailbox,
             regserver = NEW.regserver,
             regseconds = NEW.regseconds,
             ipaddr = NEW.ipaddr,
@@ -41,3 +54,5 @@ CREATE RULE asterisk_cdr_update AS
             useragent = NEW.useragent,
             lastms = NEW.lastms
         WHERE id = NEW.id;
+
+GRANT ALL ON asterisk_sip to asterisk;

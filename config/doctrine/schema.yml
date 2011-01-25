@@ -269,7 +269,8 @@ AsteriskSip:
       values: ['user','peer','friend']
       notnull: true
       default: 'friend'
-## 
+    cid_number:
+      type: string(25)
     callerid:
       type: string(80)
 ## Parameter to identify the user:
