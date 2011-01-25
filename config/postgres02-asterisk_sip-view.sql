@@ -7,7 +7,13 @@ CREATE VIEW asterisk_sip AS
         p.type,
         p.callerid,   
         p.defaultuser,
-        p.secret,
+        (SELECT 
+                (case
+                        when (Select a.password from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
+                        then (Select a.password from residents a, rooms b where a.room = b.id and b.phone = p.id )
+                        else 'hekphone'
+                end)
+        ) AS secret,
         p.host,
         p.defaultip,
         p.mac,

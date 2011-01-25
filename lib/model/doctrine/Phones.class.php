@@ -161,9 +161,8 @@ class Phones extends BasePhones
           'sip1PhoneNumber' => $this['name'],
           'sip1DisplayName' => $this['callerid'],
           'sip1User' => $this['defaultuser'],
-          'sip1Pwd' => $this->Rooms[0]->Residents->get('password'),
+          'sip1Pwd' => $this->Rooms[0]->Residents[0]->get('password'),
           'overridePersonalSettings' => $overridePersonalSettings));
-      echo $this->Rooms[0]->Residents->get('password');
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
       $filepath   = $folder . $this['name'] . "-config.txt";
@@ -183,7 +182,6 @@ class Phones extends BasePhones
    *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    */
   public function uploadConfiguration($overwritePersonalSettings = false) {
-
         $sendAuthCookie = 'c0a900010000009b';
         $httpHeaders = array(
             'Keep-Alive: 115',
