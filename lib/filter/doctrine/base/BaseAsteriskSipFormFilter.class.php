@@ -15,6 +15,7 @@ abstract class BaseAsteriskSipFormFilter extends BaseFormFilterDoctrine
     $this->setWidgets(array(
       'name'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'type'        => new sfWidgetFormChoice(array('choices' => array('' => '', 'user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
+      'cid_number'  => new sfWidgetFormFilterInput(),
       'callerid'    => new sfWidgetFormFilterInput(),
       'defaultuser' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'secret'      => new sfWidgetFormFilterInput(),
@@ -35,6 +36,7 @@ abstract class BaseAsteriskSipFormFilter extends BaseFormFilterDoctrine
     $this->setValidators(array(
       'name'        => new sfValidatorPass(array('required' => false)),
       'type'        => new sfValidatorChoice(array('required' => false, 'choices' => array('user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
+      'cid_number'  => new sfValidatorPass(array('required' => false)),
       'callerid'    => new sfValidatorPass(array('required' => false)),
       'defaultuser' => new sfValidatorPass(array('required' => false)),
       'secret'      => new sfValidatorPass(array('required' => false)),
@@ -72,6 +74,7 @@ abstract class BaseAsteriskSipFormFilter extends BaseFormFilterDoctrine
       'id'          => 'Number',
       'name'        => 'Text',
       'type'        => 'Enum',
+      'cid_number'  => 'Text',
       'callerid'    => 'Text',
       'defaultuser' => 'Text',
       'secret'      => 'Text',

@@ -278,7 +278,7 @@ AsteriskSip:
       type: string(80)
       notnull: true
       default: ''
-    secret:
+    secret: #fetched from the resident associated with the phone
       type: string(80)
 ## As our telephones desperately try to register, we need host=dynamic:
     host:
@@ -368,8 +368,6 @@ Phones:
       type: string(80)
       notnull: true
       default: ''
-    secret:
-      type: string(80)
 ## As our telephones desperately try to register, we need host=dynamic:
     host:
       type: string(31)

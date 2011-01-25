@@ -10,6 +10,7 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskSip', 'hekphone');
  * @property integer $id
  * @property string $name
  * @property enum $type
+ * @property string $cid_number
  * @property string $callerid
  * @property string $defaultuser
  * @property string $secret
@@ -29,6 +30,7 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskSip', 'hekphone');
  * @method integer     getId()          Returns the current record's "id" value
  * @method string      getName()        Returns the current record's "name" value
  * @method enum        getType()        Returns the current record's "type" value
+ * @method string      getCidNumber()   Returns the current record's "cid_number" value
  * @method string      getCallerid()    Returns the current record's "callerid" value
  * @method string      getDefaultuser() Returns the current record's "defaultuser" value
  * @method string      getSecret()      Returns the current record's "secret" value
@@ -47,6 +49,7 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskSip', 'hekphone');
  * @method AsteriskSip setId()          Sets the current record's "id" value
  * @method AsteriskSip setName()        Sets the current record's "name" value
  * @method AsteriskSip setType()        Sets the current record's "type" value
+ * @method AsteriskSip setCidNumber()   Sets the current record's "cid_number" value
  * @method AsteriskSip setCallerid()    Sets the current record's "callerid" value
  * @method AsteriskSip setDefaultuser() Sets the current record's "defaultuser" value
  * @method AsteriskSip setSecret()      Sets the current record's "secret" value
@@ -96,6 +99,10 @@ abstract class BaseAsteriskSip extends sfDoctrineRecord
              ),
              'notnull' => true,
              'default' => 'friend',
+             ));
+        $this->hasColumn('cid_number', 'string', 25, array(
+             'type' => 'string',
+             'length' => 25,
              ));
         $this->hasColumn('callerid', 'string', 80, array(
              'type' => 'string',
