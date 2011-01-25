@@ -51,15 +51,10 @@ class ResidentsForm extends BaseResidentsForm
       new sfValidatorCallback(array('callback' => array($this, 'checkOnUnlock')))
     );
 
-    // The password is md5 encrypted (managed in the ResidentModel by defining a setPassword() function)
-    // we don't want to display the md5-hash in the form, because we don't want to change the password at
-    // all if the value is empty. So we need to set the default-value to ''.
-    // Because a DoctrineObject is associated with the form as we instance it, and this overrides any
-    // changes to the default value we define here; We have to do this in the action.
-    // The label should be "change password to" (or similar)
+    // Password gets set in the Residents settings and on unlocking a resident
+    // a new one is created and send via email to the resident. No need to change
+    // it in the residents form.
     unset($this['password']);
-    $this->setWidget('password', new sfWidgetFormInputText(array('label' => 'resident.edit.password')));
-    $this->setValidator('password', new sfValidatorString(array('max_length' => 255, 'required' => false)));
 
     // Manage comments (add/remove) provided by sfDoctrineDynamicFormRelationsPlugin
     $this->embedDynamicRelation('Comments');
