@@ -1,4 +1,4 @@
-<<VOIP CONFIG FILE>>Version:2.0002                            
+<<VOIP CONFIG FILE>>Version:2.0002
 
 <GLOBAL CONFIG MODULE>
 Static IP          :<?php echo $ip."\n"?>
@@ -388,7 +388,7 @@ SIP5 Server Name   :Name5
 LCD Constrast      :5
 LCD Luminance      :1
 FuncKey Type       :3
-<?php if ($overrideUserSettings):?>
+<?php if ($overridePersonalSettings):?>
 Memory Key 1       :
 Memory Key 2       :
 Memory Key 3       :

@@ -68,10 +68,25 @@ class phoneActions extends sfActions
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($phones = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
-    $this->form = new PhonesForm($phones);
+    $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
+    $this->form = new PhonesForm($phone);
 
     $this->processForm($request, $this->form);
+
+    $this->setTemplate('edit');
+  }
+
+  public function executeReset(sfWebRequest $request)
+  {
+    //$request->checkCSRFProtection();
+
+    sfProjectConfiguration::getActive()->loadHelpers("Partial");
+
+    $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phone does not exist (%s).', $request->getParameter('id')));
+
+    $phone->uploadConfiguration($request->getParameter('overwritePersonalSettings', false));
+
+    $this->form = new PhonesForm();
 
     $this->setTemplate('edit');
   }
