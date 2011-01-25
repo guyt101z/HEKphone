@@ -58,7 +58,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return bool
      */
     function isFreeCall() {
-        if($this->userfield == 'free') {
+        if($this->userfield == 'free' || $this->dst[0] == '*') {
             return true;
         } else {
             return false;
@@ -119,6 +119,8 @@ class AsteriskCdr extends BaseAsteriskCdr
              $destination = '0049' . substr($this->dst,1);
          } elseif ( substr($this->dst,0,1) > 0 ) {
              $destination = '0049721' . $this->dst;
+         } elseif ( substr($this->dst,0,1) == '*') {
+             $destination = '0049' . substr($this->dst,1);
          } else {
              throw new Exception("Unable to match dialed number to any pattern");
          }
@@ -191,6 +193,19 @@ class AsteriskCdr extends BaseAsteriskCdr
         }
 
         /* Parse the calls details */
+        if($this->dcontext = 'unlocked')
+        {
+            if($this->dst[0] == '0')
+            {
+                // calls from sip phones have an additional 0 preceeding the number
+                // if they have been routed through the normal PSTN
+                $this->dcontext = substr($this->dst, 1);
+            } elseif (substr($this->dst, 0, 2) == '60')
+            {
+                // they have an additional 60 if they are routed through voip
+                $this->dcontext = substr($this->dst, 2);
+            }
+        }
         $destinationToBill = $this->getFormattedDestination();
         $destinationToSave = $this->shortenDestination();
 
