@@ -157,18 +157,21 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-  	 
-  	  if (isset ($this->Rooms[0]->Residents[0]->get('password')))
+
+  	  if (isset($this->Rooms[0]->Residents[0]))
+  	  {
   	      $sip1Pwd = $this->Rooms[0]->Residents[0]->get('password');
-  	      else $sip1Pwd = 'hekphone';
-  	      
+  	  } else {
+  	      $sip1Pwd = 'hekphone';
+  	  }
+
       $configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
           'sip1PhoneNumber' => $this['name'],
-          'sip1DisplayName' => $this->Rooms[0]->Residents[0]->get('first_name') . " " 
+          'sip1DisplayName' => $this->Rooms[0]->Residents[0]->get('first_name') . " "
           .$this->Rooms[0]->Residents[0]->get('last_name') . " ("
-          .$this->Rooms[0]->get('room_no') . ")", 
+          .$this->Rooms[0]->get('room_no') . ")",
           'sip1User' => $this['defaultuser'],
-          'sip1Pwd' => $sip1Pwd,                
+          'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings));
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
