@@ -9,11 +9,11 @@
     <tfoot>
       <tr>
         <td colspan="2">
-          &nbsp;<a href="<?php echo url_for('phone/index') ?>">Back to list</a>
+          &nbsp;<a href="<?php echo url_for('phone/index') ?>"><?php echo __('phone.back_to_list') ?></a>
           <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'phone/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
+            &nbsp;<?php echo link_to(__('phone.delete'), 'phone/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
           <?php endif; ?>
-          <input type="submit" value="Save" />
+          <input type="submit" value="<?php echo __('phone.submit') ?>" />
         </td>
       </tr>
     </tfoot>

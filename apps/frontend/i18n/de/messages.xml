@@ -288,6 +288,62 @@
         <source>resident.settings.vm_sendEmailOnMissedCall</source>
         <target>Benachrichtigungsemail senden, auch wenn der AB nicht ranging</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>phone.submit</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.delete</source>
+        <target>Löschen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.back_to_list</source>
+        <target>Zurück zur Liste</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.title</source>
+        <target>Telefon bearbeiten</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.reset.keepPersonalSettings</source>
+        <target>Telefonkonfiguration zurücksetzen (Persönliche Einstellungen behalten)</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.reset.overwritePersonalSettings</source>
+        <target>Telefonkonfiguration komplett zurücksetzen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.reset.warning.keeping_personal_settings</source>
+        <target>Das Telefon wird dabei neugestartet. Fortsetzen?</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.reset.warning.overwrite_personal_settings</source>
+        <target>Das Telefon wird neugestartet und alle persönlichen Einstellungen wie Telefonbuch, Kurzwahl,... gehen verloren. Fortsetzen?</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.list.title</source>
+        <target>Telefone</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.new</source>
+        <target>Neues Telefon anlegen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.new.title</source>
+        <target>Neues Telefon anlegen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Technology</source>
+        <target>Technologie</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Mac</source>
+        <target>Mac-Adresse</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Room</source>
+        <target>Zimmer Nr.</target>
+      </trans-unit>      
     </body>
   </file>
 </xliff>

@@ -84,7 +84,9 @@ class phoneActions extends sfActions
 
     $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phone does not exist (%s).', $request->getParameter('id')));
 
-    $phone->uploadConfiguration($request->getParameter('overwritePersonalSettings', false));
+    if($phone->uploadConfiguration($request->getParameter('overwritePersonalSettings', false))) {
+        $this->getUser()->setFlash('notice', "Phone successfully configured. It's restarting.");
+    }
 
     $this->form = new PhonesForm();
 
