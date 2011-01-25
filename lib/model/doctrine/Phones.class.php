@@ -49,11 +49,11 @@ class Phones extends BasePhones
    * @return string
    */
   public function getExtension() {
-    if(isset($this->Rooms[0])) {
-      return $extension = "1" . $this->Rooms[0];
-    } else {
-      return false;
-    }
+      if(isset($this->Rooms[0])) {
+        return $extension = "1" . $this->Rooms[0];
+      } else {
+        return false;
+      }
   }
 
   /**
@@ -146,4 +146,25 @@ class Phones extends BasePhones
 
       return $arrayExtensions;
   }
+
+  public function createPhoneConfigFile($overrideUserSettings = false)
+  {
+      $configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
+          'sip1PhoneNumber' => $this['name'],
+          'sip1DisplayName' => $this['callerid'],
+          'sip1User' => $this['defaultuser'],
+          'sip1Pwd' => $this['Rooms']['Residents']['password'],
+          'overrideUserSettings' => $overrideUserSettings));
+
+
+      $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
+      $filename   = $folder . $this['name'] . "-config.txt";
+      $filehandle = fopen($filename, "w+");
+      if( ! fwrite($filehandle, $configFileContent))
+      {
+          throw new Exception("Could not write config file to $filename");
+      } else {
+          return $filename;
+      }
+	}
 }
