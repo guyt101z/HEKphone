@@ -240,7 +240,11 @@
         <source>navigation.resident.settings</source>
         <target>Einstellungen</target>
       </trans-unit>
-            <trans-unit id="1">
+      <trans-unit id="1">
+        <source>resident.settings.successfull</source>
+        <target>Änderungen erfolgreich gespeichert.</target>
+      </trans-unit>
+      <trans-unit id="1">
         <source>resident.settings.newEmail</source>
         <target>E-Mail</target>
       </trans-unit>
