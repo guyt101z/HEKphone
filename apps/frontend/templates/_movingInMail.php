@@ -13,7 +13,7 @@
    * An diese (deine) Email-Adresse werden auch die
      Einzelverbindungsnachweise monatlich geschickt.
    * Dein Passwort fürs Hekphone-Portal (http://hekphone) ist: 
-     <?php echo $password?>
+     <?php echo $password . "\n"?>
      Dort findest du alle Informationen über deinen Telefonanschluss (Kosten, 
      unbezahlte Gespräche, Rechnungen, ..)
 
