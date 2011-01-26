@@ -57,6 +57,22 @@ class Residents extends BaseResidents
         return $this->_set('password', md5($password));
       }
     }
+    
+    public function createPassword()
+    {
+    	
+    	$token = 'abcdefghjkmnpqrstuvz123456789';
+    	
+    	$password = '';        
+        for ($i = 0; $i < 7; $i++) 
+        {
+           $password .= $token[(rand() % strlen($token))];        
+         }
+         
+        return $password;        
+    }
+    	
+    
 
     /**
      * Creates a residents voicemailbox-entry if it does not exist yet
@@ -115,11 +131,11 @@ class Residents extends BaseResidents
     /**
      * Sends a lock/unlock email depending on the residents "unlocked" property
      */
-    public function sendLockUnlockEmail($date)
+    public function sendLockUnlockEmail($date, $password = null)
     {
       if($this->unlocked)
       {
-        $this->sendUnlockEmail();
+        $this->sendUnlockEmail($password);
       }
       else
       {
@@ -132,16 +148,17 @@ class Residents extends BaseResidents
      * Sends an E-Mail containing information about him being unlocked and
      * about general information to a resident.
      */
-    public function sendUnlockEmail()
+    public function sendUnlockEmail($password)
     {
       $messageBody = get_partial('global/movingInMail', array('bank_number' => $this['bank_number'],
                                                               'account_number' => $this['account_number'],
-                                                              'email' => $this['email']));
+                                                              'email' => $this['email'],
+                                                              'password' => $password));
 
       $message = Swift_Message::newInstance()
                 ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['email'])
-                ->setSubject('Dein Einzug')
+                ->setSubject('Deine Telefonfreischaltung')
                 ->setBody($messageBody);
       sfContext::getInstance()->getMailer()->send($message);
     }
