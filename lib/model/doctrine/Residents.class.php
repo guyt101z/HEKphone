@@ -12,12 +12,8 @@
  */
 class Residents extends BaseResidents
 {
-    public function __toString()
-    {
-        return $this->get('Rooms') . " " . $this->first_name . " " . $this->last_name;
-    }
     private $currentBillAmount = NULL; // holds sum of the charges of the residents calls which are not assigned to any bill
-                                       // (all the calls he made in the current month) in Euros
+                                       // (all the calls he made in the current month) in EURO
 
     /*
      * Gets the residents current bills amount. This function will query the database
@@ -37,6 +33,11 @@ class Residents extends BaseResidents
         }
 
         return $this->currentBillAmount;
+    }
+
+    public function __toString()
+    {
+        return $this->get('Rooms') . " " . $this->first_name . " " . $this->last_name;
     }
 
      /**
@@ -91,6 +92,7 @@ class Residents extends BaseResidents
       $this->set('vm_seconds', $seconds);
       $this->set('mail_on_missed_call', $mailOnMissedCall);
 
+      $attachMessage = ($attachMessage) ? "yes" : "no"; // asterisk uses yes and no not true/false
       $this->AsteriskVoicemail->set('attach', $attachMessage);
       $this->save();
 
