@@ -30,7 +30,7 @@ This is what it should look like to the user.
 # TODO for the frontend #
   * <strike>Login/Logout Use symfony-default module</strike>
   * **Calls/Bills listing:**
-    * <strike>Display Bill Detail</strike> _(implemented but template does not look nice)_
+    * <strike>Display Bill Detail</strike>
     * What's the cost of a call at (default: now) to ...?
   * **Voicemail:**
     * List Messages:
@@ -61,10 +61,10 @@ This is what it should look like to the user.
 # TODO for the backend #
  * List users and edit details
    * <strike> includes: Unlock a user </strike>
-   * ... write eMail for the resident (constantin)
+   * <strike>... write eMail for the resident</strike>
    * <strike>includes: manage comments</strike> 
    * <strike>includes: change pin</strike>
-   * **attach to asterisk-tables!**
+   * <strike>attach to asterisk-tables!</strike>
    * </strike>Edit a users phone</strike>
    * Asynchronous lookup of the banknumber->bankname relation? :)
  * View, edit and delete a users cdrs and bills
