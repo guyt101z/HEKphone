@@ -156,7 +156,7 @@ class Residents extends BaseResidents
       $message = Swift_Message::newInstance()
                 ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['email'])
-                ->setSubject('Dein Einzug')
+                ->setSubject('Deine Telefonfreischaltung')
                 ->setBody($messageBody);
       sfContext::getInstance()->getMailer()->send($message);
     }
