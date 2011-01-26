@@ -24,7 +24,7 @@
 
         <li><?php echo link_to(__('navigation.logout'), 'auth/logout') ?></li>
       </ul>
-      <?php if ($sf_request->hasParameter('residentid')): echo "\n"; ?>
+      <?php if ($sf_request->hasParameter('residentid') && $sf_user->hasCredential('hekphone')): echo "\n"; ?>
       <ul id="residentnav">
         <li><?php echo link_to(__('navigation.resident.edit'), 'resident_edit', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
         <li><?php echo link_to(__('navigation.resident.phone'), 'resident_phone', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
