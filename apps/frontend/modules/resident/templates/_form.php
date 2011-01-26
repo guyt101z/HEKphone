@@ -84,14 +84,7 @@
           <?php echo $form['bank_number']->renderError() ?>
           <?php echo $form['bank_number'] ?>
         </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['password']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['password']->renderError() ?>
-          <?php echo $form['password'] . "\n" ?>
-        </td>
-      </tr>
+      </tr>      
     </tbody>
   </table>
   <ul id="comments">
