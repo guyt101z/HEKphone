@@ -56,8 +56,6 @@ class residentActions extends sfActions
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
     $this->form = new ResidentsForm($resident);
 
-    // We the field is empty, the passwort remains unchanged (see Resident->setPassword())
-    $this->form['password']->getWidget()->setAttribute('value', '');
 
     // So we can access the resident's data from the template/view layer
     $this->resident = $resident;
@@ -101,7 +99,9 @@ class residentActions extends sfActions
       if($form->getValue('unlocked') != $this->resident->getUnlocked())
       {
         $this->resident->set('unlocked', $form->getValue('unlocked'));
-        $this->resident->sendLockUnlockEmail(date('d.m.Y'));
+        $password = $this->resident->createPassword();
+        $this->resident->set('password', $password);
+        $this->resident->sendLockUnlockEmail(date('d.m.Y'), $password);
       }
       $residents = $form->save();
 

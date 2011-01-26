@@ -7,18 +7,21 @@
      freigeschaltet.
    * Das Amt kannst Du erreichen, indem Du zuerst die 0 waehlst. Dann
      hoerst Du einen Dauerton. Jetzt wie in einer Telefonzelle waehlen.
-     (Bsp.: zu mir nach hause waehle ich 0 072718xxx)
+     (Bsp.: Zu mir nach hause waehle ich 0 072718xxx)
    * Notruf ist bei ALLEN Telefonen (ausser am Klingelboard) IMMER ueber
      <*112> zu erreichen.
    * An diese (deine) Email-Adresse werden auch die
      Einzelverbindungsnachweise monatlich geschickt.
+   * Dein Passwort fürs Hekphone-Portal ist: <?php echo $password?>
+     Dort findest du alle Informationen über deinen Telefonanschluss (Kosten, 
+     unbezahlte Gespräche, Rechnungen, ..)
 
 Sollte dennoch etwas nicht klappen, einfach beim HEKphone-Team melden.
 
 mailto: telefon\@hek.uni-karlsruhe.de
 oder  : Tel: 1234 (Sammelruf) oder persoenlich vorbeischauen.
 
-Ausfuehrliche Anleitung siehe http://hekphone.uni-karlsruhe.de/
+Ausfuehrliche Anleitung siehe http://hekphone
 
 Bitte ueberpruefe, ob sich auch kein Tippfehler in deiner Kontoverbindung eingeschlichen hat.
 Dies wuerde zu einer Ruecklastschrift fuehren, die mindestens 10 Euro Gebuehren verursacht.
@@ -43,6 +46,8 @@ Rechnungsemail: <?php echo $email ?>
      ringer-board) at EVERY TIME.
    * This (your) email-address is where you get a list of every call you
      had made monthly.
+   * Your password for the Hekphone-Frontend is: <?php echo $password?>
+     You can find all informations, related to your phone account.
 
 In case of problems please contact the HEK-phone team.
 mailto: telefon\@hek.uni-karlsruhe.de
