@@ -10,7 +10,7 @@
 </div>
 <?php endif;?>
 
-<form action="<?php echo url_for('@resident_settings?residentid='.$residentid) ?>" method="post">
+<form action="<?php echo url_for('settings/update?residentid='.$residentid) ?>" method="post">
   <table>
   <tfoot>
     <tr>

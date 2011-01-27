@@ -8,10 +8,6 @@ class SettingsForm extends sfForm
       // General settings
       'newEmail' => new sfWidgetFormInput(array(
         'label' => 'resident.settings.newEmail')),
-      'newEmailRepeat' => new sfWidgetFormInput(array(
-        'label' => 'resident.settings.newEmailRepeat')),
-      'oldPassword' => new sfWidgetFormInputPassword(array(
-        'label' => 'resident.settings.oldPassword')),
       'newPassword' => new sfWidgetFormInputPassword(array(
         'label' => 'resident.settings.newPassword')),
       'newPasswordRepeat' => new sfWidgetFormInputPassword(array(
@@ -42,8 +38,6 @@ class SettingsForm extends sfForm
 
     $this->setValidators(array(
       'newEmail'          => new sfValidatorEmail(array('required' => false), array('invalid' => 'resident.settings.error.emailInvalid')),
-      'newEmailRepeat'    => new sfValidatorEmail(array('required' => false), array('invalid' => 'resident.settings.error.emailInvalid')),
-      'oldPassword'       => new sfValidatorString(array('required' => false)),
       'newPassword'       => new sfValidatorString(array('required' => false)),
       'newPasswordRepeat' => new sfValidatorString(array('required' => false)),
       'newPin'            => new sfValidatorInteger(array('required' => false, 'min' => 0, 'max' => 99999999), array(
@@ -62,15 +56,6 @@ class SettingsForm extends sfForm
       'vm_attachMessage'         => new sfValidatorBoolean(array('required' => false)),
       'vm_sendEmailOnMissedCall' => new sfValidatorBoolean(array('required' => false))
     ));
-
-    $this->validatorSchema->setPostValidator(
-      new sfValidatorAnd(array(
-        // check wheter the passwords match
-        new sfValidatorSchemaCompare('newPassword', '==', 'newPasswordRepeat', array(), array('invalid' => 'resident.settings.error.passwordsDoNotMatch')),
-
-        // check wheter the emails match
-        new sfValidatorSchemaCompare('newEmail', '==', 'newEmailRepeat', array(), array('invalid' => 'resident.settings.error.emailsDoNotMatch')),
-    )));
   }
 
 }
