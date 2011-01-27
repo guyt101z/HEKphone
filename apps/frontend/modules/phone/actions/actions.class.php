@@ -90,7 +90,7 @@ class phoneActions extends sfActions
 
     $this->form = new PhonesForm();
 
-    $this->setTemplate('edit');
+    $this->redirect('phone/edit?id=' . $request->getParameter('id'));
   }
 
   public function executeDelete(sfWebRequest $request)
