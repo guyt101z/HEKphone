@@ -199,11 +199,15 @@ class AsteriskCdr extends BaseAsteriskCdr
             {
                 // calls from sip phones have an additional 0 preceeding the number
                 // if they have been routed through the normal PSTN
-                $this->dcontext = substr($this->dst, 1);
-            } elseif (substr($this->dst, 0, 2) == '60')
+                $this->dst = substr($this->dst, 1);
+            }
+            elseif (substr($this->dst, 0, 1) == '60')
             {
                 // they have an additional 60 if they are routed through voip
-                $this->dcontext = substr($this->dst, 2);
+                $this->dst = substr($this->dst, 2);
+                //FIXME: you can only bill the calls placed from SIP phones ONCE.
+                //FIXME: REFRACTOR THE CODE and write TWO functions for billing one that
+                //       bills SIP-Calls and one that bills calls from the old phones.
             }
         }
         $destinationToBill = $this->getFormattedDestination();

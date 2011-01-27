@@ -44,7 +44,7 @@ class AsteriskExtensionsTable extends Doctrine_Table
     }
 
     /**
-     * The function updates/creates the extension neccesary to dial a SIP-Phone.
+     * Updates/creates the extension neccesary to dial a SIP-Phone.
      * If a resident is associated with the room, the extension is customized with
      * voicemailsettings etc.
      *
@@ -69,10 +69,21 @@ class AsteriskExtensionsTable extends Doctrine_Table
         return true;
     }
 
+    /**
+     * Updates/creates the extension neccesary to dial a SIP-Phone. If there's no
+     * SIP-Phone associated with the resident returns false, true on success
+     *
+     * @param Residents $resident
+     * @return bool
+     */
     public function updateResidentsExtension(Residents $resident){
-        $phone = Doctrine_Core::getTable('Phones')->findByResidentId($resident->get('id'));
+        if( ! $phone = Doctrine_Core::getTable('Phones')->findByResidentId($resident->get('id'))) {
+            return false;
+        }
 
         $this->deletePhonesExtensions($phone);
         $this->createPhonesExtensions($phone);
+
+        return true;
     }
 }
