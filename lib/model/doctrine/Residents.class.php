@@ -57,22 +57,21 @@ class Residents extends BaseResidents
         return $this->_set('password', md5($password));
       }
     }
-    
+
     public function createPassword()
     {
-    	
     	$token = 'abcdefghjkmnpqrstuvz123456789';
-    	
-    	$password = '';        
-        for ($i = 0; $i < 7; $i++) 
+
+        $password = '';
+        for ($i = 0; $i < 7; $i++)
         {
-           $password .= $token[(rand() % strlen($token))];        
+           $password .= $token[(rand() % strlen($token))];
          }
-         
-        return $password;        
+
+        return $password;
     }
-    	
-    
+
+
 
     /**
      * Creates a residents voicemailbox-entry if it does not exist yet
@@ -80,7 +79,8 @@ class Residents extends BaseResidents
      */
     public function createVoicemailbox() {
       if( ! isset($this->AsteriskVoicemail)) {
-        $this->AsteriskVoicemail->set('uniqueid', $this->get('id'));
+        $this->AsteriskVoicemail->set('mailbox', $this->get('id')); // this is the parameter, asterisk looks for when calling voicemail(xxx)
+        $this->AsteriskVoicemail->set('uniqueid', $this->get('id')); // has to be set but not neccesairly equal to the mailbox id
         $this->AsteriskVoicemail->set('email', $this->get('email'));
 
         return true;
