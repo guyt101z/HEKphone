@@ -18,7 +18,7 @@ Dein HEKphone-Team
 English version:
 
 Dear <?php echo $first_name ?>,
-according to our database you'll leave our establishment on <?php echo $move_out ?>.
+according to our database you'll leave our establishment on <?php echo $lockDate ?>.
 We, the HEKphone-Team, will configure your telephone that no one (especially not the
 person that will move in your room) can dial out anymore from this point of time.
 
