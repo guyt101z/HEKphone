@@ -99,6 +99,14 @@ AsteriskCdr:
       notnull: true
       default: 'false' 
       
+# Asterisk connects to the following tables via odbcs. It's configured in 
+# res_odbc.conf, odbc.ini and extconfig.conf
+
+# AsteriskExtensions: The extensions in this table are fetched everytime a call
+# is placed.  
+# There are supposed to be two major contexts in this table: 
+#   phones which holds the phones extensions ("exten => 1405,1,Dial(SIP/1405)")
+#   groupcalls which are managed in the groupcalls relation
 AsteriskExtensions:
   connection: hekphone
   tableName: asterisk_extensions
@@ -126,6 +134,11 @@ AsteriskExtensions:
       type: string()
       default: ''
 
+# AsteriskVoicemail: For every resident, a voicemailbox has to be created if he
+# wants to use the vm. This is done (via Resident->createVoicemailbox()) when he
+# updates his settings in the frontend.
+# In this table, only the details of the voicemailbox are stored, not the messages.
+# See voicemail.conf.sample to find out more about the various configuration fields.
 AsteriskVoicemail:
   connection: hekphone
   tableName: asterisk_voicemail
@@ -164,7 +177,7 @@ AsteriskVoicemail:
     tz:
       type: string(10)
       notnull: true
-      default: 'central'
+      default: 'european'
     attach:
       type: string(4)
       notnull: true
@@ -231,99 +244,29 @@ AsteriskVoicemail:
     stamp:
       type: timestamp
    
+# AsteriskSip: This table, that is required by asterisk is replaced by a view.
+#
 # We want to reduce redundant information in the database and the state "unlocked/
 # locked" belongs to a user, not a phone, this "table" asterisk_sip is supposed to
 # be a view that collects all data from Phones and additionally fetches the
-# locked/unlocked state from residents. (TODO: and the culture/language!?)      
+# locked/unlocked state from residents. It also fetches the md5-hash of the residents
+# password and uses it as secret of the sip-account. (TODO: Fetch language aswell)      
 # Unfortunatele, it seems impossible to implement this in a clean way with doctrine.
-# So after you build the database from the schema, you should DELETE the 
-# the asterisk_sip table and create the view.
+# So after you build the database from the schema, you need to create the view.
+#
 # As asterisk needs to write to some fields in asterisk_sip some 
-# "onupdate do instead" rules should be defined.
+# "onupdate do instead" rules are be defined.
+#
 # Because the view uses a typecast from boolean (resident->locked) to the
 # enum 'context' which is either 0: locked or 1: unlocked, you have to create 
 # this typecast first. This can be done with the postgres-01-typecast-bool-context.sql
-# file. (psql <database> <username> - f postgres-01-typecast-bool-context.sql)
-# The typecast also automatically forces all telephones in rooms with no assigned
-# resident to be locked!
-# Now, table can be dropped and the view and the rules can can easily be created 
+# file:
+#     psql <database> <username> - f postgres-01-typecast-bool-context.sql
+#
+# Now, the view and the rules can can easily be created 
 # via postgres02-asterisk_sip-view.sql:
-#   psql <database> <username> - f postgres-02-asterisk_sip-view.sql
-AsteriskSip:
-  connection: hekphone
-  tableName: asterisk_sip
-  columns:
-    id:
-      type: integer(11)
-      notnull: true
-      primary: true
-      autoincrement: true
-##  FIXME: name == 1XXX (XXX: room number) ?
-    name:
-      type: string(80)
-      notnull: true
-      default: ''
-    'type':
-      type: enum
-      length: 6
-      values: ['user','peer','friend']
-      notnull: true
-      default: 'friend'
-    cid_number:
-      type: string(25)
-    callerid:
-      type: string(80)
-## Parameter to identify the user:
-    defaultuser:
-      type: string(80)
-      notnull: true
-      default: ''
-    secret: #fetched from the resident associated with the phone
-      type: string(80)
-## As our telephones desperately try to register, we need host=dynamic:
-    host:
-      type: string(31)
-      notnull: true
-      default: dynamic
-## With host = dynamic: This "defaultip" is used, if the client is not registered.
-## The DHCP configuration is created from this field and the following: 
-    defaultip:
-      type: string(15)
-    mac:
-      type: string(20)
-      default: ''
-## Maybe also fetch the language via a view from the residents table (->culture):
-    language:
-      type: string(2)
-      default: 'de'
-## The field mailbox (contains "mailboxid@context") equals a users id.
-    mailbox:
-      type: string(50)
-## These fields are obviousely required by asterisk:
-    regserver:
-      type: string(20)
-    regseconds:    # updated by asterisk periodically!
-      type: string(20)
-    ipaddr:        # updated by asterisk periodically!
-      type: string(15)
-      notnull: true
-      default: ''
-    port:          # updated by asterisk periodically!
-      type: string(5)
-      unsigned: true
-      notnull: true
-      default: ''
-    fullcontact:
-      type: string(80)
-      notnull: true
-      default: ''
-    useragent:     # updated by asterisk!
-      type: string(20)
-      default: ''
-## The field lastms...
-    lastms:
-      type: string(11)
-      default: ''
+#     psql <database> <username> - f postgres-02-asterisk_sip-view.sql
+
          
 # This table is the skeleton of the view asterisk_sip which specifies the
 # sip friend of asterisk.
@@ -656,7 +599,6 @@ Residents:
       notnull: true
     email:
       type: string (255)
-      #unique: true
       email: true
     move_in: 
       type: date
