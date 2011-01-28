@@ -160,7 +160,7 @@ class Phones extends BasePhones
 
   	  if (isset($this->Rooms[0]->Residents[0]))
   	  {
-  	      $sip1Pwd = $this->Rooms[0]->Residents[0]->get('password');
+  	      $sip1Pwd = substr($this->Rooms[0]->Residents[0]->get('password'), 0 ,7);
   	  } else {
   	      $sip1Pwd = 'hekphone';
   	  }
