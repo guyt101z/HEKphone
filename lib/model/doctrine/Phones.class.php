@@ -244,7 +244,7 @@ class Phones extends BasePhones
 
         $loginResult = curl_exec($ch);
 
-        if( ! strpos($loginResult, "PHONE CONFIG")) {
+        if(strpos($loginResult, "PHONE CONFIG") === false) {
           throw new Exception("Login on the phones webfrontend at $this->defaultip with password $password and username $username failed");
         }
 
@@ -265,7 +265,7 @@ class Phones extends BasePhones
 
         $uploadResult = curl_exec($ch);
 
-        if( ! strpos($uploadResult, "ok post")) {
+        if(strpos($uploadResult, "ok post") === false) {
           throw new Exception("Uploading the configuration file failed.");
         }
 
