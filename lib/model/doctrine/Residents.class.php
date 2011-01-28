@@ -104,18 +104,28 @@ class Residents extends BaseResidents
       /* Create Voicemailbox, if it does not exist yet */
       $this->createVoicemailbox();
 
-      $this->set('vm_active', $active);
-      $this->set('vm_seconds', $seconds);
-      $this->set('mail_on_missed_call', $mailOnMissedCall);
+      // there's no option not to send voicemails by email (sendvoicemail is something else)
+      // If the resident does not whish to receive notifications we simply delete the email-adress
+      if($mailOnNewMessage)
+      {
+          $this->AsteriskVoicemail->set('email', $this->email);
+      } else {
+          $this->AsteriskVoicemail->set('email', '');
+      }
 
-      $attachMessage = ($attachMessage) ? "yes" : "no"; // asterisk uses yes and no not true/false
+      // Asterisk uses yes and no not true/false in its config files and tables
+      $attachMessage = ($attachMessage) ? "yes" : "no";
       $this->AsteriskVoicemail->set('attach', $attachMessage);
       $this->save();
 
-      // Update the extension for the users phone so the changes apply
+      $this->set('vm_active', $active);
+      $this->set('vm_seconds', $seconds);
+      $this->set('mail_on_missed_call', $mailOnMissedCall);
+      // Update the extension for the users phone so the changes to vm_active and vm_seconds
+      // apply as they are details of the extension ("How long to ring") and not of the mailbox.
       if( ! Doctrine_Core::getTable('AsteriskExtensions')
-            ->updateResidentsExtension($this)){
-
+            ->updateResidentsExtension($this))
+      {
           return false;
       }
 
