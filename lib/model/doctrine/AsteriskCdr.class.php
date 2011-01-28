@@ -13,7 +13,7 @@
 
 class AsteriskCdr extends BaseAsteriskCdr
 {
-    private $resident = NULL; // holds the resident associated with the call
+    private $resident = NULL; // holds the resident associated with the call use getResident()
 
 
     /*
@@ -46,7 +46,7 @@ class AsteriskCdr extends BaseAsteriskCdr
 
     /**
      * Checks if the calls origin is a public room (common room, bar, ...)
-     * Configure the rooms in ProjectConfiguration.class.php
+     * Configure the rooms in ProjectConfiguration.class.php 'hekphonePublicRooms'
      * @return bool
      */
     private function isFromPublicRoom(){
@@ -57,7 +57,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      * Checks wheter the cdr represents a free call. Determined by the userfield
      * @return bool
      */
-    function isFreeCall() {
+    private function isFreeCall() {
         if($this->userfield == 'free' || $this->dst[0] == '*') {
             return true;
         } else {
@@ -65,7 +65,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         }
     }
 
-    function isInternalCall() {
+    private function isInternalCall() {
       if($this->userfield ==  sfConfig::get('asteriskInternalUserfield')) {
         return true;
       } else {
@@ -73,11 +73,7 @@ class AsteriskCdr extends BaseAsteriskCdr
       }
     }
 
-    /**
-     * Checks wheter the call is an incoming call or not.
-     * @return bool
-     */
-    function isIncomingCall() {
+    private function isIncomingCall() {
         if(sfConfig::get('asteriskIncomingContext') == $this->dcontext) {
           return true;
         } else {
@@ -98,11 +94,63 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @throws Exception
      * @return string
      */
-    function getFormattedDestination() {
+    private function getFormattedDestination() {
         if ($this->isIncomingCall()) {
             return $this->dst;
         }
 
+        if(strpos($this->channel, 'SIP') === false) {
+            return $this->getFormattedDestinationOfCallFromAnalogPhone();
+        } else {
+            return $this->getFormattedDestinationOfCallFromSipPhone();
+        }
+    }
+
+    private function getFormattedDestinationOfCallFromSipPhone()
+    {
+        if($this->dst[0] == '0')
+        {
+            // calls from sip phones have an additional 0 preceeding the number
+            // if they have been routed through the normal PSTN
+            $destination = substr($this->dst, 1);
+        }
+        elseif (substr($this->dst, 0, 1) == '60')
+        {
+            // they have an additional 60 if they are routed through voip
+            $destination = substr($this->dst, 2);
+        }
+
+        /* Conform $this->dst to  "0049+prefix+number" */
+         if ( substr($destination,0,1) == '3' ) {
+             // free call to RSH
+             $destination = '00497211306' . substr($this->dst,1);
+         } elseif ( substr($destination,0,1) == '5' ) {
+             // free call to ABH
+             $destination = '00497211307' . substr($this->dst,1);
+         } elseif ( substr($destination,0,2) == '00') {
+             // calls with country-prefix 00
+             $destination = $this->dst;
+         } elseif ( substr($destination,0,1) == '0' ) {
+             // call with city prefix 0
+             $destination = '0049' . substr($this->dst,1);
+         } elseif ( substr($destination,0,1) == '*') {
+             // free call using  *721
+             $destination = '0049' . substr($this->dst,1);
+         } elseif ( substr($destination,0,2) == '60') {
+             // voip-call. strip the "60"
+             $destination = '0049' . substr($this->dst,1);
+         } elseif ( substr($destination,0,1) > 0 ) {
+             // local call without any prefix
+             $destination = '0049721' . $this->dst;
+         } else {
+             throw new Exception("Unable to match dialed number to any pattern");
+         }
+
+         return $destination;
+    }
+
+    private function getFormattedDestinationOfCallFromAnalogPhone()
+    {
         /* Conform $this->dst to  "0049+prefix+number" */
         if ( substr($this->dst,0,7) == '8695020' ) {
              //It's a free call using *721
@@ -119,8 +167,6 @@ class AsteriskCdr extends BaseAsteriskCdr
              $destination = '0049' . substr($this->dst,1);
          } elseif ( substr($this->dst,0,1) > 0 ) {
              $destination = '0049721' . $this->dst;
-         } elseif ( substr($this->dst,0,1) == '*') {
-             $destination = '0049' . substr($this->dst,1);
          } else {
              throw new Exception("Unable to match dialed number to any pattern");
          }
@@ -128,88 +174,14 @@ class AsteriskCdr extends BaseAsteriskCdr
          return $destination;
     }
 
-    /*
-     * Replace last 3 digits of the destination with xxx
-     * if $resident->shortened_itemized_bill is true.
-     */
-    function shortenDestination() {
-        if ( $this->getResident()->shortened_itemized_bill) {
-            return substr($this->getFormattedDestination(), 0, -3) . 'xxx';
-        } else {
-            return $this->getFormattedDestination();
-        }
-    }
-
-    function rebill() {
-        // Delete old entry if it exists
-        Doctrine_Query::create()
-            ->delete('Calls')
-            ->where('asterisk_uniqueid = ?', $this->uniqueid)
-            ->execute();
-
-        // mark cdr as unbilled
-        $this->billed = false;
-
-        //bill cdr again
-        return $this->bill();
-    }
     /**
-     * Calculates the cost of an AsteriskCdr-Record (a finished call), creates
-     * an record in the Calls table and marks the AsteriskCdr-Record as billed.
-     * @throws Exception
-     * @return AsteriskCdr
+     * Creates an entry in the calls table for the Cdr. The costs are calculated
+     * and the call is assigned to a user.
+     *
+     * @return $call Calls
      */
-    function bill() {
-        /* Warn and abort if the call is already billed and no rebilling is whished */
-        if($this->billed) {
-            throw New Exception("The cdr has already been billed");
-        }
-        /* Only bill outgoing calls no incoming calls*/
-        if($this->isIncomingCall()) {
-            throw new Exception("Trying to bill an incoming call");
-        }
-        /* and no internal calls*/
-        if($this->isInternalCall()) {
-          return false;
-        }
-        /* Warn if trying to bill outgoing non-free calls of locked users */
-        if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
-            echo "[security warning] locked user made an outgoing call";
-        }
-        /* Check if the call originated from a public room and exit with an error if it's non-free */
-        if($this->isFromPublicRoom()) {
-            if( ! $this->isFreeCall()) {
-                throw new Exception("Non free call from public room: ". $this->getRoomNumber());
-            } else {
-              // Mark the call as billed
-              $this->billed = true;
-              $this->save();
-              return true;
-            }
-        }
-        /* Recheck if somebody really picked up */
-        if($this->disposition != 'ANSWERED') {
-            return false;
-        }
-
-        /* Parse the calls details */
-        if($this->dcontext = 'unlocked')
-        {
-            if($this->dst[0] == '0')
-            {
-                // calls from sip phones have an additional 0 preceeding the number
-                // if they have been routed through the normal PSTN
-                $this->dst = substr($this->dst, 1);
-            }
-            elseif (substr($this->dst, 0, 1) == '60')
-            {
-                // they have an additional 60 if they are routed through voip
-                $this->dst = substr($this->dst, 2);
-                //FIXME: you can only bill the calls placed from SIP phones ONCE.
-                //FIXME: REFRACTOR THE CODE and write TWO functions for billing one that
-                //       bills SIP-Calls and one that bills calls from the old phones.
-            }
-        }
+    private function createCallsEntry()
+    {
         $destinationToBill = $this->getFormattedDestination();
         $destinationToSave = $this->shortenDestination();
 
@@ -239,16 +211,85 @@ class AsteriskCdr extends BaseAsteriskCdr
 
         $call->save();
 
-        /* Mark the cdr as billed */
+        return $call;
+    }
+
+    /*
+     * Replace last 3 digits of the destination with xxx
+     * if $resident->shortened_itemized_bill is true.
+     */
+    private function shortenDestination() {
+        if ( $this->getResident()->shortened_itemized_bill) {
+            return substr($this->getFormattedDestination(), 0, -3) . 'xxx';
+        } else {
+            return $this->getFormattedDestination();
+        }
+    }
+
+    /**
+     * Deletes any entry in the calls table corresponding to the cdr. And executes
+     * bill() (creates the entry again).
+     */
+    public function rebill() {
+        // Delete old entry if it exists
+        Doctrine_Query::create()
+            ->delete('Calls')
+            ->where('asterisk_uniqueid = ?', $this->uniqueid)
+            ->execute();
+
+        // mark cdr as unbilled
+        $this->billed = false;
+
+        //bill cdr again
+        return $this->bill();
+    }
+
+    /**
+     * Calculates the cost of an AsteriskCdr-Record (a finished call), creates
+     * an record in the Calls table and marks the AsteriskCdr-Record as billed.
+     * @throws Exception
+     * @return AsteriskCdr
+     */
+    public function bill() {
+        /* Warn and abort if the call is already billed and no rebilling is whished */
+        if($this->billed) {
+            throw New Exception("The cdr has already been billed");
+        }
+        /* Only bill outgoing calls no incoming calls*/
+        if($this->isIncomingCall()) {
+            throw new Exception("Trying to bill an incoming call");
+        }
+        /* and no internal calls*/
+        if($this->isInternalCall()) {
+            return false;
+        }
+        /* Warn if trying to bill outgoing non-free calls of locked users */
+        if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
+            throw New Exception("[security warning] locked user made an outgoing call");
+        }
+        /* Check if the call originated from a public room and exit with an error if it's non-free */
+        if($this->isFromPublicRoom()) {
+            if( ! $this->isFreeCall()) {
+                throw new Exception("Non free call from public room: ". $this->getRoomNumber());
+            } else {
+              // Mark the call as billed
+              $this->billed = true;
+              $this->save();
+              return true;
+            }
+        }
+
+        $callsEntry = $this->createCallsEntry();
+
         $this->billed = true;
         $this->save();
 
-        // This message will show up in the postgres-logfile
-        echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $call->extension
-             . "; Cost: ".round($call->charges,2) . "ct" . PHP_EOL;
-
-        /* Check if the resident has (almost) reached) his limit, send warning emails and eventually lock the resident*/
         $this->getResident()->checkIfBillLimitIsAlmostReached();
+
+        //Log some details.
+        // FIXME: using echo in a model is bad. replace it by correct logging.
+        echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $callsEntry->extension
+         . "; Cost: ".round($callsEntry->charges,2) . "ct" . PHP_EOL;
 
         return $this;
     }
