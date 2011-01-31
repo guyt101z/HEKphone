@@ -325,10 +325,10 @@ Enable MMI Filter  :0
 Telnet Prompt      :
 --MMI Account--    :
 Account1 Name      :admin
-Account1 Pass      :admin
+Account1 Pass      :hekphone811
 Account1 Level     :10
 Account2 Name      :guest
-Account2 Pass      :guest
+Account2 Pass      :hekphone811
 Account2 Level     :5
 
 <QOS CONFIG MODULE>
@@ -378,7 +378,7 @@ Enable PPTP ALG    :1
 Enable IPSec ALG   :1
 
 <PHONE CONFIG MODULE>
-Keypad Password    :8818
+Keypad Password    :811
 LCD Logo           :HEKphone
 SIP1 Server Name   :hekphone
 SIP2 Server Name   :Name2
