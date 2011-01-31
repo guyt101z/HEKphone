@@ -74,7 +74,7 @@
       </trans-unit>
       <trans-unit id="45">
         <source>calls.list.bills.heading</source>
-        <target>letze Rechnungen</target>
+        <target>letzte Rechnungen</target>
       </trans-unit>
       <trans-unit id="46">
         <source>calls.list.bills.date</source>
