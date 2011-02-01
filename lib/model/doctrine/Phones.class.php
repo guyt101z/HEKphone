@@ -173,7 +173,7 @@ class Phones extends BasePhones
           'sip1User' => $this['defaultuser'],
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
-          'frontendpwd' => sfConfig::get("sipPhoneFrontendPwd")));
+          'frontendPassword' => sfConfig::get("sipPhoneFrontendPwd")));
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
       $filepath   = $folder . $this['name'] . "-config.txt";
@@ -206,7 +206,7 @@ class Phones extends BasePhones
         else
         {
 	        $password = sfconfig::get("sipPhoneFrontendPwd");
-	        $username = 'admin';	
+	        $username = 'admin';
         }
 
 
