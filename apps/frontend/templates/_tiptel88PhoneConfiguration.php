@@ -387,18 +387,15 @@ SIP4 Server Name   :Name4
 SIP5 Server Name   :Name5
 LCD Constrast      :5
 LCD Luminance      :1
-FuncKey Type       :3
+FuncKey Type       :1
+Memory Key 1       :147
+Memory Key 2       :2000
 <?php if ($overridePersonalSettings):?>
-Memory Key 1       :
-Memory Key 2       :
-Memory Key 3       :
-Memory Key 4       :
-Memory Key 5       :
-Memory Key 6       :
-Memory Key 7       :
-Memory Key 8       :
-Memory Key 9       :
-Memory Key 10      :
+--Phone Book--     :
+Item1 Name         :HEKPhone Sammelruf
+Item1 Number       :1234
+Item1 Address      :
+Item1 Ring         :0
 <?php endif;?>
 
 <AUTOUPDATE CONFIG MODULE>
