@@ -10,7 +10,7 @@ Alter DNS          :192.168.255.254
 DHCP Mode          :1
 DHCP Dns           :1
 Domain Name        :
-Host Name          :phone<?php $sip1PhoneNumber . "\n"?>
+Host Name          :phone<?php echo $sip1PhoneNumber . "\n"?>
 Pppoe Mode         :0
 HTL Start Port     :10000
 HTL Port Number    :200
