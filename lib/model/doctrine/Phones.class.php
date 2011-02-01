@@ -157,8 +157,7 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-
-  	  if (isset($this->Rooms[0]->Residents[0]))
+  	  if($this->Rooms[0]->Residents[0]->get('password') != '')
   	  {
   	      $sip1Pwd = substr($this->Rooms[0]->Residents[0]->get('password'), 0 ,7);
   	  } else {
