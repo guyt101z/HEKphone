@@ -317,6 +317,14 @@
         <target>Telefonkonfiguration komplett zurücksetzen</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>phone.edit.reset.initialConfiguration</source>
+        <target>Neues Telefon konfigurieren</target>
+      </trans-unit>      
+      <trans-unit id="12">
+        <source>phone.edit.reset.warning.initial_configuration</source>
+        <target>Das Telefon wird neugestartet und alle persönlichen Einstellungen wie Telefonbuch, Kurzwahl,... gehen verloren. Zum Verbinden wird das Standardpasswort des Telefons verwendet. Fortsetzen?</target>
+      </trans-unit>  
+      <trans-unit id="12">
         <source>phone.edit.reset.warning.keeping_personal_settings</source>
         <target>Das Telefon wird dabei neugestartet. Fortsetzen?</target>
       </trans-unit>

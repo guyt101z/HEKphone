@@ -172,7 +172,8 @@ class Phones extends BasePhones
           .$this->Rooms[0]->get('room_no') . ")",
           'sip1User' => $this['defaultuser'],
           'sip1Pwd' => $sip1Pwd,
-          'overridePersonalSettings' => $overridePersonalSettings));
+          'overridePersonalSettings' => $overridePersonalSettings,
+          'frontendpwd' => sfConfig::get("sipPhoneFrontendPwd")));
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
       $filepath   = $folder . $this['name'] . "-config.txt";
@@ -191,14 +192,22 @@ class Phones extends BasePhones
    *
    *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    */
-  public function uploadConfiguration($overwritePersonalSettings = false) {
+  public function uploadConfiguration($overwritePersonalSettings = false, $initialConfiguration = false) {
         $sendAuthCookie = 'c0a900010000009b';
         $httpHeaders = array(
             'Keep-Alive: 115',
             'Connection: keep-alive',
             'Cookie: auth=' . $sendAuthCookie);
-        $password = 'admin';
-        $username = 'admin';
+        if ($initialConfiguration)
+        {
+	        $password = 'admin';
+	        $username = 'admin';
+        }
+        else
+        {
+	        $password = sfconfig::get("sipPhoneFrontendPwd");
+	        $username = 'admin';	
+        }
 
 
         /* Get the front page to get an authentication cookie in return */
