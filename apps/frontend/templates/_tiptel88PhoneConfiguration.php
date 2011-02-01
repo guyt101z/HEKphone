@@ -325,10 +325,10 @@ Enable MMI Filter  :0
 Telnet Prompt      :
 --MMI Account--    :
 Account1 Name      :admin
-Account1 Pass      :hekphone811
+Account1 Pass      :<?php  echo $fronendpwd . "\n"?>
 Account1 Level     :10
 Account2 Name      :guest
-Account2 Pass      :hekphone811
+Account2 Pass      :<?php  echo $fronendpwd . "\n"?>
 Account2 Level     :5
 
 <QOS CONFIG MODULE>
