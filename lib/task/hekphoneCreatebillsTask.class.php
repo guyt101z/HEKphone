@@ -8,8 +8,9 @@ class hekphoneCreatebillsTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
       new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills'),
+      new sfCommandOption('billDate', null, sfCommandOption::PARAMETER_OPTIONAL, 'Date of the bills when you want only dtaus-files'),
       new sfCommandOption('dtausOnly', null, sfCommandOption::PARAMETER_NONE, 'Only create dtaus files 
-      from existing bills in the given time period') 
+      from existing bills with the specified date') 
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -22,7 +23,9 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->briefDescription = 'Creates bills for residents for a given time period [default:last month]';
     $this->detailedDescription = <<<EOF
 The [hekphone:create-bills|INFO] creates for all unbilled calls in a given time period a bill for the dedicated user.
-Furthermore it creates an itemized Bill and sends it via mail to the resident.
+Furthermore it creates an itemized Bill and sends it via mail to the resident. When you use the --dtausOnly parameter
+and a specific bill date, this task create only the dtaus files. In the topic of the banktransfer are the given start 
+and end dates.
 Call it with:
 
   [php symfony hekphone:create-bills|INFO]
@@ -70,8 +73,8 @@ EOF;
     {
     	$bills = Doctrine_Query::create()
                                ->from('Bills')
-                               ->addWhere('date <= ?', $end)
-                               ->addWhere('date >= ?', $start)
+                               ->addWhere('date <= ?', $options['billDate'])
+                               ->addWhere('date >= ?', $options['billDate'])
                                ->execute();
         $billsCollection = new BillsCollection('Bills');
         
@@ -80,8 +83,9 @@ EOF;
             $billsCollection->add($bill, $bill['id']);              
         }
         $billsCollection->save();
-        $billsCollection->createDtausFiles($options['start'], $options['end']);
-         
+        $billsCollection->createDtausFiles($start, $end);
+        
+        
     } 
   }
 }

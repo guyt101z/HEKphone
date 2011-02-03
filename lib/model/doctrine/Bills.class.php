@@ -36,9 +36,8 @@ class Bills extends BaseBills
 
     	//If there is not the required information given to generate the dtaus entry for a resident an empty string is returned
     	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null || $this['amount'] == 0)
-    	{
-    		//TODO: sfContext::getInstance()->getLogger()->info("No dtaus entry for bill ".$bill['id']." with amount ".$this['amount']."EUR");//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
-    		echo "No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR" . PHP_EOL;
+    	{    		
+    		throw New Exception("No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR");
     	}
     	else
     	{

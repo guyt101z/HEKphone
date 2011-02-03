@@ -34,10 +34,19 @@ class BillsCollection extends Doctrine_Collection
         {
         	if  ($bill['amount'] > 0) 
         	{
-                $sumAmount += $bill['amount'];
-                $sumAccounts += $bill['Residents']['account_number'];
-                $sumBankNumbers += $bill['Residents']['bank_number'];
-                $dtausContent .= $bill->getDtausEntry($start, $end);
+                try
+                {
+                	$dtausContent .= $bill->getDtausEntry($start, $end);
+	                $sumAmount += $bill['amount'];
+	                $sumAccounts += $bill['Residents']['account_number'];
+	                $sumBankNumbers += $bill['Residents']['bank_number'];
+                }
+                catch (Exception $e)
+                {
+                    //$this->log($this->formatter->format($e->getMessage(), 'ERROR'));
+                    echo $e->getMessage();
+                
+        	    }
         	}
         }
       //Footer of the *.ctl file for the dtaus program.
@@ -48,6 +57,8 @@ class BillsCollection extends Doctrine_Collection
   BLZs	" . $sumBankNumbers."
 }";
 
+     echo "Amount of all bills: " . $sumAmount . "Euro" . PHP_EOL;
+     
 
 	//Creates the .ctl file for the dtaus programm and executes dtaus. Results are saved in /tmp/
         if (! $dtausContent == "")
