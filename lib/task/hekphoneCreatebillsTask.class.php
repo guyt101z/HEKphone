@@ -7,10 +7,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
-      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills'),
-      new sfCommandOption('billDate', null, sfCommandOption::PARAMETER_OPTIONAL, 'Date of the bills when you want only dtaus-files'),
-      new sfCommandOption('dtausOnly', null, sfCommandOption::PARAMETER_NONE, 'Only create dtaus files 
-      from existing bills with the specified date') 
+      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills')
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -23,9 +20,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->briefDescription = 'Creates bills for residents for a given time period [default:last month]';
     $this->detailedDescription = <<<EOF
 The [hekphone:create-bills|INFO] creates for all unbilled calls in a given time period a bill for the dedicated user.
-Furthermore it creates an itemized Bill and sends it via mail to the resident. When you use the --dtausOnly parameter
-and a specific bill date, this task create only the dtaus files. In the topic of the banktransfer are the given start 
-and end dates.
+Furthermore it creates an itemized Bill and sends it via mail to the resident.
 Call it with:
 
   [php symfony hekphone:create-bills|INFO]
@@ -57,35 +52,20 @@ EOF;
     }
 
     /* Create Bills */
-    if ($options['dtausOnly'] != true)
+    
+    $billsTable = Doctrine_Core::getTable('Bills');
+    if($billsTable->createBills($start, $end))
     {
-        $billsTable = Doctrine_Core::getTable('Bills');
-        if($billsTable->createBills($start, $end))
-        {
-            $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
-        }
-        else
-        {
-            $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
-        }
+        $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
     }
-    if ($options['dtausOnly'] == true)
+    else
     {
-    	$bills = Doctrine_Query::create()
-                               ->from('Bills')
-                               ->addWhere('date <= ?', $options['billDate'])
-                               ->addWhere('date >= ?', $options['billDate'])
-                               ->execute();
-        $billsCollection = new BillsCollection('Bills');
-        
-        foreach ($bills as $bill)
-        {
-            $billsCollection->add($bill, $bill['id']);              
-        }
-        $billsCollection->save();
-        $billsCollection->createDtausFiles($start, $end);
+        $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
+    }
+    
+
         
         
-    } 
+    
   }
 }

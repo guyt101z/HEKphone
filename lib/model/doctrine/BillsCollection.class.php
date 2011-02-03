@@ -9,7 +9,7 @@ class BillsCollection extends Doctrine_Collection
 	 * @param string $end Date of the end of the billing period
 	 * @return boolean
 	 */
-	public function createDtausFiles($start, $end)
+	public function createDtausFiles()
 	{
 		$date = date("d.m.Y",mktime(0, 0, 0, date("m"), date ("d"), date("Y")));
 
@@ -36,7 +36,7 @@ class BillsCollection extends Doctrine_Collection
         	{
                 try
                 {
-                	$dtausContent .= $bill->getDtausEntry($start, $end);
+                	$dtausContent .= $bill->getDtausEntry();
 	                $sumAmount += $bill['amount'];
 	                $sumAccounts += $bill['Residents']['account_number'];
 	                $sumBankNumbers += $bill['Residents']['bank_number'];
@@ -57,7 +57,7 @@ class BillsCollection extends Doctrine_Collection
   BLZs	" . $sumBankNumbers."
 }";
 
-     echo "Amount of all bills: " . $sumAmount . "Euro" . PHP_EOL;
+     echo "Amount of all bills: " . $sumAmount . " Euro" . PHP_EOL;
      
 
 	//Creates the .ctl file for the dtaus programm and executes dtaus. Results are saved in /tmp/
@@ -79,11 +79,11 @@ class BillsCollection extends Doctrine_Collection
         }
 	}
 
-	public function sendEmails($start, $end)
+	public function sendEmails()
 	{
 	    foreach($this as $bill)
 	    {
-	        $bill->sendEmail($start, $end);
+	        $bill->sendEmail();
 	    }
 	}
 }
