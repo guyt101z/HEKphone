@@ -68,7 +68,7 @@ class Bills extends BaseBills
     	$itemizedBill = str_pad('Datum',21)
         		.str_pad('Dauer(sec)',12)
                         .str_pad('externe Nummer',22)
-                        .str_pad('Kosten',8)
+                        .str_pad('Kosten (ct)',14)
                         .str_pad('Rate',18)."\n";
 
         foreach($this['Calls'] as $call)
