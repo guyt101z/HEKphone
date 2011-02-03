@@ -53,9 +53,11 @@ class BillsTable extends Doctrine_Table
         {
         	//Prepare the bills for each resident
         	$billsArray[] = array(
-        	               'resident'  => $residentid,
-        	               'amount'    => round($amount, 2),
-        	               'date'      => date("Y-m-d")
+        	               'resident'              => $residentid,
+        	               'amount'                => round($amount, 2),
+        	               'date'                  => date("Y-m-d"),
+        	               'billingperiod_start'   => $start,
+        	               'billingperiod_end'     => $end
         	 );
         	 echo("Bill for: $residentid with amount $amount " . PHP_EOL);
         }
@@ -81,11 +83,11 @@ class BillsTable extends Doctrine_Table
         }
         $unbilledCalls->save();
         
-        $billsCollection->createDtausFiles($start, $end);
+        $billsCollection->createDtausFiles();
         
         // send the bills as email to the residents
         $billsCollection->loadRelated('Calls');
-        $billsCollection->sendEmails($start, $end);
+        $billsCollection->sendEmails();
 
         return true;
     }

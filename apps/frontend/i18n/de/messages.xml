@@ -96,6 +96,18 @@
         <source>calls.list.bills.hidedetails</source>
         <target>ausblenden</target>
       </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.sendEmail</source>
+        <target>Rechnungsemail zusenden</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.billEmailSent</source>
+        <target>Dem Bewohner wurde seine Rechnung zugesandt.</target>
+      </trans-unit>
       <trans-unit id="50">
         <source>auth.logout</source>
         <target>Abmelden</target>

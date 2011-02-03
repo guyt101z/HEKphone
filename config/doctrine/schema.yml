@@ -808,6 +808,12 @@ Bills:
     date: 
       type: date
       notnull: true
+    billingperiod_start:
+      type: date
+      notnull: true
+    billingperiod_end:
+      type: date
+      notnull: true
     amount: 
       type: decimal(18)
       notnull: true

@@ -30,7 +30,7 @@ class Bills extends BaseBills
      * @param $end End date for the bill period
      * @return string The string of the dtaus entry or an empty string if the dtaus entry could not be generated
      */
-    public function getDtausEntry($start, $end)
+    public function getDtausEntry()
     {
     	$dtausEntry = null;
 
@@ -51,7 +51,7 @@ class Bills extends BaseBills
   myName	" . sfConfig::get("hekphoneName")."
   myKonto	" . sfConfig::get("hekphoneAccountnumber")."
   myBLZ	" . sfConfig::get("hekphoneBanknumber")."
-  Text	" . $start . " BIS " . $end."
+  Text	" . $this['billingperiod_start'] . " BIS " . $this['billingperiod_end'] . "
 }
 ";
      	}
@@ -84,7 +84,7 @@ class Bills extends BaseBills
      * @param string $start Start of the billing period
      * @param string $end End of the billing period
      */
-    public function sendEmail($start, $end)
+    public function sendEmail()
     {
         // check for non_empty email-field rather than unlocked user?
         if ($this['Residents']['unlocked'] == true)
@@ -93,8 +93,8 @@ class Bills extends BaseBills
             
             // compose the message
             $messageBody = get_partial('global/billingMail', array('firstName' => $this['Residents']['first_name'],
-                                                                'start' => $start,
-                                                                'end' => $end,
+                                                                'start' => $this['billingperiod_start'],
+                                                                'end' => $this['billingperiod_end'],
                                                                 'billId' => $this['id'],
                                                                 'amount' => $this['amount'],
                                                                 'accountNumber' => $this['Residents']['account_number'],
@@ -106,6 +106,7 @@ class Bills extends BaseBills
                 ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
+            
         }
     }
 }
