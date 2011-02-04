@@ -123,25 +123,25 @@ class AsteriskCdr extends BaseAsteriskCdr
         /* Conform $this->dst to  "0049+prefix+number" */
          if ( substr($destination,0,1) == '3' ) {
              // free call to RSH
-             $destination = '00497211306' . substr($this->dst,1);
+             $destination = '00497211306' . substr($destination,1);
          } elseif ( substr($destination,0,1) == '5' ) {
              // free call to ABH
-             $destination = '00497211307' . substr($this->dst,1);
+             $destination = '00497211307' . substr($destination,1);
          } elseif ( substr($destination,0,2) == '00') {
              // calls with country-prefix 00
              $destination = $this->dst;
          } elseif ( substr($destination,0,1) == '0' ) {
              // call with city prefix 0
-             $destination = '0049' . substr($this->dst,1);
+             $destination = '0049' . substr($destination,1);
          } elseif ( substr($destination,0,1) == '*') {
              // free call using  *721
-             $destination = '0049' . substr($this->dst,1);
+             $destination = '0049' . substr($destination,1);
          } elseif ( substr($destination,0,2) == '60') {
              // voip-call. strip the "60"
-             $destination = '0049' . substr($this->dst,1);
+             $destination = '0049' . substr($destination,1);
          } elseif ( substr($destination,0,1) > 0 ) {
              // local call without any prefix
-             $destination = '0049721' . $this->dst;
+             $destination = '0049721' . $destination;
          } else {
              throw new Exception("Unable to match dialed number to any pattern");
          }
