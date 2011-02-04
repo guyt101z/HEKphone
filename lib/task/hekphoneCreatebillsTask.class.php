@@ -7,9 +7,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
-      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills'),
-      new sfCommandOption('dtausOnly', null, sfCommandOption::PARAMETER_NONE, 'Only create dtaus files 
-      from existing bills in the given time period') 
+      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills')
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -54,34 +52,20 @@ EOF;
     }
 
     /* Create Bills */
-    if ($options['dtausOnly'] != true)
+    
+    $billsTable = Doctrine_Core::getTable('Bills');
+    if($billsTable->createBills($start, $end))
     {
-        $billsTable = Doctrine_Core::getTable('Bills');
-        if($billsTable->createBills($start, $end))
-        {
-            $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
-        }
-        else
-        {
-            $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
-        }
+        $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
     }
-    if ($options['dtausOnly'] == true)
+    else
     {
-    	$bills = Doctrine_Query::create()
-                               ->from('Bills')
-                               ->addWhere('date <= ?', $end)
-                               ->addWhere('date >= ?', $start)
-                               ->execute();
-        $billsCollection = new BillsCollection('Bills');
+        $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
+    }
+    
+
         
-        foreach ($bills as $bill)
-        {
-            $billsCollection->add($bill, $bill['id']);              
-        }
-        $billsCollection->save();
-        $billsCollection->createDtausFiles($options['start'], $options['end']);
-         
-    } 
+        
+    
   }
 }

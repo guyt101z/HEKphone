@@ -30,15 +30,14 @@ class Bills extends BaseBills
      * @param $end End date for the bill period
      * @return string The string of the dtaus entry or an empty string if the dtaus entry could not be generated
      */
-    public function getDtausEntry($start, $end)
+    public function getDtausEntry()
     {
     	$dtausEntry = null;
 
     	//If there is not the required information given to generate the dtaus entry for a resident an empty string is returned
     	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null || $this['amount'] == 0)
-    	{
-    		//TODO: sfContext::getInstance()->getLogger()->info("No dtaus entry for bill ".$bill['id']." with amount ".$this['amount']."EUR");//$this->logMessage("No dtaus entry for bill ".$bill['id'], 'info');
-    		echo "No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR" . PHP_EOL;
+    	{    		
+    		throw New Exception("No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR");
     	}
     	else
     	{
@@ -52,7 +51,7 @@ class Bills extends BaseBills
   myName	" . sfConfig::get("hekphoneName")."
   myKonto	" . sfConfig::get("hekphoneAccountnumber")."
   myBLZ	" . sfConfig::get("hekphoneBanknumber")."
-  Text	" . $start . " BIS " . $end."
+  Text	" . $this['billingperiod_start'] . " BIS " . $this['billingperiod_end'] . "
 }
 ";
      	}
@@ -67,9 +66,9 @@ class Bills extends BaseBills
     public function getItemizedBill()
     {
     	$itemizedBill = str_pad('Datum',21)
-        		.str_pad('Dauer(sec)',12)
+        		        .str_pad('Dauer(sec)',12)
                         .str_pad('externe Nummer',22)
-                        .str_pad('Kosten',8)
+                        .str_pad('Kosten (ct)',14)
                         .str_pad('Rate',18)."\n";
 
         foreach($this['Calls'] as $call)
@@ -85,7 +84,7 @@ class Bills extends BaseBills
      * @param string $start Start of the billing period
      * @param string $end End of the billing period
      */
-    public function sendEmail($start, $end)
+    public function sendEmail()
     {
         // check for non_empty email-field rather than unlocked user?
         if ($this['Residents']['unlocked'] == true)
@@ -94,8 +93,8 @@ class Bills extends BaseBills
             
             // compose the message
             $messageBody = get_partial('global/billingMail', array('firstName' => $this['Residents']['first_name'],
-                                                                'start' => $start,
-                                                                'end' => $end,
+                                                                'start' => $this['billingperiod_start'],
+                                                                'end' => $this['billingperiod_end'],
                                                                 'billId' => $this['id'],
                                                                 'amount' => $this['amount'],
                                                                 'accountNumber' => $this['Residents']['account_number'],
@@ -107,6 +106,7 @@ class Bills extends BaseBills
                 ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
+            
         }
     }
 }

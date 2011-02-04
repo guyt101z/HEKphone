@@ -32,6 +32,7 @@ class callsActions extends sfActions
   {
     // If the action is called via /resident/:residentid/calls display the
     // calls/bills of the resident with the matching residentid
+    // TODO: move this to a filter
     if ($this->hasRequestParameter('residentid'))
     {
       $this->residentid = $request['residentid'];
@@ -55,5 +56,31 @@ class callsActions extends sfActions
                             ->orderBy('b.date')
                             ->limit(12)
                             ->execute();
+  }
+  
+  public function executeSendBillEmail(sfWebRequest $request)
+  {
+    // If the action is called via /resident/:residentid/calls display the
+    // calls/bills of the resident with the matching residentid
+    // TODO: move this to a filter
+    if ($this->hasRequestParameter('residentid'))
+    {
+      $this->residentid = $request['residentid'];
+      $this->forward404Unless(Doctrine_Core::getTable('Residents')->createQuery()->where('id = ?', $this->residentid)->count() == 1);
+    }
+    else
+    {
+      $this->residentid = $this->getUser()->getAttribute('id');
+    }
+    
+    sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
+    
+    $bill = Doctrine_Core::getTable('Bills')->findOneById($request->getParameter('billid'));
+    $bill->sendEmail();
+    
+    $this->getUser()->setFlash('notice', 'calls.billEmailSent');
+    
+    $this->redirect('@calls?residentid=' . $this->residentid);
+    
   }
 }

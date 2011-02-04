@@ -15,19 +15,23 @@ abstract class BaseBillsForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'           => new sfWidgetFormInputHidden(),
-      'resident'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'), 'add_empty' => false)),
-      'date'         => new sfWidgetFormDate(),
-      'amount'       => new sfWidgetFormInputText(),
-      'debit_failed' => new sfWidgetFormInputCheckbox(),
+      'id'                  => new sfWidgetFormInputHidden(),
+      'resident'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'), 'add_empty' => false)),
+      'date'                => new sfWidgetFormDate(),
+      'billingperiod_start' => new sfWidgetFormDate(),
+      'billingperiod_end'   => new sfWidgetFormDate(),
+      'amount'              => new sfWidgetFormInputText(),
+      'debit_failed'        => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
-      'id'           => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'resident'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'))),
-      'date'         => new sfValidatorDate(),
-      'amount'       => new sfValidatorNumber(),
-      'debit_failed' => new sfValidatorBoolean(array('required' => false)),
+      'id'                  => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'resident'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Residents'))),
+      'date'                => new sfValidatorDate(),
+      'billingperiod_start' => new sfValidatorDate(),
+      'billingperiod_end'   => new sfValidatorDate(),
+      'amount'              => new sfValidatorNumber(),
+      'debit_failed'        => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('bills[%s]');

@@ -149,7 +149,7 @@ abstract class BaseAsteriskVoicemail extends sfDoctrineRecord
         $this->hasColumn('tz', 'string', 10, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => 'central',
+             'default' => 'european',
              'length' => 10,
              ));
         $this->hasColumn('attach', 'string', 4, array(

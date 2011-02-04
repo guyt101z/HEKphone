@@ -207,7 +207,6 @@ Phones:
     callerid: '1405'
     host: dynamic
     mailbox: '943@default'
-    secret: null
     type: friend
     defaultuser: '1405'
     defaultip: 192.168.4.5
@@ -219,7 +218,6 @@ Phones:
     callerid: '1402'
     host: dynamic
     mailbox: '1@default'
-    secret: null
     type: friend
     defaultuser: '1402'
     defaultip: 192.168.4.2
@@ -242,7 +240,6 @@ Phones:
     callerid: '1404'
     host: dynamic
     mailbox: '4@default'
-    secret: null
     type: friend
     defaultuser: '1404'
     defaultip: 192.168.4.4
@@ -254,7 +251,6 @@ Phones:
     callerid: '1406'
     host: dynamic
     mailbox: '6@default'
-    secret: null
     type: friend
     defaultuser: '1406'
     defaultip: 192.168.4.6
@@ -943,30 +939,40 @@ Bills:
     Residents: Residents_943
     date: '2010-10-15'
     amount: '5.00'
+    billingperiod_start: '2010-01-31'
+    billingperiod_end: '2011-01-01'
     debit_failed: false
   Bills_2:
     id: 2
     Residents: Residents_943
     date: '2010-09-15'
     amount: '5.00'
+    billingperiod_start: '2010-01-31'
+    billingperiod_end: '2011-01-01'
     debit_failed: false
   Bills_3:
     id: 3
     Residents: Residents_943
     date: '2010-08-15'
     amount: '5.00'
+    billingperiod_start: '2010-01-31'
+    billingperiod_end: '2011-01-01'
     debit_failed: false
   Bills_4:
     id: 4
     Residents: Residents_1
     date: '2010-10-15'
     amount: '5.00'
+    billingperiod_start: '2010-01-31'
+    billingperiod_end: '2011-01-01'
     debit_failed: false
   Bills_5: # has no entries
     id: 5
     Residents: Residents_2
     date: '2010-10-15'
     amount: '5.00'
+    billingperiod_start: '2010-01-31'
+    billingperiod_end: '2011-01-01'
     debit_failed: false
 
     

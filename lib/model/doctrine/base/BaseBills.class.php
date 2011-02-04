@@ -10,25 +10,31 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @property integer $id
  * @property integer $resident
  * @property date $date
+ * @property date $billingperiod_start
+ * @property date $billingperiod_end
  * @property decimal $amount
  * @property boolean $debit_failed
  * @property Residents $Residents
  * @property Doctrine_Collection $Calls
  * 
- * @method integer             getId()           Returns the current record's "id" value
- * @method integer             getResident()     Returns the current record's "resident" value
- * @method date                getDate()         Returns the current record's "date" value
- * @method decimal             getAmount()       Returns the current record's "amount" value
- * @method boolean             getDebitFailed()  Returns the current record's "debit_failed" value
- * @method Residents           getResidents()    Returns the current record's "Residents" value
- * @method Doctrine_Collection getCalls()        Returns the current record's "Calls" collection
- * @method Bills               setId()           Sets the current record's "id" value
- * @method Bills               setResident()     Sets the current record's "resident" value
- * @method Bills               setDate()         Sets the current record's "date" value
- * @method Bills               setAmount()       Sets the current record's "amount" value
- * @method Bills               setDebitFailed()  Sets the current record's "debit_failed" value
- * @method Bills               setResidents()    Sets the current record's "Residents" value
- * @method Bills               setCalls()        Sets the current record's "Calls" collection
+ * @method integer             getId()                  Returns the current record's "id" value
+ * @method integer             getResident()            Returns the current record's "resident" value
+ * @method date                getDate()                Returns the current record's "date" value
+ * @method date                getBillingperiodStart()  Returns the current record's "billingperiod_start" value
+ * @method date                getBillingperiodEnd()    Returns the current record's "billingperiod_end" value
+ * @method decimal             getAmount()              Returns the current record's "amount" value
+ * @method boolean             getDebitFailed()         Returns the current record's "debit_failed" value
+ * @method Residents           getResidents()           Returns the current record's "Residents" value
+ * @method Doctrine_Collection getCalls()               Returns the current record's "Calls" collection
+ * @method Bills               setId()                  Sets the current record's "id" value
+ * @method Bills               setResident()            Sets the current record's "resident" value
+ * @method Bills               setDate()                Sets the current record's "date" value
+ * @method Bills               setBillingperiodStart()  Sets the current record's "billingperiod_start" value
+ * @method Bills               setBillingperiodEnd()    Sets the current record's "billingperiod_end" value
+ * @method Bills               setAmount()              Sets the current record's "amount" value
+ * @method Bills               setDebitFailed()         Sets the current record's "debit_failed" value
+ * @method Bills               setResidents()           Sets the current record's "Residents" value
+ * @method Bills               setCalls()               Sets the current record's "Calls" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -53,6 +59,14 @@ abstract class BaseBills extends sfDoctrineRecord
              'length' => 6,
              ));
         $this->hasColumn('date', 'date', null, array(
+             'type' => 'date',
+             'notnull' => true,
+             ));
+        $this->hasColumn('billingperiod_start', 'date', null, array(
+             'type' => 'date',
+             'notnull' => true,
+             ));
+        $this->hasColumn('billingperiod_end', 'date', null, array(
              'type' => 'date',
              'notnull' => true,
              ));
