@@ -10,7 +10,7 @@ CREATE VIEW asterisk_sip AS
         (SELECT 
                 (case
                         when (Select a.password from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
-                        then (Select a.password from residents a, rooms b where a.room = b.id and b.phone = p.id )
+                        then (Select SUBSTR(a.password,0,8) from residents a, rooms b where a.room = b.id and b.phone = p.id )
                         else 'hekphone'
                 end)
         ) AS secret,
