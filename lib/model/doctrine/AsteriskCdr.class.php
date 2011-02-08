@@ -151,22 +151,29 @@ class AsteriskCdr extends BaseAsteriskCdr
 
     private function getFormattedDestinationOfCallFromAnalogPhone()
     {
+        // VoIP calls from analog telephones are prefixed with 03140. Cut this off.
+        if(substr($this->dst, 0, 1) == '03140') {
+            $destination = substr($this->dst, 5);
+        } else {
+            $destination = $this->dst;
+        }
+
         /* Conform $this->dst to  "0049+prefix+number" */
-        if ( substr($this->dst,0,7) == '8695020' ) {
+        if ( substr($destination,0,7) == '8695020' ) {
              //It's a free call using *721
-             $destination = '0049' . substr($this->dst,7);
-         } elseif ( substr($this->dst,0,4) == '0313' ) {
+             $destination = '0049' . substr($destination,7);
+         } elseif ( substr($destination,0,4) == '0313' ) {
              // It's a free call to RSH
-             $destination = '00497211306' . substr($this->dst,4);
-         } elseif ( substr($this->dst,0,4) == '0315' ) {
+             $destination = '00497211306' . substr($destination,4);
+         } elseif ( substr($destination,0,4) == '0315' ) {
              // It's a free call to ABH
-             $destination = '00497211307' . substr($this->dst,4);
-         } elseif ( substr($this->dst,0,2) == '00') {
-             $destination = $this->dst;
-         } elseif ( substr($this->dst,0,1) == '0' ) {
-             $destination = '0049' . substr($this->dst,1);
-         } elseif ( substr($this->dst,0,1) > 0 ) {
-             $destination = '0049721' . $this->dst;
+             $destination = '00497211307' . substr($destination,4);
+         } elseif ( substr($destination,0,2) == '00') {
+             $destination = $destination;
+         } elseif ( substr($destination,0,1) == '0' ) {
+             $destination = '0049' . substr($destination,1);
+         } elseif ( substr($destination,0,1) > 0 ) {
+             $destination = '0049721' . $destination;
          } else {
              throw new Exception("Unable to match dialed number to any pattern");
          }
