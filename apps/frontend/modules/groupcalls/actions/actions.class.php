@@ -17,11 +17,6 @@ class groupcallsActions extends sfActions
       ->execute();
   }
 
-  public function executeShow(sfWebRequest $request)
-  {
-    $this->Groupcall = Doctrine_Core::getTable('Groupcalls')->find(array($request->getParameter('id')));
-    $this->forward404Unless($this->Groupcall);
-  }
 
   public function executeNew(sfWebRequest $request)
   {

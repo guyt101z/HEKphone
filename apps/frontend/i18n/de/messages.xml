@@ -3,7 +3,100 @@
 <xliff version="1.0">
   <file source-language="EN" target-language="de" datatype="plaintext" original="messages" date="2010-10-22T15:29:06Z" product-name="messages">
     <header/>
-    <body>
+    <body>      
+      <trans-unit id="33">
+        <source>auth.login.explanation</source>
+        <target>Melde dich an, um deine aktuellen Gespräche und Rechnungen zu sehen und um deine Einstellungen zu verändern.</target>
+      </trans-unit>    
+      <trans-unit id="36">
+        <source>auth.hekphoneinfo</source>
+        <target>Informationen zu HEKPhone findest du &#60;a href="http://www.hek.uni-karlsruhe.de/hekwiki/doku.php?id=hekphone:hekphone"&#62; im HEKWiki.&#60;/a&#62;
+  Dort ist auch eine Gebührenübersicht für Voip-Gespräche und normale Amtsanrufe zu finden.</target>
+      </trans-unit>        
+      <trans-unit id="33">
+        <source>auth.submit</source>
+        <target>Absenden</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>auth.password</source>
+        <target>Passwort</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>auth.roomNo</source>
+        <target>Zimmernummer</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>auth.logout.successfull</source>
+        <target>Erfolgreich ausgeloggt.</target>      
+      </trans-unit>
+      <trans-unit id="50">
+        <source>auth.logout</source>
+        <target>Abmelden</target>
+      </trans-unit>
+      
+      
+      <trans-unit id="40">
+        <source>calls.list.heading</source>
+        <target>unbezahlte Gespräche</target>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>calls.list.datetime</source>
+        <target>Datum/Zeit</target>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>calls.list.duration</source>
+        <target>Dauer [sec]</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>calls.list.rate</source>
+        <target>Gebühr</target>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>calls.list.destination</source>
+        <target>gewählte Nummer</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>calls.list.charge</source>
+        <target>Kosten [ct]</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>calls.list.bills.heading</source>
+        <target>letzte Rechnungen</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>calls.list.bills.date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>calls.list.bills.amount</source>
+        <target>Betrag [EUR]</target>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>calls.list.bills.details</source>
+        <target>Details</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>calls.list.bills.showdetails</source>
+        <target>zeigen</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.hidedetails</source>
+        <target>ausblenden</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.sendEmail</source>
+        <target>Rechnungsemail zusenden</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.list.bills.actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.billEmailSent</source>
+        <target>Dem Bewohner wurde seine Rechnung zugesandt.</target>
+      </trans-unit>
+      
+      
       <trans-unit id="17">
         <source>resident.list.heading</source>
         <target>Bewohnerliste</target>
@@ -35,82 +128,6 @@
       <trans-unit id="36">
         <source>resident.list.orderByMoveIn</source>
         <target>Nach Einzugsdatum ordnen</target>
-      </trans-unit>
-      <trans-unit id="33">
-        <source>auth.submit</source>
-        <target>Absenden</target>
-      </trans-unit>
-      <trans-unit id="37">
-        <source>auth.password</source>
-        <target>Passwort</target>
-      </trans-unit>
-      <trans-unit id="38">
-        <source>auth.roomNo</source>
-        <target>Zimmernummer</target>
-      </trans-unit>
-      <trans-unit id="12">
-        <source>auth.logout.successfull</source>
-        <target>Erfolgreich ausgeloggt.</target>      
-      </trans-unit>
-      <trans-unit id="40">
-        <source>calls.list.heading</source>
-        <target>unbezahlte Gespräche</target>
-      </trans-unit>
-      <trans-unit id="41">
-        <source>calls.list.datetime</source>
-        <target>Datum/Zeit</target>
-      </trans-unit>
-      <trans-unit id="42">
-        <source>calls.list.duration</source>
-        <target>Dauer (in sec)</target>
-      </trans-unit>
-      <trans-unit id="43">
-        <source>calls.list.destination</source>
-        <target>gewählte Nummer</target>
-      </trans-unit>
-      <trans-unit id="44">
-        <source>calls.list.charge</source>
-        <target>Kosten</target>
-      </trans-unit>
-      <trans-unit id="45">
-        <source>calls.list.bills.heading</source>
-        <target>letzte Rechnungen</target>
-      </trans-unit>
-      <trans-unit id="46">
-        <source>calls.list.bills.date</source>
-        <target>Datum</target>
-      </trans-unit>
-      <trans-unit id="47">
-        <source>calls.list.bills.amount</source>
-        <target>Betrag</target>
-      </trans-unit>
-      <trans-unit id="48">
-        <source>calls.list.bills.details</source>
-        <target>Details</target>
-      </trans-unit>
-      <trans-unit id="49">
-        <source>calls.list.bills.showdetails</source>
-        <target>zeigen</target>
-      </trans-unit>
-      <trans-unit id="58">
-        <source>calls.list.bills.hidedetails</source>
-        <target>ausblenden</target>
-      </trans-unit>
-      <trans-unit id="58">
-        <source>calls.list.bills.sendEmail</source>
-        <target>Rechnungsemail zusenden</target>
-      </trans-unit>
-      <trans-unit id="58">
-        <source>calls.list.bills.actions</source>
-        <target>Aktionen</target>
-      </trans-unit>
-      <trans-unit id="58">
-        <source>calls.billEmailSent</source>
-        <target>Dem Bewohner wurde seine Rechnung zugesandt.</target>
-      </trans-unit>
-      <trans-unit id="50">
-        <source>auth.logout</source>
-        <target>Abmelden</target>
       </trans-unit>
       <trans-unit id="51">
         <source>resident.edit.heading</source>
@@ -200,6 +217,8 @@
         <source>resident.edit.save</source>
         <target>Abspeichern</target>
       </trans-unit>
+      
+      
       <trans-unit id="59">
         <source>navigation.calls</source>
         <target>Gespräche/Rechnungen</target>
@@ -252,10 +271,20 @@
         <source>navigation.resident.settings</source>
         <target>Einstellungen</target>
       </trans-unit>
+      
+      
       <trans-unit id="1">
         <source>resident.settings.successfull</source>
         <target>Änderungen erfolgreich gespeichert.</target>
       </trans-unit>
+      <trans-unit id="1">
+        <source>resident.settings.heading</source>
+        <target>Persönliche Einstellungen</target>
+      </trans-unit>   
+      <trans-unit id="1">
+        <source>resident.settings.general</source>
+        <target>Allgemein</target>
+      </trans-unit>         
       <trans-unit id="1">
         <source>resident.settings.newEmail</source>
         <target>E-Mail</target>
@@ -305,6 +334,101 @@
         <target>Benachrichtigungsemail senden, auch wenn der AB nicht ranging</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>resident.settings.vm_help</source>
+        <target>Hier kannst du deinen Anrufbeantworter einschalten. Setze dazu den Haken vor "Anrufbeantworter"…
+        Die LED an deinem Telefon blinkt, wenn du einen Anruf verpasst hast und es steht "neue Nachricht" auf dem Display, wenn der Anrufer eine Nachricht hinterlassen hat.
+        Abrufen kannst du die Nachrichten indem du auf Anrufbeantworter drückst, oder die 2000 anrufst.
+        Du kannst dir die Nachrichten aber auch bequem per E-Mail zuschicken lassen oder hier im Portal anhören.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.redirect_help</source>
+        <target>Hier kannst du eine interne Umleitung aktivieren.
+        Setze dazu zuerst oben den Haken um die Umleitung generell zu aktivieren,
+         dann kannst du die Nummer zu der umgeleitet wird und die Dauer, nach der umgeleitet wird, konfigurieren.</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>resident.settings.redirect_seconds</source>
+        <target>Sekunden bis zur Umleitung</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>resident.settings.redirect_active</source>
+        <target>Weiterleitung</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.redirect_to</source>
+        <target>Weiterleiten nach</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.submit</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.error.secondsNoInteger</source>
+        <target>Der eingegebene Wert ist keine ganze Zahl.</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.error.secondsTooBig</source>
+        <target>Zu großer Wert.</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.error.secondsNegative</source>
+        <target>Negative Zeiten machen hier keinen Sinn.</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>resident.settings.error.emailInvalid</source>
+        <target>Email-Adresse nicht wohlgeformt.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.error.passwordsDoNotMatch</source>
+        <target>Passwort und Wiederholung stimmen nicht überein.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.error.redirectToPatternMismatch</source>
+        <target>Es sind derzeit nur interne Umleitungen (nach 1XXX) erlaubt</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.error.redirectToDoorForbidden</source>
+        <target>An den Türöffner weiterzuleiten ist verboten.</target>
+      </trans-unit>
+      
+      
+      <trans-unit id="12">
+        <source>groupcalls.list.heading</source>
+        <target>Sammelrufe</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.new</source>
+        <target>Sammelruf anlegen</target>
+      </trans-unit>   
+      <trans-unit id="12">
+        <source>groupcalls.delete</source>
+        <target>Sammelruf löschen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.extension</source>
+        <target>Rufnummer</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.name</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.new.heading</source>
+        <target>Sammelruf anlegen</target>
+      </trans-unit>   
+      <trans-unit id="12">
+        <source>groupcalls.edit.heading</source>
+        <target>Sammelruf anlegen</target>
+      </trans-unit>   
+      <trans-unit id="12">
+        <source>groupcalls.submit</source>
+        <target>Speichern</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.backToList</source>
+        <target>Zurück zur Liste</target>
+      </trans-unit>
+      <trans-unit id="12">
         <source>phone.submit</source>
         <target>Speichern</target>
       </trans-unit>
@@ -316,6 +440,8 @@
         <source>phone.back_to_list</source>
         <target>Zurück zur Liste</target>
       </trans-unit>
+      
+      
       <trans-unit id="12">
         <source>phone.edit.title</source>
         <target>Telefon bearbeiten</target>

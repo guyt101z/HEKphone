@@ -31,13 +31,16 @@ class settingsActions extends sfActions
 
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
 
-    /* create form an fill it with the users current settings */
+    /* Create form an fill it with the users current settings */
     $this->form = new SettingsForm();
     $this->form->setDefault('newEmail', $resident->get('email'));
     $this->form->setDefault('reducedCdrs', $resident->get('shortened_itemized_bill'));
     $this->form->setDefault('vm_active', $resident->get('vm_active'));
     $this->form->setDefault('vm_seconds', $resident->get('vm_seconds'));
-    $this->form->setDefault('vm_sendEmailOnNewMessage', $resident->get('mail_on_missed_call'));
+    $this->form->setDefault('sendEmailOnNewMessage', $resident->get('mail_on_missed_call'));
+    $this->form->setDefault('redirect_active', $resident->get('redirect_active'));
+    $this->form->setDefault('redirect_seconds', $resident->get('redirect_seconds'));
+    $this->form->setDefault('redirect_to', $resident->get('redirect_to'));
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -63,48 +66,42 @@ class settingsActions extends sfActions
 
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
-    $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
+    $form->bind($request->getParameter($form->getName()));
     if ($form->isValid())
     {
-      $this->form->bind($request->getParameter($this->form->getName()));
-      if ($this->form->isValid())
+      // Change password if the newPassword field is not empty
+      if ($form->getValue('newPassword') != '')
       {
-        // Change password if the newPassword field is not empty
-        if ($form->getValue('newPassword') != '')
-        {
-          // if the new passwort and the repetition matches got checked via validator of the form
-          $this->resident->setPassword($request['settings']['newPassword']);
-        }
-
-        // change the email address only if the user submitted one
-        if ($form->getValue('newEmail') != '')
-        {
-          $this->resident->setEmail($request['settings']['newEmail']);
-        }
-
-        // change pin if not empty
-//        if ($request['settings']['newPin'] != '')
-//        {
-//          $resident->setPin($request['settings']['newPin']);
-//        }
-
-        // Replace last three digits of the call details destination with xxx?
-        $this->resident->set('shortened_itemized_bill', $form->getValue('reducedCdrs'));
-
-        // Set a users lanuage
-        // $resident->setCulture($request['settings']['language']);
-
-        $this->resident->setVoicemailSettings($this->form->getValue('vm_active'),
-                                          $this->form->getValue('vm_seconds'),
-                                          $this->form->getValue('vm_sendEmailOnNewMessage'),
-                                          $this->form->getValue('vm_attachMessage'),
-                                          $this->form->getValue('vm_sendEmailOnMissedCall'));
-
-        $this->resident->save();
-
-        $this->getUser()->setFlash('notice', 'resident.settings.successfull');
-        $this->redirect('settings/index?residentid=' . $this->resident->getId());
+        // if the new passwort and the repetition matches got checked via validator of the form
+        $this->resident->setPassword($request['settings']['newPassword']);
       }
+
+      // change the email address only if the user submitted one
+      if ($form->getValue('newEmail') != '')
+      {
+        $this->resident->setEmail($request['settings']['newEmail']);
+      }
+
+      // Replace last three digits of the call details destination with xxx?
+      $this->resident->set('shortened_itemized_bill', $form->getValue('reducedCdrs'));
+
+      // Set a users lanuage
+      // $resident->setCulture($request['settings']['language']);
+      $this->resident->setVoicemailSettings($form->getValue('vm_active'),
+                                        $form->getValue('vm_seconds'),
+                                        $form->getValue('sendEmailOnNewMessage'),
+                                        $form->getValue('vm_attachMessage'),
+                                        $form->getValue('vm_sendEmailOnMissedCall'));
+
+      $this->resident->setRedirect($form->getValue('redirect_active'),
+                                   $form->getValue('redirect_to'),
+                                   $form->getValue('redirect_seconds'));
+
+      $this->resident->updateExtensions();
+      $this->resident->save();
+
+      $this->getUser()->setFlash('notice', 'resident.settings.successfull');
+      $this->redirect('settings/index?residentid=' . $this->resident->getId());
     }
   }
 }

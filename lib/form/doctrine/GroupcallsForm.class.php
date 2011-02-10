@@ -22,5 +22,6 @@ class GroupcallsForm extends BaseGroupcallsForm
             ->orderBy('room.room_no asc')
     ;
     $this->widgetSchema['residents_list']->addOption('query',$residentsListQuery);
+    $this->widgetSchema['residents_list']->addOption('renderer_class', 'sfWidgetFormSelectDoubleList'); // provided by the sfExtraFrom plugin
   }
 }

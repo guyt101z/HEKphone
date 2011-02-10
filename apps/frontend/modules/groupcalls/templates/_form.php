@@ -10,11 +10,11 @@
       <tr>
         <td colspan="2">
           <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('groupcalls/index') ?>">Back to list</a>
+          &nbsp;<a href="<?php echo url_for('groupcalls/index') ?>"><?php echo __('groupcalls.backToList') ?></a>
           <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'groupcalls/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
+            &nbsp;<?php echo link_to(__('groupcalls.delete'), 'groupcalls/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
           <?php endif; ?>
-          <input type="submit" value="Save" />
+          <input type="submit" value="<?php echo __('groupcalls.submit') ?>" />
         </td>
       </tr>
     </tfoot>

@@ -71,8 +71,6 @@ class Residents extends BaseResidents
         return $password;
     }
 
-
-
     /**
      * Creates a residents voicemailbox-entry if it does not exist yet
      * @return true when a new mailbox is created, false otherwise
@@ -90,14 +88,15 @@ class Residents extends BaseResidents
     }
 
     /**
-     * Sets a residents voicemail-settings. Modifies the asterisk_voicemail and
-     * asterisk_extensions database table.
+     * Sets a residents voicemail-settings. vm_seconds only apply after calling
+     * updateExtensions() afterwards.
      *
      * @param boolean $active
      * @param integer $seconds
      * @param boolean $mailOnNewMessage
      * @param boolean $attachMessage
-     * @param boolean $mailOnMissedCall
+     * @param boolean $mailOnMissedCall#
+     * @return $this
      */
     public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $mailOnMissedCall)
     {
@@ -116,13 +115,41 @@ class Residents extends BaseResidents
       // Asterisk uses yes and no not true/false in its config files and tables
       $attachMessage = ($attachMessage) ? "yes" : "no";
       $this->AsteriskVoicemail->set('attach', $attachMessage);
-      $this->save();
 
       $this->set('vm_active', $active);
       $this->set('vm_seconds', $seconds);
       $this->set('mail_on_missed_call', $mailOnMissedCall);
-      // Update the extension for the users phone so the changes to vm_active and vm_seconds
-      // apply as they are details of the extension ("How long to ring") and not of the mailbox.
+
+      $this->save(); // FIXME: one should not this
+
+      return $this;
+    }
+
+    /**
+     * Sets the redirect parameters of the resident.
+     * Afterwards, updateExtensions() has to be executed in order to generate the
+     * appropriate entries in AsteriskExtensions
+     *
+     * @param bool $active
+     * @param string $to
+     * @param int $seconds
+     * @return $this
+     */
+    public function setRedirect($active, $to, $seconds) {
+      $this->_set('redirect_active', $active);
+      $this->_set('redirect_seconds', $seconds);
+      $this->_set('redirect_to', $to);
+
+      $this->save(); // FIXME: one should not this
+
+      return $this;
+    }
+    /**
+     * Recreates the residents extensions in AsteriskExtensions.
+     * Has to be executed to apply redirect settings and voicemail-settings (vm_seconds)
+     * @return bool
+     */
+    public function updateExtensions() {
       if( ! Doctrine_Core::getTable('AsteriskExtensions')
             ->updateResidentsExtension($this))
       {
@@ -131,12 +158,6 @@ class Residents extends BaseResidents
 
       return true;
     }
-
-    public function getVoicemailSettings()
-    {
-      //TODO: Implement this!
-    }
-
 
     /**
      * Sends a lock/unlock email depending on the residents "unlocked" property

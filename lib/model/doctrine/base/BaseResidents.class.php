@@ -22,6 +22,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property int $vm_seconds
  * @property boolean $mail_on_missed_call
  * @property boolean $shortened_itemized_bill
+ * @property boolean $redirect_active
+ * @property string $redirect_to
+ * @property int $redirect_seconds
  * @property string $account_number
  * @property string $bank_number
  * @property string $password
@@ -50,6 +53,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method int                 getVmSeconds()               Returns the current record's "vm_seconds" value
  * @method boolean             getMailOnMissedCall()        Returns the current record's "mail_on_missed_call" value
  * @method boolean             getShortenedItemizedBill()   Returns the current record's "shortened_itemized_bill" value
+ * @method boolean             getRedirectActive()          Returns the current record's "redirect_active" value
+ * @method string              getRedirectTo()              Returns the current record's "redirect_to" value
+ * @method int                 getRedirectSeconds()         Returns the current record's "redirect_seconds" value
  * @method string              getAccountNumber()           Returns the current record's "account_number" value
  * @method string              getBankNumber()              Returns the current record's "bank_number" value
  * @method string              getPassword()                Returns the current record's "password" value
@@ -77,6 +83,9 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setVmSeconds()               Sets the current record's "vm_seconds" value
  * @method Residents           setMailOnMissedCall()        Sets the current record's "mail_on_missed_call" value
  * @method Residents           setShortenedItemizedBill()   Sets the current record's "shortened_itemized_bill" value
+ * @method Residents           setRedirectActive()          Sets the current record's "redirect_active" value
+ * @method Residents           setRedirectTo()              Sets the current record's "redirect_to" value
+ * @method Residents           setRedirectSeconds()         Sets the current record's "redirect_seconds" value
  * @method Residents           setAccountNumber()           Sets the current record's "account_number" value
  * @method Residents           setBankNumber()              Sets the current record's "bank_number" value
  * @method Residents           setPassword()                Sets the current record's "password" value
@@ -125,11 +134,13 @@ abstract class BaseResidents extends sfDoctrineRecord
              ));
         $this->hasColumn('move_out', 'date', null, array(
              'type' => 'date',
+             'comment' => 'NULL if its not known when the resident will move out',
              ));
         $this->hasColumn('bill_limit', 'integer', 3, array(
              'type' => 'integer',
              'notnull' => true,
              'default' => '75',
+             'comment' => 'in EUR',
              'length' => 3,
              ));
         $this->hasColumn('room', 'integer', 3, array(
@@ -140,10 +151,12 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasColumn('warning1', 'boolean', null, array(
              'type' => 'boolean',
              'default' => false,
+             'comment' => 'true: the resident has been notified that his bill is approaching the limit',
              ));
         $this->hasColumn('warning2', 'boolean', null, array(
              'type' => 'boolean',
              'default' => false,
+             'comment' => 'true: the resident has been notified that his bill is approaching the limit even closer',
              ));
         $this->hasColumn('unlocked', 'boolean', null, array(
              'type' => 'boolean',
@@ -158,15 +171,31 @@ abstract class BaseResidents extends sfDoctrineRecord
              'type' => 'int',
              'notnull' => true,
              'default' => 15,
+             'comment' => 'how long until the voicemail picks up',
              ));
         $this->hasColumn('mail_on_missed_call', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
              'default' => true,
+             'comment' => 'wheter to send an notification email even if the vm box did not pick up',
              ));
         $this->hasColumn('shortened_itemized_bill', 'boolean', null, array(
              'type' => 'boolean',
              'default' => true,
+             ));
+        $this->hasColumn('redirect_active', 'boolean', null, array(
+             'type' => 'boolean',
+             'default' => false,
+             'notnull' => true,
+             ));
+        $this->hasColumn('redirect_to', 'string', 25, array(
+             'type' => 'string',
+             'comment' => 'telephone number (as the user dials it) to rerout the call to',
+             'length' => 25,
+             ));
+        $this->hasColumn('redirect_seconds', 'int', 3, array(
+             'type' => 'int',
+             'length' => 3,
              ));
         $this->hasColumn('account_number', 'string', 10, array(
              'type' => 'string',

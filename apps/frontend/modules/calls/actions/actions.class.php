@@ -50,6 +50,8 @@ class callsActions extends sfActions
                             ->addWhere('c.resident = ?', $this->residentid)
                             ->orderBy('date desc')
                             ->execute();
+    $this->callsCollection->loadRelated('Rates'); // we're displaying the rates name of every call in the view layer
+                                                  // and want don't want to create one query each but one big one
     $this->billsCollection = Doctrine_Query::create()
                             ->from('Bills b')
                             ->addWhere('b.resident = ?', $this->residentid)
@@ -57,7 +59,7 @@ class callsActions extends sfActions
                             ->limit(12)
                             ->execute();
   }
-  
+
   public function executeSendBillEmail(sfWebRequest $request)
   {
     // If the action is called via /resident/:residentid/calls display the
@@ -72,15 +74,15 @@ class callsActions extends sfActions
     {
       $this->residentid = $this->getUser()->getAttribute('id');
     }
-    
+
     sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
-    
+
     $bill = Doctrine_Core::getTable('Bills')->findOneById($request->getParameter('billid'));
     $bill->sendEmail();
-    
+
     $this->getUser()->setFlash('notice', 'calls.billEmailSent');
-    
+
     $this->redirect('@calls?residentid=' . $this->residentid);
-    
+
   }
 }

@@ -12,6 +12,26 @@
  */
 class Phones extends BasePhones
 {
+  private $resident = NULL;
+
+  /**
+   * Returns the resident as Doctrine_Record associated with this room.
+   * False if there's on resident living in the room
+   */
+  public function getResident() {
+      if(is_null($this->resident)) {
+          try {
+              $this->resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('room_no'));
+          } catch (Exception $e) {
+              $this->resident = null;
+          }
+      } else {
+          return false;
+      }
+
+      return $this->resident;
+  }
+
   /**
    * Update the phones details according to the room where it's currently located in.
    *
@@ -64,61 +84,61 @@ class Phones extends BasePhones
    * @return array()
    */
   public function getExtensionsAsArray() {
-       $context   = 'phones';
+      $context   = 'phones';
       $extensionPrefix = '8695';
+      $resident = $this->getResident();
 
       /* Check wheter the phone is really in a room */
       if ( ! $extension = $this->getExtension()) {
-          sfContext::getInstance()->getLogger()->warning('Failed to update extension of a phone (' . $this->get('id') . ') which is not in any room.');
+          sfContext::getInstance()->getLogger()->warning('Failed to get extension of a phone (' . $this->get('id') . ') which is not in any room.');
           return false;
       }
 
-      /* Look for a resident in the phones room */
-      try {
-        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($this->Rooms[0]->get('room_no'));
-      } catch (Exception $e) {
-        $resident = false;
-      }
-
       /* Prepare the mailbox if whished */
-      if($resident['vm_active']) {
+      if($resident && $resident['vm_active']) {
         $resident->createVoicemailbox();
       }
 
       /* Prepare the extensions entries */
       // Calls to the phone from the PSTN
+      $n = 1;
       $arrayExtensions[0] = array(
            'exten'        => $extensionPrefix . $extension,
-           'priority'     => 1,
+           'priority'     => $n++,
            'context'      => $context,
            'app'          => 'Dial',
+           'appdate'      => $this->getDialstring()
       );
-      if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP') {
-          // for SIP-Phones and in case the voicemail is activated, only ring for a specified period of time
-          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension . sfConfig::get('asteriskParameterSeparator')
-                                         . $resident['vm_seconds'];
-      } elseif($this['technology'] == 'DAHDI/g1') {
-          // For analog phones don't activate the vm box and dial with prefix so the PBX gets what we want
-          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extensionPrefix . $extension;
-      } else {
-          // for every other phone don't activate the mailbox
-          $arrayExtensions[0]['appdata'] = $this['technology'] . '/' . $extension;
+
+      // include redirection of calls before the mailbox picks up
+      if ($resident && $resident['redirect_active'] && $this['technology'] == 'SIP')
+      {
+          $residentsContext = ($resident['unlocked'])? 'unlocked' : 'locked';
+          $arrayExtensions[1] = array(
+              'exten'        => $extensionPrefix . $extension,
+              'priority'     => $n++,
+              'context'      => $context,
+              'app'          => 'GoTo',
+              'appdata'      => $residentsContext . sfConfig::get('asteriskParameterSeparator')
+                              . $resident['redirect_to']  . sfConfig::get('asteriskParameterSeparator')
+                              . '1'
+          );
       }
 
       // include forwarding to mailbox if the resident turned on the vm
       if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP')
       {
-          $arrayExtensions[1] = array(
+          $arrayExtensions[2] = array(
               'exten'        => $extensionPrefix . $extension,
-              'priority'     => 2,
+              'priority'     => $n++,
               'context'      => $context,
               'app'          => 'Voicemail',
-              'appdata'      => $resident->id . '@default'
+              'appdata'      => $resident['id'] . '@default'
           );
       }
 
       // hangup after the call finished
-      $arrayExtensions[2] = array(
+      $arrayExtensions[3] = array(
           'exten'        => $extensionPrefix . $extension,
           'priority'     => 99,
           'context'      => $context,
@@ -126,15 +146,16 @@ class Phones extends BasePhones
           'appdata'      => ''
       );
 
+
       // Calls to the phone from other sip phones
-      $arrayExtensions[3] = array(
+      $arrayExtensions[4] = array(
            'exten'        => $extension,
            'priority'     => 1,
            'context'      => $context,
            'app'          => 'Set',
            'appdata'      => 'CDR(userfield)=internal'
       );
-      $arrayExtensions[4] = array(
+      $arrayExtensions[5] = array(
            'exten'        => $extension,
            'priority'     => 2,
            'context'      => $context,
@@ -147,6 +168,28 @@ class Phones extends BasePhones
       return $arrayExtensions;
   }
 
+  /**
+   * Gets the string for the appdata of the Dial command of asterisk for the phone
+   * consideres redirections and voicemail
+   * @return string
+   */
+  public function getDialstring() {
+      if ($this['technology'] == 'SIP') {
+          $dialstring = $this['technology'] . '/' . $extension;
+      } elseif($this['technology'] == 'DAHDI/g1') {
+          $dialstring = $this['technology'] . '/' . $extensionPrefix . $extension;
+      }
+
+      $resident = $this->getResident();
+      // redirect or call voicemailbox after the specified time period
+      if ($resident != false && $resident['redirect_active']) {
+          $dialstring .= sfConfig::get('asteriskParameterSeparator') . $resident['redirect_seconds'];
+      } elseif($resident != false && $resident['redirect_vm']) {
+          $dialstring .= sfConfig::get('asteriskParameterSeparator') . $resident['vm_seconds'];
+      }
+
+      return $dialstring;
+  }
   /**
    * Create and save a configuration file for the phone that can be uploaded and be
    * used to reset a tiptel 83 VoIP phone.

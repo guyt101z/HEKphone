@@ -1,22 +1,20 @@
-<h1>Groupcalls List</h1>
+<h1><?php echo __('groupcalls.list.heading') ?></h1>
 
 <table>
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Extension</th>
-      <th>Name</th>
+      <th><?php echo __('groupcalls.extension') ?></th>
+      <th><?php echo __('groupcalls.name') ?></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($Groupcalls as $Groupcall): ?>
     <tr>
-      <td><a href="<?php echo url_for('groupcalls/show?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getId() ?></a></td>
-      <td><?php echo $Groupcall->getExtension() ?></td>
+      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getExtension() ?></a></td>
       <td><?php echo $Groupcall->getName() ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
 
-  <a href="<?php echo url_for('groupcalls/new') ?>">New</a>
+  <a href="<?php echo url_for('groupcalls/new') ?>"><?php echo __('groupcalls.new') ?></a>

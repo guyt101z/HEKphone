@@ -292,7 +292,6 @@ Phones:
       values: ['SIP', 'DAHDI/g1', 'DAHDI/g3']
       notnull: true
       default: 'SIP'
-##  TODO: name == 1XXX (XXX: room number) ?
     name:
       type: string(80)
       notnull: true
@@ -358,227 +357,6 @@ Phones:
     lastms:       # updated by asterisk every time asterisk qualifys the phone
       type: string(11)
       default: ''
-## Maybe required fields
-#    regexten:   # not required (no warning if it's not present)
-#      type: string(20)
-#    fromuser:   # not required (no warning if it's not present)
-#      type: string(20)
-#    fromdomain: # not required (no warning if it's not present)
-#      type: string(20)
-#    callingpres:
-#      type: enum
-#      length: 20
-#      values: ['allowed_not_screened','allowed_passed_screen','allowed_failed_screen','allowed','prohib_not_screened','prohib_passed_screen','prohib_failed_screen','prohib','unavailable']
-#      default: 'allowed_not_screened'
-#    permit: 
-#      type: string(95)
-#      default: 'NULL'
-#    deny:
-#      type: string(95)
-#      default: 'NULL'
-#      default: 'NULL'
-#    md5secret:
-#      type: string(80)
-#      default: 'NULL'
-#    remotesecret:
-#      type: string(250)
-##      default: 'NULL'
-#    transport:
-#      type: enum
-#      length: 7
-#      values: ['tcp','udp','tcp,udp']
-#      default: 'NULL'
-#      default: 'NULL'
-#    nat:
-#      type: string(5)
-#      notnull: true
-#      default: 'no'
-#    accountcode:
-#      type: string(20)
-#      default: 'NULL'
-#    amaflags:
-#      type: string(13)
-#      default: 'NULL'
-#    callergroup:
-#      type: string(10)
-#      default: 'NULL'
-#      default: 'NULL'
-#      default: 'NULL'
-## Defaults to rfc2833 which we use so we don't need it
-#    dtmfmode:
-#      type: string(7)
-#      default: 'NULL'
-#    fromuser:
-#      type: string(80)
-#      default: 'NULL'
-#    fromdomain:
-#      type: string(80)
-#      default: 'NULL'
-## Comment on http://www.voip-info.org/wiki/view/Asterisk+sip+insecure
-## "this does not seem to work with 1.6+" we did not try it
-#    insecure:
-#      type: string(4)
-#      default: 'NULL'
-#      default: 'NULL'
-#      default: 'NULL'
-#    pickupgroup:
-#       type: string(10)
-#      default: 'NULL'
-## Qualify Can be yes, no or a time in ms. This is done in sip.conf/general
-#    qualify:
-#      type: string(5)
-#      default: yes
-#      default: 'NULL'
-#    regexten:
-#      type: string(80)
-#      default: 'NULL'
-#    rtptimeout:
-#      type: string(3)
-#      default: 'NULL'
-#    rtpholdtimeout:
-#      type: string(3)
-#      default: 'NULL'
-#    setvar:
-#      type: string(100)
-#      default: 'NULL'
-## Done in sip.conf/general
-#    disallow:
-#      type: string(100)
-#      default: 'all'
-#    allow:
-#      type: string(100)
-#      default: 'g729;ilbc;gsm;ulaw;alaw'
-## Asterisk 1.6 uses defaultuser instead of username afaik
-#    username:
-#      type: string(80)
-#      notnull: true
-#      default: ''
-#    subscribecontext:
-#      type: string(80)
-#      default: null
-#    directmedia:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: 'NULL'
-#    trustrpid:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: no'
-#    sendrpid:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: 'no'
-#    progressinband:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: 'no'
-#    promiscredir:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: 'no'
-#    useclientcode:
-#      type: enum
-#      length: 3
-#      values: ['yes','no']
-#      default: yes
-#    callcounter:
-#      type: enum
-#      length: 3
-#      default: 'no'
-#      values: ['yes', 'no']
-#    busylevel:
-#      type: integer(10)
-#      unsigned: true
-#      default: 'NULL'
-#    allowoverlap:
-#      type: enum
-#      length: 3
-#      values: ['yes', 'no']
-#      default: 'yes'
-#    allowsubscribe:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'yes'
-#    allowtransfer:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'yes'
-#    ignoresdpversion:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'no'
-#    template:
-#      type: string(100)
-#      default: 'NULL'
-#    videosupport:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'no'
-#    maxcallbitrate:
-#      type: integer(10)
-#      unsigned: true
-#      default: 'NULL'
-#     rfc2833compensate:
-#      type: enum
-#      length: 3
-#      values: ['yes', 'no']
-#      default: 'yes'
-#    #'session-timers':
-#    #  type: enum
-#    #  values: ['yes', 'no']
-#    #  default: 'no'
-#    #'session-expires':
-#    #  type: integer(5)
-#    #  unsigned: true
-#    #  default: '1800'
-#    #'session-minse':
-#    #  type: integer(5)
-#    #  unsigned: true
-#    #  default: '90'
-#    #'session-refresher':
-#    #  type: enum
-#    #  values: ['uac', 'uas']
-#    #  default: 'uas'
-#    t38pt_usertpsource:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'no'
-#    outboundproxy:
-#      type: string(250)
-##      default: 'NULL'
-#    callbackextension:
-#      type: string(150)
-##      default: 'NULL'
-#    registertrying:
-#      type: enum
-#      values: ['yes', 'no']
-#      default: 'yes'
-#    timtert1:
-#      type: integer(5)
-#      unsigned: true
-#      default: 500
-#    timerb:
-#      type: integer(8)
-#      unsigned: true
-#      default: 'NULL'
-#    qualifyfreq:
-#      type: integer(5)
-#      unsigned: true
-#      default: 120
-#    contactpermit:
-#      type: string(250)
-##      default: 'NULL'
-#    contactdeny:
-#      type: string(250)
-##      default: 'NULL'
-#    lastms:
-#      type: integer(11)
-#      notnull: true
 
 # ===
 # Actual HEKPhone Tables 
@@ -603,20 +381,25 @@ Residents:
     move_in: 
       type: date
       notnull: true
-    move_out: date
+    move_out: 
+      type: date
+      comment: 'NULL if its not known when the resident will move out'
     bill_limit: 
       type: integer(3)
       notnull: true
       default: '75'
+      comment: 'in EUR'
     room:
       type: integer(3)
       unique: true
     warning1: 
       type: boolean
       default: false
+      comment: 'true: the resident has been notified that his bill is approaching the limit'
     warning2: 
       type: boolean
       default: false
+      comment: 'true: the resident has been notified that his bill is approaching the limit even closer'
     unlocked:
       type: boolean
       default: false
@@ -628,13 +411,24 @@ Residents:
       type: int
       notnull: true
       default: 15
+      comment: 'how long until the voicemail picks up'
     mail_on_missed_call:
       type: boolean
       notnull: true
       default: true
+      comment: 'wheter to send an notification email even if the vm box did not pick up'
     shortened_itemized_bill: 
       type: boolean
       default: true
+    redirect_active:
+      type: boolean
+      default: false
+      notnull: true
+    redirect_to:
+      type: string(25)
+      comment: 'telephone number (as the user dials it) to rerout the call to'
+    redirect_seconds:
+      type: int(3)
     account_number: string(10)
     bank_number: string(8)
     password: string(255)
