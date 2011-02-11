@@ -105,7 +105,7 @@ class Phones extends BasePhones
            'priority'     => $n++,
            'context'      => $context,
            'app'          => 'Dial',
-           'appdate'      => $this->getDialstring()
+           'appdata'      => $this->getDialstring()
       );
 
       // include redirection of calls before the mailbox picks up
