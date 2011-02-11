@@ -118,6 +118,9 @@ class AsteriskCdr extends BaseAsteriskCdr
         {
             // they have an additional 60 if they are routed through voip
             $destination = substr($this->dst, 2);
+        } else
+        {
+            $destination = $this->dst;
         }
 
         /* Conform $this->dst to  "0049+prefix+number" */
