@@ -107,9 +107,9 @@ class SettingsForm extends sfForm
         if($error) {
             throw new sfValidatorErrorSchema($validator, array('redirect_seconds' => $error));
         }
-
-        return $values;
       }
+
+      return $values;
   }
 
   public function checkRedirectTo($validator, $values) {
@@ -124,8 +124,8 @@ class SettingsForm extends sfForm
         if($error) {
             throw new sfValidatorErrorSchema($validator, array('redirect_seconds' => $error));
         }
-
-        return $values;
       }
+
+      return $values;
   }
 }

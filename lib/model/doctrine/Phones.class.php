@@ -25,8 +25,6 @@ class Phones extends BasePhones
           } catch (Exception $e) {
               $this->resident = null;
           }
-      } else {
-          return false;
       }
 
       return $this->resident;
@@ -174,6 +172,9 @@ class Phones extends BasePhones
    * @return string
    */
   public function getDialstring() {
+      $extension = $this->getExtension();
+      $extensionPrefix = '8695';
+
       if ($this['technology'] == 'SIP') {
           $dialstring = $this['technology'] . '/' . $extension;
       } elseif($this['technology'] == 'DAHDI/g1') {
@@ -184,10 +185,11 @@ class Phones extends BasePhones
       // redirect or call voicemailbox after the specified time period
       if ($resident != false && $resident['redirect_active']) {
           $dialstring .= sfConfig::get('asteriskParameterSeparator') . $resident['redirect_seconds'];
-      } elseif($resident != false && $resident['redirect_vm']) {
+      } elseif($resident != false && $resident['vm_active']) {
           $dialstring .= sfConfig::get('asteriskParameterSeparator') . $resident['vm_seconds'];
       }
 
+      echo $dialstring; die;
       return $dialstring;
   }
   /**

@@ -73,7 +73,8 @@ class settingsActions extends sfActions
       if ($form->getValue('newPassword') != '')
       {
         // if the new passwort and the repetition matches got checked via validator of the form
-        $this->resident->setPassword($request['settings']['newPassword']);
+        // so we just need to save it here
+        $this->resident->setPassword($form->getValue('newPassword'));
       }
 
       // change the email address only if the user submitted one
@@ -82,11 +83,8 @@ class settingsActions extends sfActions
         $this->resident->setEmail($request['settings']['newEmail']);
       }
 
-      // Replace last three digits of the call details destination with xxx?
       $this->resident->set('shortened_itemized_bill', $form->getValue('reducedCdrs'));
 
-      // Set a users lanuage
-      // $resident->setCulture($request['settings']['language']);
       $this->resident->setVoicemailSettings($form->getValue('vm_active'),
                                         $form->getValue('vm_seconds'),
                                         $form->getValue('sendEmailOnNewMessage'),

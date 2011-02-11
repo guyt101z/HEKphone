@@ -120,7 +120,7 @@ class Residents extends BaseResidents
       $this->set('vm_seconds', $seconds);
       $this->set('mail_on_missed_call', $mailOnMissedCall);
 
-      $this->save(); // FIXME: one should not this
+      $this->save(); // FIXME: one should not need this
 
       return $this;
     }
@@ -140,7 +140,7 @@ class Residents extends BaseResidents
       $this->_set('redirect_seconds', $seconds);
       $this->_set('redirect_to', $to);
 
-      $this->save(); // FIXME: one should not this
+      $this->save(); // FIXME: one should not need this
 
       return $this;
     }
