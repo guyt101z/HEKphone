@@ -189,7 +189,6 @@ class Phones extends BasePhones
           $dialstring .= sfConfig::get('asteriskParameterSeparator') . $resident['vm_seconds'];
       }
 
-      echo $dialstring; die;
       return $dialstring;
   }
   /**
