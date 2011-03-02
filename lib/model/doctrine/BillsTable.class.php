@@ -32,6 +32,7 @@ class BillsTable extends Doctrine_Table
                             ->addWhere('bill is null')
                             ->addWhere('date <= ?', $end)
                             ->addWhere('date >= ?', $start)
+                            ->orderBy('date')
                             ->execute();
 
         if ( $unbilledCalls->count() == 0)

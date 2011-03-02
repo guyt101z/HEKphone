@@ -75,7 +75,7 @@ class Bills extends BaseBills
         {
             $itemizedBill .= $call->getItemizedBillEntry()."\n";
   	    }
-
+        echo $itemizedBill;
         return $itemizedBill;
     }
 
@@ -106,6 +106,7 @@ class Bills extends BaseBills
                 ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
+            
             
         }
     }
