@@ -132,7 +132,7 @@ class AsteriskCdr extends BaseAsteriskCdr
              $destination = '00497211307' . substr($destination,1);
          } elseif ( substr($destination,0,2) == '00') {
              // calls with country-prefix 00
-             $destination = $this->dst;
+             $destination = $destination;
          } elseif ( substr($destination,0,1) == '0' ) {
              // call with city prefix 0
              $destination = '0049' . substr($destination,1);
@@ -274,7 +274,7 @@ class AsteriskCdr extends BaseAsteriskCdr
             return false;
         }
         /* Warn if trying to bill outgoing non-free calls of locked users */
-        if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $free) {
+        if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $this->isFreeCall()) {
             throw New Exception("[security warning] locked user made an outgoing call");
         }
         /* Check if the call originated from a public room and exit with an error if it's non-free */
