@@ -75,7 +75,7 @@ class Bills extends BaseBills
         {
             $itemizedBill .= $call->getItemizedBillEntry()."\n";
   	    }
-        echo $itemizedBill;
+        
         return $itemizedBill;
     }
 
