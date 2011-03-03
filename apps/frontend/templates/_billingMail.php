@@ -9,7 +9,7 @@ Bitte bei Rueckfragen angeben.
 Gesamtbetrag: <?php echo $amount ?> Euro
 ************************  
 
-Wenn der Gesamtbetrag nit 0€ ist, wird er in den naechsten Tagen von deinem
+Wenn der Gesamtbetrag nicht 0€ betraegt, wird er in den naechsten Tagen von deinem
 Konto <?php echo $accountNumber?>, BLZ: <?php echo $bankNumber?> abgebucht.
 Bitte sorge fuer ausreichende Deckung. Bei zurueckgewiesenen
 Lastschriften entstehen zusaetzlich mindestens 10,- Euro
