@@ -52,10 +52,11 @@ EOF;
         {
             // Delete personal information from the phones properties (not from the settings on the phone)
             $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
-            $phone->updateByRoom($resident['Rooms']);
+            $phone->updateForRoom($resident['Rooms']);
             $phone->save();
 
             $resident->setUnlocked('false');
+            $resident->save();
         }
     }
 
