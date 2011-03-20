@@ -50,7 +50,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return bool
      */
     public function isBilled() {
-        $callsResult = Doctrine_Core::createQuery()
+        $callsResult = Doctrine_Query::Create()
             ->from('Calls')
             ->where('asterisk_uniqueid = ?', $cdr->uniqueid)
             ->execute();
