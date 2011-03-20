@@ -100,19 +100,33 @@ class Phones extends BasePhones
       /* Prepare the extensions entries */
       // Calls to the phone from the PSTN
       $n = 1;
+      
+      // we mark the call as internal call eventhough it comes from outside
+      // this is no problem because the call is still an incoming call and 
+      // thus never gets billed. we thereby solve the problem that calls from
+      // analog phones to sip-phones arent marked as internal
       $arrayExtensions[0] = array(
+           'exten'        => $extensionPrefix . $extension,
+           'priority'     => $n++,
+           'context'      => $context,
+           'app'          => 'Set',
+           'appdata'      => 'CDR(userfield)=internal'
+      );
+      
+      $arrayExtensions[1] = array(
            'exten'        => $extensionPrefix . $extension,
            'priority'     => $n++,
            'context'      => $context,
            'app'          => 'Dial',
            'appdata'      => $this->getDialstring()
       );
+      
 
       // include redirection of calls before the mailbox picks up
       if ($resident && $resident['redirect_active'] && $this['technology'] == 'SIP')
       {
           $residentsContext = ($resident['unlocked'])? 'unlocked' : 'locked';
-          $arrayExtensions[1] = array(
+          $arrayExtensions[2] = array(
               'exten'        => $extensionPrefix . $extension,
               'priority'     => $n++,
               'context'      => $context,
@@ -126,7 +140,7 @@ class Phones extends BasePhones
       // include forwarding to mailbox if the resident turned on the vm
       if ($resident && $resident['vm_active'] && $this['technology'] == 'SIP')
       {
-          $arrayExtensions[2] = array(
+          $arrayExtensions[3] = array(
               'exten'        => $extensionPrefix . $extension,
               'priority'     => $n++,
               'context'      => $context,
@@ -136,7 +150,7 @@ class Phones extends BasePhones
       }
 
       // hangup after the call finished
-      $arrayExtensions[3] = array(
+      $arrayExtensions[4] = array(
           'exten'        => $extensionPrefix . $extension,
           'priority'     => 99,
           'context'      => $context,
@@ -146,14 +160,14 @@ class Phones extends BasePhones
 
 
       // Calls to the phone from other sip phones
-      $arrayExtensions[4] = array(
+      $arrayExtensions[5] = array(
            'exten'        => $extension,
            'priority'     => 1,
            'context'      => $context,
            'app'          => 'Set',
            'appdata'      => 'CDR(userfield)=internal'
       );
-      $arrayExtensions[5] = array(
+      $arrayExtensions[6] = array(
            'exten'        => $extension,
            'priority'     => 2,
            'context'      => $context,
