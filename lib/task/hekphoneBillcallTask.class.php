@@ -15,6 +15,7 @@ class hekphoneBillcallTask extends sfBaseTask
       new sfCommandOption('billsec', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('calldate', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('userfield', null, sfCommandOption::PARAMETER_REQUIRED, ''),
+      new sfCommandOption('disposition', null, sfCommandOption::PARAMETER_REQUIRED, ''),
     ));
 
     $this->namespace        = 'hekphone';
@@ -42,6 +43,7 @@ EOF;
         && ! isset($options['src'])
         && ! isset($options['billsec']) 
         && ! isset($options['calldate'])
+        && ! isset($options['disposition'])
         && ! isset($options['userfield'])) {
         /* if a uniqueid is specified, get this call defail record from the table */
         $cdr  = Doctrine_Query::create()
@@ -58,6 +60,7 @@ EOF;
              && isset($options['src'])
              && isset($options['billsec'])
              && isset($options['calldate'])
+             && isset($options['disposition'])
              && isset($options['userfield'])) {
         /* if no uniqueid is specified, get the calls details from the commandline
          * parameters and create a cdr-object from them. fail if a parameter is missing */
@@ -68,6 +71,7 @@ EOF;
         $cdrArray['src'] = $options['src'];
         $cdrArray['billsec'] = $options['billsec'];
         $cdrArray['calldate'] = $options['calldate'];
+        $cdrArray['disposition'] = $options['disposition'];
         $cdrArray['userfield'] = $options['userfield'];
 
         //FIXME: drop the whole 'billed' attribute and always check if there's a call in the Calls table
