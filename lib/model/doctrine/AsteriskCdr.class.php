@@ -45,6 +45,24 @@ class AsteriskCdr extends BaseAsteriskCdr
     }
 
     /**
+     * Checks if there's a representation of the cdr in the calls table or if 
+     * cdr->billed = true.
+     * @return bool
+     */
+    public function isBilled() {
+        $callsResult = Doctrine_Core::createQuery()
+            ->from('Calls')
+            ->where('asterisk_uniqueid = ?', $cdr->uniqueid)
+            ->execute();
+        $count = $callsResult->count();
+        if($count != 0 && $cdr->billed === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
      * Checks if the calls origin is a public room (common room, bar, ...)
      * Configure the rooms in ProjectConfiguration.class.php 'hekphonePublicRooms'
      * @return bool
@@ -262,7 +280,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      */
     public function bill() {
         /* Warn and abort if the call is already billed and no rebilling is whished */
-        if($this->billed) {
+        if($this->isBilled()) {
             throw New Exception("The cdr has already been billed");
         }
         /* Only bill outgoing calls no incoming calls*/
