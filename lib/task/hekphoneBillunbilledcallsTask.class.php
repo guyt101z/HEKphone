@@ -11,7 +11,7 @@ class hekphoneBillunbilledcallsTask extends sfBaseTask
 
     $this->namespace        = 'hekphone';
     $this->name             = 'bill-unbilled-calls';
-    $this->briefDescription = '';
+    $this->briefDescription = 'Bill calls from AsteriskCdr that have not been billed yet';
     $this->detailedDescription = <<<EOF
 The [hekphone:bill-all-unbilled-calls|INFO] fetches the last \$count unbilled calls from AsteriskCdr
 assigns a charge and a rate to them and transfers them to the Calls table.

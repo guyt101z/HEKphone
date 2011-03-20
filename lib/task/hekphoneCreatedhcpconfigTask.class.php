@@ -13,10 +13,10 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
 
     $this->namespace        = 'hekphone';
     $this->name             = 'create-dhcp-config';
-    $this->briefDescription = 'Creates the DHCP config file for the phones';
+    $this->briefDescription = 'Creates the DHCP config file for the phones and restarts the dhcp-server';
     $this->detailedDescription = <<<EOF
 The [hekphone:create-dhcp-config|INFO] task generates the neccesary dhcp-config to assign an IP to each phone depending on the mac address and roomNo for each phone from the phones table and safes it as \$options(filename) (the old file will be repaced).
-The default config (usually dhcpd.config) has to enclude this file. You probably want to call the task as root.
+The default config (usually dhcpd.config) has to include this file. Afterwards the deamon will be restarted. You probably want to call the task as root.
 
 Call it with:
 
@@ -63,11 +63,11 @@ EOF;
     else
       $this->log($this->formatter->format("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO'));
     fclose($fileHandle);
-    
+
     // Restart dhcp-server
     if( ! $options['no-restart']) {
         system('/etc/init.d/dhcp3-server restart');
     }
-    
+
   }
 }

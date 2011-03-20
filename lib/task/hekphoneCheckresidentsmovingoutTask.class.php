@@ -21,7 +21,7 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
 
     $this->namespace        = 'hekphone';
     $this->name             = 'check-residents-moving-out';
-    $this->briefDescription = '';
+    $this->briefDescription = 'Locks/Warns residents moving out today or tomorrow';
     $this->detailedDescription = <<<EOF
 The [hekphone:check-residents-moving-out|INFO] fetches all users moving out tomorrow. Sends a goodbye-email
 to them and locks them.
