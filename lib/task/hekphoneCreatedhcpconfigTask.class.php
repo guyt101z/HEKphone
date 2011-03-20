@@ -31,8 +31,8 @@ EOF;
                  ->execute();
 
     $dhcpConf = '# Phone configuration'.PHP_EOL
-              . '# Created via symfony task: hekphone:create-dhcp-config'
-              . 'subnet 192.168.0.0 netmask 255.255.0.0 {';
+              . '# Created via symfony task: hekphone:create-dhcp-config'. PHP_EOL
+              . 'subnet 192.168.0.0 netmask 255.255.0.0 {' . PHP_EOL;
     $num = 0;
     foreach ($collPhones as $phone) {
         // don't generate corrupt config
