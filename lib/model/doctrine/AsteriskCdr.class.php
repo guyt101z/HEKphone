@@ -52,10 +52,10 @@ class AsteriskCdr extends BaseAsteriskCdr
     public function isBilled() {
         $callsResult = Doctrine_Query::Create()
             ->from('Calls')
-            ->where('asterisk_uniqueid = ?', $cdr->uniqueid)
+            ->where('asterisk_uniqueid = ?', $this->uniqueid)
             ->execute();
         $count = $callsResult->count();
-        if($count != 0 && $cdr->billed === true) {
+        if($count != 0 && $this->billed === true) {
             return true;
         } else {
             return false;
@@ -298,7 +298,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         /* Check if the call originated from a public room and exit with an error if it's non-free */
         if($this->isFromPublicRoom()) {
             if( ! $this->isFreeCall()) {
-                throw new Exception("Non free call from public room: ". $this->getRoomNumber());
+                throw new Exception("Non-free call from public room: ". $this->getRoomNumber());
             } else {
               // Mark the call as billed
               $this->billed = true;
