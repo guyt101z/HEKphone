@@ -48,16 +48,29 @@ class Groupcalls extends BaseGroupcalls
     $dialstring = substr($dialstring, 0, -1);
 
 
-    $arrayExtensions[0] = array(
+    /* Create the extensions Array.
+     * Mark the call as internal.
+     * Dial the Dialstring
+     * Hangup if something goes wrong
+     */
+    $n = 1;
+    $arrayExtensions[] = array(
          'exten'        => $this->extension,
-         'priority'     => 1,
+         'priority'     => $n++,
+         'context'      => $context,
+         'app'          => 'Set',
+         'appdata'      => 'CDR(userfield)=internal'
+    );
+    $arrayExtensions[] = array(
+         'exten'        => $this->extension,
+         'priority'     => $n++,
          'context'      => $context,
          'app'          => 'Dial',
          'appdata'      => $dialstring
     );
-    $arrayExtensions[1] = array(
+    $arrayExtensions[] = array(
          'exten'        => $this->extension,
-         'priority'     => 1,
+         'priority'     => $n++,
          'context'      => $context,
          'app'          => 'Hangup',
     );
