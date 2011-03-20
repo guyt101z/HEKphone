@@ -7,12 +7,17 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
 
-      new sfCommandOption('mail', null, sfCommandOption::PARAMETER_NONE, 'Residents who move out tomorrow get an informational email'),
+      new sfCommandOption('warn-resident', null, sfCommandOption::PARAMETER_NONE, 'Residents who move out tomorrow get an informational email'),
       new sfCommandOption('lock', null, sfCommandOption::PARAMETER_NONE, 'All residents who move out today get locked'),
-      new sfCommandOption('notifyTeam', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out. NOT IMPLEMENTED.'),
+      new sfCommandOption('notify-team', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out. NOT IMPLEMENTED.'),
 
       new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Supress informative output, only print errors')
     ));
+
+    // Prepare rendering of partials (load the PartialHelper)
+    $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'dev', true);
+    sfContext::createInstance($configuration);
+    sfProjectConfiguration::getActive()->loadHelpers("Partial");
 
     $this->namespace        = 'hekphone';
     $this->name             = 'check-residents-moving-out';
@@ -33,14 +38,13 @@ EOF;
     $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
     foreach ($residentsMovingOutTomorrow as $resident)
     {
-        if($options['mail'])
+        if($options['warn-resident'])
         {
             $resident->sendLockEmail();
         }
     }
 
     /* Lock residents who move out today and notify the list */
-    // TODO: Notify the list
     $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutToday();
     foreach ($residentsMovingOutToday as $resident)
     {
@@ -53,19 +57,31 @@ EOF;
 
             $resident->setUnlocked('false');
         }
-
     }
 
+    /* Notify the team */
+    if($options['notify-team'] && count($residentsMovingOutToday) > 0) {
+        $messageBody = get_partial('global/todaysLockedResidents', array('residentsMovingOut' => $residentsMovingOutToday));
+
+        $message = Swift_Message::newInstance()
+            ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+            ->setTo(sfConfig::get('hekphoneFromEmailAdress'))
+            ->setSubject('nach Auszug gesperrt')
+            ->setBody($messageBody);
+        sfContext::getInstance()->getMailer()->send($message);
+    }
+
+
     /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
-    if( ! $options['lock'] && ! $options['mail'] && ! $options['notifyTeam'] && ! $options['silent']) {
-        if(count($residentsMovingOutToday) < 0) {
+    if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent']) {
+        if(count($residentsMovingOutToday) > 0) {
             $this->log($this->formatter->format("Residents moving out today:", 'INFO'));
             print_r($residentsMovingOutToday->toArray());
         } else {
             $this->log($this->formatter->format("There are no residents moving out today.", 'INFO'));
         }
 
-        if(count($residentsMovingOutTomorrow) < 0) {
+        if(count($residentsMovingOutTomorrow) > 0) {
             $this->log($this->formatter->format("Residents moving out tomorrow:", 'INFO'));
             print_r($residentsMovingOutTomorrow->toArray());
         } else {
@@ -75,3 +91,4 @@ EOF;
 
   }
 }
+

@@ -20,7 +20,7 @@ class Residents extends BaseResidents
      * if neccesary and take the value stored in $this->currentBillAmount otherwise.
      * Value is returned in Euros not in Cents!
      */
-    private function getCurrentBillAmount() {
+    public function getCurrentBillAmount() {
         if( is_null($this->currentBillAmount)) {
             $collCurrentBillAmount = Doctrine_Query::create()
                 ->from('Calls c')
