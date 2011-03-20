@@ -162,13 +162,6 @@ class Phones extends BasePhones
       // Calls to the phone from other sip phones
       $arrayExtensions[5] = array(
            'exten'        => $extension,
-           'priority'     => 1,
-           'context'      => $context,
-           'app'          => 'Set',
-           'appdata'      => 'CDR(userfield)=internal'
-      );
-      $arrayExtensions[6] = array(
-           'exten'        => $extension,
            'priority'     => 2,
            'context'      => $context,
            'app'          => 'GoTo',
