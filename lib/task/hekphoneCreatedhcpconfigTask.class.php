@@ -7,6 +7,7 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
 
     $this->addOptions(array(
       new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Print the generated output'),
+      new sfCommandOption('no-restart', null, sfCommandOption::PARAMETER_NONE, 'Dont restart the dhcp-server'),
       new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', '/etc/dhcp3/dhcpd.phones'),
     ));
 
@@ -30,7 +31,8 @@ EOF;
                  ->execute();
 
     $dhcpConf = '# Phone configuration'.PHP_EOL
-              . '# Created via symfony task: hekphone:create-dhcp-config';
+              . '# Created via symfony task: hekphone:create-dhcp-config'
+              . 'subnet 192.168.0.0 netmask 255.255.0.0 {';
     $num = 0;
     foreach ($collPhones as $phone) {
         // don't generate corrupt config
@@ -45,6 +47,7 @@ EOF;
           fixed-address '.$phone->defaultip.';
         }' . PHP_EOL;
     }
+    $dhcpConf .= '}';
 
     /* Be verbose */
     if( $options['verbose'] == true)
@@ -52,7 +55,7 @@ EOF;
       echo $dhcpConf;
     }
 
-    // Write file
+    // Write configuration file
     if( ! $fileHandle = @fopen($options['filename'], 'w+'))
       throw new sfCommandException('Could not open file. Are you root?');
     if ( ! fwrite($fileHandle, $dhcpConf))
@@ -60,5 +63,11 @@ EOF;
     else
       $this->log($this->formatter->format("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO'));
     fclose($fileHandle);
+    
+    // Restart dhcp-server
+    if( ! $options['no-restart']) {
+        system('/etc/init.d/dhcp3-server restart');
+    }
+    
   }
 }
