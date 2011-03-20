@@ -274,9 +274,9 @@ class AsteriskCdr extends BaseAsteriskCdr
 
     /**
      * Calculates the cost of an AsteriskCdr-Record (a finished call), creates
-     * an record in the Calls table and marks the AsteriskCdr-Record as billed.
+     * an record in the Calls table. Returns true on succes otherwise throws exception.
      * @throws Exception
-     * @return AsteriskCdr
+     * @return bool
      */
     public function bill() {
         /* Warn and abort if the call is already billed and no rebilling is whished */
@@ -291,26 +291,20 @@ class AsteriskCdr extends BaseAsteriskCdr
         if($this->isInternalCall()) {
             return false;
         }
+        /* only calls that have been answered */
+        if($this->disposition != 'ANSWERED') {
+            return false;
+        }
         /* Warn if trying to bill outgoing non-free calls of locked users */
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $this->isFreeCall()) {
             throw New Exception("[security warning] locked user made an outgoing call");
         }
         /* Check if the call originated from a public room and exit with an error if it's non-free */
-        if($this->isFromPublicRoom()) {
-            if( ! $this->isFreeCall()) {
-                throw new Exception("Non-free call from public room: ". $this->getRoomNumber());
-            } else {
-              // Mark the call as billed
-              $this->billed = true;
-              $this->save();
-              return true;
-            }
+        if($this->isFromPublicRoom() && ! $this->isFreeCall()) {
+            throw new Exception("Non-free call from public room: ". $this->getRoomNumber());
         }
 
         $callsEntry = $this->createCallsEntry();
-
-        $this->billed = true;
-        $this->save();
 
         $this->getResident()->checkIfBillLimitIsAlmostReached();
 
@@ -319,6 +313,6 @@ class AsteriskCdr extends BaseAsteriskCdr
         echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $callsEntry->extension
          . "; Cost: ".round($callsEntry->charges,2) . "ct" . PHP_EOL;
 
-        return $this;
+        return true;
     }
 }
