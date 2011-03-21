@@ -93,7 +93,7 @@ abstract class BaseCalls extends sfDoctrineRecord
              ));
         $this->hasColumn('asterisk_uniqueid', 'string', 30, array(
              'type' => 'string',
-             'notnull' => false,
+             'notnull' => true,
              'unique' => true,
              'length' => 30,
              ));

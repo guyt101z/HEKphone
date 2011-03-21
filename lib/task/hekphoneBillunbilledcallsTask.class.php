@@ -24,15 +24,9 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     /* get last (count) call detail records from AsteriskCdr */
-    $collCdr  = Doctrine_Query::create()
-              ->from('AsteriskCdr')
-              ->where('billed = ?', false)
-              ->andWhereIn('dcontext', sfConfig::get('asteriskUnlockedPhonesContexts'))
-              ->addWhere('disposition = ?', 'ANSWERED')
-              ->addWhere('userfield != ?', 'intern')
-              ->limit($options['count'])
-              ->execute();
+    $collCdr = Doctrine_Core::getTable('AsteriskCdr')->findUnallocatedCalls(array('limit' => (int)$options['count']));
 
+    print_r($collCdr->count());
     /* Bill every fetched call. Dont quit on one exception but log the error. */
     foreach($collCdr as $cdr)
     {

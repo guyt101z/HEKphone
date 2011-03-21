@@ -23,7 +23,6 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskCdr', 'hekphone');
  * @property string $accountcode
  * @property string $uniqueid
  * @property string $userfield
- * @property boolean $billed
  * @property Doctrine_Collection $Calls
  * 
  * @method timestamp           getCalldate()    Returns the current record's "calldate" value
@@ -42,7 +41,6 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskCdr', 'hekphone');
  * @method string              getAccountcode() Returns the current record's "accountcode" value
  * @method string              getUniqueid()    Returns the current record's "uniqueid" value
  * @method string              getUserfield()   Returns the current record's "userfield" value
- * @method boolean             getBilled()      Returns the current record's "billed" value
  * @method Doctrine_Collection getCalls()       Returns the current record's "Calls" collection
  * @method AsteriskCdr         setCalldate()    Sets the current record's "calldate" value
  * @method AsteriskCdr         setClid()        Sets the current record's "clid" value
@@ -60,7 +58,6 @@ Doctrine_Manager::getInstance()->bindComponent('AsteriskCdr', 'hekphone');
  * @method AsteriskCdr         setAccountcode() Sets the current record's "accountcode" value
  * @method AsteriskCdr         setUniqueid()    Sets the current record's "uniqueid" value
  * @method AsteriskCdr         setUserfield()   Sets the current record's "userfield" value
- * @method AsteriskCdr         setBilled()      Sets the current record's "billed" value
  * @method AsteriskCdr         setCalls()       Sets the current record's "Calls" collection
  * 
  * @package    hekphone
@@ -145,11 +142,6 @@ abstract class BaseAsteriskCdr extends sfDoctrineRecord
         $this->hasColumn('userfield', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
-             ));
-        $this->hasColumn('billed', 'boolean', null, array(
-             'type' => 'boolean',
-             'notnull' => true,
-             'default' => 'false',
              ));
     }
 

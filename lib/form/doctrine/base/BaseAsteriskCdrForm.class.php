@@ -32,7 +32,6 @@ abstract class BaseAsteriskCdrForm extends BaseFormDoctrine
       'accountcode' => new sfWidgetFormTextarea(),
       'uniqueid'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'), 'add_empty' => false)),
       'userfield'   => new sfWidgetFormTextarea(),
-      'billed'      => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
@@ -53,7 +52,6 @@ abstract class BaseAsteriskCdrForm extends BaseFormDoctrine
       'accountcode' => new sfValidatorString(),
       'uniqueid'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'))),
       'userfield'   => new sfValidatorString(),
-      'billed'      => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

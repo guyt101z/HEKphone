@@ -94,10 +94,6 @@ AsteriskCdr:
     userfield: 
       type: string
       notnull: true
-    billed: 
-      type: boolean
-      notnull: true
-      default: 'false' 
       
 # Asterisk connects to the following tables via odbcs. It's configured in 
 # res_odbc.conf, odbc.ini and extconfig.conf
@@ -561,8 +557,7 @@ Calls:
       notnull: true
     asterisk_uniqueid:
       type: string(30)
-      notnull: false
-      default: null
+      notnull: true
       unique: true
     charges: 
       type: decimal(18)

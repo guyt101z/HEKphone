@@ -45,8 +45,7 @@ class AsteriskCdr extends BaseAsteriskCdr
     }
 
     /**
-     * Checks if there's a representation of the cdr in the calls table or if 
-     * cdr->billed = true.
+     * Checks if there's a representation of the cdr in the calls table
      * @return bool
      */
     public function isBilled() {
@@ -55,13 +54,13 @@ class AsteriskCdr extends BaseAsteriskCdr
             ->where('asterisk_uniqueid = ?', $this->uniqueid)
             ->execute();
         $count = $callsResult->count();
-        if($count != 0 && $this->billed === true) {
+        if($count != 0) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     /**
      * Checks if the calls origin is a public room (common room, bar, ...)
      * Configure the rooms in ProjectConfiguration.class.php 'hekphonePublicRooms'
@@ -264,9 +263,6 @@ class AsteriskCdr extends BaseAsteriskCdr
             ->delete('Calls')
             ->where('asterisk_uniqueid = ?', $this->uniqueid)
             ->execute();
-
-        // mark cdr as unbilled
-        $this->billed = false;
 
         //bill cdr again
         return $this->bill();

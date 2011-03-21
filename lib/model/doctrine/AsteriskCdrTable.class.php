@@ -18,29 +18,56 @@ class AsteriskCdrTable extends Doctrine_Table
     }
 
     /**
-     * find all calls in AsteriskCdr which are not marked as billed
-     * (AsteriskCdr.billed = false) in period of time
+     * deletes all Cdrs that are older than sfConfig::get('monthsToKeepCdrsFor')
      *
-     * @param date $from  start of the timeperiod
-     * @param date $to    end of the timeperiod
-     * @return DoctrineCollection
+     * @return Docrin_query: result of the query
      */
-    function findUnallocatedCalls($from, $to) {
-        $q = Doctrine_Query::create()
-            ->from('AsteriskCdr c')
-            ->addWhere('c.billed = false')
-            ->addWhere("c.calldate >= '$from'")
-            ->addwhere("c.calldate <= '$to'")
-            ->addWhere("c.disposition = 'ANSWERED'")
-            ->andWhereNotIn("c.dcontext", sfConfig::get('asteriskIncomingContext'));
-         return $q->execute();
-    }
-
     public function deleteOldCdrs()
     {
-        $this->createQuery()
-            ->delete()
-            ->where('calldate <= ?', date('Y-m-d',strtotime('-' . sfConfig::get('monthsToKeepCdrsFor') . ' months')))
-            ->execute();
+        return $this->createQuery()
+                   ->delete()
+                   ->where('calldate <= ?', date('Y-m-d',strtotime('-' . sfConfig::get('monthsToKeepCdrsFor') . ' months')))
+                   ->execute();
     }
+
+    /**
+     * Find all cdrs which have no representation in the Calls table which
+     * means that they are not yet billed.
+     * Optionally one can specify a date range to select the cdrs from via
+     * $options['from'] and $options['to'].
+     * A limit can be set using $options['limit']
+     *
+     * @param array $options
+     * @throws Exception
+     * @return Doctrine_Collection
+     */
+    function findUnallocatedCalls($options = array()) {
+        if((isset($options['from']) || isset($options['to']))
+          && ( ! isset($options['from']) || ! isset($options['to']))) {
+            throw new Exception('Provide a daterange using both parameters: $option[from] and $option[to] or none');
+        }
+
+        $q = Doctrine_Query::create()
+            ->from('AsteriskCdr a')
+            //select only the relevant CDRs (outgoing, answered
+            ->select('a.id, a.uniqueid, c.asterisk_uniqueid')
+            ->addWhere("a.disposition = 'ANSWERED'")
+            ->andWhereNotIn("a.dcontext", sfConfig::get('asteriskIncomingContext'))
+            //select only the cdrs which have not been billed and thus no representation in calls
+            ->leftJoin('a.Calls c ON a.uniqueid = c.asterisk_uniqueid')
+            ->addWhere('c.asterisk_uniqueid IS NULL');
+
+        if(isset($options['from']) && isset($options['to'])) {
+            //if whished only select cdrs from a date range
+            $q->addWhere('cdr.calldate >= ?', $options['from'])
+              ->addwhere('cdr.calldate <= ?', $options['to']);
+        }
+
+        if(isset($options['limit']) && is_int($options['limit'])) {
+            $q->limit($options['limit']);
+        }
+
+        return $q->execute();
+    }
+
 }

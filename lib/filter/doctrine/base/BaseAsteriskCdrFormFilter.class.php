@@ -29,7 +29,6 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'accountcode' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'uniqueid'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'), 'add_empty' => true)),
       'userfield'   => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'billed'      => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
     ));
 
     $this->setValidators(array(
@@ -49,7 +48,6 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'accountcode' => new sfValidatorPass(array('required' => false)),
       'uniqueid'    => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Calls'), 'column' => 'id')),
       'userfield'   => new sfValidatorPass(array('required' => false)),
-      'billed'      => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
     ));
 
     $this->widgetSchema->setNameFormat('asterisk_cdr_filters[%s]');
@@ -86,7 +84,6 @@ abstract class BaseAsteriskCdrFormFilter extends BaseFormFilterDoctrine
       'accountcode' => 'Text',
       'uniqueid'    => 'ForeignKey',
       'userfield'   => 'Text',
-      'billed'      => 'Boolean',
     );
   }
 }
