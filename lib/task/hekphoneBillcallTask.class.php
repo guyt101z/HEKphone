@@ -20,7 +20,7 @@ class hekphoneBillcallTask extends sfBaseTask
 
     $this->namespace        = 'hekphone';
     $this->name             = 'bill-call';
-    $this->briefDescription = 'Bills an entry in AsteriskCdr with given uniqueid';
+    $this->briefDescription = 'Biphalls an entry in AsteriskCdr with given uniqueid';
     $this->detailedDescription = <<<EOF
 The [hekphone:bill-call|INFO] task takes one uniqueid from asterisk_cdr as argument, tries to match the source to a room and matches the room to an resident/user;
 It tries to match the dialed number to an rate and calculates the cost of the call in euro-cents (ct).
@@ -41,10 +41,11 @@ EOF;
         && ! isset($options['dst'])
         && ! isset($options['dcontext'])
         && ! isset($options['src'])
-        && ! isset($options['billsec']) 
+        && ! isset($options['billsec'])
         && ! isset($options['calldate'])
         && ! isset($options['disposition'])
-        && ! isset($options['userfield'])) {
+        && ! isset($options['userfield'])
+        && ! isset($options['channel'])) {
         /* if a uniqueid is specified, get this call defail record from the table */
         $cdr  = Doctrine_Query::create()
                 ->from('AsteriskCdr')
@@ -61,28 +62,20 @@ EOF;
              && isset($options['billsec'])
              && isset($options['calldate'])
              && isset($options['disposition'])
-             && isset($options['userfield'])) {
+             && isset($options['userfield'])
+             && isset($options['channel'])) {
         /* if no uniqueid is specified, get the calls details from the commandline
          * parameters and create a cdr-object from them. fail if a parameter is missing */
         $cdrArray = array();
-        $cdrArray['uniqueid'] = $options['uniqueid'];
-        $cdrArray['dst'] = $options['dst'];
-        $cdrArray['dcontext'] = $options['dcontext'];
-        $cdrArray['src'] = $options['src'];
-        $cdrArray['billsec'] = $options['billsec'];
-        $cdrArray['calldate'] = $options['calldate'];
+        $cdrArray['uniqueid']    = $options['uniqueid'];
+        $cdrArray['dst']         = $options['dst'];
+        $cdrArray['dcontext']    = $options['dcontext'];
+        $cdrArray['src']         = $options['src'];
+        $cdrArray['billsec']     = $options['billsec'];
+        $cdrArray['calldate']    = $options['calldate'];
         $cdrArray['disposition'] = $options['disposition'];
-        $cdrArray['userfield'] = $options['userfield'];
-
-        //FIXME: drop the whole 'billed' attribute and always check if there's a call in the Calls table
-        if(Doctrine_Query::create()
-                ->from('Calls')
-                ->where('asterisk_uniqueid = ?', $options['uniqueid'])
-                ->fetchOne()) {
-            $cdrArray['billed'] = true;
-        } else {
-            $cdrArray['billed'] = false;
-        }
+        $cdrArray['userfield']   = $options['userfield'];
+        $cdrArray['channel']     = $options['channel'];
 
         $cdr = new AsteriskCdr();
         $cdr->fromArray($cdrArray);
