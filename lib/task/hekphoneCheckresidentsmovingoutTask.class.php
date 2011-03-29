@@ -35,17 +35,17 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     /* Notify residents that they are going to be locked tomorrow */
-    $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
+    $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutTomorrow();
     foreach ($residentsMovingOutTomorrow as $resident)
     {
-        if($options['warn-resident'] && $resident['unlocked'] == true)
+        if($options['warn-resident'])
         {
             $resident->sendLockEmail();
         }
     }
 
     /* Lock residents who move out today and notify the list */
-    $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutToday();
+    $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutToday();
     foreach ($residentsMovingOutToday as $resident)
     {
         if($options['lock'])
