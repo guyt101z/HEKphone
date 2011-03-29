@@ -38,7 +38,7 @@ EOF;
     $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
     foreach ($residentsMovingOutTomorrow as $resident)
     {
-        if($options['warn-resident'])
+        if($options['warn-resident'] && $resident['unlocked'] == true)
         {
             $resident->sendLockEmail();
         }
