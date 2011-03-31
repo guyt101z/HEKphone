@@ -131,7 +131,7 @@ class AsteriskCdr extends BaseAsteriskCdr
             // if they have been routed through the normal PSTN
             $destination = substr($this->dst, 1);
         }
-        elseif (substr($this->dst, 0, 1) == '60')
+        elseif (substr($this->dst, 0, 2) == '60')
         {
             // they have an additional 60 if they are routed through voip
             $destination = substr($this->dst, 2);
@@ -172,7 +172,7 @@ class AsteriskCdr extends BaseAsteriskCdr
     private function getFormattedDestinationOfCallFromAnalogPhone()
     {
         // VoIP calls from analog telephones are prefixed with 03140. Cut this off.
-        if(substr($this->dst, 0, 1) == '03140') {
+        if(substr($this->dst, 0, 5) == '03140') {
             $destination = substr($this->dst, 5);
         } else {
             $destination = $this->dst;
