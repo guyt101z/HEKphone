@@ -275,11 +275,11 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return bool
      */
     public function bill() {
-        /* Warn and abort if the call is already billed and no rebilling is whished */
+        /* warn and abort if the call is already billed and no rebilling is whished */
         if($this->isBilled()) {
             throw New Exception("The cdr has already been billed");
         }
-        /* Only bill outgoing calls no incoming calls*/
+        /* only bill outgoing calls no incoming calls*/
         if($this->isIncomingCall()) {
             throw new Exception("Trying to bill an incoming call");
         }
@@ -291,11 +291,15 @@ class AsteriskCdr extends BaseAsteriskCdr
         if($this->disposition != 'ANSWERED') {
             return false;
         }
-        /* Warn if trying to bill outgoing non-free calls of locked users */
+        /* don't try to bill free calls from public rooms */
+        if($this->isFromPublicRoom() && $this->isFreeCall) {
+            return false;
+        }
+        /* warn if trying to bill outgoing non-free calls of locked users */
         if( ! in_array($this->dcontext, sfConfig::get('asteriskUnlockedPhonesContexts')) && ! $this->isFreeCall()) {
             throw New Exception("[security warning] locked user made an outgoing call");
         }
-        /* Check if the call originated from a public room and exit with an error if it's non-free */
+        /* check if the call originated from a public room and exit with an error if it's non-free */
         if($this->isFromPublicRoom() && ! $this->isFreeCall()) {
             throw new Exception("Non-free call from public room: ". $this->getRoomNumber());
         }
@@ -306,7 +310,7 @@ class AsteriskCdr extends BaseAsteriskCdr
 
         //Log some details.
         // FIXME: using echo in a model is bad. replace it by correct logging.
-        echo "[uniqueid='" . $this->uniqueid . "][info] Billed call. Extension:" . $callsEntry->extension
+        echo "[uniqueid='" . $this->uniqueid . "'][info] Billed call. Extension:" . $callsEntry->extension
          . "; Cost: ".round($callsEntry->charges,2) . "ct" . PHP_EOL;
 
         return true;
