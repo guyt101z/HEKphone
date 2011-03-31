@@ -292,7 +292,7 @@ class AsteriskCdr extends BaseAsteriskCdr
             return false;
         }
         /* don't try to bill free calls from public rooms */
-        if($this->isFromPublicRoom() && $this->isFreeCall) {
+        if($this->isFromPublicRoom() && $this->isFreeCall()) {
             return false;
         }
         /* warn if trying to bill outgoing non-free calls of locked users */
