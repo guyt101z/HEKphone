@@ -16,22 +16,21 @@ class hekphoneBillcallTask extends sfBaseTask
       new sfCommandOption('calldate', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('userfield', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('disposition', null, sfCommandOption::PARAMETER_REQUIRED, ''),
+      new sfCommandOption('channel', null, sfCommandOption::PARAMETER_REQUIRED, ''),      
     ));
 
     $this->namespace        = 'hekphone';
     $this->name             = 'bill-call';
     $this->briefDescription = 'Biphalls an entry in AsteriskCdr with given uniqueid';
     $this->detailedDescription = <<<EOF
-The [hekphone:bill-call|INFO] task takes one uniqueid from asterisk_cdr as argument, tries to match the source to a room and matches the room to an resident/user;
-It tries to match the dialed number to an rate and calculates the cost of the call in euro-cents (ct).
-Then an entry in the "calls" table is created and the call is marked as billed in the asterisk_cdr table.
-
+The [hekphone:bill-call|INFO] task takes a uniqueid from asterisk_cdr or every detail of a call as argument.
+It then tries to match the source to a room, the room to an resident/user and the dialed number to an rate.
 It's supposed to be called with the calls details everytime an outgoing call has ended.
 
 Call it with:
 
-  [php symfony hekphone:bill-call --uniqueid="asterisk.2398472394782"|INFO]
-  [php symfony hekphone:bill-call --uniqueid="asterisk.2398472394782" --dst="002323" --src=...|INFO]
+  [php symfony hekphone:bill-call --uniqueid="asterisk.2398472394782"|INFO] fetches call details from database
+  [php symfony hekphone:bill-call --uniqueid="asterisk.2398472394782" --dst="002323" --src=... ...|INFO] provide every neccesarry detail using the paramete
 EOF;
   }
 
@@ -46,7 +45,8 @@ EOF;
         && ! isset($options['disposition'])
         && ! isset($options['userfield'])
         && ! isset($options['channel'])) {
-        /* if a uniqueid is specified, get this call defail record from the table */
+        /* ifmore than only a uniqueid is specified, get the calls details from the commandline
+         * parameters and create a cdr-object from them. fail if a parameter is missing */
         $cdr  = Doctrine_Query::create()
                 ->from('AsteriskCdr')
                 ->where('uniqueid = ?', $options['uniqueid'])
