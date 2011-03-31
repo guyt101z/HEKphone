@@ -555,6 +555,7 @@ Calls:
     destination: 
       type: string(50)
       notnull: true
+    # needed when checking wheter a cdr has already been billed or not:
     asterisk_uniqueid:
       type: string(30)
       notnull: true
@@ -577,10 +578,13 @@ Calls:
       local: rate
       foreign: id
       type: one
-    AsteriskCdr:
-      local: asterisk_uniqueid
-      foreign: uniqueid
-      type: one
+# No relation to AsteriskCdr as we are transfering the call from AsteriskCdr to Calls
+# before the CDR entry is written. (Asterisk fires the h extension first and writes
+# then to the database.)
+#   AsteriskCdr:
+#      local: asterisk_uniqueid
+#      foreign: uniqueid
+#      type: one
 
 Bills:
   connection: hekphone
