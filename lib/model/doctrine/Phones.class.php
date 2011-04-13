@@ -100,9 +100,9 @@ class Phones extends BasePhones
       /* Prepare the extensions entries */
       // Calls to the phone from the PSTN
       $n = 1;
-      
+
       // we mark the call as internal call eventhough it comes from outside
-      // this is no problem because the call is still an incoming call and 
+      // this is no problem because the call is still an incoming call and
       // thus never gets billed. we thereby solve the problem that calls from
       // analog phones to sip-phones arent marked as internal
       $arrayExtensions[0] = array(
@@ -112,7 +112,7 @@ class Phones extends BasePhones
            'app'          => 'Set',
            'appdata'      => 'CDR(userfield)=internal'
       );
-      
+
       $arrayExtensions[1] = array(
            'exten'        => $extensionPrefix . $extension,
            'priority'     => $n++,
@@ -120,7 +120,7 @@ class Phones extends BasePhones
            'app'          => 'Dial',
            'appdata'      => $this->getDialstring()
       );
-      
+
 
       // include redirection of calls before the mailbox picks up
       if ($resident && $resident['redirect_active'] && $this['technology'] == 'SIP')
@@ -243,11 +243,17 @@ class Phones extends BasePhones
    *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    */
   public function uploadConfiguration($overwritePersonalSettings = false, $initialConfiguration = false) {
+        if($this['technology'] != 'SIP')
+        {
+          return false;
+        }
+
         $sendAuthCookie = 'c0a900010000009b';
         $httpHeaders = array(
             'Keep-Alive: 115',
             'Connection: keep-alive',
             'Cookie: auth=' . $sendAuthCookie);
+
         if ($initialConfiguration)
         {
 	        $password = 'admin';

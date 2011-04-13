@@ -9,9 +9,10 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
 
       new sfCommandOption('warn-resident', null, sfCommandOption::PARAMETER_NONE, 'Residents who move out tomorrow get an informational email'),
       new sfCommandOption('lock', null, sfCommandOption::PARAMETER_NONE, 'All residents who move out today get locked'),
-      new sfCommandOption('notify-team', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out. NOT IMPLEMENTED.'),
+      new sfCommandOption('reset-phone', null, sfCommandOption::PARAMETER_NONE, 'Reset phones details '),
+      new sfCommandOption('notify-team', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out.'),
 
-      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Supress informative output, only print errors')
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Supress informative output, only print errors.')
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -23,7 +24,7 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
     $this->name             = 'check-residents-moving-out';
     $this->briefDescription = 'Locks/Warns residents moving out today or tomorrow';
     $this->detailedDescription = <<<EOF
-The [hekphone:check-residents-moving-out|INFO] fetches all users moving out tomorrow. Sends a goodbye-email
+The [hekphone:check-residents-moving-out|INFO] fetches all unlocked users moving out tomorrow. Sends a goodbye-email
 to them and locks them.
 If called withoud parameters it prints a list of all residents moving out today and tomorrow.
 Call it with:
@@ -36,32 +37,37 @@ EOF;
   {
     /* Notify residents that they are going to be locked tomorrow */
     $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutTomorrow();
-    foreach ($residentsMovingOutTomorrow as $resident)
-    {
-        if($options['warn-resident'])
+    if(isset($options['warn-resident'])) {
+        foreach ($residentsMovingOutTomorrow as $resident)
         {
-            $resident->sendLockEmail();
+            $resident->sendLockEmail(date('Y-m-d'));
         }
     }
 
     /* Lock residents who move out today and notify the list */
     $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutToday();
-    foreach ($residentsMovingOutToday as $resident)
+    if(isset($options['lock']))
     {
-        if($options['lock'])
+        foreach($residentsMovingOutToday as $resident)
         {
-            // Delete personal information from the phones properties (not from the settings on the phone)
-            $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
-            $phone->updateForRoom($resident['Rooms']);
-            $phone->save();
-
             $resident->setUnlocked('false');
             $resident->save();
         }
     }
 
+    if(isset($options['reset-phone'])) {
+        // Delete personal information from the phones properties (not from the settings on the phone)
+        $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
+        $phone->updateForRoom($resident['Rooms']);
+        $phone->save();
+
+        // Reset phone and delete the users Information
+        $phone->uploadConfiguration(true);
+    }
+
+
     /* Notify the team */
-    if($options['notify-team'] && count($residentsMovingOutToday) > 0) {
+    if(isset($options['notify-team']) && count($residentsMovingOutToday) > 0) {
         $messageBody = get_partial('global/todaysLockedResidents', array('residentsMovingOut' => $residentsMovingOutToday));
 
         $message = Swift_Message::newInstance()

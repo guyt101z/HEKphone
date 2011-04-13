@@ -1,4 +1,4 @@
-Folgende Bewohner sind heute ausgezogen und wurden gesperrt:
+Folgende Bewohner sind heute ausgezogen:
 <?php
 // table header
 echo str_pad('Zimmernr.',10)
@@ -15,7 +15,8 @@ foreach($residentsMovingOut as $resident) {
 
 ?>
 
-Die Rechnung wird beim nächsten Rechnungserstellen ganz normal vom angegebenen Konto abgebucht.
+Falls sie ein SIP-Telefon hatten wurden sie automatisch gesperrt.
+Die Rechnungen werden beim nächsten Rechnungserstellen ganz normal vom angegebenen Konto abgebucht.
 
 ---
-Das war der Task: 'hekphone:check-residents-moving-out' mit den Optionen --notify-team und --silent. Via cronjob von hekphone@hekphone.
+Das war der Task: 'hekphone:check-residents-moving-out' mit den Optionen --notify-team --lock --reset-phone. Via cronjob von hekphone@hekphone.

@@ -189,7 +189,7 @@ class Residents extends BaseResidents
       $message = Swift_Message::newInstance()
                 ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['email'])
-                ->setSubject('Deine Telefonfreischaltung')
+                ->setSubject('[HEKphone] Deine Telefonfreischaltung')
                 ->setBody($messageBody);
       sfContext::getInstance()->getMailer()->send($message);
     }
@@ -207,7 +207,7 @@ class Residents extends BaseResidents
       $message = Swift_Message::newInstance()
           ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
           ->setTo($this['email'])
-          ->setSubject('Dein Auszug')
+          ->setSubject('[HEKphone] Dein Auszug')
           ->setBody($messageBody);
       sfContext::getInstance()->getMailer()->send($message);
     }
@@ -257,7 +257,7 @@ class Residents extends BaseResidents
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
             ->setTo($this['email'])
-            ->setSubject('HEKphone: Gebührenwarnung!')
+            ->setSubject('[HEKphone] Gebührenwarnung!')
             ->setBody($messageBody);
 
         sfContext::getInstance()->getMailer()->send($message);
@@ -278,7 +278,7 @@ class Residents extends BaseResidents
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
             ->setTo($this['email'])
-            ->setSubject('HEKphone: Gebührenlimit überschritten!')
+            ->setSubject('[HEKphone] Gebührenlimit überschritten!')
             ->setBody($messageBody);
 
         sfContext::getInstance()->getMailer()->send($message);
