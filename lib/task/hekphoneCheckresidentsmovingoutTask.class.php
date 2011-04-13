@@ -56,13 +56,16 @@ EOF;
     }
 
     if(isset($options['reset-phone'])) {
-        // Delete personal information from the phones properties (not from the settings on the phone)
-        $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
-        $phone->updateForRoom($resident['Rooms']);
-        $phone->save();
+        foreach($residentsMovingOutToday as $resident)
+            {
+            // Delete personal information from the phones properties (not from the settings on the phone)
+            $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
+            $phone->updateForRoom($resident['Rooms']);
+            $phone->save();
 
-        // Reset phone and delete the users Information
-        $phone->uploadConfiguration(true);
+            // Reset phone and delete the users Information
+            $phone->uploadConfiguration(true);
+        }
     }
 
 
