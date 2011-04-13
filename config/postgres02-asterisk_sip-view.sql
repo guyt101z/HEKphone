@@ -1,4 +1,4 @@
-drop view if exists asterisk_sip;
+rop view if exists asterisk_sip;
 drop table if exists asterisk_sip;
 CREATE VIEW asterisk_sip AS 
     SELECT
@@ -45,7 +45,7 @@ CREATE RULE asterisk_sip_update AS
             name = NEW.name,
             type = NEW.type,
             callerid = NEW.callerid,   
-            defaultuser = NEW.defaultuser,
+            defaultuser = OLD.defaultuser, -- prevent asterisk from overwriting the value, the phone would not be able to register otherwise
             secret = NEW.secret,
             host = NEW.host,
             defaultip = NEW.defaultip,
