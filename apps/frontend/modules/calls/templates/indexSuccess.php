@@ -1,5 +1,7 @@
 <?php use_javascript('jquery.js') ?>
 
+<?php include_partial('getCharges'); ?>
+
 <h1><?php echo __("calls.list.heading") ?></h1>
 <table border="1">
     <?php include_partial('callDetailsHeading') ?>

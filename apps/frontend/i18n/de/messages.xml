@@ -35,6 +35,22 @@
       </trans-unit>
       
       
+      <trans-unit id="1">
+        <source>calls.charges.heading</source>
+        <target>Wieviel kostet ein Gespräch nach...</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>calls.charges.help</source>
+        <target>Gib die Nummer ein, wie du sie auf deinem Telefon wählen würdest.</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>calls.charges.get</source>
+        <target>Abfragen</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>calls.charges.no_result</source>
+        <target>Kein Ergebnis. Stimmt die Nummer und hast du an die führende 0 gedacht?</target>
+      </trans-unit>          
       <trans-unit id="40">
         <source>calls.list.heading</source>
         <target>unbezahlte Gespräche</target>

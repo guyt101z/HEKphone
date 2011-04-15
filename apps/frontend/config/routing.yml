@@ -11,6 +11,11 @@ homepage:
 calls:
   url: /calls
   param: { module: calls, action: index}
+
+# Get the charges for a call to a specified Destination
+get_charges:
+  url: /calls/charges
+  param: { module: calls, action: getCharges }
  
 # Display the details of a bill within the bills list
 bill_detail:

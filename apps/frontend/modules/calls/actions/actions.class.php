@@ -85,4 +85,56 @@ class callsActions extends sfActions
     $this->redirect('@calls?residentid=' . $this->residentid);
 
   }
+
+  public function executeGetCharges(sfWebRequest $request)
+  {
+    $this->forwardUnless($destination = $request->getParameter('destination'), 'calls', 'index');
+
+    //Prepare CDR as if the user has called the number
+    $cdr = new AsteriskCdr();
+    $cdr->calldate  = date('Y-m-d H:m:s');
+    $cdr->src       = '8695' . $this->getUser()->getAttribute('roomNo');
+    $cdr->dst       = $destination;
+    $unlockedContexts = sfConfig::get('asteriskUnlockedPhonesContexts');
+    $cdr->dcontext  = $unlockedContexts[0];
+    $cdr->channel   = 'SIP';
+
+    if(substr($destination,0,1) == '0') {
+        $cdr->userfield = 'Versatel';
+    } elseif(substr($destination,0,2) == '60') {
+        $cdr->userfield = 'pbxnetwork';
+    } elseif(substr($destination,0,1) == '*') {
+        $cdr->userfield = 'free';
+    } elseif(substr($destination,0,1) == '1') {
+        $cdr->userfield = 'free';
+    } elseif(substr($destination,0,1) == '3') {
+        $cdr->userfield = 'free';
+    } elseif(substr($destination,0,1) == '5') {
+        $cdr->userfield = 'free';
+    } elseif(substr($destination,0,1) == '7') {
+        $cdr->userfield = 'free';
+    }
+
+
+
+    // Get the Rate of the call
+    try {
+      $rate = $cdr->getRate();
+    } catch (Exception $e)
+    {
+      $rate = false;
+    }
+
+    if ($request->isXmlHttpRequest())
+    {
+      if ('*' == $destination || ! $rate)
+      {
+        return $this->renderText('calls.charges.no_result');
+      }
+
+      return $this->renderText(round($rate->getCharge(60),2) . 'ct/min');
+    }
+
+    $this->redirect('calls/index?destination=' . $destination .'&charges=' . round($rate->getCharge(60),2) . 'ct/min');
+  }
 }

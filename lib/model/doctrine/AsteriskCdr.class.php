@@ -14,6 +14,7 @@
 class AsteriskCdr extends BaseAsteriskCdr
 {
     private $resident = NULL; // holds the resident associated with the call use getResident()
+    private $rate     = NULL;
 
 
     /*
@@ -220,25 +221,27 @@ class AsteriskCdr extends BaseAsteriskCdr
         $call->duration     = $this->billsec;
         $call->destination  = $destinationToSave;
         $call->asterisk_uniqueid = $this->uniqueid;
-
-        /* Calculate the cost of the outgoing call */
-        if($this->isFreeCall()) {
-            $call->charges = 0;
-            $call->rate    = 9999;
-        } else {
-            // Get the provider
-            $provider = $this->userfield;
-
-            $ratesTable = Doctrine_Core::getTable('Rates');
-            $collRate = $ratesTable->findByNumberAndProvider(substr($destinationToBill,2), $provider, $this->calldate);
-
-            $call->charges     = $collRate->getCharge($this->billsec);
-            $call->rate        = $collRate->id;
-        }
+        $call->rate   = $this->getRate()->getId();
+        $call->charge = $this->getRate()->getCharge($this->billsec);
 
         $call->save();
 
         return $call;
+    }
+
+    public function getRate()
+    {
+        if( ! ($this->rate instanceof Rates)) {
+            $ratesTable = Doctrine_Core::getTable('Rates');
+            if($this->isFreeCall()) {
+                $this->rate = $ratesTable->find('9999');
+            } else {
+                $provider = $this->userfield;
+                $this->rate = $ratesTable->findByNumberAndProvider(substr($this->getFormattedDestination(),2), $provider, $this->calldate);
+            }
+        }
+
+        return $this->rate;
     }
 
     /*
