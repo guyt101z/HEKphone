@@ -7,14 +7,14 @@
     <?php include_partial('callDetailsHeading') ?>
     <?php $sum = 0;?>
     <?php foreach($callsCollection as $call): ?>
-      <?php include_partial('callDetailsRow', array('call' => $call)); ?>
+      <?php include_partial('callDetailsRow', array('call' => $call)) ?>
       <?php $sum += $call->charges; ?>
     <?php endforeach;?>
-    <tr calls="sum">
+    <tr class="sum">
       <td></td>
       <td></td>
       <td></td>
-      <td><?php echo __('call.list.sum') ?></td>
+      <td><?php echo __('calls.list.sum') ?></td>
       <td><?php echo $sum ?></td>
     </tr>
 </table>
