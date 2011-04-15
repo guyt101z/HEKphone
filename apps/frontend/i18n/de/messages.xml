@@ -75,6 +75,10 @@
         <source>calls.list.charge</source>
         <target>Kosten [ct]</target>
       </trans-unit>
+      <trans-unit id="42">
+        <source>calls.list.sum</source>
+        <target>Summe</target>
+      </trans-unit>
       <trans-unit id="45">
         <source>calls.list.bills.heading</source>
         <target>letzte Rechnungen</target>

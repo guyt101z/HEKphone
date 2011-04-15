@@ -5,9 +5,18 @@
 <h1><?php echo __("calls.list.heading") ?></h1>
 <table border="1">
     <?php include_partial('callDetailsHeading') ?>
+    <?php $sum = 0;?>
     <?php foreach($callsCollection as $call): ?>
-      <?php include_partial('callDetailsRow', array('call' => $call)) ?>
+      <?php include_partial('callDetailsRow', array('call' => $call)); ?>
+      <?php $sum += $call->charges; ?>
     <?php endforeach;?>
+    <tr calls="sum">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><?php echo __('call.list.sum') ?></td>
+      <td><?php echo $sum ?></td>
+    </tr>
 </table>
 
 <h1><?php echo __("calls.list.bills.heading") ?></h1>

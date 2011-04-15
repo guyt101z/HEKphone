@@ -731,9 +731,8 @@ AsteriskCdr:
     disposition: ANSWERED
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266681862.1216'
+    uniqueid: '1266688418.1305'
     userfield: 'Telekom'
-    billed: false
   AsteriskCdr_2: # free call via *721
     calldate: '2010-02-20 18:30:00'
     clid: '004972186951405'
@@ -749,9 +748,8 @@ AsteriskCdr:
     disposition: ANSWERED
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266686881.1279'
+    uniqueid: '1266695033.1368'
     userfield: 'free'
-    billed: false
   AsteriskCdr_3: #Venezuela-Caracass-Call using provider 1
     calldate: '2010-02-20 19:12:00'
     clid: '004972186951403'
@@ -767,9 +765,8 @@ AsteriskCdr:
     disposition: ANSWERED
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266691924.1340'
+    uniqueid: '1266695033.1260'
     userfield: 'Telekom'
-    billed: true
   AsteriskCdr_4: #Venezuela-Caracass-Call using provider_2
     calldate: '2010-02-20 18:50:00'
     clid: '004972186951405'
@@ -785,10 +782,9 @@ AsteriskCdr:
     disposition: 'ANSWERED'
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266688418.1303'
+    uniqueid: '1266691924.1340'
     userfield: 'pbxnetwork'
-    billed: true
-  AsteriskCdr_5: #not answered!
+  AsteriskCdr_5: #not answered
     calldate: '2010-02-20 20:42:00'
     clid: '004972186951406'
     src: '004972186951406'
@@ -803,9 +799,8 @@ AsteriskCdr:
     disposition: 'NO ANSWER'
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266695033.1368'
+    uniqueid: '1266691924.1111'
     userfield: 'Telekom'
-    billed: false
   AsteriskCdr_6: #Incoming call
     calldate: '2010-02-20 18:50:00'
     clid: '004972186951405'
@@ -821,10 +816,93 @@ AsteriskCdr:
     disposition: 'ANSWERED'
     amaflags: 3
     accountcode: ''
-    uniqueid: '1266688418.1305'
+    uniqueid: '1266691924.1112'
     userfield: ''
-    billed: false 
- 
+  AsteriskCdr_7: #Incoming call
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '005821293402938'
+    dst: '004972186951405'
+    dcontext: amt
+    channel: DAHDI/63-1
+    dstchannel: DAHDI/20-1
+    lastapp: Dial
+    lastdata: DAHDI/g1/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1113'
+    userfield: ''
+  AsteriskCdr_8: #Incoming call
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '005821293402938'
+    dst: '004972186951405'
+    dcontext: amt
+    channel: DAHDI/63-1
+    dstchannel: DAHDI/20-1
+    lastapp: Dial
+    lastdata: DAHDI/g1/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1114'
+    userfield: ''
+  AsteriskCdr_9: #Incoming call
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '005821293402938'
+    dst: '004972186951405'
+    dcontext: amt
+    channel: DAHDI/63-1
+    dstchannel: DAHDI/20-1
+    lastapp: Dial
+    lastdata: DAHDI/g1/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1115'
+    userfield: ''
+  AsteriskCdr_3: #Venezuela-Caracass-Call using provider 1
+    calldate: '2010-02-20 19:12:00'
+    clid: '004972186951403'
+    src: '004972186951403'
+    dst: '005821293402938'
+    dcontext: anlage
+    channel: DAHDI/29-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/234234
+    duration: 606
+    billsec: 600
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1116'
+    userfield: 'Telekom'
+  AsteriskCdr_4: #Venezuela-Caracass-Call using provider_2
+    calldate: '2010-02-20 18:50:00'
+    clid: '004972186951405'
+    src: '004972186951405'
+    dst: '005821293402938'
+    dcontext: anlage
+    channel: DAHDI/20-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g3/234234
+    duration: 2015
+    billsec: 2000
+    disposition: 'ANSWERED'
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266691924.1117'
+    userfield: 'pbxnetwork'
  
  
 #done
@@ -837,6 +915,7 @@ Calls:
     duration: 39
     destination: '0049511622222'
     charges: '3.20'
+    asterisk_uniqueid: '1266688418.1305'
     rate: 1
     bill: null
   Calls_2:
@@ -846,6 +925,7 @@ Calls:
     duration: 39
     destination: '0049511644444'
     charges: '3.00'
+    asterisk_uniqueid: '1266695033.1368'
     rate: 1
     bill: null
   Calls_3:
@@ -855,6 +935,7 @@ Calls:
     duration: 39
     destination: '0049721863333'
     charges: '0.01'
+    asterisk_uniqueid: '1266695033.1260'
     rate: 2
     bill: null
   Calls_4:
@@ -864,6 +945,7 @@ Calls:
     duration: 39
     destination: '004972132323232'
     charges: '0.01'
+    asterisk_uniqueid: '1266691924.1340'
     rate: 2
     bill: null
   Calls_5:
@@ -873,6 +955,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '1.95'
+    asterisk_uniqueid: '1266691924.1112'
     rate: 3
     bill: null
   Calls_6:
@@ -882,6 +965,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '1.83'
+    asterisk_uniqueid: '1266691924.1111'
     rate: 3
     bill: null
   Calls_7:
@@ -891,6 +975,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '1.83'
+    asterisk_uniqueid: '1266691924.1113'
     rate: 4
     bill: null
   Calls_8:
@@ -900,6 +985,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '10.00'
+    asterisk_uniqueid: '1266691924.1114'
     rate: 4
     bill: 4  
   Calls_8:
@@ -909,6 +995,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '19.00'
+    asterisk_uniqueid: '1266691924.1115'
     rate: 4
     Bills: Bills_4
   Calls_9:
@@ -918,6 +1005,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '18.00'
+    asterisk_uniqueid: '1266691924.1116'
     rate: 4
     bill: null 
   Calls_10:
@@ -927,6 +1015,7 @@ Calls:
     duration: 39
     destination: '004940222422'
     charges: '0.0'
+    asterisk_uniqueid: '1266691924.1117'
     rate: 5
     bill: null 
   
