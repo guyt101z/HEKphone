@@ -117,7 +117,7 @@ class callsActions extends sfActions
 
 
 
-    // Get the Rate of the call
+    // get the Rate of the call catch every exception
     try {
       $rate = $cdr->getRate();
     } catch (Exception $e)
@@ -127,14 +127,20 @@ class callsActions extends sfActions
 
     if ($request->isXmlHttpRequest())
     {
-      if ('*' == $destination || ! $rate)
+      if ( ! $rate)
       {
-        return $this->renderText('calls.charges.no_result');
+        return sfContext::getInstance()->getI18n()->__('calls.charges.no_result');
       }
 
       return $this->renderText(round($rate->getCharge(60),2) . 'ct/min');
     }
 
-    $this->redirect('calls/index?destination=' . $destination .'&charges=' . round($rate->getCharge(60),2) . 'ct/min');
+    // For non-JS-users
+    if($rate) {
+      $chargeString = '&charges=' . round($rate->getCharge(60),2) . 'ct/min';
+    } else {
+      $chargeString = '&charges=' . sfContext::getInstance()->getI18n()->__('   calls.charges.no_result');
+    }
+    $this->redirect('calls/index?destination=' . $destination . $chargeString);
   }
 }
