@@ -87,7 +87,7 @@ class settingsActions extends sfActions
 
       $this->resident->setVoicemailSettings($form->getValue('vm_active'),
                                         $form->getValue('vm_seconds'),
-                                        $form->getValue('sendEmailOnNewMessage'),
+                                        $form->getValue('vm_sendEmailOnNewMessage'),
                                         $form->getValue('vm_attachMessage'),
                                         $form->getValue('vm_sendEmailOnMissedCall'));
 
@@ -98,7 +98,7 @@ class settingsActions extends sfActions
       $this->resident->updateExtensions();
       $this->resident->save();
 
-      $this->getUser()->setFlash('notice', 'resident.settings.successfull');
+      $this->getUser()->setFlash('notice', 'resident.settings.successful');
       $this->redirect('settings/index?residentid=' . $this->resident->getId());
     }
   }
