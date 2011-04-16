@@ -76,7 +76,7 @@ class AsteriskCdr extends BaseAsteriskCdr
      * @return bool
      */
     private function isFreeCall() {
-        if($this->userfield == 'free' || $this->dst[0] == '*') {
+        if($this->userfield == 'free' || substr($this->dst, 0, 1) == '*') {
             return true;
         } else {
             return false;
@@ -126,7 +126,7 @@ class AsteriskCdr extends BaseAsteriskCdr
 
     private function getFormattedDestinationOfCallFromSipPhone()
     {
-        if($this->dst[0] == '0')
+        if(substr($this->dst, 0, 1) == '0')
         {
             // calls from sip phones have an additional 0 preceeding the number
             // if they have been routed through the normal PSTN

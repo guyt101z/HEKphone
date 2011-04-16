@@ -86,9 +86,21 @@ class callsActions extends sfActions
 
   }
 
+  /**
+  * Gets the charge for a destination number as request parameter.
+  *
+  * For XmlHttpRequests: returns just the string needed
+  * For conventional GET requests: forwards to calls with the string as parameter
+  *
+  * @param sfRequest $request A request object
+  */
   public function executeGetCharges(sfWebRequest $request)
   {
-    $this->forwardUnless($destination = $request->getParameter('destination'), 'calls', 'index');
+    $destination = $request->getParameter('destination');
+
+    if(strlen($destination) <= 3) {
+      return sfView::NONE;
+    }
 
     //Prepare CDR as if the user has called the number
     $cdr = new AsteriskCdr();
@@ -115,9 +127,7 @@ class callsActions extends sfActions
         $cdr->userfield = 'free';
     }
 
-
-
-    // get the Rate of the call catch every exception
+    // get the rate of the call catch every exception
     try {
       $rate = $cdr->getRate();
     } catch (Exception $e)
@@ -125,22 +135,24 @@ class callsActions extends sfActions
       $rate = false;
     }
 
+    // return it in an apropriate way
     if ($request->isXmlHttpRequest())
     {
+      // for JS users: return the string only
       if ( ! $rate)
       {
         return sfContext::getInstance()->getI18n()->__('calls.charges.no_result');
       }
 
       return $this->renderText(round($rate->getCharge(60),2) . 'ct/min');
-    }
-
-    // For non-JS-users
-    if($rate) {
-      $chargeString = '&charges=' . round($rate->getCharge(60),2) . 'ct/min';
     } else {
-      $chargeString = '&charges=' . sfContext::getInstance()->getI18n()->__('   calls.charges.no_result');
+      // for non-JS-users: redirect to the index page with the results as get parameter
+      if($rate) {
+        $chargeString = '&charges=' . round($rate->getCharge(60),2) . 'ct/min';
+      } else {
+        $chargeString = '&charges=' . sfContext::getInstance()->getI18n()->__('   calls.charges.no_result');
+      }
+      $this->redirect('calls/index?destination=' . $destination . $chargeString);
     }
-    $this->redirect('calls/index?destination=' . $destination . $chargeString);
   }
 }
