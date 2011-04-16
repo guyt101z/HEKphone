@@ -58,7 +58,7 @@ class authActions extends sfActions
             $this->getUser()->addCredential('hekphone');
           }
 
-          $this->getUser()->setFlash('notice', 'auth.login.successfull');
+          $this->getUser()->setFlash('notice', 'auth.login.successful');
           $this->redirect('calls/index');
         }
         else
@@ -73,7 +73,7 @@ class authActions extends sfActions
   public function executeLogout(sfWebRequest $request)
   {
     $this->getUser()->setAuthenticated(false);
-    $this->getUser()->setFlash('notice', 'auth.logout.successfull');
+    $this->getUser()->setFlash('notice', 'auth.logout.successful');
     $this->redirect('auth/index');
   }
 }

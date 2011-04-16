@@ -170,12 +170,16 @@
         <target>Anmelden fehlgeschlagen. Überprüfe bitte Zimmernummer und Passwort.</target>
       </trans-unit>
       <trans-unit id="55">
-        <source>auth.login.successfull</source>
+        <source>auth.login.successful</source>
         <target>Erfolgreich angemeldet.</target>
       </trans-unit>
       <trans-unit id="56">
-        <source>auth.logout.successfull</source>
+        <source>auth.logout.successful</source>
         <target>Du hast die erfolgreich abgemeldet.</target>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>auth.alreadyLoggedIn</source>
+        <target>Du warst schon angemeldet.</target>
       </trans-unit>
       <trans-unit id="57">
         <source>resident.move_in</source>
