@@ -130,6 +130,7 @@ class callsActions extends sfActions
     // get the rate of the call catch every exception
     try {
       $rate = $cdr->getRate();
+      unset($cdr);
     } catch (Exception $e)
     {
       $rate = false;
@@ -139,18 +140,18 @@ class callsActions extends sfActions
     if ($request->isXmlHttpRequest())
     {
       // for JS users: return the string only
-      if ( ! $rate)
+      if ( ! ($rate instanceof Rates))
       {
-        return sfContext::getInstance()->getI18n()->__('calls.charges.no_result');
+        return $this->renderText(sfContext::getInstance()->getI18n()->__('calls.charges.no_result'));
+      } else {
+        return $this->renderText(round($rate->getCharge(60),2) . 'ct/min');
       }
-
-      return $this->renderText(round($rate->getCharge(60),2) . 'ct/min');
     } else {
       // for non-JS-users: redirect to the index page with the results as get parameter
-      if($rate) {
+      if($rate instanceof Rates) {
         $chargeString = '&charges=' . round($rate->getCharge(60),2) . 'ct/min';
       } else {
-        $chargeString = '&charges=' . sfContext::getInstance()->getI18n()->__('   calls.charges.no_result');
+        $chargeString = '&charges=' . sfContext::getInstance()->getI18n()->__('calls.charges.no_result');
       }
       $this->redirect('calls/index?destination=' . $destination . $chargeString);
     }
