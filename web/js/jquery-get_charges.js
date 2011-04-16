@@ -16,7 +16,7 @@ $(document).ready(function()
   
   function fetchCharges()
   {
-	if ($('#destination').val().length >= 3 || $('#destination').val() != '')
+	if ($('#destination').val().length >= 3 || $('#destination').val() == '')
 	{
 	  $('#loader').show();
 	  $('#charges').load(
