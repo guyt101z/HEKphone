@@ -162,7 +162,7 @@ class Phones extends BasePhones
       // Calls to the phone from other sip phones
       $arrayExtensions[5] = array(
            'exten'        => $extension,
-           'priority'     => 2,
+           'priority'     => 1,
            'context'      => $context,
            'app'          => 'GoTo',
            'appdata'      => $context . sfConfig::get('asteriskParameterSeparator')
