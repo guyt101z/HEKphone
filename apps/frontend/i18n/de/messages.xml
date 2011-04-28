@@ -175,7 +175,7 @@
       </trans-unit>
       <trans-unit id="56">
         <source>auth.logout.successful</source>
-        <target>Du hast die erfolgreich abgemeldet.</target>
+        <target>Du hast dich erfolgreich abgemeldet.</target>
       </trans-unit>
       <trans-unit id="55">
         <source>auth.alreadyLoggedIn</source>
