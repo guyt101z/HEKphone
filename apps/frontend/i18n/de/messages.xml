@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.vm_sendEmailOnMissedCall</source>
-        <target>Benachrichtigungsemail senden, auch wenn der AB nicht ranging</target>
+        <target>Benachrichtigungsemail senden, auch wenn der AB nicht dran ging</target>
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.vm_help</source>
