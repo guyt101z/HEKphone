@@ -14,6 +14,7 @@ class groupcallsActions extends sfActions
   {
     $this->Groupcalls = Doctrine_Core::getTable('Groupcalls')
       ->createQuery('a')
+      ->orderBy('extension asc')
       ->execute();
   }
 

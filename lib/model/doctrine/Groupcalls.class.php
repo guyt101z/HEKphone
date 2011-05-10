@@ -13,6 +13,23 @@
 class Groupcalls extends BaseGroupcalls
 {
   /**
+   * Returns a comma seperated list of the groupcall members
+   *
+   * @return string
+   */
+  public function getMemberList()
+  {
+    $memberList = '';
+    foreach($this->Residents as $resident) {
+      $memberList .= (string)$resident->get('Rooms') . ', ';
+      //$memberList .= (string)$resident . ', ';
+    }
+    $memberList = substr($memberList, 0,-2);
+
+    return $memberList;
+  }
+
+  /**
    * Returns an array of groupcalls extensions for the asterisk dialplan. Intended for use with
    * AsteriskExtensions->fromArray()
    * Differentiates between parallel (all phones ring at the same time) and serial (phones ring
@@ -22,10 +39,10 @@ class Groupcalls extends BaseGroupcalls
    */
   public function getExtensionsAsArray() {
     if($this->mode == 'serial') {
-        return $this->getSerialExtensionsAsArray();
+      return $this->getSerialExtensionsAsArray();
     }
     else {
-        return $this->getParallelExtensionsAsArray();
+      return $this->getParallelExtensionsAsArray();
     }
   }
 
