@@ -30,7 +30,7 @@ abstract class BaseAsteriskCdrForm extends BaseFormDoctrine
       'disposition' => new sfWidgetFormTextarea(),
       'amaflags'    => new sfWidgetFormInputText(),
       'accountcode' => new sfWidgetFormTextarea(),
-      'uniqueid'    => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'), 'add_empty' => false)),
+      'uniqueid'    => new sfWidgetFormTextarea(),
       'userfield'   => new sfWidgetFormTextarea(),
     ));
 
@@ -50,7 +50,7 @@ abstract class BaseAsteriskCdrForm extends BaseFormDoctrine
       'disposition' => new sfValidatorString(),
       'amaflags'    => new sfValidatorInteger(array('required' => false)),
       'accountcode' => new sfValidatorString(),
-      'uniqueid'    => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Calls'))),
+      'uniqueid'    => new sfValidatorString(),
       'userfield'   => new sfValidatorString(),
     ));
 

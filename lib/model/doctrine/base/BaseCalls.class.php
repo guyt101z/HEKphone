@@ -19,37 +19,34 @@ Doctrine_Manager::getInstance()->bindComponent('Calls', 'hekphone');
  * @property integer $bill
  * @property Residents $Residents
  * @property Rates $Rates
- * @property AsteriskCdr $AsteriskCdr
  * @property Bills $Bills
  * 
- * @method integer     getId()                Returns the current record's "id" value
- * @method integer     getResident()          Returns the current record's "resident" value
- * @method string      getExtension()         Returns the current record's "extension" value
- * @method timestamp   getDate()              Returns the current record's "date" value
- * @method string      getDuration()          Returns the current record's "duration" value
- * @method string      getDestination()       Returns the current record's "destination" value
- * @method string      getAsteriskUniqueid()  Returns the current record's "asterisk_uniqueid" value
- * @method decimal     getCharges()           Returns the current record's "charges" value
- * @method integer     getRate()              Returns the current record's "rate" value
- * @method integer     getBill()              Returns the current record's "bill" value
- * @method Residents   getResidents()         Returns the current record's "Residents" value
- * @method Rates       getRates()             Returns the current record's "Rates" value
- * @method AsteriskCdr getAsteriskCdr()       Returns the current record's "AsteriskCdr" value
- * @method Bills       getBills()             Returns the current record's "Bills" value
- * @method Calls       setId()                Sets the current record's "id" value
- * @method Calls       setResident()          Sets the current record's "resident" value
- * @method Calls       setExtension()         Sets the current record's "extension" value
- * @method Calls       setDate()              Sets the current record's "date" value
- * @method Calls       setDuration()          Sets the current record's "duration" value
- * @method Calls       setDestination()       Sets the current record's "destination" value
- * @method Calls       setAsteriskUniqueid()  Sets the current record's "asterisk_uniqueid" value
- * @method Calls       setCharges()           Sets the current record's "charges" value
- * @method Calls       setRate()              Sets the current record's "rate" value
- * @method Calls       setBill()              Sets the current record's "bill" value
- * @method Calls       setResidents()         Sets the current record's "Residents" value
- * @method Calls       setRates()             Sets the current record's "Rates" value
- * @method Calls       setAsteriskCdr()       Sets the current record's "AsteriskCdr" value
- * @method Calls       setBills()             Sets the current record's "Bills" value
+ * @method integer   getId()                Returns the current record's "id" value
+ * @method integer   getResident()          Returns the current record's "resident" value
+ * @method string    getExtension()         Returns the current record's "extension" value
+ * @method timestamp getDate()              Returns the current record's "date" value
+ * @method string    getDuration()          Returns the current record's "duration" value
+ * @method string    getDestination()       Returns the current record's "destination" value
+ * @method string    getAsteriskUniqueid()  Returns the current record's "asterisk_uniqueid" value
+ * @method decimal   getCharges()           Returns the current record's "charges" value
+ * @method integer   getRate()              Returns the current record's "rate" value
+ * @method integer   getBill()              Returns the current record's "bill" value
+ * @method Residents getResidents()         Returns the current record's "Residents" value
+ * @method Rates     getRates()             Returns the current record's "Rates" value
+ * @method Bills     getBills()             Returns the current record's "Bills" value
+ * @method Calls     setId()                Sets the current record's "id" value
+ * @method Calls     setResident()          Sets the current record's "resident" value
+ * @method Calls     setExtension()         Sets the current record's "extension" value
+ * @method Calls     setDate()              Sets the current record's "date" value
+ * @method Calls     setDuration()          Sets the current record's "duration" value
+ * @method Calls     setDestination()       Sets the current record's "destination" value
+ * @method Calls     setAsteriskUniqueid()  Sets the current record's "asterisk_uniqueid" value
+ * @method Calls     setCharges()           Sets the current record's "charges" value
+ * @method Calls     setRate()              Sets the current record's "rate" value
+ * @method Calls     setBill()              Sets the current record's "bill" value
+ * @method Calls     setResidents()         Sets the current record's "Residents" value
+ * @method Calls     setRates()             Sets the current record's "Rates" value
+ * @method Calls     setBills()             Sets the current record's "Bills" value
  * 
  * @package    hekphone
  * @subpackage model
@@ -123,10 +120,6 @@ abstract class BaseCalls extends sfDoctrineRecord
         $this->hasOne('Rates', array(
              'local' => 'rate',
              'foreign' => 'id'));
-
-        $this->hasOne('AsteriskCdr', array(
-             'local' => 'asterisk_uniqueid',
-             'foreign' => 'uniqueid'));
 
         $this->hasOne('Bills', array(
              'local' => 'bill',
