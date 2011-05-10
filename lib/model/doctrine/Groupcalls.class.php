@@ -15,10 +15,28 @@ class Groupcalls extends BaseGroupcalls
   /**
    * Returns an array of groupcalls extensions for the asterisk dialplan. Intended for use with
    * AsteriskExtensions->fromArray()
+   * Differentiates between parallel (all phones ring at the same time) and serial (phones ring
+   * after each other) groupcalls
    *
    * @return array $arayExtensions
    */
   public function getExtensionsAsArray() {
+    if($this->mode == 'serial') {
+        return $this->getSerialExtensionsAsArray();
+    }
+    else {
+        return $this->getParallelExtensionsAsArray();
+    }
+  }
+
+  /**
+   * Returns an array of groupcalls extensions for the asterisk dialplan. All
+   * phones will ring at the same time with this extensions.
+   * Intended for use with AsteriskExtensions->fromArray()
+   *
+   * @return array $arayExtensions
+   */
+  public function getParallelExtensionsAsArray() {
     $context = 'groupcalls';
 
     /* We're creating an extension that will dial to the phones of all Residents in the Groupcall
@@ -36,7 +54,6 @@ class Groupcalls extends BaseGroupcalls
 
         // Append to the dialstring
         $dialstring .= $Resident->Rooms->Phones->get('technology') . '/' . $prefix . $Resident->Rooms . '&';
-        ;
     }
 
     // Return an empty array, if there are no residents in the groupcall.
@@ -68,6 +85,63 @@ class Groupcalls extends BaseGroupcalls
          'app'          => 'Dial',
          'appdata'      => $dialstring
     );
+    $arrayExtensions[] = array(
+         'exten'        => $this->extension,
+         'priority'     => $n++,
+         'context'      => $context,
+         'app'          => 'Hangup',
+    );
+
+    return $arrayExtensions;
+  }
+
+  /**
+   * Returns an array of groupcalls extensions for the asterisk dialplan. The
+   * phones will ring one at the time, each for 10 seconds, in the order they
+   * are listed.
+   * Intended for use with AsteriskExtensions->fromArray()
+   *
+   * @return array $arayExtensions
+   */
+  public function getSerialExtensionsAsArray() {
+    $context = 'groupcalls';
+
+    /* Create the extensions Array.
+     * Mark the call as internal.
+     * Dial each phone for 10 seconds
+     * Hangup if something goes wrong
+     */
+    $n = 1;
+    $arrayExtensions[] = array(
+         'exten'        => $this->extension,
+         'priority'     => $n++,
+         'context'      => $context,
+         'app'          => 'Set',
+         'appdata'      => 'CDR(userfield)=internal'
+    );
+
+    foreach($this->Residents as $Resident) {
+        // Analog phones and sip phones have a slightly different dialstring.
+        if($Resident->Rooms->Phones->get('technology') == 'DAHDI/g1')
+        {
+            $prefix = '86951';
+        } else {
+            $prefix = '1';
+        }
+
+        $dialstring = $Resident->Rooms->Phones->get('technology')
+                    . '/' . $prefix . $Resident->Rooms;
+        $dialstring .= sfConfig::get('asteriskParameterSeparator') . '10'; //second parameter: timeout
+
+        $arrayExtensions[] = array(
+         'exten'        => $this->extension,
+         'priority'     => $n++,
+         'context'      => $context,
+         'app'          => 'Dial',
+         'appdata'      => $dialstring
+        );
+    }
+
     $arrayExtensions[] = array(
          'exten'        => $this->extension,
          'priority'     => $n++,

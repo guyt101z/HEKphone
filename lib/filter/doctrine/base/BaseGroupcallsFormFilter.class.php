@@ -15,12 +15,14 @@ abstract class BaseGroupcallsFormFilter extends BaseFormFilterDoctrine
     $this->setWidgets(array(
       'extension'      => new sfWidgetFormFilterInput(),
       'name'           => new sfWidgetFormFilterInput(),
+      'mode'           => new sfWidgetFormChoice(array('choices' => array('' => '', 'parallel' => 'parallel', 'serial' => 'serial'))),
       'residents_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Residents')),
     ));
 
     $this->setValidators(array(
       'extension'      => new sfValidatorPass(array('required' => false)),
       'name'           => new sfValidatorPass(array('required' => false)),
+      'mode'           => new sfValidatorChoice(array('required' => false, 'choices' => array('parallel' => 'parallel', 'serial' => 'serial'))),
       'residents_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Residents', 'required' => false)),
     ));
 
@@ -62,6 +64,7 @@ abstract class BaseGroupcallsFormFilter extends BaseFormFilterDoctrine
       'id'             => 'Number',
       'extension'      => 'Text',
       'name'           => 'Text',
+      'mode'           => 'Enum',
       'residents_list' => 'ManyKey',
     );
   }

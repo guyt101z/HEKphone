@@ -773,6 +773,10 @@ Groupcalls:
       unique: true
     name: 
       type: string(30)
+    mode:
+      type: enum
+      values: ['parallel', 'serial'];
+      default: 'parallel'
   relations:
     Residents:
       class: Residents

@@ -10,15 +10,18 @@ Doctrine_Manager::getInstance()->bindComponent('Groupcalls', 'hekphone');
  * @property integer $id
  * @property string $extension
  * @property string $name
+ * @property enum $mode
  * @property Doctrine_Collection $Residents
  * 
  * @method integer             getId()        Returns the current record's "id" value
  * @method string              getExtension() Returns the current record's "extension" value
  * @method string              getName()      Returns the current record's "name" value
+ * @method enum                getMode()      Returns the current record's "mode" value
  * @method Doctrine_Collection getResidents() Returns the current record's "Residents" collection
  * @method Groupcalls          setId()        Sets the current record's "id" value
  * @method Groupcalls          setExtension() Sets the current record's "extension" value
  * @method Groupcalls          setName()      Sets the current record's "name" value
+ * @method Groupcalls          setMode()      Sets the current record's "mode" value
  * @method Groupcalls          setResidents() Sets the current record's "Residents" collection
  * 
  * @package    hekphone
@@ -45,6 +48,15 @@ abstract class BaseGroupcalls extends sfDoctrineRecord
         $this->hasColumn('name', 'string', 30, array(
              'type' => 'string',
              'length' => 30,
+             ));
+        $this->hasColumn('mode', 'enum', null, array(
+             'type' => 'enum',
+             'values' => 
+             array(
+              0 => 'parallel',
+              1 => 'serial',
+             ),
+             'default' => 'parallel',
              ));
     }
 

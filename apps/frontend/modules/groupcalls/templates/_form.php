@@ -21,21 +21,28 @@
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo $form['extension']->renderLabel() ?></th>
+        <th><?php echo __('groupcalls.extension') ?></th>
         <td>
           <?php echo $form['extension']->renderError() ?>
           <?php echo $form['extension'] ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['name']->renderLabel() ?></th>
+        <th><?php echo __('groupcalls.name') ?></th>
         <td>
           <?php echo $form['name']->renderError() ?>
           <?php echo $form['name'] ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['residents_list']->renderLabel() ?></th>
+        <th><?php echo __('groupcalls.mode') ?></th>
+        <td>
+          <?php echo $form['mode']->renderError() ?>
+          <?php echo $form['mode'] ?>
+        </td>
+      </tr>
+      <tr>
+        <th><?php echo __('groupcalls.residents') ?></th>
         <td>
           <?php echo $form['residents_list']->renderError() ?>
           <?php echo $form['residents_list'] ?>

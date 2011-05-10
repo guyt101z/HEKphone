@@ -6,7 +6,7 @@ CREATE TABLE banks (bank_number VARCHAR(8) UNIQUE, name VARCHAR(80) NOT NULL, zi
 CREATE TABLE bills (id BIGSERIAL, resident BIGINT NOT NULL, date DATE NOT NULL, billingperiod_start DATE NOT NULL, billingperiod_end DATE NOT NULL, amount NUMERIC(18,2) NOT NULL, debit_failed BOOLEAN DEFAULT 'false' NOT NULL, PRIMARY KEY(id));
 CREATE TABLE calls (id BIGSERIAL, resident BIGINT NOT NULL, extension VARCHAR(10) NOT NULL, date TIMESTAMP DEFAULT 'now()', duration VARCHAR(6) NOT NULL, destination VARCHAR(50) NOT NULL, asterisk_uniqueid VARCHAR(30) NOT NULL UNIQUE, charges NUMERIC(18,2) NOT NULL, rate BIGINT NOT NULL, bill BIGINT, PRIMARY KEY(id));
 CREATE TABLE comments (id BIGSERIAL, resident BIGINT NOT NULL, stamp TIMESTAMP DEFAULT 'now()' NOT NULL, comment VARCHAR(1000) NOT NULL, PRIMARY KEY(id));
-CREATE TABLE groupcalls (id SERIAL, extension VARCHAR(4) UNIQUE, name VARCHAR(30), PRIMARY KEY(id));
+CREATE TABLE groupcalls (id SERIAL, extension VARCHAR(4) UNIQUE, name VARCHAR(30), mode VARCHAR(255) DEFAULT 'parallel', PRIMARY KEY(id));
 CREATE TABLE phones (id BIGSERIAL, technology VARCHAR(20) DEFAULT 'SIP' NOT NULL, name VARCHAR(80) DEFAULT '' NOT NULL, type VARCHAR(6) DEFAULT 'friend' NOT NULL, callerid VARCHAR(80), defaultuser VARCHAR(80) DEFAULT '' NOT NULL, host VARCHAR(31) DEFAULT 'dynamic' NOT NULL, defaultip VARCHAR(15), mac VARCHAR(20) DEFAULT NULL, language VARCHAR(2) DEFAULT 'de', mailbox VARCHAR(50), regserver VARCHAR(20), regseconds VARCHAR(20), ipaddr VARCHAR(15) DEFAULT '' NOT NULL, port VARCHAR(5) DEFAULT '' NOT NULL, fullcontact VARCHAR(80) DEFAULT '' NOT NULL, useragent VARCHAR(20) DEFAULT NULL, lastms VARCHAR(11) DEFAULT NULL, PRIMARY KEY(id));
 CREATE TABLE prefixes (id BIGSERIAL, prefix VARCHAR(20) NOT NULL, name VARCHAR(80) NOT NULL, region BIGINT NOT NULL, PRIMARY KEY(id));
 CREATE TABLE providers (id SMALLINT, name VARCHAR(20) NOT NULL, PRIMARY KEY(id));
@@ -17,12 +17,10 @@ CREATE TABLE residents (id BIGINT, last_name VARCHAR(50) NOT NULL, first_name VA
 CREATE TABLE residents_groupcalls (resident_id BIGINT, groupcall_id BIGINT, PRIMARY KEY(resident_id, groupcall_id));
 CREATE TABLE rooms (id INT, room_no INT, comment TEXT, phone INT, PRIMARY KEY(id));
 CREATE SEQUENCE rooms_id_seq INCREMENT 1 START 1;
-CREATE INDEX uniqueid ON asterisk_cdr (uniqueid);
 ALTER TABLE bills ADD CONSTRAINT bills_resident_residents_id FOREIGN KEY (resident) REFERENCES residents(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE calls ADD CONSTRAINT calls_resident_residents_id FOREIGN KEY (resident) REFERENCES residents(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE calls ADD CONSTRAINT calls_rate_rates_id FOREIGN KEY (rate) REFERENCES rates(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE calls ADD CONSTRAINT calls_bill_bills_id FOREIGN KEY (bill) REFERENCES bills(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
-ALTER TABLE calls ADD CONSTRAINT calls_asterisk_uniqueid_asterisk_cdr_uniqueid FOREIGN KEY (asterisk_uniqueid) REFERENCES asterisk_cdr(uniqueid) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE comments ADD CONSTRAINT comments_resident_residents_id FOREIGN KEY (resident) REFERENCES residents(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE prefixes ADD CONSTRAINT prefixes_region_regions_id FOREIGN KEY (region) REFERENCES regions(id) NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE rates ADD CONSTRAINT rates_provider_providers_id FOREIGN KEY (provider) REFERENCES providers(id) NOT DEFERRABLE INITIALLY IMMEDIATE;

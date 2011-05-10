@@ -18,6 +18,7 @@ abstract class BaseGroupcallsForm extends BaseFormDoctrine
       'id'             => new sfWidgetFormInputHidden(),
       'extension'      => new sfWidgetFormInputText(),
       'name'           => new sfWidgetFormInputText(),
+      'mode'           => new sfWidgetFormChoice(array('choices' => array('parallel' => 'parallel', 'serial' => 'serial'))),
       'residents_list' => new sfWidgetFormDoctrineChoice(array('multiple' => true, 'model' => 'Residents')),
     ));
 
@@ -25,6 +26,7 @@ abstract class BaseGroupcallsForm extends BaseFormDoctrine
       'id'             => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'extension'      => new sfValidatorString(array('max_length' => 4, 'required' => false)),
       'name'           => new sfValidatorString(array('max_length' => 30, 'required' => false)),
+      'mode'           => new sfValidatorChoice(array('choices' => array(0 => 'parallel', 1 => 'serial'), 'required' => false)),
       'residents_list' => new sfValidatorDoctrineChoice(array('multiple' => true, 'model' => 'Residents', 'required' => false)),
     ));
 

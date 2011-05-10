@@ -437,6 +437,22 @@
         <target>Name</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>groupcalls.mode</source>
+        <target>Art</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>parallel</source>
+        <target>parallel</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>serial</source>
+        <target>Serial</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>groupcalls.residents</source>
+        <target>Mitglieder</target>
+      </trans-unit>
+      <trans-unit id="12">
         <source>groupcalls.new.heading</source>
         <target>Sammelruf anlegen</target>
       </trans-unit>   
