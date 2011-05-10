@@ -11,6 +11,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     $this->enablePlugins('sfDoctrinePlugin');
     $this->enablePlugins('sfDoctrineDynamicFormRelationsPlugin');
+    $this->enablePlugins('sfFormExtraPlugin');
 
     // usergroup of the linux system which gets access to the dtaus-files
     sfConfig::set('usergroup', 'hekphone');
@@ -22,7 +23,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('hekphoneBanknumber', '123123123');
 
     sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
-    
+
     sfConfig::set('sipPhoneFrontendPwd', 'hekphone');
     // As soon as a residents current bill amount comes closer to the bill limit (default: 75)
     // two warnings are sent via email. The first, when the bill amount reaches "billLimitFirstThreshold" [0..1]
