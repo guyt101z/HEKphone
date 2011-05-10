@@ -175,7 +175,7 @@
       </trans-unit>
       <trans-unit id="56">
         <source>auth.logout.successful</source>
-        <target>Du hast die erfolgreich abgemeldet.</target>
+        <target>Du hast dich erfolgreich abgemeldet.</target>
       </trans-unit>
       <trans-unit id="55">
         <source>auth.alreadyLoggedIn</source>
@@ -355,7 +355,7 @@
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.vm_sendEmailOnMissedCall</source>
-        <target>Benachrichtigungsemail senden, auch wenn der AB nicht ranging</target>
+        <target>Benachrichtigungsemail senden, auch wenn der AB nicht dran ging</target>
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.vm_help</source>
