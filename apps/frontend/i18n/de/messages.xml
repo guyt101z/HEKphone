@@ -26,7 +26,7 @@
         <target>Zimmernummer</target>
       </trans-unit>
       <trans-unit id="12">
-        <source>auth.logout.successfull</source>
+        <source>auth.logout.successful</source>
         <target>Erfolgreich ausgeloggt.</target>      
       </trans-unit>
       <trans-unit id="50">
