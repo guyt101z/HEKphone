@@ -8,7 +8,7 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_NONE, 'Print the generated output'),
       new sfCommandOption('no-restart', null, sfCommandOption::PARAMETER_NONE, 'Dont restart the dhcp-server'),
-      new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', '/etc/dhcp3/dhcpd.phones'),
+      new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . 'dhcpd.phones'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -66,8 +66,10 @@ EOF;
 
     // Restart dhcp-server
     if( ! $options['no-restart']) {
-        system('/etc/init.d/dhcp3-server restart');
+        if(! system('/etc/init.d/dhcp3-server restart')) {
+            $this->log($this->formatter->format("Restarting DHCP-Server failed.", 'ERROR'));
+            return 2;
+        };
     }
-
   }
 }
