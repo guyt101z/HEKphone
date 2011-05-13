@@ -69,14 +69,6 @@ class settingsActions extends sfActions
     $form->bind($request->getParameter($form->getName()));
     if ($form->isValid())
     {
-      // Change password if the newPassword field is not empty
-      if ($form->getValue('newPassword') != '')
-      {
-        // if the new passwort and the repetition matches got checked via validator of the form
-        // so we just need to save it here
-        $this->resident->setPassword($form->getValue('newPassword'));
-      }
-
       // change the email address only if the user submitted one
       if ($form->getValue('newEmail') != '')
       {
@@ -96,7 +88,27 @@ class settingsActions extends sfActions
                                    $form->getValue('redirect_seconds'));
 
       $this->resident->updateExtensions();
+
+      // Change password if the newPassword field is not empty
+      if ($form->getValue('newPassword') != '')
+      {
+        // save the old password hash because we need it to update the phones
+        // configuration later. FIXME: This is how it should be. instead we're
+        // using a standard password. this could (due to http) be easily intercepted
+        $oldPasswordHash = $this->resident->getPassword();
+
+        // if the new passwort and the repetition matches got checked via validator
+        // of the form so we just need to save it here
+        $this->resident->setPassword($form->getValue('newPassword'));
+      }
       $this->resident->save();
+
+      // If password has been changed, update the telephone with the new password
+      if($form->getValue('newPassword') != '')
+      {
+        // FIXME: should be situation: need to supply old password here
+        $this->resident->Phones->uploadConfiguration(false, false);
+      }
 
       $this->getUser()->setFlash('notice', 'resident.settings.successful');
       $this->redirect('settings/index?residentid=' . $this->resident->getId());
