@@ -153,6 +153,18 @@ class phoneActions extends sfActions
 
       $phone->save();
 
+      /* If the phone is a SIP-Phone, update the dhcp-server */
+      if($form->getValue('mac') && $form->getValue('technology') == 'SIP') {
+        chdir(sfConfig::get('sf_root_dir'));
+        $formatter = new sfFormatter();
+        $task = new hekphoneCreatedhcpconfigTask($this->dispatcher, $formatter);
+        try {
+          $task->run();
+        } catch (Exception $e) {
+          //catch exceptions and "rethrow them as flash".
+          $this->getUser()->setFlash('error', 'Saving the DHCP configuration failed: ' . $e->getMessage() . '');
+        }
+      }
 
       /* Notify the user and redirect back to the form */
       $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Update successful.");

@@ -57,7 +57,7 @@ EOF;
 
     // Write configuration file
     if( ! $fileHandle = @fopen($options['filename'], 'w+'))
-      throw new sfCommandException('Could not open file. Are you root?');
+      throw new sfCommandException('Could not open file ' . $options['filename'] . '. Are you root?');
     if ( ! fwrite($fileHandle, $dhcpConf))
       throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');
     else
@@ -67,8 +67,7 @@ EOF;
     // Restart dhcp-server
     if( ! $options['no-restart']) {
         if(! system('/etc/init.d/dhcp3-server restart')) {
-            $this->log($this->formatter->format("Restarting DHCP-Server failed.", 'ERROR'));
-            return 2;
+            throw new sfCommandException('Restarting DHCP-Server failed.');
         };
     }
   }
