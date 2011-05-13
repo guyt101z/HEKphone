@@ -4,6 +4,7 @@
 <form action="<?php echo url_for('settings/update') ?>" method="POST">
   <fieldset id="general">
     <legend><?php echo __('resident.settings.general') ?></legend>
+    <div class="help"><?php echo __('resident.settings.general_help')?></div>
     <div>
       <span><?php echo $form['newEmail']->renderLabel() ?></span>
       <?php echo $form['newEmail'] . "\n" ?>

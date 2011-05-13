@@ -358,11 +358,18 @@
         <target>Benachrichtigungsemail senden, auch wenn der AB nicht dran ging</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>resident.settings.general_help</source>
+        <target>Die Email-Adresse wird für Rechnungen und für Benachrichtigungen über entgangene Anrufe verwendet.
+        Wenn du dein Passwort ändern willst, trage ein neues in die entsprechenden Felder ein, ansonsten lass beide Felder leer.
+        Achtung: Wenn du dein Passwort änderst wird dein Telefon neu gestartet. Wenn du "gekürzter EVN" auswählst, 
+        werden die letzten drei Ziffern der Nummern, die du angerufen hast, durch xxx ersetzt.</target>
+      </trans-unit>
+      <trans-unit id="12">
         <source>resident.settings.vm_help</source>
         <target>Hier kannst du deinen Anrufbeantworter einschalten. Setze dazu den Haken vor "Anrufbeantworter"…
         Die LED an deinem Telefon blinkt, wenn du einen Anruf verpasst hast und es steht "neue Nachricht" auf dem Display, wenn der Anrufer eine Nachricht hinterlassen hat.
         Abrufen kannst du die Nachrichten indem du auf Anrufbeantworter drückst, oder die 2000 anrufst.
-        Du kannst dir die Nachrichten aber auch bequem per E-Mail zuschicken lassen oder hier im Portal anhören.</target>
+        Du kannst dir die Nachrichten aber auch bequem per E-Mail zuschicken lassen.</target>
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.redirect_help</source>
@@ -476,6 +483,8 @@
         <source>groupcalls.backToList</source>
         <target>Zurück zur Liste</target>
       </trans-unit>
+
+      
       <trans-unit id="12">
         <source>phone.submit</source>
         <target>Speichern</target>
@@ -488,8 +497,7 @@
         <source>phone.back_to_list</source>
         <target>Zurück zur Liste</target>
       </trans-unit>
-      
-      
+            
       <trans-unit id="12">
         <source>phone.edit.title</source>
         <target>Telefon bearbeiten</target>
