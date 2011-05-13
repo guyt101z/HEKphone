@@ -453,6 +453,14 @@
         <target>Mitglieder</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>Associated</source>
+        <target>dabei</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>Unassociated</source>
+        <target>nicht dabei</target>
+      </trans-unit>
+      <trans-unit id="12">
         <source>groupcalls.new.heading</source>
         <target>Sammelruf anlegen</target>
       </trans-unit>   
