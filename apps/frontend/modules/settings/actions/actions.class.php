@@ -107,7 +107,7 @@ class settingsActions extends sfActions
       if($form->getValue('newPassword') != '')
       {
         // FIXME: should be situation: need to supply old password here
-        $this->resident->Phones->uploadConfiguration(false, false);
+        $this->resident->Rooms->Phones->uploadConfiguration(false, false);
       }
 
       $this->getUser()->setFlash('notice', 'resident.settings.successful');
