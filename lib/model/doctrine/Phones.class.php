@@ -47,7 +47,8 @@ class Phones extends BasePhones
   }
 
   /**
-   * Update the phones details according to who lives in the room. If the room is not inhabitated nothing is set.
+   * Update the phones details according to who the resident provided as function
+   * parameter
    *
    * @param $resident Doctrine_Record of the resident
    * @return Phones $this
