@@ -106,6 +106,8 @@ class settingsActions extends sfActions
       // If password has been changed, update the telephone with the new password
       if($form->getValue('newPassword') != '')
       {
+        //actively load helper for the template of the configuration
+        sfProjectConfiguration::getActive()->loadHelpers("Partial");
         // FIXME: should be situation: need to supply old password here
         $this->resident->Rooms->Phones->uploadConfiguration(false, false);
       }
