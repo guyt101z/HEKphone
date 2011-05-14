@@ -59,7 +59,7 @@ EOF;
 
     // Write configuration file
     if( ! $fileHandle = @fopen($options['filename'], 'w+'))
-      throw new sfCommandException('Could not open file ' . $options['filename'] . '. Are you root?');
+      throw new sfCommandException('Could not open file ' . $options['filename'] . ' for writing. Do you have sufficient privileges?');
     if ( ! fwrite($fileHandle, $dhcpConf))
       throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');
     else
@@ -68,6 +68,7 @@ EOF;
 
     // Restart dhcp-server
     if( ! $options['no-restart']) {
+        // you need to enable www-data (or whoever runs the script) to restart the dhcp-server via sudoers
         if( ! system('/etc/init.d/dhcp3-server restart')) {
             throw new sfCommandException('Restarting DHCP-Server failed.');
         };
