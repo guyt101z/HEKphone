@@ -220,7 +220,7 @@ class Phones extends BasePhones
           'sip1PhoneNumber' => $this['name'],
           'sip1DisplayName' => $this->getResident()->get('first_name') . " "
           .$this->getResident()->get('last_name') . " ("
-          .$this->getResident()->get('room_no') . ")",
+          .$this->Rooms[0]->get('room_no') . ")",
           'sip1User' => $this['defaultuser'],
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
