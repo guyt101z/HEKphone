@@ -209,18 +209,18 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-  	  if($this->Rooms[0]->Residents[0]->get('password') != '')
+  	  if($this->getResident()->get('password') != '')
   	  {
-  	      $sip1Pwd = substr($this->Rooms[0]->Residents[0]->get('password'), 0 ,7);
+  	      $sip1Pwd = substr($this->getResident()->get('password'), 0 ,7);
   	  } else {
   	      $sip1Pwd = 'hekphone';
   	  }
 
       $configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
           'sip1PhoneNumber' => $this['name'],
-          'sip1DisplayName' => $this->Rooms[0]->Residents[0]->get('first_name') . " "
-          .$this->Rooms[0]->Residents[0]->get('last_name') . " ("
-          .$this->Rooms[0]->get('room_no') . ")",
+          'sip1DisplayName' => $this->getResident()->get('first_name') . " "
+          .$this->getResident()->get('last_name') . " ("
+          .$this->getResident()->get('room_no') . ")",
           'sip1User' => $this['defaultuser'],
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
