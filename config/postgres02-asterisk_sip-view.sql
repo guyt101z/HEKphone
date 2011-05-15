@@ -1,4 +1,4 @@
-rop view if exists asterisk_sip;
+drop view if exists asterisk_sip;
 drop table if exists asterisk_sip;
 CREATE VIEW asterisk_sip AS 
     SELECT
@@ -9,8 +9,12 @@ CREATE VIEW asterisk_sip AS
         p.defaultuser,
         (SELECT 
                 (case
-                        when (Select a.password from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
-                        then (Select SUBSTR(a.password,0,8) from residents a, rooms b where a.room = b.id and b.phone = p.id )
+                        when (Select a.password from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL))) is not NULL
+                        then (Select SUBSTR(a.password,0,8) from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id 
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL)))
                         else 'hekphone'
                 end)
         ) AS secret,
@@ -29,8 +33,12 @@ CREATE VIEW asterisk_sip AS
         '00497218695' || p.name AS cid_number,
         (SELECT 
                 (case
-                        when (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = p.id) is not NULL
-                        then (Select a.unlocked from residents a, rooms b where a.room = b.id and b.phone = p.id )::context
+                        when (Select a.unlocked from residents a, rooms b 
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL))) is not NULL
+                        then (Select a.unlocked from residents a, rooms b 
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL)))::context
                         else 'locked'::context
                 end)
         ) AS context
