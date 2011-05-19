@@ -41,7 +41,9 @@ class Residents extends BaseResidents
     }
 
      /**
-     * Writes the residents password md5-encrypted to the database
+     * Writes the residents password md5-encrypted to the database.
+     * Checks wheter resident has a SIP-Telefone and prunes the peer to apply the
+     * password change.
      *
      * @param string $password
      */
@@ -54,10 +56,19 @@ class Residents extends BaseResidents
       }
       else
       {
+        $phone = Doctrine_Core::getTable('Phones')->findByResidentId($this->get('id'));
+
+        if($phone && $phone->technology == 'SIP') {
+          $phone->pruneAsteriskPeer();
+        }
         return $this->_set('password', md5($password));
       }
     }
 
+    /**
+     * Returns a "random" alphanumerical 7 character long password.
+     * @return string
+     */
     public function createPassword()
     {
     	$token = 'abcdefghjkmnpqrstuvz123456789';
@@ -174,7 +185,6 @@ class Residents extends BaseResidents
       }
     }
 
-
     /**
      * Sends an E-Mail containing information about him being unlocked and
      * about general information to a resident.
@@ -263,7 +273,6 @@ class Residents extends BaseResidents
         sfContext::getInstance()->getMailer()->send($message);
     }
 
-
     /**
      * Notifies a resident that he reached his limit and is now locked and can't
      * do any more calls
@@ -282,5 +291,19 @@ class Residents extends BaseResidents
             ->setBody($messageBody);
 
         sfContext::getInstance()->getMailer()->send($message);
+    }
+
+    /**
+     * Checks wheter the resident still lives here.
+     *
+     * @return bool
+     */
+    public function isStillLivingHere() {
+        if($this->get('move_in') <= date('Y-m-d')
+          && ($this->get('move_out') >= date('Y-m-d') || is_null($this->get('move_out')))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

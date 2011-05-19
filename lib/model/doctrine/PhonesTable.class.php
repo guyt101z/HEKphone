@@ -17,27 +17,43 @@ class PhonesTable extends Doctrine_Table
         return Doctrine_Core::getTable('Phones');
     }
 
+    /**
+     * Finds a phone belonging to a resident $resident. Only returns
+     * a Phone if the resident still lives in the dormitory.
+     *
+     * @param Residents $resident
+     * @return Phones
+     */
     public function findByResident($resident)
     {
-        if ( $resident['Rooms']->phone == NULL )
-        {
-            return false;
+        if( ! $resident || ! $resident->isStillLivingHere()) {
+          return false;
         }
-        else
-        {
+
+        if ( $resident['Rooms']->phone == NULL ) {
+            return false;
+        } else {
             return Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
         }
     }
 
+    /**
+     * Finds a phone belonging to a resident with id $residentid . Only returns
+     * a Phone if the resident still lives in the dormitory
+     *
+     * @param integer $residentid
+     * @return Phones
+     */
     public function findByResidentId($residentid)
     {
         $resident = Doctrine_Core::getTable('Residents')->findOneById($residentid);
-        if ( $resident['Rooms']->phone == NULL )
-        {
-            return false;
+        if( ! $resident || ! $resident->isStillLivingHere()) {
+          return false;
         }
-        else
-        {
+
+        if ( $resident['Rooms']->phone == NULL ) {
+            return false;
+        } else {
             return Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
         }
     }
@@ -45,12 +61,9 @@ class PhonesTable extends Doctrine_Table
     public function findByRoomNo($roomNo)
     {
         $room = Doctrine_Core::getTable('Rooms')->findOneBy('room_no', $roomNo);
-        if ( $room['phone'] == NULL )
-        {
+        if ( $room['phone'] == NULL ) {
             return false;
-        }
-        else
-        {
+        } else {
             return Doctrine_Core::getTable('Phones')->findOneById($room['phone']);
         }
     }
