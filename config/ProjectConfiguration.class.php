@@ -35,6 +35,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt');                              // context of incoming calls
     sfConfig::set('asteriskInternalUserfield', 'internal');                       // userfield of internal calls is set to this
+    sfConfig::set('asteriskAmiHost', '127.0.0.1');  // Asterisk-Server IP
+    sfConfig::set('asteriskAmiPort', '5038');       // Port at which asterisk manager (AMI) listens
+    sfConfig::set('asteriskAmiUsername', '');       // AMI-Username. Needs "command" permissions. See /etc/asterisk/manager.conf
+    sfConfig::set('asteriskAmiPassword', '');       // AMI-Password.
 
     // Rooms where every resident can enter and do calls (common rooms, media room, bar, ...)
     // These rooms are only allowed to place free calls.

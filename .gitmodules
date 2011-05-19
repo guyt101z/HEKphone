@@ -1,3 +1,6 @@
 [submodule "plugins/sfDoctrineDynamicFormRelationsPlugin"]
 	path = plugins/sfDoctrineDynamicFormRelationsPlugin
 	url = git://github.com/kriswallsmith/sfDoctrineDynamicFormRelationsPlugin.git
+[submodule "lib/vendor/PAMI"]
+	path = lib/vendor/PAMI
+	url = https://github.com/marcelog/PAMI.git

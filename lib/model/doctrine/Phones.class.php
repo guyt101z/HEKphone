@@ -1,4 +1,17 @@
 <?php
+/* Use PAMI to communicate with the asterisk manager */
+// modify include path
+$pamiSrcDir = implode(DIRECTORY_SEPARATOR, array(sfConfig::get('sf_lib_dir'), 'vendor', 'PAMI', 'src', 'mg'));
+ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . $pamiSrcDir);
+
+// register the autoloader
+require_once $pamiSrcDir . DIRECTORY_SEPARATOR . 'PAMI' . DIRECTORY_SEPARATOR . '/Autoloader/Autoloader.php';
+\PAMI\Autoloader\Autoloader::register();
+
+// we're only using the command action because we need to prune a realtime peer
+// and this task has no dedicated action
+use PAMI\Client\Impl\ClientImpl;
+use PAMI\Message\Action\CommandAction;
 
 /**
  * Phones
@@ -13,6 +26,36 @@
 class Phones extends BasePhones
 {
   private $resident = NULL;
+
+  /**
+   * Will execute "sip prune realtime peer <peername>" on the asterisk machine
+   * denoted via asteriskAmiHost asteriskAmiPost asteriskAmiUsername & asteriskAmiPassword
+   *
+   * This way a cached realtime peer can be updated which is neccesary to apply
+   * e.g. password, context, ... changes.
+   *
+   * @throws exception if called on non-SIP-peer
+   *
+   * @return bool
+   */
+  public function pruneAsteriskPeer() {
+      $options = array(
+        'host' => sfConfig::get('asteriskAmiHost'),
+        'port' => sfConfig::get('asteriskAmiPort'),
+        'username' => sfConfig::get('asteriskAmiUsername'),
+        'secret' => sfConfig::get('asteriskAmiPassword'),
+        'connect_timeout' => 60,
+        'read_timeout' => 60,
+        'scheme' => 'tcp://' // PAMI documentation says: try tls: not working :/
+      );
+
+      $pamiClient = new ClientImpl($options);
+      $pamiClient->open();
+      $pamiClient->send(new CommandAction('sip prune realtime peer '. $this->name));
+      $pamiClient->close();
+
+      return true;
+  }
 
   /**
    * Returns the resident as Doctrine_Record associated with this room.
@@ -337,4 +380,6 @@ class Phones extends BasePhones
 
         return true;
   }
+
+
 }
