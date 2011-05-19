@@ -34,7 +34,7 @@ class Phones extends BasePhones
    * This way a cached realtime peer can be updated which is neccesary to apply
    * e.g. password, context, ... changes.
    *
-   * @todo check wheter the action was successfully done
+   * @todo check wheter the action was successfully executed
    * @throws exception if called on non-SIP-peer
    * @return bool
    */
@@ -55,10 +55,10 @@ class Phones extends BasePhones
 
       $pamiClient = new ClientImpl($options);
       $pamiClient->open();
-      $pamiClient->send(new CommandAction('sip prune realtime peer '. $this->name));
+      $pruneResult = $pamiClient->send(new CommandAction('sip prune realtime peer '. $this->name));
       $pamiClient->close();
 
-      return true;
+      return $pruneResult->isSuccess(); // returns true even if the "command" action did not give the proper result
   }
 
   /**
