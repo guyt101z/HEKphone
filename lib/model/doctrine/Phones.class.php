@@ -34,11 +34,15 @@ class Phones extends BasePhones
    * This way a cached realtime peer can be updated which is neccesary to apply
    * e.g. password, context, ... changes.
    *
+   * @todo check wheter the action was successfully done
    * @throws exception if called on non-SIP-peer
-   *
    * @return bool
    */
   public function pruneAsteriskPeer() {
+      if($this->technology != 'SIP') {
+        throw new Exception("Unable to prune peer if phone is no SIP-Phone");
+      }
+
       $options = array(
         'host' => sfConfig::get('asteriskAmiHost'),
         'port' => sfConfig::get('asteriskAmiPort'),
