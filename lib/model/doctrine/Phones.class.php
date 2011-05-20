@@ -363,6 +363,7 @@ class Phones extends BasePhones
           throw new Exception("Unable to connect to a phone at $this->defaultip");
       }
 
+      print_r($loginPageContent);
       //get the cookie and use new headers from now on
       preg_match('/^Set-Cookie: auth=(.*?);/m', $loginPageContent, $m);
       $newAuthCookie = $m[1];
@@ -390,22 +391,22 @@ class Phones extends BasePhones
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
       curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip);
+      //curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
       // the sort order of the parameters MATTERS!
       //$loginPostData  = 'username' . '=' . $username . '&'; // we don't need to transfer the username and password the phone
       //$loginPostData .= 'password' . '=' . $password . '&'; // expects the username and a salted password hash as encoded field instead
-      $loginPostData  = 'encoded'  . '=' . $username . '%3A' . md5($username . ':' . $password . ':' . $newAuthCookie) . '&';
-      $loginPostData .= 'nonce'    . '=' . $newAuthCookie . '&';
+      $loginPostData  = 'encoded'  . '=' . $username . '%3A' . md5($username . ':' . $password . ':' . $authCookie) . '&';
+      $loginPostData .= 'nonce'    . '=' . $authCookie . '&';
       $loginPostData .= 'goto'     . '=' . 'OK' . '&';
       $loginPostData .= 'URL'      . '=' . '%2F';
 
       curl_setopt($ch, CURLOPT_POSTFIELDS, $loginPostData);
 
       $loginResult = curl_exec($ch);
-
       if(strpos($loginResult, "PHONE CONFIG") === false) {
-        throw new Exception("Login on the phones webfrontend at $this->defaultip with password $password and username $username failed");
+        throw new Exception("Login on the phones webfrontend at $this->defaultip failed");
       }
 
       return $authCookie;
