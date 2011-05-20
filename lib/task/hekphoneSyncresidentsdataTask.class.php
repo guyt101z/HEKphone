@@ -4,25 +4,19 @@ class hekphoneSyncresidentsdataTask extends sfBaseTask
 {
   protected function configure()
   {
-    // // add your own arguments here
-    // $this->addArguments(array(
-    //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
-    // ));
-
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('sourceDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The source connection name', 'hekdb'),
       new sfCommandOption('destinationDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination connection name', 'hekphone'),
       new sfCommandOption('source', null, sfCommandOption::PARAMETER_REQUIRED, 'The source db name', 'HekdbCurrentResidents'),
       new sfCommandOption('destination', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination db name', 'Residents'),
-      // add your own options here
     ));
 
     $this->namespace        = 'hekphone';
     $this->name             = 'sync-residents-data';
-    $this->briefDescription = 'Syncs the residents data between source[default: hekdb->HekdbCurrentResidents] and destination[default: hekphone->Residents]';
+    $this->briefDescription = 'Syncs the residents data between two database tables';
     $this->detailedDescription = <<<EOF
-The [hekphone:sync-residents-data|INFO] task helps adding new users to the database of the project [destination defaults to hekphone|COMMENT] from a remote database [source, defaults to hekdb|COMMENT].
+The [hekphone:sync-residents-data|INFO] task helps adding new users to the database of the project from a remote database.
 
 Call it with:
 
@@ -36,7 +30,7 @@ EOF;
     $destinationResidentsTable = Doctrine_Core::getTable($options['destination']);
     $roomTable = Doctrine_Core::getTable('Rooms');
 
-    // Sets the key of the Collection Array to the ID of the record
+    // Sets the key of the collection array to the ID of the record
     $sourceResidentsTable->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'id');
     $destinationResidentsTable->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'id');
     $roomTable->setAttribute(Doctrine_Core::ATTR_COLL_KEY, 'id');
