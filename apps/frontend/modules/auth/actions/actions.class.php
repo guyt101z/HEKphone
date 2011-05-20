@@ -21,7 +21,6 @@ class authActions extends sfActions
     if( ! $this->getUser()->isAuthenticated())
     {
       $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
-      print_r($request->getPreferredCulture(array('de','en')));
     }
 
     $this->form = new LoginForm();
