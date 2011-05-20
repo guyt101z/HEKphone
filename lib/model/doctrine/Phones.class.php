@@ -291,99 +291,124 @@ class Phones extends BasePhones
    *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    */
   public function uploadConfiguration($overwritePersonalSettings = false, $initialConfiguration = false) {
-        if($this['technology'] != 'SIP')
-        {
-          return false;
-        }
+      if($this['technology'] != 'SIP')
+      {
+        return false;
+      }
 
-        $sendAuthCookie = 'c0a900010000009b';
-        $httpHeaders = array(
-            'Keep-Alive: 115',
-            'Connection: keep-alive',
-            'Cookie: auth=' . $sendAuthCookie);
+      /* Authenticate with the phone */
+      if ($initialConfiguration)
+      {
+        $password = 'admin';
+        $username = 'admin';
+      }
+      else
+      {
+        $password = sfconfig::get("sipPhoneFrontendPwd");
+        $username = 'admin';
+      }
 
-        if ($initialConfiguration)
-        {
-	        $password = 'admin';
-	        $username = 'admin';
-        }
-        else
-        {
-	        $password = sfconfig::get("sipPhoneFrontendPwd");
-	        $username = 'admin';
-        }
+      $authCookie = $this->curlInit();
+      $authCookie = $this->curlLogIn($authCookie, $username, $password);
 
+      /* Generate configuration file and get the path */
+      $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings);
 
-        /* Get the front page to get an authentication cookie in return */
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-        curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip);
-        curl_setopt($ch,CURLOPT_TIMEOUT, 10);
-        //curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // output to string
-        curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+      /* Upload the configuration */
+      $ch = curl_init();
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive',
+          'Cookie: auth=' . $authCookie);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip . '/directupdate.htm ');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        if( ! $loginPageContent = curl_exec($ch) ) {
-            throw new Exception("Unable to connect to a phone at $this->defaultip");
-        }
+      $uploadPostData = array(
+          'System' => '@' . $configurationFilePath,
+          'WebUpdate' => 'Übertragen',);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadPostData);
 
-        //get the cookie and use new headers from now on
-        preg_match('/^Set-Cookie: auth=(.*?);/m', $loginPageContent, $m);
-        $newAuthCookie = $m[1];
-        $httpHeaders = array(
-            'Keep-Alive: 115',
-            'Connection: keep-alive',
-            'Cookie: auth=' . $newAuthCookie);
+      $uploadResult = curl_exec($ch);
 
-        curl_close($ch);
+      if(strpos($uploadResult, "ok post") === false) {
+        throw new Exception("Uploading the configuration file failed.");
+      }
 
-
-        /* Login */
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-        curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip);
-        //curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        // the sort order of the parameters MATTERS!
-        //$loginPostData  = 'username' . '=' . $username . '&'; // we don't need to transfer the username and password the phone
-        //$loginPostData .= 'password' . '=' . $password . '&'; // expects the username and a salted password hash as encoded field instead
-        $loginPostData  = 'encoded'  . '=' . $username . '%3A' . md5($username . ':' . $password . ':' . $newAuthCookie) . '&';
-        $loginPostData .= 'nonce'    . '=' . $newAuthCookie . '&';
-        $loginPostData .= 'goto'     . '=' . 'OK' . '&';
-        $loginPostData .= 'URL'      . '=' . '%2F';
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $loginPostData);
-
-        $loginResult = curl_exec($ch);
-
-        if(strpos($loginResult, "PHONE CONFIG") === false) {
-          throw new Exception("Login on the phones webfrontend at $this->defaultip with password $password and username $username failed");
-        }
-
-        /* Generate configuration file and get the path */
-        $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings);
-
-        /* Upload the configuration */
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-        curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip . '/directupdate.htm ');
-        //curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-        $uploadPostData = array(
-            'System' => '@' . $configurationFilePath,
-            'WebUpdate' => 'Übertragen',);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $uploadPostData);
-
-        $uploadResult = curl_exec($ch);
-
-        if(strpos($uploadResult, "ok post") === false) {
-          throw new Exception("Uploading the configuration file failed.");
-        }
-
-        return true;
+      return true;
   }
 
+  /**
+   * Connects to the phone at $this->defaultip to get an authentication cookie
+   *
+   * @return string authentication cookie
+   */
+  private function curlInit() {
+      $sendAuthCookie = 'c0a900010000009b';
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive',
+          'Cookie: auth=' . $sendAuthCookie);
+
+      /* Get the front page to get an authentication cookie in return */
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip);
+      curl_setopt($ch,CURLOPT_TIMEOUT, 10);
+      //curl_setopt($ch, CURLOPT_VERBOSE, TRUE);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // output to string
+      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+
+      if( ! $loginPageContent = curl_exec($ch) ) {
+          throw new Exception("Unable to connect to a phone at $this->defaultip");
+      }
+
+      //get the cookie and use new headers from now on
+      preg_match('/^Set-Cookie: auth=(.*?);/m', $loginPageContent, $m);
+      $newAuthCookie = $m[1];
+      curl_close($ch);
+
+      return $newAuthCookie;
+  }
+
+  /**
+   * Sends the $username/$password to the phone to log in. Session is bound to the
+   * authentication cookie you provide via $authCookie. Authentication cookie needs
+   * to be generated via $this->curlInit().
+   *
+   * @param string $authCookie
+   * @param string $username
+   * @param string $password
+   * @return string authentication cookie
+   */
+  private function curlLogIn($authCookie, $username, $password) {
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive',
+          'Cookie: auth=' . $authCookie);
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+      // the sort order of the parameters MATTERS!
+      //$loginPostData  = 'username' . '=' . $username . '&'; // we don't need to transfer the username and password the phone
+      //$loginPostData .= 'password' . '=' . $password . '&'; // expects the username and a salted password hash as encoded field instead
+      $loginPostData  = 'encoded'  . '=' . $username . '%3A' . md5($username . ':' . $password . ':' . $newAuthCookie) . '&';
+      $loginPostData .= 'nonce'    . '=' . $newAuthCookie . '&';
+      $loginPostData .= 'goto'     . '=' . 'OK' . '&';
+      $loginPostData .= 'URL'      . '=' . '%2F';
+
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $loginPostData);
+
+      $loginResult = curl_exec($ch);
+
+      if(strpos($loginResult, "PHONE CONFIG") === false) {
+        throw new Exception("Login on the phones webfrontend at $this->defaultip with password $password and username $username failed");
+      }
+
+      return $authCookie;
+  }
 
 }
