@@ -19,6 +19,10 @@ class PhonesForm extends BasePhonesForm
     )));
     $this->setValidator('room', new sfValidatorDoctrineChoice(array('model' => 'Rooms')));
 
+    $this->setValidator('mac', new sfValidatorRegex(array('pattern' => '/^[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}$/i')),
+                                                    array(),
+                                                    array('invalid' => ''));
+
     unset($this['host']);       // always dynamic. the phones can't handle static
     unset($this['type']);       // always frient. may place and receive calls.
 

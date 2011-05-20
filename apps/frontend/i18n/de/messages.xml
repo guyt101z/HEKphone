@@ -165,6 +165,32 @@
         <source>resident.edit.backToList</source>
         <target>Zurück zur Liste</target>
       </trans-unit>
+      <trans-unit id="69">
+        <source>resident.lockOnFailedDebit</source>
+        <target>Nach Rücklastschrift sperren und per Mail benachrichtigen</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.lockOnFailedDebit.sure</source>
+        <target>Sicher?</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.lockOnFailedDebit.successful</source>
+        <target>Benutzer gesperrt und per E-Mail benachrichtigt.</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.resetPassword</source>
+        <target>Passwort zurücksetzen und neues per Mail versenden</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.resetPassword.successful</source>
+        <target>Passwort erfolgreich zurückgesetzt und per E-Mail versandt.</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.resetExtensionsFailed</source>
+        <target>Die Extensions in Asterisk konnten nicht neu gesetzt werden. Vielleicht kann der Bewohner nicht angerufen werden. Unbedingt überprüfen!</target>
+      </trans-unit>
+      
+      
       <trans-unit id="54">
         <source>auth.login.failed</source>
         <target>Anmelden fehlgeschlagen. Überprüfe bitte Zimmernummer und Passwort.</target>

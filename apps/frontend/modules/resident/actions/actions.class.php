@@ -91,28 +91,96 @@ class residentActions extends sfActions
    */
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
-    sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      // has the locked-state changed? if yes: notify the user via email.
-      if($form->getValue('unlocked') != $this->resident->getUnlocked())
+      if($form->getValue('unlocked') != $this->resident->getUnlocked() // if locked-state changed
+         && $form->getValue('unlocked') == true                        // and he has been unlocked
+         && ! empty($this->resident->get('password')))              // and has no password, means he was never unlocked before
       {
-        $this->resident->set('unlocked', $form->getValue('unlocked'));
-        $password = $this->resident->createPassword();
-        $this->resident->set('password', $password);
-        $this->resident->sendLockUnlockEmail(date('d.m.Y'), $password);
-      }
-      $residents = $form->save();
+        $password = $this->resident->resetPassword();
 
-      // This connects to asterisk;
+        sfProjectConfiguration::getActive()->loadHelpers("Partial"); //For the Email. Load this automatically. How?
+        $this->resident->sendUnlockEmail(date('d.m.Y'), $password);
+      }
+      $resident = $form->save();
+
       if( ! Doctrine_Core::getTable('AsteriskExtensions')
-            ->updateResidentsExtension($this->resident)){
-          $this->getUser()->setFlash('error', 'resident.edit.asteriskConnectorFailed');
+            ->updateResidentsExtension($this->resident))
+      {
+          $this->getUser()->setFlash('error', 'resident.edit.resetExtensionsFailed');
       }
 
       $this->getUser()->setFlash('notice', 'resident.edit.successfull');
-      $this->redirect('@resident_edit?residentid='.$residents->getId());
+      $this->redirect('@resident_edit?residentid='.$resident->getId());
     }
   }
+
+  public function executeLockOnFailedDebit(sfWebRequest $request) {
+    sfProjectConfiguration::getActive()->loadHelpers("Partial");
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
+
+    $resident->set('unlocked', false);
+    $resident->save();
+
+    $this->getUser()->setFlash('notice', 'resident.lockOnFailedDebit.successful');
+
+    $messageBody = get_partial('global/failedDebitMail',
+                   array('first_name' => $resident->get('first_name')));
+    $message = Swift_Message::newInstance()
+        ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+        ->setTo($resident->get('email'))
+        ->setSubject('[HEKphone] Telefon wegen Rücklastschrift gesperrt')
+        ->setBody($messageBody);
+
+    $this->getMailer()->send($message);
+
+
+    $this->redirect('@resident_edit?residentid='.$resident->getId());
+  }
+
+  public function executeResetPassword(sfWebRequest $request) {
+    sfProjectConfiguration::getActive()->loadHelpers("Partial");
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
+
+    $newPassword = $resident->resetPassword();
+
+    $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
+
+    $messageBody = get_partial('global/resetPasswordMail',
+                   array('first_name' => $resident->get('first_name'),
+                         'password' => $newPassword));
+    $message = Swift_Message::newInstance()
+        ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+        ->setTo($resident->get('email'))
+        ->setSubject('[HEKphone] Passwort zurückgesetzt')
+        ->setBody($messageBody);
+
+    $this->getMailer()->send($message);
+
+    $this->redirect('@resident_edit?residentid='.$resident->getId());
+  }
+
+  /* TODO: Implement sending of welcome email manually */
+  /*
+  public function executeSendWelcomeMail(sfWebRequest $request) {
+    sfProjectConfiguration::getActive()->loadHelpers("Partial");
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
+
+    $newPassword = $resident->resetPassword();
+
+    $this->getUser()->setFlash('notice', 'resident.sendWelcomeMail.successful');
+
+    $messageBody = get_partial('global/welcomeMail',
+                   array('first_name' => $resident->get('first_name')));
+    $message = Swift_Message::newInstance()
+        ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+        ->setTo($resident->get('email'))
+        ->setSubject('[HEKphone] Willkommen bei HEKPhone')
+        ->setBody($messageBody);
+
+    $this->getMailer()->send($message);
+
+    $this->redirect('@resident_edit?residentid='.$resident->getId());
+  } */
 }

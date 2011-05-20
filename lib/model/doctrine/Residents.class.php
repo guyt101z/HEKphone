@@ -83,6 +83,20 @@ class Residents extends BaseResidents
     }
 
     /**
+     * Resets a users password.
+     *
+     * @return string new password
+     */
+    public function resetPassword()
+    {
+        $newPassword = $this->createPassword();
+        $this->set('password', $newPassword);
+        $this->save();
+
+        return $newPassword;
+    }
+
+    /**
      * Creates a residents voicemailbox-entry if it does not exist yet
      * @return true when a new mailbox is created, false otherwise
      */
