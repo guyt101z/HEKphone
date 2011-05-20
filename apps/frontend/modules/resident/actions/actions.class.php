@@ -152,6 +152,7 @@ class residentActions extends sfActions
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
 
     $newPassword = $resident->resetPassword();
+    $resident->save();
 
     $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
 
