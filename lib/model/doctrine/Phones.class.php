@@ -364,7 +364,7 @@ class Phones extends BasePhones
           throw new Exception("Unable to connect to a phone at $this->defaultip");
       }
 
-      print_r($loginPageContent);
+
       //get the cookie and use new headers from now on
       preg_match('/^Set-Cookie: auth=(.*?);/m', $loginPageContent, $m);
       $newAuthCookie = $m[1];
@@ -406,6 +406,10 @@ class Phones extends BasePhones
       curl_setopt($ch, CURLOPT_POSTFIELDS, $loginPostData);
 
       $loginResult = curl_exec($ch);
+      if(strpos($loginResult, "503 Server Busy") !== false) {
+        throw new Exception("Login on the phones webfrontend at $this->defaultip failed. 'Server Busy' restart it manually then try again.");
+      }
+
       if(strpos($loginResult, "PHONE CONFIG") === false) {
         throw new Exception("Login on the phones webfrontend at $this->defaultip failed");
       }
