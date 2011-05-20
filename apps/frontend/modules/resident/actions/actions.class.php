@@ -107,6 +107,7 @@ class residentActions extends sfActions
       {
         $password = $this->resident->resetPassword();
         $this->resident->save();
+        $this->resident->Rooms->Phones->uploadConfiguration(false, false);
 
         sfProjectConfiguration::getActive()->loadHelpers("Partial"); //For the Email. Load this automatically. How?
         $this->resident->sendUnlockEmail(date('d.m.Y'), $password);
