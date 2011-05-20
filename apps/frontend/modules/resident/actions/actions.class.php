@@ -118,7 +118,7 @@ class residentActions extends sfActions
           $this->getUser()->setFlash('error', 'resident.edit.resetExtensionsFailed');
       }
 
-      $this->getUser()->setFlash('notice', 'resident.edit.successfull');
+      $this->getUser()->setFlash('notice', 'resident.edit.successful');
       $this->redirect('@resident_edit?residentid='.$resident->getId());
     }
   }
