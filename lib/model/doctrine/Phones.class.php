@@ -230,6 +230,7 @@ class Phones extends BasePhones
       $extension = $this->getExtension();
       $extensionPrefix = '8695';
 
+      $dialstring = '';
       if ($this['technology'] == 'SIP') {
           $dialstring = $this['technology'] . '/' . $extension;
       } elseif($this['technology'] == 'DAHDI/g1') {

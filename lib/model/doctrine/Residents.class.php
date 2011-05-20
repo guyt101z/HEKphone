@@ -91,7 +91,6 @@ class Residents extends BaseResidents
     {
         $newPassword = $this->createPassword();
         $this->set('password', $newPassword);
-        $this->save();
 
         return $newPassword;
     }

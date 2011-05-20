@@ -94,16 +94,23 @@ class residentActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      if($form->getValue('unlocked') != $this->resident->getUnlocked() // if locked-state changed
+      $lockStateChanged = false;
+      if($form->getValue('unlocked') != $this->resident->getUnlocked())
+      {
+        $lockStateChanged = true;
+      }
+      $resident = $form->save();
+
+      if($lockStateChanged
          && $form->getValue('unlocked') == true                        // and he has been unlocked
-         && ! empty($this->resident->get('password')))              // and has no password, means he was never unlocked before
+         && ! $this->resident->get('password'))                        // and has no password, means he was never unlocked before
       {
         $password = $this->resident->resetPassword();
+        $this->resident->save();
 
         sfProjectConfiguration::getActive()->loadHelpers("Partial"); //For the Email. Load this automatically. How?
         $this->resident->sendUnlockEmail(date('d.m.Y'), $password);
       }
-      $resident = $form->save();
 
       if( ! Doctrine_Core::getTable('AsteriskExtensions')
             ->updateResidentsExtension($this->resident))
