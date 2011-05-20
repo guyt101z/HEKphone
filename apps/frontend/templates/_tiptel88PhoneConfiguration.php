@@ -17,7 +17,7 @@ HTL Port Number    :200
 SNTP Server        :192.168.255.254
 Enable SNTP        :1
 Time Zone          :27
-Enable Daylight    :0
+Enable Daylight    :1
 SNTP Time Out      :3600
 DayLight Shift Min :60
 DayLight Start Mon :3
