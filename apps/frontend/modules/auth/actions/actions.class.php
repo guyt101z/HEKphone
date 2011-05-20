@@ -21,6 +21,7 @@ class authActions extends sfActions
     if( ! $this->getUser()->isAuthenticated())
     {
       $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
+      print_r($request->getPreferredCulture(array('de','en')));
     }
 
     $this->form = new LoginForm();
@@ -47,10 +48,17 @@ class authActions extends sfActions
           $this->getUser()->setAttribute("id", $resident->id);
           $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
 
-          // set the language according to what the user chose
-          // TODO: on the first login, this is always german it would be nice to
-          // set and save the culture of getPrefferedCulture() instead
-          $this->getUser()->setCulture($resident->culture);
+          if( ! is_null($resident->culture) && $resident->culture != '') {
+            // set the language according to what the user chose
+            $this->getUser()->setCulture($resident->culture);
+          } else {
+            // set the language according to the preferred culture of the browser
+            // and save the settings for the resident
+            $preferedCulture = $request->getPreferredCulture(array('de','en'));
+            $this->getUser()->setCulture($preferedCulture);
+            $resident->set('culture', $preferedCulture);
+            $resident->save();
+          }
 
           if($resident->hekphone)
           {

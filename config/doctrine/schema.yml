@@ -433,7 +433,7 @@ Residents:
       default: false
     culture:
       type: string(5)
-      default: 'de_DE'
+      default: 'de'
   relations:
     Rooms:
       local: room
