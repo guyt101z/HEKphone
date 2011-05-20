@@ -166,6 +166,9 @@ class residentActions extends sfActions
 
     $this->getMailer()->send($message);
 
+    $this->resident->Rooms->Phones->uploadConfiguration(false, false);
+
+
     $this->redirect('@resident_edit?residentid='.$resident->getId());
   }
 
