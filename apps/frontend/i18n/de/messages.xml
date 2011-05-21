@@ -327,7 +327,7 @@
       
       
       <trans-unit id="1">
-        <source>resident.settings.successfull</source>
+        <source>resident.settings.successful</source>
         <target>Änderungen erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="1">
