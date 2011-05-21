@@ -8,27 +8,27 @@
     <div>
       <span><?php echo $form['newEmail']->renderLabel() ?></span>
       <?php echo $form['newEmail'] . "\n" ?>
-      <span class="error"><?php echo $form['newEmail']->renderError() ?></span>
+      <?php echo $form['newEmail']->renderError() ?>
     </div>
     <div>
       <span><?php echo $form['newPassword']->renderLabel() ?></span>
       <?php echo $form['newPassword'] . "\n" ?>
-      <span class="error"><?php echo $form['newPassword']->renderError() ?></span>
+      <?php echo $form['newPassword']->renderError() ?>
     </div>
     <div>
       <span><?php echo $form['newPasswordRepeat']->renderLabel() ?></span>
       <?php echo $form['newPasswordRepeat'] . "\n" ?>
-      <span class="error"><?php echo $form['newPasswordRepeat']->renderError() ?></span>
+      <?php echo $form['newPasswordRepeat']->renderError() ?>
     </div>
-    <div>
-      <span><?php echo $form['reducedCdrs']->renderLabel() ?></span>
+    <div class="checkbox">
       <?php echo $form['reducedCdrs'] . "\n" ?>
-      <span class="error"><?php echo $form['reducedCdrs']->renderError() ?></span>
+      <span><?php echo $form['reducedCdrs']->renderLabel() ?></span>
+      <?php echo $form['reducedCdrs']->renderError() ?>
     </div>
-    <div>
-      <span><?php echo $form['sendEmailOnMissedCall']->renderLabel() ?></span>
+    <div class="checkbox">
       <?php echo $form['sendEmailOnMissedCall'] . "\n" ?>
-      <span class="error"><?php echo $form['sendEmailOnMissedCall']->renderError() ?></span>
+      <span><?php echo $form['sendEmailOnMissedCall']->renderLabel() ?></span>
+      <?php echo $form['sendEmailOnMissedCall']->renderError() ?>
     </div>
   </fieldset>
 
@@ -42,17 +42,17 @@
     <div class="voicemailField">
       <span><?php echo $form['vm_seconds']->renderLabel() ?></span>
       <?php echo $form['vm_seconds'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_seconds']->renderError() ?></span>
+      <?php echo $form['vm_seconds']->renderError() ?>
     </div>
-    <div class="voicemailField">
-      <span><?php echo $form['vm_sendEmailOnNewMessage']->renderLabel() ?></span>
+    <div class="checkbox" class="voicemailField">
       <?php echo $form['vm_sendEmailOnNewMessage'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_sendEmailOnNewMessage']->renderError() ?></span>
+      <span><?php echo $form['vm_sendEmailOnNewMessage']->renderLabel() ?></span>
+      <?php echo $form['vm_sendEmailOnNewMessage']->renderError() ?>
     </div>
-    <div class="voicemailField">
-      <span><?php echo $form['vm_attachMessage']->renderLabel() ?></span>
+    <div class="checkbox" class="voicemailField">
       <?php echo $form['vm_attachMessage'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_attachMessage']->renderError() ?></span>
+      <span><?php echo $form['vm_attachMessage']->renderLabel() ?></span>
+      <?php echo $form['vm_attachMessage']->renderError() ?>
     </div>
   </fieldset>
 
@@ -65,12 +65,12 @@
     <div class="redirectField">
       <span><?php echo $form['redirect_to']->renderLabel() ?></span>
       <?php echo $form['redirect_to'] . "\n" ?>
-      <span class="error"><?php echo $form['redirect_to']->renderError() ?></span>
+      <?php echo $form['redirect_to']->renderError() ?>
     </div>
     <div class="redirectField">
       <span><?php echo $form['redirect_seconds']->renderLabel() ?></span>
       <?php echo $form['redirect_seconds'] . "\n" ?>
-      <span class="error"><?php echo $form['redirect_seconds']->renderError() ?></span>
+      <?php echo $form['redirect_seconds']->renderError() ?>
     </div>
   </fieldset>
 

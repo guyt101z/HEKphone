@@ -92,7 +92,7 @@
       </trans-unit>
       <trans-unit id="47">
         <source>calls.list.bills.amount</source>
-        <target>Betrag [EUR]</target>
+        <target>Betrag</target>
       </trans-unit>
       <trans-unit id="48">
         <source>calls.list.bills.details</source>

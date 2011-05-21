@@ -29,14 +29,13 @@ legend input {
 }
 
 .help {
-    margin: 0;
     font-size: 1.6em;
+    clear: both;
 }
 
-form div {
+form p {
     margin-top:1em;
 }
-
 input[type=submit] {
     display: block;
     clear: both;
@@ -49,4 +48,13 @@ input[type=submit] {
     
     background-color:transparent;
     border:1px solid #000;
+}
+
+.checkbox label, .checkbox input {
+    display:inline;
+    float:none;
+}
+
+.checkbox input {
+    margin-bottom: 0.43em;
 }

@@ -46,7 +46,7 @@
       <?php endif;?>
     <tr>
       <td><?php echo $bill->date ?></td>
-      <td><?php echo $bill->amount?></td>
+      <td><?php echo $bill->amount?>&#8239;€</td>
       <td><?php echo link_to(__('calls.list.bills.showdetails'), '@resident_calls?residentid='.$residentid.'&billid='.$bill->id)?></td>
       <td><?php if($sf_user->hasCredential('hekphone')):
                     echo link_to(__('calls.list.bills.sendEmail'),'calls/sendBillEmail?billid=' . $bill->id);

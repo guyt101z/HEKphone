@@ -1,6 +1,6 @@
     <tr>
       <td><?php echo $bill->date ?></td>
-      <td><?php echo $bill->amount?></td>
+      <td><?php echo $bill->amount?>&#8239;€</td>
       <td><?php echo link_to(__('calls.list.bills.hidedetails'), '@resident_calls?residentid='.$residentid) ?></td>
     </tr>
     <tr>

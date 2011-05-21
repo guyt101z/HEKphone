@@ -1,10 +1,8 @@
-<h1><?php echo __("resident.list.heading")?></h1>
-
-<div id="orderby">
-  <span><?php echo link_to(__('resident.list.orderByRoom'), 'resident_listByRoom') ?></span>
-  <span><?php echo link_to(__('resident.list.orderByLastName'), 'resident_listByLastName') ?></span>
-  <span><?php echo link_to(__('resident.list.orderByMoveIn'), 'resident_listByMoveIn') ?></span>
-</div>
+<ul id="orderby">
+  <li><?php echo link_to(__('resident.list.orderByRoom'), 'resident_listByRoom') ?></li>
+  <li><?php echo link_to(__('resident.list.orderByLastName'), 'resident_listByLastName') ?></li>
+  <li><?php echo link_to(__('resident.list.orderByMoveIn'), 'resident_listByMoveIn') ?></li>
+</ul>
 
 <?php
 switch ($sf_request->getParameter('orderby'))
