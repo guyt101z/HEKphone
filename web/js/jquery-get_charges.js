@@ -19,11 +19,11 @@ $(document).ready(function()
 	  
 	if ($('#destination').val().length >= 3 || $('#destination').val() == '')
 	{
-	  $('#loader').show();
+	  $('#destination').addClass('active');
 	  $('#charges').load(
         $('#destination').parents('form').attr('action'),
 	    { destination: $('#destination').val() },
-	    function() { $('#loader').hide(); }
+	    function() { $('#destination').removeClass('active'); }
 	  );
 	}
   }

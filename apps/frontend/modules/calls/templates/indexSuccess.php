@@ -9,11 +9,13 @@
     <thead>
         <?php include_partial('callDetailsHeading') ?>
     </thead>
-    <?php $sum = 0;?>
-    <?php foreach($callsCollection as $call): ?>
-      <?php include_partial('callDetailsRow', array('call' => $call)) ?>
-      <?php $sum += $call->charges; ?>
-    <?php endforeach;?>
+    <tbody>
+      <?php $sum = 0;?>
+      <?php foreach($callsCollection as $call): ?>
+        <?php include_partial('callDetailsRow', array('call' => $call)) ?>
+        <?php $sum += $call->charges; ?>
+      <?php endforeach;?>
+    </tbody>
     <tfoot>
       <tr>
         <td></td>

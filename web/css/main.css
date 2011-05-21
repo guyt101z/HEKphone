@@ -123,7 +123,7 @@ div .notice {
     text-align: center;
     font-size: 1.6em;
     
-    background-color: #F3F781;
+    background-color: #79BA56;
     color: #000;
 }
 
@@ -134,7 +134,7 @@ div .error {
     text-align: center;
     font-size: 1.6em;
     
-    background-color: #880000;
+    background-color: #E78E3E;
     color: #fff;
 }
 
@@ -220,18 +220,27 @@ table {
     margin-bottom: 2em;
 }
 
-table thead {
-	background-color: #eee;
+table thead tr{
+	background-color: #55ADED;
 	
 	border-bottom: 1px solid #000;
 }
 
-table td {
+
+table thead th {
+    border-right: 1px solid #000;
+}
+
+table tbody td {
 	padding-left: 1em;
 	border-right: 1px solid #000;
 }
-table th {
-    border-right: 1px solid #000;
+
+table tbody tr:nth-child(odd) {
+    background-color:#EBFCF2;
+}
+table tbody tr:nth-child(even) {
+    background-color:#fff;
 }
 
 table tr td:last-child {
@@ -243,9 +252,56 @@ table tr th:last-child {
 }
 
 table tfoot {
-    background-color: #eee;
+    background-color: transparent;
     
     font-weight: bold;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
+}
+
+div .search-charges {
+	width:70%;
+	margin: auto auto;
+	margin-bottom: 2em;
+	text-align:center;
+}
+	
+#destination {
+    display: block;
+    width: 300px;
+    
+    margin: 0 auto;
+    
+    padding-right:20px;
+    
+    background-color:transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+.active {
+    background-image:url('../images/loader.gif');
+    background-repeat:no-repeat;
+    background-size: auto 80%;
+    background-position: right top;
+}
+
+div .search-charges form #submit {
+    display: block;
+    clear: both;
+    width: 350px;
+    
+    margin-top:1em;
+    padding: 0.1em;
+    
+    background-color:transparent;
+    border-top:1px solid #000;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+
+div .search-charges #charges {
+	font-size: 1.5em;
 }
