@@ -19,6 +19,10 @@ body, select, input, textarea {
 a {
   color: #444;
 }
+
+a:hover {
+	color: #334466;
+}
 abbr[title=und] {
   font-family: Baskerville, 'Goudy Old Style', Palatino, 'Book Antiqua', Constantia, 'Times New Roman', serif;
   font-style: italic;
@@ -49,38 +53,19 @@ ol {
   margin-left: 1.4em;
 }
 
-fieldset {
-  margin-top: 2.4em;
-}
-form p {
-  font-size: 1em;
-}
-legend, label, input, select, textarea {
+input, select, textarea {
   margin: 0 10px;
   padding: 0;
   font-size: 1.6em;
 }
-legend {
-  display: block;
-  padding-bottom: 0.6666667em;
-  font-size: 1.8em;
-}
 label {
-  display: block;
-}
-legend label {
-  margin: 0;
-  font-size: 1em;
-}
-.radio label[for] {
-  display: inline;
-  margin-left: 0;
+  font-size: 1.6em;
+  display:block; 
+  float:left;
+  width: 13em;
 }
 input, textarea {
   line-height: 1em;
-}
-form nav {
-  margin: 2.4em 0;
 }
 
 footer {
@@ -95,6 +80,7 @@ footer {
 header {
   padding-top: 2.4em;
   padding-bottom: 2.3em;
+  margin-bottom:2em;
   border-bottom: 1px solid #ccc;
 }
 header nav {
@@ -115,10 +101,17 @@ header nav a:hover {
   text-decoration: underline;
 }
 
+/* Admin-Resident Navigation */
+header nav #residentnav li {
+	display: block;
+    width: 160px;
+}
+
 /* Flashes */
 div .notice {
     display: block;
     width: 100%;
+    margin-bottom:1.5em;
     
     text-align: center;
     font-size: 1.6em;
@@ -130,65 +123,13 @@ div .notice {
 div .error {
     display: block;
     width: 100%;
+    margin-bottom:1.5em;
     
     text-align: center;
     font-size: 1.6em;
     
     background-color: #E78E3E;
     color: #fff;
-}
-
-
-/* Login */
-div #login {
-    width: 450px;
-    margin: 0 auto;
-    
-    text-align: justify;
-}
-
-div #login form {
-	display: block;
-	width: 350px;
-	margin: 0 auto;
-}
-
-div #login form label{
-    display: block;
-    width: 200px;
-    margin: 0;
-    
-    float:left;
-    clear: both;
-}
-
-div #login form input{
-	display: block;
-    float: left;
-    width: 150px;
-    
-    margin: 0;
-    
-    background-color:transparent;
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
-}
-
-div #login form #submit {
-    display: block;
-    clear: both;
-    width: 350px;
-    
-    margin-top:1em;
-    padding: 0.1em;
-    
-    background-color:transparent;
-    border-top:1px solid #000;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
 }
 
 .globalError {
@@ -209,99 +150,4 @@ div #login form #submit {
     font-weight: bold;
     font-size: 12px;
     color: red;
-}
-
-/* Calls */
-table {
-	width: 80%;
-    font-size: 1.5em;
-    
-    margin: 0 auto;
-    margin-bottom: 2em;
-}
-
-table thead tr{
-	background-color: #55ADED;
-	
-	border-bottom: 1px solid #000;
-}
-
-
-table thead th {
-    border-right: 1px solid #000;
-}
-
-table tbody td {
-	padding-left: 1em;
-	border-right: 1px solid #000;
-}
-
-table tbody tr:nth-child(odd) {
-    background-color:#EBFCF2;
-}
-table tbody tr:nth-child(even) {
-    background-color:#fff;
-}
-
-table tr td:last-child {
-    border: none;
-}
-
-table tr th:last-child {
-    border: none;
-}
-
-table tfoot {
-    background-color: transparent;
-    
-    font-weight: bold;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-}
-
-div .search-charges {
-	width:70%;
-	margin: auto auto;
-	margin-bottom: 2em;
-	text-align:center;
-}
-	
-#destination {
-    display: block;
-    width: 300px;
-    
-    margin: 0 auto;
-    
-    padding-right:20px;
-    
-    background-color:transparent;
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
-}
-.active {
-    background-image:url('../images/loader.gif');
-    background-repeat:no-repeat;
-    background-size: auto 80%;
-    background-position: right top;
-}
-
-div .search-charges form #submit {
-    display: block;
-    clear: both;
-    width: 350px;
-    
-    margin-top:1em;
-    padding: 0.1em;
-    
-    background-color:transparent;
-    border-top:1px solid #000;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
-}
-
-div .search-charges #charges {
-	font-size: 1.5em;
 }

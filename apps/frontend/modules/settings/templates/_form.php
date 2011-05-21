@@ -4,7 +4,7 @@
 <form action="<?php echo url_for('settings/update') ?>" method="POST">
   <fieldset id="general">
     <legend><?php echo __('resident.settings.general') ?></legend>
-    <div class="help"><?php echo __('resident.settings.general_help')?></div>
+    <p class="help"><?php echo __('resident.settings.general_help')?></p>
     <div>
       <span><?php echo $form['newEmail']->renderLabel() ?></span>
       <?php echo $form['newEmail'] . "\n" ?>
@@ -38,7 +38,7 @@
       <?php echo $form['vm_active'] . "\n" ?>
       <span><?php echo $form['vm_active']->renderLabel() ?></span>
     </legend>
-    <div class="help"><?php echo __('resident.settings.vm_help')?></div>
+    <p class="help"><?php echo __('resident.settings.vm_help')?></p>
     <div class="voicemailField">
       <span><?php echo $form['vm_seconds']->renderLabel() ?></span>
       <?php echo $form['vm_seconds'] . "\n" ?>
@@ -61,7 +61,7 @@
       <?php echo $form['redirect_active'] . "\n" ?>
       <span><?php echo $form['redirect_active']->renderLabel() ?></span>
     </legend>
-    <div class="help"><?php echo __('resident.settings.redirect_help')?></div>
+    <p class="help"><?php echo __('resident.settings.redirect_help')?></p>
     <div class="redirectField">
       <span><?php echo $form['redirect_to']->renderLabel() ?></span>
       <?php echo $form['redirect_to'] . "\n" ?>
@@ -74,6 +74,6 @@
     </div>
   </fieldset>
 
-  <input type="submit" value="[T]resident.settings.submit[/T]" />
+  <input type="submit" value="<?php echo __('resident.settings.submit') ?>" />
 
   </form>

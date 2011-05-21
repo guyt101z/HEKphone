@@ -12,6 +12,6 @@
     <div><input type="submit" id="submit" value="<?php echo __('auth.submit'); ?>" /></div>
   </form>
   <?php else: ?>
-  <div><?php echo __('auth.alreadyLoggedIn') ?> <?php echo link_to(__('auth.logout'), 'auth/logout') ?></div>
+  <p><?php echo __('auth.alreadyLoggedIn') ?> <?php echo link_to(__('auth.logout'), 'auth/logout') ?></p>
   <?php endif;?>
 </div>
