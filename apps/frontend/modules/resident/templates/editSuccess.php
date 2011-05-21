@@ -3,8 +3,8 @@
 
 <?php include_partial('form', array('form' => $form, 'resident' => $resident)) ?>
 
-<h3>Aktionen</h3>
-<ul>
+<h2>Aktionen</h2>
+<ul id="actions">
   <li><?php echo link_to(__('resident.lockOnFailedDebit'), 'resident/lockOnFailedDebit?id=' . $form->getObject()->getId(),
     array('confirm' => __('resident.lockOnFailedDebit.sure'))) ?> <br />
   </li>

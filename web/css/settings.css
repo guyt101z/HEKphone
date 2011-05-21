@@ -14,8 +14,13 @@ legend {
   font-weight:bold;
 }
 
+label {
+    clear: both;
+}
+
 legend label {
   display: block;
+  clear: none;
   width: auto;
   float:right;
   font-size: 1em;
@@ -36,6 +41,25 @@ legend input {
 form p {
     margin-top:1em;
 }
+
+form input{
+    display: block;
+    float: left;
+    width: 18em;
+    
+    margin: 0;
+    
+    background-color:transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+
+form input[type="checkbox"]{
+    width: auto;
+}
+
 input[type=submit] {
     display: block;
     clear: both;
@@ -48,6 +72,10 @@ input[type=submit] {
     
     background-color:transparent;
     border:1px solid #000;
+}
+
+.checkbox {
+	clear:both;
 }
 
 .checkbox label, .checkbox input {

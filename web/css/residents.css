@@ -29,3 +29,31 @@ table th {
     text-align: center;
     font-size: 1.6em;
 }
+
+table label {
+    font-size:1em;
+}
+table input {
+    font-size:1em;
+}
+table .error_list {
+    width: 100%;
+    clear: both;
+    list-style-type:none;
+    font-size: 1em;
+    padding-left: 13em; 
+}
+
+#comments {
+	margin: 0 auto;
+}
+
+/* new comment link */
+form a {
+	text-align: center;
+	font-size: 1.6em;
+}
+
+#actions li {
+    font-size: 1.6em;
+}

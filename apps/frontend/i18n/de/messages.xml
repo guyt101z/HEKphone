@@ -192,6 +192,10 @@
         <source>resident.resetExtensionsFailed</source>
         <target>Die Extensions in Asterisk konnten nicht neu gesetzt werden. Vielleicht kann der Bewohner nicht angerufen werden. Unbedingt überprüfen!</target>
       </trans-unit>
+      <trans-unit id="69">
+        <source>resident.edit.error.unlockOnEmptyAccountInformation</source>
+        <target>Freischalten nur möglich, wenn die Bankverbindung korrekt eingetragen ist.</target>
+      </trans-unit>
       
       
       <trans-unit id="54">

@@ -3,7 +3,7 @@ html {
 }
 body, select, input, textarea {
   color: #444; /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
-  font-size: 12px;
+  font-size: 10px;
   line-height: 2.4em;
   font-family: Georgia, Times, 'Times New Roman', serif;
   vertical-align: baseline;
@@ -13,7 +13,7 @@ body, select, input, textarea {
   width: 960px;
   min-width: 960px;
   margin: 0 auto;
-  font-size: 12px;
+  font-size: 10px;
 }
 a {
   color: #444;
@@ -131,6 +131,7 @@ div .error {
     color: #fff;
 }
 
+/* Form Errors */
 .globalError {
 	display: block;
 	margin: 0 auto;
@@ -153,9 +154,10 @@ div .error {
 
 .error_list {
 	width: 100%;
+	clear: both;
 	list-style-type:none;
 	font-size: 1.6em;
-	padding-left: 14em; 
+	padding-left: 13em; 
 }
 .error_list li {
     width: 100%;

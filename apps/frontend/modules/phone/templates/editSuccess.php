@@ -1,9 +1,9 @@
-<h1><?php echo __('phone.edit.title') ?></h1>
+<h2><?php echo __('phone.edit.title') ?></h2>
 
 <?php include_partial('form', array('form' => $form)) ?>
 
-<h3>Aktionen</h3>
-<ul>
+<h2>Aktionen</h2>
+<ul id="actions">
   <li><?php echo link_to(__('phone.edit.reset.keepPersonalSettings'), 'phone/reset?id=' . $form->getObject()->getId(),
     array('query_string' => 'overwritePersonalSettings=false',
         'confirm' => __('phone.edit.reset.warning.keeping_personal_settings'))) ?> <br />
