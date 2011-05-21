@@ -34,7 +34,10 @@
         <target>Abmelden</target>
       </trans-unit>
       
-      
+      <trans-unit id="1">
+        <source>calls.heading</source>
+        <target>Kostenübersicht</target>
+      </trans-unit>
       <trans-unit id="1">
         <source>calls.charges.heading</source>
         <target>Wieviel kostet ein Gespräch nach...</target>
@@ -49,7 +52,7 @@
       </trans-unit>
       <trans-unit id="1">
         <source>calls.charges.no_result</source>
-        <target>Kein Ergebnis. Stimmt die Nummer und hast du an die führende 0 gedacht?</target>
+        <target>Kein Ergebnis. An die führende 0 gedacht?</target>
       </trans-unit>          
       <trans-unit id="40">
         <source>calls.list.heading</source>
@@ -61,7 +64,7 @@
       </trans-unit>
       <trans-unit id="42">
         <source>calls.list.duration</source>
-        <target>Dauer [sec]</target>
+        <target>Dauer</target>
       </trans-unit>
       <trans-unit id="43">
         <source>calls.list.rate</source>
@@ -73,7 +76,7 @@
       </trans-unit>
       <trans-unit id="44">
         <source>calls.list.charge</source>
-        <target>Kosten [ct]</target>
+        <target>Kosten</target>
       </trans-unit>
       <trans-unit id="42">
         <source>calls.list.sum</source>
@@ -271,7 +274,7 @@
       
       <trans-unit id="59">
         <source>navigation.calls</source>
-        <target>Gespräche/Rechnungen</target>
+        <target>Gespräche</target>
       </trans-unit>
       <trans-unit id="60">
         <source>navigation.vm</source>

@@ -3,6 +3,7 @@ class LoginForm extends sfForm
 {
   public function configure()
   {
+    $this->disableCSRFProtection();
     $this->setWidgets(array(
       'roomNo'     => new sfWidgetFormInput(),
       'password'   => new sfWidgetFormInputPassword()
@@ -19,5 +20,9 @@ class LoginForm extends sfForm
       'roomNo'     => new sfValidatorInteger(array('min' => 1, 'max' => 900)),
       'password'   => new sfValidatorString()
     ));
+
+    $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());
+    $this->getWidgetSchema()->addFormFormatter('div', $decorator);
+    $this->getWidgetSchema()->setFormFormatterName('div');
   }
 }
