@@ -35,9 +35,11 @@ class settingsActions extends sfActions
     $this->form = new SettingsForm();
     $this->form->setDefault('newEmail', $resident->get('email'));
     $this->form->setDefault('reducedCdrs', $resident->get('shortened_itemized_bill'));
+    $this->form->setDefault('sendEmailOnMissedCall', $resident->get('mail_on_missed_call'));
     $this->form->setDefault('vm_active', $resident->get('vm_active'));
     $this->form->setDefault('vm_seconds', $resident->get('vm_seconds'));
-    $this->form->setDefault('sendEmailOnNewMessage', $resident->get('mail_on_missed_call'));
+    $this->form->setDefault('vm_attachMessage', $resident->getVoicemailAttachMessage());
+    $this->form->setDefault('vm_sendEmailOnNewMessage', $resident->getVoicemailSendEmailOnNewMessage());
     $this->form->setDefault('redirect_active', $resident->get('redirect_active'));
     $this->form->setDefault('redirect_seconds', $resident->get('redirect_seconds'));
     $this->form->setDefault('redirect_to', $resident->get('redirect_to'));
@@ -76,12 +78,12 @@ class settingsActions extends sfActions
       }
 
       $this->resident->set('shortened_itemized_bill', $form->getValue('reducedCdrs'));
+      $this->resident->set('mail_on_missed_call', $form->getValue('sendEmailOnMissedCall'));
 
       $this->resident->setVoicemailSettings($form->getValue('vm_active'),
                                         $form->getValue('vm_seconds'),
                                         $form->getValue('vm_sendEmailOnNewMessage'),
-                                        $form->getValue('vm_attachMessage'),
-                                        $form->getValue('vm_sendEmailOnMissedCall'));
+                                        $form->getValue('vm_attachMessage'));
 
       $this->resident->setRedirect($form->getValue('redirect_active'),
                                    $form->getValue('redirect_to'),
@@ -108,8 +110,8 @@ class settingsActions extends sfActions
       {
         //actively load helper for the template of the configuration
         sfProjectConfiguration::getActive()->loadHelpers("Partial");
-        // FIXME: should be situation: need to supply old password here
-        $this->resident->Rooms->Phones->uploadConfiguration(false, false);
+        $this->resident->Rooms->Phones->uploadConfiguration(false, false); //FIXME: catch errors
+        $this->resident->Rooms->Phones->pruneAsteriskPeer(); //FIXME: catch errors
       }
 
       $this->getUser()->setFlash('notice', 'resident.settings.successful');

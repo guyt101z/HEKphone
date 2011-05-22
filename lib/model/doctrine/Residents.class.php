@@ -119,10 +119,9 @@ class Residents extends BaseResidents
      * @param integer $seconds
      * @param boolean $mailOnNewMessage
      * @param boolean $attachMessage
-     * @param boolean $mailOnMissedCall#
      * @return $this
      */
-    public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $mailOnMissedCall)
+    public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage)
     {
       /* Create Voicemailbox, if it does not exist yet */
       $this->createVoicemailbox();
@@ -142,11 +141,18 @@ class Residents extends BaseResidents
 
       $this->set('vm_active', $active);
       $this->set('vm_seconds', $seconds);
-      $this->set('mail_on_missed_call', $mailOnMissedCall);
 
       $this->save(); // FIXME: one should not need this
 
       return $this;
+    }
+
+    public function getVoicemailSendEmailOnNewMessage() {
+      return ( ! $this->AsteriskVoicemail->get('email'))? false : true;
+    }
+
+    public function getVoicemailAttachMessage() {
+      return ($this->AsteriskVoicemail->get('attach') != 'yes')? false : true;;
     }
 
     /**
