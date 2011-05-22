@@ -1,0 +1,16 @@
+;
+; Message Information file
+;
+[message]
+origmailbox=1039
+context=amt
+macrocontext=
+exten=86951421
+priority=2
+callerchan=DAHDI/36-1
+callerid=004972186951023
+origdate=Thu Feb 10 07:21:52 PM UTC 2011
+origtime=1297365712
+category=
+flag=
+duration=16
