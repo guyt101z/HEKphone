@@ -17,7 +17,7 @@
           <ul id="globalnav">
             <?php //FIXME: the way we're highlighting the current navigation item is ugly. use slots/components ?>
             <li <?php echo ($this->getModuleName() == 'calls') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.calls'), 'calls') ?></li>
-            <li><?php echo link_to(__('navigation.vm'), 'voicemail') ?></li>
+            <li <?php echo ($this->getModuleName() == 'voicemail') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.voicemail'), 'voicemail') ?></li>
             <li <?php echo ($this->getModuleName() == 'settings') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.settings'), 'settings') ?></li>
             <?php if ($sf_user->hasCredential('hekphone')): echo "\n"; ?>
             <li class="<?php echo ($this->getModuleName() == 'resident') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.residents'), 'resident_list') ?></li>
@@ -33,7 +33,7 @@
             <li><?php echo link_to(__('navigation.resident.edit'), 'resident_edit', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
             <li><?php echo link_to(__('navigation.resident.phone'), 'resident_phone', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
             <li><?php echo link_to(__('navigation.resident.calls'), 'resident_calls', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
-            <li><?php echo link_to(__('navigation.resident.vm'), 'resident_vm', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
+            <li><?php echo link_to(__('navigation.resident.voicemail'), 'resident_voicemail', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
             <li><?php echo link_to(__('navigation.resident.settings'), 'resident_settings', array('residentid' => $sf_request->getParameter('residentid'))) ?></li>
           </ul>
           <?php endif;?>

@@ -28,6 +28,11 @@ class voicemailActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
+    if( $this->residentid != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
+    {
+      $this->forward('default', 'secure');
+    }
+
     $this->forward404Unless($this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid), 'Voicemailbox ' .$this->residentid . ' not found');
   }
 
@@ -38,7 +43,7 @@ class voicemailActions extends sfActions
     // TODO: move this to a filter
     if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
     {
-      return false;
+      $this->forward('default', 'secure');
     }
 
     // get the voicemailbox
@@ -71,7 +76,7 @@ class voicemailActions extends sfActions
     // TODO: move this to a filter
     if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
     {
-      return false;
+      $this->forward('default', 'secure');
     }
     $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
 
@@ -91,7 +96,7 @@ class voicemailActions extends sfActions
     // TODO: move this to a filter
     if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
     {
-      return false;
+      $this->forward('default', 'secure');
     }
     $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
 
@@ -110,7 +115,7 @@ class voicemailActions extends sfActions
     // TODO: move this to a filter
     if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
     {
-      return false;
+      $this->forward('default', 'secure');
     }
 
     // get the voicemailbox

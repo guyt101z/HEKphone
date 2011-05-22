@@ -76,9 +76,9 @@ resident_calls:
   requirements: 
     residentid: \d+    
   
-resident_vm:
-  url:   /resident/:residentid/vm
-  param: {module: vm, action:index  }
+resident_voicemail:
+  url:   /resident/:residentid/voicemail
+  param: {module: voicemail, action:index  }
   requirements: 
     residentid: \d+    
     

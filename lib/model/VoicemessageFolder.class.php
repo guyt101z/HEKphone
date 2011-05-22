@@ -58,7 +58,6 @@ class VoicemessageFolder {
        return self::$instance;
     }
 
-
     /**
      * Gets a filelist of the files in the "INBOX" folder of the mailbox
      *

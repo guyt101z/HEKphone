@@ -285,7 +285,7 @@
         <target>Gespräche</target>
       </trans-unit>
       <trans-unit id="60">
-        <source>navigation.vm</source>
+        <source>navigation.voicemail</source>
         <target>Anrufbeantworter</target>
       </trans-unit>
       <trans-unit id="5123">
@@ -325,8 +325,8 @@
         <target>Gespräche</target>
       </trans-unit>
       <trans-unit id="81">
-        <source>navigation.resident.vm</source>
-        <target>AB</target>
+        <source>navigation.resident.voicemail</source>
+        <target>Anrufbeantworter</target>
       </trans-unit>
       <trans-unit id="82">
         <source>navigation.resident.settings</source>
