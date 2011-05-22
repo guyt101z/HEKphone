@@ -156,13 +156,17 @@
         <source>resident.edit.heading</source>
         <target>Bewohnerdetails bearbeiten</target>
       </trans-unit>
+      <trans-unit id="51">
+        <source>resident.edit.comments</source>
+        <target>Kommentare</target>
+      </trans-unit>
       <trans-unit id="52">
         <source>resident.edit.removeThisComment</source>
         <target>Diesen Kommentar entfernen.</target>
       </trans-unit>
       <trans-unit id="53">
         <source>resident.edit.addComment</source>
-        <target>Noch einen Kommentar hinzufügen</target>
+        <target>Kommentar hinzufügen</target>
       </trans-unit>
       <trans-unit id="69">
         <source>resident.edit.backToList</source>

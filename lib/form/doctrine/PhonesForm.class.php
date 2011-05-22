@@ -42,5 +42,9 @@ class PhonesForm extends BasePhonesForm
     unset($this['lastms']);     // |
     unset($this['fromuser']);   // |
     unset($this['fromdomain']); // |
+
+    $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());
+    $this->getWidgetSchema()->addFormFormatter('div', $decorator);
+    $this->getWidgetSchema()->setFormFormatterName('div');
   }
 }

@@ -1,4 +1,14 @@
-/* Calls */
+#bills .calldetails {
+	font-size:1em;
+	margin:0;
+	width:100%;
+	border: 1px solid #000;
+}
+
+#bills .billdetails {
+	padding-left:0;
+}
+
 div .search-charges {
 	width:70%;
 	margin: auto auto;

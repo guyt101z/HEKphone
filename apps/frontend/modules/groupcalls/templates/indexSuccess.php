@@ -1,5 +1,3 @@
-<h1><?php echo __('groupcalls.list.heading') ?></h1>
-
 <table>
   <thead>
     <tr>

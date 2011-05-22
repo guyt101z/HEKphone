@@ -1,3 +1,6 @@
+.formContainer {
+	width: 80%;
+}
 fieldset {
 	border: 1px solid #444;
 	margin-top: 2em;
@@ -5,13 +8,16 @@ fieldset {
 }
 
 legend {
-  display: block;
-  padding-bottom: 0.6666667em;
-  padding-right: 0.6em;
-  padding-left: 0.3em;
-  font-size: 1.6em;
+    display: block;
+    padding-bottom: 0.6666667em;
+    padding-right: 0.6em;
+    padding-left: 0.3em;
   
-  font-weight:bold;
+    font-weight:bold;
+}
+
+.ie legend {
+    width: 19em;
 }
 
 label {
@@ -21,9 +27,9 @@ label {
 legend label {
   display: block;
   clear: none;
-  width: auto;
   float:right;
-  font-size: 1em;
+  font-size: 1.6em;
+  width: auto!important;
 }
 
 legend input {
@@ -58,6 +64,7 @@ form input{
 
 form input[type="checkbox"]{
     width: auto;
+    border: none;
 }
 
 input[type=submit] {

@@ -2,7 +2,7 @@
 <?php include_partial('getCharges'); ?>
 
 <h2><?php echo __("calls.list.heading") ?></h2>
-<table border="1">
+<table id="calls">
     <thead>
         <?php include_partial('callDetailsHeading') ?>
     </thead>
@@ -26,7 +26,7 @@
 
 <h2><?php echo __("calls.list.bills.heading") ?></h2>
 
-<table border="1">
+<table id="bills">
     <thead>
       <tr>
         <th><?php echo __("calls.list.bills.date") ?></th>
@@ -35,8 +35,7 @@
         <th><?php if($sf_user->hasCredential('hekphone')):
                       echo __("calls.list.bills.actions");
                   endif;?>
-        </t
-        h>
+        </th>
       </tr>
     </thead>
     <?php foreach($billsCollection as $bill): ?>

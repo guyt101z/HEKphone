@@ -1,3 +1,4 @@
+/* List */
 table {
     width: auto;
 }
@@ -30,22 +31,22 @@ table th {
     font-size: 1.6em;
 }
 
-table label {
-    font-size:1em;
+
+/* Edit form */
+.entry {
+	margin-bottom:0.5em;
 }
-table input {
-    font-size:1em;
-}
-table .error_list {
-    width: 100%;
-    clear: both;
-    list-style-type:none;
-    font-size: 1em;
-    padding-left: 13em; 
+	
+.entry .value{
+	font-size: 1.6em;
+	margin-left:0.6em;
 }
 
 #comments {
 	margin: 0 auto;
+}
+#comments ul li{
+    list-style-type: none;
 }
 
 /* new comment link */

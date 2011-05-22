@@ -58,6 +58,10 @@ class ResidentsForm extends BaseResidentsForm
 
     // Manage comments (add/remove) provided by sfDoctrineDynamicFormRelationsPlugin
     $this->embedDynamicRelation('Comments');
+
+    $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());
+    $this->getWidgetSchema()->addFormFormatter('div', $decorator);
+    $this->getWidgetSchema()->setFormFormatterName('div');
   }
 
   /*
