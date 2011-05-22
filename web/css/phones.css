@@ -1,0 +1,19 @@
+.list {
+	font-size: 1em;
+}
+
+.list th {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.list {
+	font-size:1.6em;
+}
+.list td {
+	padding: 0;
+}
+
+#actions li {
+    font-size: 1.6em;
+}

@@ -131,8 +131,6 @@ class residentActions extends sfActions
     $resident->set('unlocked', false);
     $resident->save();
 
-    $this->getUser()->setFlash('notice', 'resident.lockOnFailedDebit.successful');
-
     $messageBody = get_partial('global/failedDebitMail',
                    array('first_name' => $resident->get('first_name')));
     $message = Swift_Message::newInstance()
@@ -143,6 +141,7 @@ class residentActions extends sfActions
 
     $this->getMailer()->send($message);
 
+    $this->getUser()->setFlash('notice', 'resident.lockOnFailedDebit.successful');
 
     $this->redirect('@resident_edit?residentid='.$resident->getId());
   }
@@ -153,8 +152,6 @@ class residentActions extends sfActions
 
     $newPassword = $resident->resetPassword();
     $resident->save();
-
-    $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
 
     $messageBody = get_partial('global/resetPasswordMail',
                    array('first_name' => $resident->get('first_name'),
@@ -169,6 +166,8 @@ class residentActions extends sfActions
 
     $resident->Rooms->Phones->uploadConfiguration(false, false);
     $resident->Rooms->Phones->pruneAsteriskPeer();
+
+    $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
 
     $this->redirect('@resident_edit?residentid='.$resident->getId());
   }

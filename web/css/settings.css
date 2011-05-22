@@ -1,0 +1,95 @@
+.formContainer {
+	width: 80%;
+}
+fieldset {
+	border: 1px solid #444;
+	margin-top: 2em;
+	padding-left: 2em;
+}
+
+legend {
+    display: block;
+    padding-bottom: 0.6666667em;
+    padding-right: 0.6em;
+    padding-left: 0.3em;
+  
+    font-weight:bold;
+}
+
+.ie legend {
+    width: 19em;
+}
+
+label {
+    clear: both;
+}
+
+legend label {
+  display: block;
+  clear: none;
+  float:right;
+  font-size: 1.6em;
+  width: auto!important;
+}
+
+legend input {
+  display: block;
+  float:left;
+  position:relative;
+  top:0.26em;
+}
+
+.help {
+    font-size: 1.6em;
+    clear: both;
+}
+
+form p {
+    margin-top:1em;
+}
+
+form input{
+    display: block;
+    float: left;
+    width: 18em;
+    
+    margin: 0;
+    
+    background-color:transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+
+form input[type="checkbox"]{
+    width: auto;
+    border: none;
+}
+
+input[type=submit] {
+    display: block;
+    clear: both;
+    width: 100%;
+    
+    margin:0;
+    margin-top: 1em;
+    margin-bottom:2em;
+    padding: 0.1em;
+    
+    background-color:transparent;
+    border:1px solid #000;
+}
+
+.checkbox {
+	clear:both;
+}
+
+.checkbox label, .checkbox input {
+    display:inline;
+    float:none;
+}
+
+.checkbox input {
+    margin-bottom: 0.43em;
+}

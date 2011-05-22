@@ -7,7 +7,7 @@ $firstLetter = '';
         if (substr($resident->last_name, 0, 1) != $firstLetter):
           $firstLetter = substr($resident->last_name, 0, 1);
 ?>
-<table style="margin-bottom: 3em; margin-right:2em;">
+<table style="float:left; margin-bottom: 3em; margin-right:2em; <?php if( $currentCol%$columns == 0) echo "clear:left;"; ?>">
   <thead>
     <tr>
       <th colspan="3"><?php echo $firstLetter ?></th>

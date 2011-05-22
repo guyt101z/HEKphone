@@ -1,6 +1,6 @@
 <h1><?php echo __('phone.list.title') ?></h1>
 
-<table>
+<table class="list">
   <thead>
     <tr>
       <th>Name</th>

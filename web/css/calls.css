@@ -1,0 +1,59 @@
+#bills .calldetails {
+	font-size:1em;
+	margin:0;
+	width:100%;
+	border: 1px solid #000;
+}
+
+#bills .billdetails {
+	padding-left:0;
+}
+
+div .search-charges {
+	width:70%;
+	margin: auto auto;
+	margin-bottom: 2em;
+	text-align:center;
+}
+	
+#destination {
+    display: block;
+    width: 300px;
+    
+    margin: 0 auto;
+    margin-bottom: 1px;
+    
+    padding-right:20px;
+    
+    background-color:transparent;
+    border-top:none;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+.active {
+    background-image:url('../images/loader.gif');
+    background-repeat:no-repeat;
+    background-size: auto 80%;
+    background-position: right top;
+}
+
+div .search-charges form #submit {
+    display: block;
+    clear: both;
+    width: 320px;
+    
+    margin-top:1em;
+    margin:auto;
+    padding: 0.1em;
+    
+    background-color:transparent;
+    border-top:1px solid #000;
+    border-left:none;
+    border-right:none;
+    border-bottom:1px solid #000;
+}
+
+div .search-charges #charges {
+	font-size: 1.5em;
+}

@@ -1,0 +1,60 @@
+/* List */
+table {
+    width: auto;
+}
+
+table th {
+    padding-left: 0.3em;
+    padding-right: 0.3em;
+}
+
+.locked { color: grey; }
+
+#orderby ul {
+    display: block;
+    width: 100%;
+    list-style-type: none;
+}
+
+#orderby li {
+    display: block;
+    width: 33%;
+    float: left;
+    
+    margin-bottom: 1em;
+}
+
+#orderby a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.6em;
+}
+
+
+/* Edit form */
+.entry {
+	margin-bottom:0.5em;
+}
+	
+.entry .value{
+	font-size: 1.6em;
+	margin-left:0.6em;
+}
+
+#comments {
+	margin: 0 auto;
+}
+#comments ul li{
+    list-style-type: none;
+}
+
+/* new comment link */
+form a {
+	text-align: center;
+	font-size: 1.6em;
+}
+
+#actions li {
+    font-size: 1.6em;
+}

@@ -23,5 +23,9 @@ class GroupcallsForm extends BaseGroupcallsForm
     ;
     $this->widgetSchema['residents_list']->addOption('query',$residentsListQuery);
     $this->widgetSchema['residents_list']->addOption('renderer_class', 'sfWidgetFormSelectDoubleList'); // provided by the sfExtraFrom plugin
+
+    $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());
+    $this->getWidgetSchema()->addFormFormatter('div', $decorator);
+    $this->getWidgetSchema()->setFormFormatterName('div');
   }
 }

@@ -98,8 +98,11 @@ class callsActions extends sfActions
   {
     $destination = $request->getParameter('destination');
 
-    if(strlen($destination) <= 3) {
+    if($request->isXmlHttpRequest() && strlen($destination) <= 3) {
       return sfView::NONE;
+    }
+    if( ! $request->isXmlHttpRequest() && strlen($destination <= 2)) {
+      $this->redirect('calls/index');
     }
 
     //Prepare CDR as if the user has called the number

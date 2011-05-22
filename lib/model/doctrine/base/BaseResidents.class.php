@@ -215,7 +215,7 @@ abstract class BaseResidents extends sfDoctrineRecord
              ));
         $this->hasColumn('culture', 'string', 5, array(
              'type' => 'string',
-             'default' => 'de_DE',
+             'default' => 'de',
              'length' => 5,
              ));
     }

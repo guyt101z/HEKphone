@@ -34,7 +34,10 @@
         <target>Abmelden</target>
       </trans-unit>
       
-      
+      <trans-unit id="1">
+        <source>calls.heading</source>
+        <target>Kostenübersicht</target>
+      </trans-unit>
       <trans-unit id="1">
         <source>calls.charges.heading</source>
         <target>Wieviel kostet ein Gespräch nach...</target>
@@ -49,7 +52,7 @@
       </trans-unit>
       <trans-unit id="1">
         <source>calls.charges.no_result</source>
-        <target>Kein Ergebnis. Stimmt die Nummer und hast du an die führende 0 gedacht?</target>
+        <target>Kein Ergebnis. An die führende 0 gedacht?</target>
       </trans-unit>          
       <trans-unit id="40">
         <source>calls.list.heading</source>
@@ -61,7 +64,7 @@
       </trans-unit>
       <trans-unit id="42">
         <source>calls.list.duration</source>
-        <target>Dauer [sec]</target>
+        <target>Dauer</target>
       </trans-unit>
       <trans-unit id="43">
         <source>calls.list.rate</source>
@@ -73,7 +76,7 @@
       </trans-unit>
       <trans-unit id="44">
         <source>calls.list.charge</source>
-        <target>Kosten [ct]</target>
+        <target>Kosten</target>
       </trans-unit>
       <trans-unit id="42">
         <source>calls.list.sum</source>
@@ -89,7 +92,7 @@
       </trans-unit>
       <trans-unit id="47">
         <source>calls.list.bills.amount</source>
-        <target>Betrag [EUR]</target>
+        <target>Betrag</target>
       </trans-unit>
       <trans-unit id="48">
         <source>calls.list.bills.details</source>
@@ -153,13 +156,17 @@
         <source>resident.edit.heading</source>
         <target>Bewohnerdetails bearbeiten</target>
       </trans-unit>
+      <trans-unit id="51">
+        <source>resident.edit.comments</source>
+        <target>Kommentare</target>
+      </trans-unit>
       <trans-unit id="52">
         <source>resident.edit.removeThisComment</source>
         <target>Diesen Kommentar entfernen.</target>
       </trans-unit>
       <trans-unit id="53">
         <source>resident.edit.addComment</source>
-        <target>Noch einen Kommentar hinzufügen</target>
+        <target>Kommentar hinzufügen</target>
       </trans-unit>
       <trans-unit id="69">
         <source>resident.edit.backToList</source>
@@ -188,6 +195,10 @@
       <trans-unit id="69">
         <source>resident.resetExtensionsFailed</source>
         <target>Die Extensions in Asterisk konnten nicht neu gesetzt werden. Vielleicht kann der Bewohner nicht angerufen werden. Unbedingt überprüfen!</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>resident.edit.error.unlockOnEmptyAccountInformation</source>
+        <target>Freischalten nur möglich, wenn die Bankverbindung korrekt eingetragen ist.</target>
       </trans-unit>
       
       
@@ -271,7 +282,7 @@
       
       <trans-unit id="59">
         <source>navigation.calls</source>
-        <target>Gespräche/Rechnungen</target>
+        <target>Gespräche</target>
       </trans-unit>
       <trans-unit id="60">
         <source>navigation.vm</source>
@@ -324,7 +335,7 @@
       
       
       <trans-unit id="1">
-        <source>resident.settings.successfull</source>
+        <source>resident.settings.successful</source>
         <target>Änderungen erfolgreich gespeichert.</target>
       </trans-unit>
       <trans-unit id="1">

@@ -12,9 +12,24 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [main.css]
+  stylesheets:    [reset.css, main.css]
 
   javascripts:    []
 
   has_layout:     true
   layout:         layout
+
+auth:
+  stylesheets:    [auth.css]
+calls:
+  stylesheets:    [calls.css]
+groupcalls:
+  stylesheets:    [groupcalls.css]
+phone:
+  stylesheets:    [phones.css]
+resident:
+  stylesheets:    [resdients.css]
+settings:
+  stylesheets:    [settings.css]
+
+  

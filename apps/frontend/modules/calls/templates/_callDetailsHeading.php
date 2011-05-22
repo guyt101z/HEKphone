@@ -1,7 +1,7 @@
-    <tr>
-      <th><?php echo __("calls.list.datetime") ?></th>
-      <th><?php echo __("calls.list.duration") ?></th>
-      <th><?php echo __("calls.list.rate") ?></th>
-      <th><?php echo __("calls.list.destination") ?></th>
-      <th><?php echo __("calls.list.charge") ?></th>
-    </tr>
+      <tr>
+        <td><?php echo __("calls.list.datetime") ?></td>
+        <td><?php echo __("calls.list.duration") ?></td>
+        <td><?php echo __("calls.list.rate") ?></td>
+        <td><?php echo __("calls.list.destination") ?></td>
+        <td><?php echo __("calls.list.charge") ?></td>
+      </tr>

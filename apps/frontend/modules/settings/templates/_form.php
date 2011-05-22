@@ -1,34 +1,34 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('jquery-settings_hide_show_form_parts.js') ?>
-
+<div class="formContainer">
 <form action="<?php echo url_for('settings/update') ?>" method="POST">
   <fieldset id="general">
-    <legend><?php echo __('resident.settings.general') ?></legend>
-    <div class="help"><?php echo __('resident.settings.general_help')?></div>
+    <legend><label><?php echo __('resident.settings.general') ?></label></legend>
+    <p class="help"><?php echo __('resident.settings.general_help')?></p>
     <div>
-      <span><?php echo $form['newEmail']->renderLabel() ?></span>
+      <?php echo $form['newEmail']->renderLabel() ?>
       <?php echo $form['newEmail'] . "\n" ?>
-      <span class="error"><?php echo $form['newEmail']->renderError() ?></span>
+      <?php echo $form['newEmail']->renderError() ?>
     </div>
     <div>
-      <span><?php echo $form['newPassword']->renderLabel() ?></span>
+     <?php echo $form['newPassword']->renderLabel() ?>
       <?php echo $form['newPassword'] . "\n" ?>
-      <span class="error"><?php echo $form['newPassword']->renderError() ?></span>
+      <?php echo $form['newPassword']->renderError() ?>
     </div>
     <div>
-      <span><?php echo $form['newPasswordRepeat']->renderLabel() ?></span>
+      <?php echo $form['newPasswordRepeat']->renderLabel() ?>
       <?php echo $form['newPasswordRepeat'] . "\n" ?>
-      <span class="error"><?php echo $form['newPasswordRepeat']->renderError() ?></span>
+      <?php echo $form['newPasswordRepeat']->renderError() ?>
     </div>
-    <div>
-      <span><?php echo $form['reducedCdrs']->renderLabel() ?></span>
+    <div class="checkbox">
       <?php echo $form['reducedCdrs'] . "\n" ?>
-      <span class="error"><?php echo $form['reducedCdrs']->renderError() ?></span>
+      <?php echo $form['reducedCdrs']->renderLabel() ?>
+      <?php echo $form['reducedCdrs']->renderError() ?>
     </div>
-    <div>
-      <span><?php echo $form['sendEmailOnMissedCall']->renderLabel() ?></span>
+    <div class="checkbox">
       <?php echo $form['sendEmailOnMissedCall'] . "\n" ?>
-      <span class="error"><?php echo $form['sendEmailOnMissedCall']->renderError() ?></span>
+     <?php echo $form['sendEmailOnMissedCall']->renderLabel() ?>
+      <?php echo $form['sendEmailOnMissedCall']->renderError() ?>
     </div>
   </fieldset>
 
@@ -36,44 +36,45 @@
   <fieldset id="voicemail">
     <legend>
       <?php echo $form['vm_active'] . "\n" ?>
-      <span><?php echo $form['vm_active']->renderLabel() ?></span>
+      <?php echo $form['vm_active']->renderLabel() ?>
     </legend>
-    <div class="help"><?php echo __('resident.settings.vm_help')?></div>
+    <p class="help"><?php echo __('resident.settings.vm_help')?></p>
     <div class="voicemailField">
-      <span><?php echo $form['vm_seconds']->renderLabel() ?></span>
+      <?php echo $form['vm_seconds']->renderLabel() ?>
       <?php echo $form['vm_seconds'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_seconds']->renderError() ?></span>
+      <?php echo $form['vm_seconds']->renderError() ?>
     </div>
-    <div class="voicemailField">
-      <span><?php echo $form['vm_sendEmailOnNewMessage']->renderLabel() ?></span>
+    <div class="checkbox voicemailField">
       <?php echo $form['vm_sendEmailOnNewMessage'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_sendEmailOnNewMessage']->renderError() ?></span>
+      <?php echo $form['vm_sendEmailOnNewMessage']->renderLabel() ?>
+      <?php echo $form['vm_sendEmailOnNewMessage']->renderError() ?>
     </div>
-    <div class="voicemailField">
-      <span><?php echo $form['vm_attachMessage']->renderLabel() ?></span>
+    <div class="checkbox voicemailField">
       <?php echo $form['vm_attachMessage'] . "\n" ?>
-      <span class="error"><?php echo $form['vm_attachMessage']->renderError() ?></span>
+      <?php echo $form['vm_attachMessage']->renderLabel() ?>
+      <?php echo $form['vm_attachMessage']->renderError() ?>
     </div>
   </fieldset>
 
   <fieldset id="redirect">
     <legend>
       <?php echo $form['redirect_active'] . "\n" ?>
-      <span><?php echo $form['redirect_active']->renderLabel() ?></span>
+      <?php echo $form['redirect_active']->renderLabel() ?>
     </legend>
-    <div class="help"><?php echo __('resident.settings.redirect_help')?></div>
+    <p class="help"><?php echo __('resident.settings.redirect_help')?></p>
     <div class="redirectField">
-      <span><?php echo $form['redirect_to']->renderLabel() ?></span>
+      <?php echo $form['redirect_to']->renderLabel() ?>
       <?php echo $form['redirect_to'] . "\n" ?>
-      <span class="error"><?php echo $form['redirect_to']->renderError() ?></span>
+      <?php echo $form['redirect_to']->renderError() ?>
     </div>
     <div class="redirectField">
-      <span><?php echo $form['redirect_seconds']->renderLabel() ?></span>
+      <?php echo $form['redirect_seconds']->renderLabel() ?>
       <?php echo $form['redirect_seconds'] . "\n" ?>
-      <span class="error"><?php echo $form['redirect_seconds']->renderError() ?></span>
+      <?php echo $form['redirect_seconds']->renderError() ?>
     </div>
   </fieldset>
 
-  <input type="submit" value="[T]resident.settings.submit[/T]" />
+  <input type="submit" value="<?php echo __('resident.settings.submit') ?>" />
 
   </form>
+</div>

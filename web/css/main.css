@@ -1,1 +1,248 @@
-.locked { color: grey; }
+html {
+  height: 100%;
+}
+body, select, input, textarea {
+  color: #444; /* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */
+  font-size: 10px;
+  line-height: 2.4em;
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  vertical-align: baseline;
+}
+#container {
+  position: relative;
+  width: 960px;
+  min-width: 960px;
+  margin: 0 auto;
+  font-size: 10px;
+}
+a {
+  color: #444;
+}
+a:hover {
+	color: #334466;
+	text-decoration: underline;
+}
+a:active {
+    color: #334466;
+    text-decoration: underline;
+}
+abbr[title=und] {
+  font-family: Baskerville, 'Goudy Old Style', Palatino, 'Book Antiqua', Constantia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: normal;
+  border-bottom: none;
+}
+h1 {
+	font-size: 3em;
+	margin-top: 1em;
+	margin-bottom:0.5em;
+	text-align: center;
+}
+h2 {
+  font-size: 2.4em;
+  text-align: center;
+  
+  margin-bottom:0.5em;
+}
+h3 {
+  font-size: 1.8em;
+  text-align: center;
+}
+p {
+  margin: 1.5em 0;
+  font-size: 1.6em;
+}
+ol {
+  margin-left: 1.4em;
+}
+
+
+/* Basic Forms */
+.formContainer {
+	width: 450px;
+	margin: 0 auto;
+	margin-bottom: 2em;
+}
+.formContainer form .entry {
+	clear: both;
+}
+.formContainer input, select, textarea {
+  margin: 0 10px;
+  padding: 0;
+  font-size: 1.6em;
+}
+.formContainer label {
+  font-size: 1.6em;
+  display:block; 
+  float:left;
+  width: 13em;
+}
+.formContainer input, textarea {
+  line-height: 1em;
+}
+.formContainer form .submit {
+	text-align: center;
+}
+.formContainer form .submit input {
+	display:inline;
+}
+.formContainer form a {
+	font-size: 1.6em;
+	margin-right: 2em;
+}
+
+/* Form Errors */
+.globalError {
+    display: block;
+    margin: 0 auto;
+    
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: red;
+}
+
+.formError {
+    display: block;
+    margin: 0 auto;
+    margin-left: 13em;
+    
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: red;
+}
+
+.error_list {
+    width: 100%;
+    clear: both;
+    list-style-type:none;
+    font-size: 1.6em;
+    padding-left: 13em; 
+}
+.error_list li {
+    width: 100%;
+    color: red;
+}
+
+footer {
+  clear: both;
+  margin-bottom: 2.4em;
+  padding-top: 2.3em;
+  border-top: 1px solid #ccc;
+  text-align: center;
+}
+
+/* Navigation */
+header {
+  padding-top: 2.4em;
+  padding-bottom: 2.3em;
+  margin-bottom:2em;
+  border-bottom: 1px solid #ccc;
+}
+header nav {
+  overflow: hidden;
+}
+header nav ul{
+  display: block;
+}
+header nav li {
+  float: left;
+  width: 137px;
+}
+header nav a {
+  display: block;
+  font-size: 1.5em;
+}
+
+header nav span {
+  display: block;
+  font-size: 1.5em;
+}
+
+header nav .current {
+    color: #334466;
+	text-decoration: underline;
+}
+
+/* Admin-Resident Navigation */
+header nav .residentnav {
+	width:100%;
+}
+header nav #residentnav li {
+	display: block;
+    width: 160px; 
+        border-top: 1px dashed black;
+}
+
+/* Flashes */
+div .notice {
+    display: block;
+    width: 100%;
+    margin-bottom:1.5em;
+    
+    text-align: center;
+    font-size: 1.6em;
+    
+    background-color: #79BA56;
+    color: #000;
+}
+
+div .error {
+    display: block;
+    width: 100%;
+    margin-bottom:1.5em;
+    
+    text-align: center;
+    font-size: 1.6em;
+    
+    background-color: #E78E3E;
+    color: #fff;
+}
+
+table {
+    width: 80%;
+    font-size: 1.5em;
+    
+    margin: 0 auto;
+    margin-bottom: 2em;
+}
+
+table thead tr{
+    background-color: #ddeffd;
+    
+    border-bottom: 1px solid #000;
+}
+
+
+table thead th {
+    border-right: 1px solid #000;
+}
+
+table tbody td {
+    padding-left: 1em;
+    border-right: 1px solid #000;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color:#F2F0FF;
+}
+table tbody tr:nth-child(even) {
+    background-color:#fff;
+}
+
+table tr td:last-child {
+    border: none;
+}
+
+table tr th:last-child {
+    border: none;
+}
+
+table tfoot {
+    background-color: transparent;
+    
+    font-weight: bold;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
