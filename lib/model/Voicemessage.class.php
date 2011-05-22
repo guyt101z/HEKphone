@@ -46,7 +46,7 @@ class Voicemessage {
 
     public function getSoundFilename() {
         return $this->getVoicemailboxRootPath() . $this->getSubfolder() . DIRECTORY_SEPARATOR
-                . 'msg' . str_pad($this->id, 4, '0', STR_PAD_LEFT) . '.WAV';
+                . 'msg' . str_pad($this->id, 4, '0', STR_PAD_LEFT) . '.mp3';
     }
 
     public function delete()

@@ -149,7 +149,10 @@ header nav ul{
 header nav li {
   float: left;
   width: 120px;
+  width: 240px;
+  text-align: center;
 }
+
 header nav a {
   display: block;
   font-size: 1.5em;
@@ -172,7 +175,7 @@ header nav .residentnav {
 header nav #residentnav li {
 	display: block;
     width: 160px; 
-        border-top: 1px dashed black;
+    border-top: 1px dashed black;
 }
 
 /* Flashes */

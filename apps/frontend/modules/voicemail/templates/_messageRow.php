@@ -3,11 +3,17 @@
       <td><?php echo $message->getCallerid() ?></td>
       <td><?php echo $message->getDuration() ?></td>
       <td>
-        <audio src="<?php echo url_for('voicemail/listen?'
+        <audio controls="controls" preload="metadata">
+        <source src="<?php echo url_for('voicemail/listen?'
                                   . 'id=' . $message->getId()
                                   . '&new=' . (string)(int)$message->isNew()
-                                  . '&voicemailbox=' . $message->getVoicemailboxId()); ?>"
-               controls="controls" preload="none">
+                                  . '&voicemailbox=' . $message->getVoicemailboxId()
+                                  . '&format=mp3'); ?>" />
+        <source src="<?php echo url_for('voicemail/listen?'
+                                  . 'id=' . $message->getId()
+                                  . '&new=' . (string)(int)$message->isNew()
+                                  . '&voicemailbox=' . $message->getVoicemailboxId()
+                                  . '&format=mp3'); ?>" />
           <?php echo link_to(__('voicemail.message.listen'), 'voicemail/listen',
                        array('query_string' => 'id=' . $message->getId()
                                . '&new=' . (string)(int)$message->isNew()
