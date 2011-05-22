@@ -3,7 +3,7 @@
       <td><?php echo $message->getCallerid() ?></td>
       <td><?php echo $message->getDuration() ?></td>
       <td>
-        <audio controls="controls" preload="metadata">
+        <audio controls="controls" preload="none">
         <source src="<?php echo url_for('voicemail/listen?'
                                   . 'id=' . $message->getId()
                                   . '&new=' . (string)(int)$message->isNew()
