@@ -5,6 +5,18 @@ index:
 edit:
   is_secure: true
   credentials: hekphone
+  
+update:
+  is_secure: true
+  credentials: hekphone
+  
+resetPassword:
+  is_secure: true
+  credentials: hekphone
+
+lockOnFailedDebit:
+  is_secure: true
+  credentials: hekphone
 
 all:
   is_secure: true
