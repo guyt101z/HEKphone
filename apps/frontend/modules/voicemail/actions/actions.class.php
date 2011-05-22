@@ -102,9 +102,9 @@ class voicemailActions extends sfActions
 
     $message = $vmbox->getOldMessage($request->getParameter('id'));
     if($message->markAsNew()) {
-      $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
+      $this->getUser()->setFlash('notice' ,'voicemail.message.markAsNew.successful');
     } else {
-      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.failed');
+      $this->getUser()->setFlash('error' ,'voicemail.message.markAsNew.failed');
     }
     $this->redirect('voicemail/index');;
   }

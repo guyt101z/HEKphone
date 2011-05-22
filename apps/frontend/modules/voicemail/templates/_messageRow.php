@@ -7,18 +7,16 @@
         <source src="<?php echo url_for('voicemail/listen?'
                                   . 'id=' . $message->getId()
                                   . '&new=' . (string)(int)$message->isNew()
-                                  . '&voicemailbox=' . $message->getVoicemailboxId()
-                                  . '&format=mp3'); ?>" />
-        <source src="<?php echo url_for('voicemail/listen?'
-                                  . 'id=' . $message->getId()
-                                  . '&new=' . (string)(int)$message->isNew()
-                                  . '&voicemailbox=' . $message->getVoicemailboxId()
-                                  . '&format=mp3'); ?>" />
+                                  . '&voicemailbox=' . $message->getVoicemailboxId()); ?>" />
           <?php echo link_to(__('voicemail.message.listen'), 'voicemail/listen',
                        array('query_string' => 'id=' . $message->getId()
                                . '&new=' . (string)(int)$message->isNew()
                                . '&voicemailbox=' . $message->getVoicemailboxId())); ?>
         </audio><br />
+        <?php echo link_to(__('voicemail.message.listen'), 'voicemail/listen',
+                       array('query_string' => 'id=' . $message->getId()
+                             . '&new=' . (string)(int)$message->isNew()
+                             . '&voicemailbox=' . $message->getVoicemailboxId())); ?>
         <?php if($message->isNew()): ?>
         <?php echo link_to(__('voicemail.message.markAsOld'), 'voicemail/markAsOld',
                        array('query_string' => 'id=' . $message->getId()

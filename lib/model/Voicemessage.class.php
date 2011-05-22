@@ -46,7 +46,7 @@ class Voicemessage {
 
     public function getSoundFilename() {
         return $this->getVoicemailboxRootPath() . $this->getSubfolder() . DIRECTORY_SEPARATOR
-                . 'msg' . str_pad($this->id, 4, '0', STR_PAD_LEFT) . '.mp3';
+                . 'msg' . str_pad($this->id, 4, '0', STR_PAD_LEFT) . '.wav';
     }
 
     public function delete()
@@ -81,6 +81,8 @@ class Voicemessage {
 
         // refresh the index
         VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+
+        return true;
     }
 
     public function markAsNew() {
@@ -99,6 +101,8 @@ class Voicemessage {
 
         // refresh the index
         VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+
+        return true;
     }
 
     public function getCallerid() {
