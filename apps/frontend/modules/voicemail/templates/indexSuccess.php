@@ -1,12 +1,13 @@
 <h2><?php echo __('voicemail.newMessages') ?></h2>
 
+<?php if(count($vmbox->getNewMessages()) > 0):?>
 <table>
   <thead>
     <tr>
-      <td><?php echo __('voicemail.date') ?></td>
-      <td><?php echo __('voicemail.callerid') ?></td>
-      <td><?php echo __('voicemail.duration') ?></td>
-      <td><?php echo __('voicemail.actions') ?></td>
+      <th><?php echo __('voicemail.date') ?></th>
+      <th><?php echo __('voicemail.callerid') ?></th>
+      <th><?php echo __('voicemail.duration') ?></th>
+      <th><?php echo __('voicemail.actions') ?></th>
     </tr>
   </thead>
   <tbody>
@@ -17,16 +18,21 @@ foreach($vmbox->getNewMessages() as $message){
 ?>
   </tbody>
 </table>
+<?php else:?>
+<p><?php echo __('voicemail.noNewMessages')?></p>
+<?php endif;?>
 
+
+<?php if(count($vmbox->getOldMessages()) > 0):?>
 <h2><?php echo __('voicemail.oldMessages') ?></h2>
 
 <table>
   <thead>
     <tr>
-      <td><?php echo __('voicemail.date') ?></td>
-      <td><?php echo __('voicemail.callerid') ?></td>
-      <td><?php echo __('voicemail.duration') ?></td>
-      <td><?php echo __('voicemail.actions') ?></td>
+      <th><?php echo __('voicemail.date') ?></th>
+      <th><?php echo __('voicemail.callerid') ?></th>
+      <th><?php echo __('voicemail.duration') ?></th>
+      <th><?php echo __('voicemail.actions') ?></th>
     </tr>
   </thead>
   <tbody>
@@ -37,3 +43,4 @@ foreach($vmbox->getOldMessages() as $message){
 ?>
   </tbody>
 </table>
+<?php endif;?>

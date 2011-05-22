@@ -25,9 +25,9 @@ bill_detail:
     billid: \d+
     
 # Display a users VM
-vm:
-  url: /vm
-  param: { module: vm, action: index}
+voicemail:
+  url: /voicemail
+  param: { module: voicemail, action: index}
 
 # Display a users settings 
 settings:

@@ -12,7 +12,7 @@
                        array('query_string' => 'id=' . $message->getId()
                                . '&new=' . (string)(int)$message->isNew()
                                . '&voicemailbox=' . $message->getVoicemailboxId())); ?>
-        </audio>
+        </audio><br />
         <?php if($message->isNew()): ?>
         <?php echo link_to(__('voicemail.message.markAsOld'), 'voicemail/markAsOld',
                        array('query_string' => 'id=' . $message->getId()

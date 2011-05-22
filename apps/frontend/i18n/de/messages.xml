@@ -286,7 +286,7 @@
       </trans-unit>
       <trans-unit id="60">
         <source>navigation.vm</source>
-        <target>AB</target>
+        <target>Anrufbeantworter</target>
       </trans-unit>
       <trans-unit id="5123">
         <source>navigation.groupcalls</source>
@@ -463,6 +463,10 @@
         <source>voicemail.newMessages</source>
         <target>Neue Nachrichten</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.noNewMessages</source>
+        <target>Keine neue Nachrichten.</target>
+      </trans-unit>
      <trans-unit id="12">
         <source>voicemail.oldMessages</source>
         <target>Alte Nachrichten</target>
@@ -503,19 +507,26 @@
         <source>voicemail.message.delete.successful</source>
         <target>Nachricht gelöscht.</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.delete.failed</source>
+        <target>Löschen fehlgeschlagen.</target>
+      </trans-unit>
      <trans-unit id="12">
         <source>voicemail.message.markAsOld.successful</source>
-        <target>Nachricht als alt gehört markiert.</target>
+        <target>Nachricht als gehört markiert.</target>
       </trans-unit>
       <trans-unit id="12">
         <source>voicemail.message.markAsNew.successful</source>
         <target>Nachricht als neu markiert.</target>
       </trans-unit>
       <trans-unit id="12">
-        <source>voicemail.message.delete.failed</source>
-        <target>Löschen fehlgeschlagen.</target>
+        <source>voicemail.message.markAsOld.failed</source>
+        <target>Nachricht konnte nicht als gehört markiert werden.</target>
       </trans-unit>
-            
+      <trans-unit id="12">
+        <source>voicemail.message.markAsNew.failed</source>
+        <target>Nachricht konnte nicht als neu markiert werden.</target>
+      </trans-unit>
       <trans-unit id="12">
         <source>groupcalls.list.heading</source>
         <target>Sammelrufe</target>

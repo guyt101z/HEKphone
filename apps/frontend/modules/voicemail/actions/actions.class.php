@@ -80,7 +80,7 @@ class voicemailActions extends sfActions
     if($message->markAsOld()) {
       $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
     } else {
-      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.successful');
+      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.failed');
     }
     $this->redirect('voicemail/index');
   }
@@ -99,7 +99,7 @@ class voicemailActions extends sfActions
     if($message->markAsNew()) {
       $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
     } else {
-      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.successful');
+      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.failed');
     }
     $this->redirect('voicemail/index');;
   }
