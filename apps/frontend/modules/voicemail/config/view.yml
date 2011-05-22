@@ -1,0 +1,2 @@
+default:
+  stylesheets: [reset.css, main.css, voicemail.css]
