@@ -13,7 +13,7 @@
     <div id="navigation">
       <ul id="globalnav">
         <li><?php echo link_to(__('navigation.calls'), 'calls') ?></li>
-        <!--<li><?php echo link_to(__('navigation.vm'), 'vm') ?></li>-->
+        <li><?php echo link_to(__('navigation.vm'), 'vm') ?></li>
         <li><?php echo link_to(__('navigation.settings'), 'settings') ?></li>
         <?php if ($sf_user->hasCredential('hekphone')): echo "\n"; ?>
         <li class="adminnav"><?php echo link_to(__('navigation.residents'), 'resident_list') ?></li>

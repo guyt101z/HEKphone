@@ -28,7 +28,7 @@ class voicemailActions extends sfActions
       $this->residentid = $this->getUser()->getAttribute('id');
     }
 
-    $this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid);
+    $this->forward404Unless($this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid), 'Voicemailbox ' .$this->residentid . ' not found');
   }
 
   public function executeDelete(sfWebRequest $request)
@@ -54,9 +54,9 @@ class voicemailActions extends sfActions
     // delete the message
     if($message != false) {
       if($message->delete()) {
-        $this->getUser()->setFlash('notice', 'voicemail.message.deleted');
+        $this->getUser()->setFlash('notice', 'voicemail.message.delete.successful');
       } else {
-        $this->getUser()->setFlash('error', 'voicemail.message.deleteFailed');die;
+        $this->getUser()->setFlash('error', 'voicemail.message.delete.failed');
       }
     } else {
       $this->forward404('Voicemessage not found.');
@@ -64,4 +64,44 @@ class voicemailActions extends sfActions
 
     $this->redirect('voicemail/index');
   }
+
+  public function executeMarkAsOld(sfWebRequest $request){
+    // the voicemailbox id equals per definition the id of the associated user
+    // show 403-forbidden if someone tries to access anothers message and is not a member of hekphone.
+    // TODO: move this to a filter
+    if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
+    {
+      return false;
+    }
+    $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
+
+
+    $message = $vmbox->getNewMessage($request->getParameter('id'));
+    if($message->markAsOld()) {
+      $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
+    } else {
+      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.successful');
+    }
+    $this->redirect('voicemail/index');
+  }
+
+  public function executeMarkAsNew(sfWebRequest $request){
+      // the voicemailbox id equals per definition the id of the associated user
+    // show 403-forbidden if someone tries to access anothers message and is not a member of hekphone.
+    // TODO: move this to a filter
+    if($request->getParameter('voicemailbox') != $this->getUser()->getAttribute('id') && ! $this->getUser()->hasCredential('hekphone'))
+    {
+      return false;
+    }
+    $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
+
+    $message = $vmbox->getOldMessage($request->getParameter('id'));
+    if($message->markAsNew()) {
+      $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
+    } else {
+      $this->getUser()->setFlash('error' ,'voicemail.message.markAsOld.successful');
+    }
+    $this->redirect('voicemail/index');;
+  }
+
 }

@@ -73,6 +73,7 @@ class Voicemessage {
         $to   = $this->getVoicemailboxRootPath() . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                 . 'msg' . str_pad($toId, 4, '0', STR_PAD_LEFT);
 
+        //FIXME: catch warnings!
         rename($from . '.wav', $to . '.wav');
         rename($from . '.WAV', $to . '.WAV');
         rename($from . '.txt', $to . '.txt');
@@ -90,6 +91,7 @@ class Voicemessage {
         $to   = $this->getVoicemailboxRootPath() . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                 . 'msg' . str_pad($toId, 4, '0', STR_PAD_LEFT);
 
+        //FIXME: catch warnings!
         rename($from . '.wav', $to . '.wav');
         rename($from . '.WAV', $to . '.WAV');
         rename($from . '.txt', $to . '.txt');

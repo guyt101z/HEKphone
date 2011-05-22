@@ -204,10 +204,16 @@ class VoicemessageFolder {
     }
 
     public function getHighestOldMessageId() {
+        if(count($this->oldMessages) == 0){
+          return 0;
+        }
         return end($this->oldMessages)->getId()+1;
     }
 
     public function getHighestNewMessageId() {
+        if(count($this->newMessages) == 0){
+          return 0;
+        }
         return end($this->newMessages)->getId()+1;
     }
 }

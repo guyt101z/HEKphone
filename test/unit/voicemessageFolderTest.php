@@ -12,12 +12,12 @@ $vmbox = VoicemessageFolder::getVoicemailbox(943);
 $t->ok($vmbox instanceof VoicemessageFolder);
 print_r($vmbox->toArray());
 
-//if($message = $vmbox->getOldMessage(1)) {
-//  print_r($message->toArray());
-//  $message->markAsNew();
-//}
-//$vmbox->loadMessages();
-//print_r($vmbox->toArray());
+#if($message = $vmbox->getOldMessage(1)) {
+#  print_r($message->toArray());
+#  $message->markAsNew();
+#}
+#$vmbox->loadMessages();
+#print_r($vmbox->toArray());
 
 if($message = $vmbox->getNewMessage(0)) {
   print_r($message->toArray());
