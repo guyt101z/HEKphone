@@ -3,10 +3,10 @@
 <table>
   <thead>
     <tr>
-      <td><?php echo __('vm.date') ?></td>
-      <td><?php echo __('vm.callerid') ?></td>
-      <td><?php echo __('vm.duration') ?></td>
-      <td><?php echo __('vm.actions') ?></td>
+      <td><?php echo __('voicemail.date') ?></td>
+      <td><?php echo __('voicemail.callerid') ?></td>
+      <td><?php echo __('voicemail.duration') ?></td>
+      <td><?php echo __('voicemail.actions') ?></td>
     </tr>
   </thead>
   <tbody>
@@ -23,10 +23,10 @@ foreach($vmbox->getNewMessages() as $message){
 <table>
   <thead>
     <tr>
-      <td><?php echo __('vm.date') ?></td>
-      <td><?php echo __('vm.callerid') ?></td>
-      <td><?php echo __('vm.duration') ?></td>
-      <td><?php echo __('vm.actions') ?></td>
+      <td><?php echo __('voicemail.date') ?></td>
+      <td><?php echo __('voicemail.callerid') ?></td>
+      <td><?php echo __('voicemail.duration') ?></td>
+      <td><?php echo __('voicemail.actions') ?></td>
     </tr>
   </thead>
   <tbody>

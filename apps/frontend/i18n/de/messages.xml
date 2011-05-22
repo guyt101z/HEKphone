@@ -448,7 +448,63 @@
         <target>An den Türöffner weiterzuleiten ist verboten.</target>
       </trans-unit>
       
-      
+      <trans-unit id="12">
+        <source>voicemail.newMessages</source>
+        <target>Neue Nachrichten</target>
+      </trans-unit>
+     <trans-unit id="12">
+        <source>voicemail.oldMessages</source>
+        <target>Alte Nachrichten</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.date</source>
+        <target>Datum/Uhrzeit</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.callerid</source>
+        <target>Nummer</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.duration</source>
+        <target>Länge</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.actions</source>
+        <target>Aktionen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.listen</source>
+        <target>Anhören</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.markAsOld</source>
+        <target>Als alt markieren</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.markAsNew</source>
+        <target>Als neu markieren</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.delete</source>
+        <target>Löschen</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.delete.successful</source>
+        <target>Nachricht gelöscht.</target>
+      </trans-unit>
+     <trans-unit id="12">
+        <source>voicemail.message.markAsOld.successful</source>
+        <target>Nachricht als alt gehört markiert.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.markAsNew.successful</source>
+        <target>Nachricht als neu markiert.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.message.delete.failed</source>
+        <target>Löschen fehlgeschlagen.</target>
+      </trans-unit>
+            
       <trans-unit id="12">
         <source>groupcalls.list.heading</source>
         <target>Sammelrufe</target>
