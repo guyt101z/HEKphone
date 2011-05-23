@@ -33,7 +33,12 @@ class voicemailActions extends sfActions
       $this->forward('default', 'secure');
     }
 
-    $this->forward404Unless($this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid), 'Voicemailbox ' .$this->residentid . ' not found');
+
+    $this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid);
+
+    if(! $this->vmbox) {
+      return sfView::ERROR;
+    }
   }
 
   public function executeDelete(sfWebRequest $request)

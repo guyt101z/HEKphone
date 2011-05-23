@@ -528,6 +528,22 @@
         <target>Nachricht konnte nicht als neu markiert werden.</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>voicemail.mailboxDoesNotExist.heading</source>
+        <target>Mailbox existiert (noch) nicht</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.mailboxDoesNotExist.info</source>
+        <target>Das deine Mailbox nicht existiert ist kein Grund zur Sorge und bedeuted erst einmal nur, dass du im Moment &#60;strong&#62;keine neuen Nachrichten&#60;/strong&#62; hast. Sobald du Nachrichten hast wird dir das an deinem Telefon angezeigt und sie erscheinen hier. &#60;br /&#62;
+        Bei analogen Telefonen funktioniert dieser Anrufbeantworter leider nicht, du bekommst aber bald ein neues (SIP-)Telefon.
+        Wenn du glaubst dass du bereits Nachrichten hast und dass hier irgend etwas faul ist, wende dich an einen HEKPhone Tutor deiner Wahl.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>voicemail.mailboxDoesNotExist.settings</source>
+        <target>Schau in den Einstellungen, ob dein Anrufbeantworter angeschaltet ist.</target>
+      </trans-unit>
+      
+      
+      <trans-unit id="12">
         <source>groupcalls.list.heading</source>
         <target>Sammelrufe</target>
       </trans-unit>
