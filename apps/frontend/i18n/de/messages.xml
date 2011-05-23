@@ -5,6 +5,11 @@
     <header/>
     <body>      
       <trans-unit id="33">
+        <source>Required.</source>
+        <target>Benötigtes Feld</target>
+      </trans-unit>
+      
+      <trans-unit id="33">
         <source>auth.login.explanation</source>
         <target>Melde dich an, um deine aktuellen Gespräche und Rechnungen zu sehen und um deine Einstellungen zu verändern.</target>
       </trans-unit>    
@@ -374,6 +379,10 @@
         <source>resident.settings.reducedCdrs</source>
         <target>gekürzter EVN</target>
       </trans-unit>
+      <trans-unit id="12">
+        <source>resident.settings.sendEmailOnMissedCall</source>
+        <target>Benachrichtigungsemail senden, auch wenn der AB nicht dran ging</target>
+      </trans-unit>
       <trans-unit id="8">
         <source>resident.settings.vm_active</source>
         <target>Anrufbeantworter</target>
@@ -391,8 +400,8 @@
         <target>Sprachnachricht an die AB-Email anhängen</target>
       </trans-unit>
       <trans-unit id="12">
-        <source>resident.settings.vm_sendEmailOnMissedCall</source>
-        <target>Benachrichtigungsemail senden, auch wenn der AB nicht dran ging</target>
+        <source>resident.settings.vm_saycid</source>
+        <target>Beim Abhören per 2000 Nummer des Anrufers ansagen</target>
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.general_help</source>

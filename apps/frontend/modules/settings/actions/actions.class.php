@@ -40,6 +40,7 @@ class settingsActions extends sfActions
     $this->form->setDefault('vm_seconds', $resident->get('vm_seconds'));
     $this->form->setDefault('vm_attachMessage', $resident->getVoicemailAttachMessage());
     $this->form->setDefault('vm_sendEmailOnNewMessage', $resident->getVoicemailSendEmailOnNewMessage());
+    $this->form->setDefault('vm_saycid', $resident->getVoicemailSaycid());
     $this->form->setDefault('redirect_active', $resident->get('redirect_active'));
     $this->form->setDefault('redirect_seconds', $resident->get('redirect_seconds'));
     $this->form->setDefault('redirect_to', $resident->get('redirect_to'));
@@ -83,7 +84,8 @@ class settingsActions extends sfActions
       $this->resident->setVoicemailSettings($form->getValue('vm_active'),
                                         $form->getValue('vm_seconds'),
                                         $form->getValue('vm_sendEmailOnNewMessage'),
-                                        $form->getValue('vm_attachMessage'));
+                                        $form->getValue('vm_attachMessage'),
+                                        $form->getValue('vm_saycid'));
 
       $this->resident->setRedirect($form->getValue('redirect_active'),
                                    $form->getValue('redirect_to'),

@@ -16,7 +16,7 @@ class SettingsForm extends sfForm
         'label' => 'resident.settings.reducedCdrs',
         'default' => true)),
       'sendEmailOnMissedCall' => new sfWidgetFormInputCheckbox(array(
-        'label' => 'resident.settings.vm_sendEmailOnMissedCall',
+        'label' => 'resident.settings.sendEmailOnMissedCall',
         'default' => true)),
 
       // Voicemail stuff
@@ -31,6 +31,9 @@ class SettingsForm extends sfForm
         'default' => true)),
       'vm_attachMessage' => new sfWidgetFormInputCheckbox(array(
         'label' => 'resident.settings.vm_attachMessage',
+        'default' => true)),
+      'vm_saycid' => new sfWidgetFormInputCheckbox(array(
+        'label' => 'resident.settings.vm_saycid',
         'default' => true)),
 
       // Redirect stuff
@@ -56,6 +59,7 @@ class SettingsForm extends sfForm
       'vm_seconds'        => new sfValidatorPass(), // gets validated in a post validator because if depends on vm_active
       'vm_sendEmailOnNewMessage' => new sfValidatorBoolean(array('required' => false)),
       'vm_attachMessage'         => new sfValidatorBoolean(array('required' => false)),
+      'vm_saycid'         => new sfValidatorBoolean(array('required' => false)),
 
       'redirect_active'   => new sfValidatorBoolean(array('required' => false)),
       'redirect_to'       => new sfValidatorString(array('required' => false)),

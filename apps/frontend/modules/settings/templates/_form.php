@@ -54,6 +54,11 @@
       <?php echo $form['vm_attachMessage']->renderLabel() ?>
       <?php echo $form['vm_attachMessage']->renderError() ?>
     </div>
+    <div class="checkbox voicemailField">
+      <?php echo $form['vm_saycid'] . "\n" ?>
+      <?php echo $form['vm_saycid']->renderLabel() ?>
+      <?php echo $form['vm_saycid']->renderError() ?>
+    </div>
   </fieldset>
 
   <fieldset id="redirect">

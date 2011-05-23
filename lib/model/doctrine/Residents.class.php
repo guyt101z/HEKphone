@@ -121,7 +121,7 @@ class Residents extends BaseResidents
      * @param boolean $attachMessage
      * @return $this
      */
-    public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage)
+    public function setVoicemailSettings($active, $seconds, $mailOnNewMessage, $attachMessage, $saycid)
     {
       /* Create Voicemailbox, if it does not exist yet */
       $this->createVoicemailbox();
@@ -139,6 +139,9 @@ class Residents extends BaseResidents
       $attachMessage = ($attachMessage) ? "yes" : "no";
       $this->AsteriskVoicemail->set('attach', $attachMessage);
 
+      $saycid = ($saycid) ? "yes" : "no";
+      $this->AsteriskVoicemail->set('saycid', $saycid);
+
       $this->set('vm_active', $active);
       $this->set('vm_seconds', $seconds);
 
@@ -152,7 +155,10 @@ class Residents extends BaseResidents
     }
 
     public function getVoicemailAttachMessage() {
-      return ($this->AsteriskVoicemail->get('attach') != 'yes')? false : true;;
+      return ($this->AsteriskVoicemail->get('attach') != 'yes')? false : true;
+    }
+    public function getVoicemailSaycid() {
+      return ($this->AsteriskVoicemail->get('saycid') != 'yes')? false : true;
     }
 
     /**
