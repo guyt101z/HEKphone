@@ -390,7 +390,7 @@ LCD Luminance      :1
 FuncKey Type       :1
 Memory Key 1       :147
 Memory Key 2       :2000
-<?php if ($overridePersonalSettings):?>
+<?php if ($overridePersonalSettings == 'true'):?>
 --Phone Book--     :
 Item1 Name         :HEKPhone Sammelruf
 Item1 Number       :1234
