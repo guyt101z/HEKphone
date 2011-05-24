@@ -656,6 +656,10 @@
         <target>Das Telefon wird neugestartet und alle persönlichen Einstellungen wie Telefonbuch, Kurzwahl,... gehen verloren. Fortsetzen?</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>phone.edit.reset.successful</source>
+        <target>Das Telefon wurde erfolgreich konfiguriert und startet nun neu.</target>
+      </trans-unit>      
+      <trans-unit id="12">
         <source>phone.list.title</source>
         <target>Telefone</target>
       </trans-unit>
