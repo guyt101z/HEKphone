@@ -24,8 +24,8 @@ $currentCol = -1;
   <?php endif; ?>
     <tr class="<?php echo (! $resident->getUnlocked()) ? 'locked' : 'unlocked' ?>">
       <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $roomNo ?></a></td>
-      <td><?php echo $resident->getLastName() ?></td>
-      <td><?php echo $resident->getFirstName() ?></td>
+      <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $resident->getLastName() ?></a></td>
+      <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $resident->getFirstName() ?></a></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

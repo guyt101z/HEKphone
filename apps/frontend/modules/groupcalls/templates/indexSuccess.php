@@ -10,8 +10,8 @@
     <?php foreach ($Groupcalls as $Groupcall): ?>
     <tr>
       <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getExtension() ?></a></td>
-      <td><?php echo $Groupcall->getName() ?></td>
-      <td><?php echo $Groupcall->getMemberList() ?></td>
+      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getName() ?></a></td>
+      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getMemberList() ?></a></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
