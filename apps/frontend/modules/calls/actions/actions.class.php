@@ -86,7 +86,7 @@ class callsActions extends sfActions
 
   }
 
-  public function executeMarkUnbilledCallsAsPaid(sfWebRequest $request) {
+  public function executeCreateBillFromUnbilledCalls(sfWebRequest $request) {
     // If the action is called via /resident/:residentid/calls display the
     // calls/bills of the resident with the matching residentid
     // TODO: move this to a filter
@@ -102,8 +102,18 @@ class callsActions extends sfActions
     $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
 
     /* Create bill from unbilled calls but don't create a dtaus for the bill */
-    ;
+    $bill = $resident->createBillFromUnbilledCalls();
 
+    if($bill instanceof Bills) {
+      sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
+      $bill->sendEmail(); //FIXME: the template says there will be an invoice. not true!
+
+      $this->getUser()->setFlash('notice', 'calls.bill.createmanually.successful');
+    } else {
+      $this->getUser()->setFlash('error', 'calls.bill.createmanually.failed');
+    }
+
+    $this->redirect('@resident_calls?residentid=' . $this->residentid);
   }
 
   /**

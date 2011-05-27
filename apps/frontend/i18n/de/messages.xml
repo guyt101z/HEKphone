@@ -16,7 +16,8 @@
       <trans-unit id="36">
         <source>auth.hekphoneinfo</source>
         <target>Informationen zu HEKPhone findest du &#60;a href="http://www.hek.uni-karlsruhe.de/hekwiki/doku.php?id=hekphone:hekphone"&#62; im HEKWiki.&#60;/a&#62;
-  Dort ist auch eine Gebührenübersicht für Voip-Gespräche und normale Amtsanrufe zu finden.</target>
+  Dort ist auch eine Gebührenübersicht für Voip-Gespräche und normale Amtsanrufe zu finden.
+  Eine &#60;a href="uploads/tiptel_manual-current-de.pdf"&#62; ausführliche Anleitung zu deinem Telefon&#60;/a&#62; und die &#60;a href="uploads/facts-current-de.pdf"&#62;prägnanten HEKphone facts&#60;/a&#62; findest du aber auch direkt hier.</target>
       </trans-unit>        
       <trans-unit id="33">
         <source>auth.submit</source>
@@ -122,6 +123,18 @@
       <trans-unit id="58">
         <source>calls.billEmailSent</source>
         <target>Dem Bewohner wurde seine Rechnung zugesandt.</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.bill.createmanually</source>
+        <target>Aus den unbezahlten Gesprächen eine Rechnung erstellen und dem Bewohner zuschicken, die nicht abgebucht wird.</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.bill.createmanually.failed</source>
+        <target>Es wurde keine Rechnung erstellt.</target>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>calls.bill.createmanually.successful</source>
+        <target>Rechnung erfolgreich erstellt und zugesandt.</target>
       </trans-unit>
       
       

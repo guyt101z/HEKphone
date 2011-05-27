@@ -614,6 +614,9 @@ Bills:
       type: boolean
       notnull: true
       default: 'false'
+    manually_created:
+      type: boolean
+      default: false
   relations:
     Residents:
       local: resident

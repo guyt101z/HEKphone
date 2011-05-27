@@ -17,6 +17,11 @@ get_charges:
   url: /calls/charges
   param: { module: calls, action: getCharges }
  
+# Create a bill from the unbilled calls of a resident
+create_bill_manually:
+  url: /calls/unbilled/createbill
+  param: {module: calls, action: createBillFromUnbilledCalls }
+  
 # Display the details of a bill within the bills list
 bill_detail:
   url:   /calls/:billid
@@ -94,7 +99,7 @@ resident_phone:
   requirements: 
     residentid: \d+    
 
-    
+  
 # CRUD for Phones
 phone_editByRoomNo:
   url:   /phone/room/:roomno

@@ -23,6 +23,7 @@
       </tr>
     </tfoot>
 </table>
+<p><?php echo link_to(__('calls.bill.createmanually'), '@create_bill_manually?residentid='.$residentid) ?></p>
 
 <h2><?php echo __("calls.list.bills.heading") ?></h2>
 

@@ -22,6 +22,7 @@ abstract class BaseBillsForm extends BaseFormDoctrine
       'billingperiod_end'   => new sfWidgetFormDate(),
       'amount'              => new sfWidgetFormInputText(),
       'debit_failed'        => new sfWidgetFormInputCheckbox(),
+      'manually_created'    => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
@@ -32,6 +33,7 @@ abstract class BaseBillsForm extends BaseFormDoctrine
       'billingperiod_end'   => new sfValidatorDate(),
       'amount'              => new sfValidatorNumber(),
       'debit_failed'        => new sfValidatorBoolean(array('required' => false)),
+      'manually_created'    => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('bills[%s]');

@@ -331,4 +331,40 @@ class Residents extends BaseResidents
             return false;
         }
     }
+    /**
+     * Gets alls unbilled calls belonging to the Resident ordered by date desc
+     * @return Doctrine_Collection
+     */
+    public function getUnbilledCalls() {
+        $unbilledCalls = Doctrine_Query::create()
+                            ->from('Calls')
+                            ->addWhere('bill is null')
+                            ->addWhere('resident = ?', $this->get('id'))
+                            ->orderBy('date desc')
+                            ->execute();
+        return $unbilledCalls;
+    }
+    public function createBillFromUnbilledCalls() {
+        $unbilledCalls = $this->getUnbilledCalls(); //sorted by date desc
+
+        if( count($unbilledCalls) == 0) {
+            return false;
+        }
+
+        $bill = new Bills();
+        $bill->set('resident', $this->get('id'))
+             ->set('amount', round($this->getCurrentBillAmount(), 2))
+             ->set('date', date("Y-m-d"))
+             ->set('billingperiod_end', $unbilledCalls[0]->get('date'))
+             ->set('billingperiod_start', $unbilledCalls[count($unbilledCalls)-1]->get('date'))
+             ->set('manually_created', true);
+        $bill->save();
+
+        for($i=0; $i<count($unbilledCalls); $i++) {
+            $unbilledCalls[$i]->set('bill', $bill->get('id')); // mark call as billed
+        }
+        $unbilledCalls->save();
+
+        return $bill;
+    }
 }

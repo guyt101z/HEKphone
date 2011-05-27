@@ -14,6 +14,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @property date $billingperiod_end
  * @property decimal $amount
  * @property boolean $debit_failed
+ * @property boolean $manually_created
  * @property Residents $Residents
  * @property Doctrine_Collection $Calls
  * 
@@ -24,6 +25,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @method date                getBillingperiodEnd()    Returns the current record's "billingperiod_end" value
  * @method decimal             getAmount()              Returns the current record's "amount" value
  * @method boolean             getDebitFailed()         Returns the current record's "debit_failed" value
+ * @method boolean             getManuallyCreated()     Returns the current record's "manually_created" value
  * @method Residents           getResidents()           Returns the current record's "Residents" value
  * @method Doctrine_Collection getCalls()               Returns the current record's "Calls" collection
  * @method Bills               setId()                  Sets the current record's "id" value
@@ -33,6 +35,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @method Bills               setBillingperiodEnd()    Sets the current record's "billingperiod_end" value
  * @method Bills               setAmount()              Sets the current record's "amount" value
  * @method Bills               setDebitFailed()         Sets the current record's "debit_failed" value
+ * @method Bills               setManuallyCreated()     Sets the current record's "manually_created" value
  * @method Bills               setResidents()           Sets the current record's "Residents" value
  * @method Bills               setCalls()               Sets the current record's "Calls" collection
  * 
@@ -79,6 +82,10 @@ abstract class BaseBills extends sfDoctrineRecord
              'type' => 'boolean',
              'notnull' => true,
              'default' => 'false',
+             ));
+        $this->hasColumn('manually_created', 'boolean', null, array(
+             'type' => 'boolean',
+             'default' => false,
              ));
     }
 

@@ -19,6 +19,7 @@ abstract class BaseBillsFormFilter extends BaseFormFilterDoctrine
       'billingperiod_end'   => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate(), 'with_empty' => false)),
       'amount'              => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'debit_failed'        => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
+      'manually_created'    => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
     ));
 
     $this->setValidators(array(
@@ -28,6 +29,7 @@ abstract class BaseBillsFormFilter extends BaseFormFilterDoctrine
       'billingperiod_end'   => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDateTime(array('required' => false)))),
       'amount'              => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
       'debit_failed'        => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
+      'manually_created'    => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
     ));
 
     $this->widgetSchema->setNameFormat('bills_filters[%s]');
@@ -54,6 +56,7 @@ abstract class BaseBillsFormFilter extends BaseFormFilterDoctrine
       'billingperiod_end'   => 'Date',
       'amount'              => 'Number',
       'debit_failed'        => 'Boolean',
+      'manually_created'    => 'Boolean',
     );
   }
 }
