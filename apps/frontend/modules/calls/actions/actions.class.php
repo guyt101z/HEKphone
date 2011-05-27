@@ -55,7 +55,7 @@ class callsActions extends sfActions
     $this->billsCollection = Doctrine_Query::create()
                             ->from('Bills b')
                             ->addWhere('b.resident = ?', $this->residentid)
-                            ->orderBy('b.date')
+                            ->orderBy('b.date desc')
                             ->limit(12)
                             ->execute();
   }
