@@ -59,3 +59,7 @@ div .search-charges form #submit {
 div .search-charges #charges {
 	font-size: 1.5em;
 }
+
+p {
+    text-align: center;
+}
