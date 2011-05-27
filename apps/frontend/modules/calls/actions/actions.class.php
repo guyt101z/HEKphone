@@ -86,6 +86,26 @@ class callsActions extends sfActions
 
   }
 
+  public function executeMarkUnbilledCallsAsPaid(sfWebRequest $request) {
+    // If the action is called via /resident/:residentid/calls display the
+    // calls/bills of the resident with the matching residentid
+    // TODO: move this to a filter
+    if ($this->hasRequestParameter('residentid'))
+    {
+      $this->residentid = $request['residentid'];
+    }
+    else
+    {
+      $this->residentid = $this->getUser()->getAttribute('id');
+    }
+
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->findOneBy('id', $this->residentid));
+
+    /* Create bill from unbilled calls but don't create a dtaus for the bill */
+    ;
+
+  }
+
   /**
   * Gets the charge for a destination number as request parameter.
   *

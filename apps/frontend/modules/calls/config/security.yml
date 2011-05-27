@@ -4,4 +4,6 @@ all:
   
 sendBillEmail:
   credentials: hekphone
-  
+
+markUnbilledCallsAsPaid:
+  credentials: hekphone  
