@@ -1,7 +1,7 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('jquery-settings_hide_show_form_parts.js') ?>
 <div class="formContainer">
-<form action="<?php echo url_for('settings/update') ?>" method="POST">
+<form action="<?php echo url_for('settings/update?residentid='.$residentid) ?>" method="POST">
   <fieldset id="general">
     <legend><label><?php echo __('resident.settings.general') ?></label></legend>
     <p class="help"><?php echo __('resident.settings.general_help')?></p>
