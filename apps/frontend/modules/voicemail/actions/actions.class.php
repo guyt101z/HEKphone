@@ -33,7 +33,6 @@ class voicemailActions extends sfActions
       $this->forward('default', 'secure');
     }
 
-
     $this->vmbox = VoicemessageFolder::getVoicemailbox($this->residentid);
 
     if(! $this->vmbox) {
@@ -56,9 +55,9 @@ class voicemailActions extends sfActions
 
     // get the message
     if($request->getParameter('new')) {
-      $message = $vmbox->getNewMessage($request->getParameter('id'));
+      $message = $vmbox->getNewMessage($request->getParameter('messageid'));
     } else {
-      $message = $vmbox->getOldMessage($request->getParameter('id'));
+      $message = $vmbox->getOldMessage($request->getParameter('messageid'));
     }
 
     // delete the message
@@ -72,7 +71,7 @@ class voicemailActions extends sfActions
       $this->forward404('Voicemessage not found.');
     }
 
-    $this->redirect('voicemail/index');
+    $this->redirect('voicemail');
   }
 
   public function executeMarkAsOld(sfWebRequest $request){
@@ -86,7 +85,7 @@ class voicemailActions extends sfActions
     $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
 
 
-    $message = $vmbox->getNewMessage($request->getParameter('id'));
+    $message = $vmbox->getNewMessage($request->getParameter('messageid'));
     if($message->markAsOld()) {
       $this->getUser()->setFlash('notice' ,'voicemail.message.markAsOld.successful');
     } else {
@@ -105,7 +104,7 @@ class voicemailActions extends sfActions
     }
     $this->forward404Unless($vmbox = VoicemessageFolder::getVoicemailbox($request->getParameter('voicemailbox')), 'Voicemailbox ' . $request->getParameter('voicemailbox') . ' not found');
 
-    $message = $vmbox->getOldMessage($request->getParameter('id'));
+    $message = $vmbox->getOldMessage($request->getParameter('messageid'));
     if($message->markAsNew()) {
       $this->getUser()->setFlash('notice' ,'voicemail.message.markAsNew.successful');
     } else {
@@ -128,9 +127,9 @@ class voicemailActions extends sfActions
 
     // get the message
     if($request->getParameter('new')) {
-      $message = $vmbox->getNewMessage($request->getParameter('id'));
+      $message = $vmbox->getNewMessage($request->getParameter('messageid'));
     } else {
-      $message = $vmbox->getOldMessage($request->getParameter('id'));
+      $message = $vmbox->getOldMessage($request->getParameter('messageid'));
     }
 
     $finfo = finfo_open(FILEINFO_MIME_TYPE);

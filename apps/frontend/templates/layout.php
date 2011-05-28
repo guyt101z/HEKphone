@@ -19,12 +19,12 @@
             <li <?php echo ($this->getModuleName() == 'calls') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.calls'), 'calls') ?></li>
             <li <?php echo ($this->getModuleName() == 'voicemail') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.voicemail'), 'voicemail') ?></li>
             <li <?php echo ($this->getModuleName() == 'settings') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.settings'), 'settings') ?></li>
-            <li <?php echo ($this->getModuleName() == 'auth') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.logout'), 'auth/logout') ?></li>
+            <li <?php echo ($this->getModuleName() == 'auth') ? 'class="current"' : '';?>><?php echo link_to(__('navigation.logout'), 'logout') ?></li>
             <?php if ($sf_user->hasCredential('hekphone')): echo "\n"; ?>
-            <li class="<?php echo ($this->getModuleName() == 'resident') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.residents'), 'resident_list') ?></li>
-            <li class="<?php echo ($this->getModuleName() == 'phone') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.phones'), 'phone/index') ?></li>
-            <li class="<?php echo ($this->getModuleName() == 'tasks') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.tasks'), 'tasks/index') ?></li>
-            <li class="<?php echo ($this->getModuleName() == 'groupcalls') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.groupcalls'), 'groupcalls/index') ?></li>
+            <li class="<?php echo ($this->getModuleName() == 'resident') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.residents'), 'residents') ?></li>
+            <li class="<?php echo ($this->getModuleName() == 'phone') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.phones'), 'phones') ?></li>
+            <li class="<?php echo ($this->getModuleName() == 'tasks') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.tasks'), 'tasks') ?></li>
+            <li class="<?php echo ($this->getModuleName() == 'groupcalls') ? 'current ' : '';?>adminnav"><?php echo link_to(__('navigation.groupcalls'), 'groupcalls') ?></li>
             <?php endif;?>
           </ul>
           <?php if ($sf_request->hasParameter('residentid') && $sf_user->hasCredential('hekphone')): echo "\n"; ?>

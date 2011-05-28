@@ -117,7 +117,7 @@ class settingsActions extends sfActions
       }
 
       $this->getUser()->setFlash('notice', 'resident.settings.successful');
-      $this->redirect('settings/index?residentid=' . $this->resident->getId());
+      $this->redirect('settings', array('residentid' => $this->resident->getId()));
     }
   }
 }

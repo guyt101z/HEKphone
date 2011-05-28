@@ -4,62 +4,123 @@
 homepage:
   url:   /
   param: { module: calls, action: index }
-
- 
   
-# Display a users calls
+login:
+  url: /login
+  param: {module: auth, action: index }
+ 
+logout:
+  url: /logout
+  param: {module: auth, action: logout }
+  
+## list of all phones
+phones:
+  url: /phones
+  param: {module: phone, action: index }
+
+## list of all groupcalls
+groupcalls:
+  url: /groupcalls
+  param: {module: groupcalls, action: index}
+
+## list of all tasks
+tasks:
+  url: /tasks
+  param: {module: tasks, action: index }
+
+  
+## unbilled calls and last bills of a resident
 calls:
   url: /calls
   param: { module: calls, action: index}
 
-# Get the charges for a call to a specified Destination
+# get the charges for a call to a specified destination
 get_charges:
   url: /calls/charges
   param: { module: calls, action: getCharges }
  
-# Create a bill from the unbilled calls of a resident
+# create a bill from the unbilled calls of a resident
 create_bill_manually:
   url: /calls/unbilled/createbill
   param: {module: calls, action: createBillFromUnbilledCalls }
   
-# Display the details of a bill within the bills list
+# display the details of a bill within the bills list
 bill_detail:
-  url:   /calls/:billid
+  url:   /calls/bill/:billid
   param: { module: calls, action: index }
   requirements:
     billid: \d+
-    
-# Display a users VM
+ 
+# send email to the resident of one call
+send_bill_email:
+  url: /calls/bill/:billid/sendBillEmail
+  param: { module: calls, action: sendBillEmail }
+  requirements:
+    billid: \d+
+ 
+      
+## residents voicemessages
 voicemail:
   url: /voicemail
   param: { module: voicemail, action: index}
 
-# Display a users settings 
+voicemail_listen:
+  url: /voicemail/:voicemailbox/message/:new/:messageid/listen
+  param: {module: voicemail, action: listen}
+  requirements:
+    messageid: \d+
+    voicemailbox: \d+
+    
+voicemail_markAsOld:
+  url: /voicemail/:voicemailbox/message/:new/:messageid/markAsOld
+  param: {module: voicemail, action: markAsOld}
+  requirements:
+    messageid: \d+
+    voicemailbox: \d+
+
+voicemail_markAsNew:
+  url: /voicemail/:voicemailbox/message/:new/:messageid/markAsNew
+  param: {module: voicemail, action: markAsNew}
+  requirements:
+    messageid: \d+
+    voicemailbox: \d+
+    
+voicemail_delete:
+  url: /voicemail/:voicemailbox/message/:new/:messageid/delete
+  param: {module: voicemail, action: delete}
+  requirements:
+    messageid: \d+
+    voicemailbox: \d+
+        
+## residents settings 
 settings:
   url: /settings
   param: { module: settings, action: index}
 
+settings_update:
+  url: /settings/update
+  param: {module: settings, action: update}
 
-
-# Manage (admin) residents
-resident_list:
-  url:   /resident/list
+## Manage (admin) residents
+residents:
+  url:   /residents
   param: {module: resident, action:index, orderby: room}
   
 resident_listByRoom:
-  url:   /resident/list/byRoom
+  url:   /residents/byRoom
   param: {module: resident, action:index, orderby: room}
 
 resident_listByName:
-  url:   /resident/list/byName
-  param: {module: resident, action:index, orderby: name}
-
-resident_listByLastName:
-  url:   /resident/list/byLastName
+  url:   /resident/byName
   param: {module: resident, action:index, orderby: name}
   
+resident_listByLastName:
+  url:   /resident/byName
+  param: {module: resident, action:index, orderby: name}
+
+
 resident_listByMoveIn:
-  url:   /resident/list/byMoveIn
+  url:   /resident/byMoveIn
   param: {module: resident, action:index, orderby: move_in}
     
 resident_edit:
@@ -73,7 +134,25 @@ resident_edit_plain:
   param: {module: resident, action: edit }
   requirements: 
     residentid: \d+
+    
+resident_update:
+  url:   /resident/:residentid/update
+  param: {module: resident, action: update }
+  requirements: 
+    residentid: \d+
 
+resident_lockOnFailedDebit:
+  url:   /resident/:residentid/lockOnFailedDebit
+  param: {module: resident, action: lockOnFailedDebit }
+  requirements: 
+    residentid: \d+
+    
+resident_resetPassword:
+  url:   /resident/:residentid/resetPassword
+  param: {module: resident, action: resetPassword }
+  requirements: 
+    residentid: \d+
+    
 # Access the users actions as if you where the user    
 resident_calls:
   url:   /resident/:residentid/calls
@@ -102,17 +181,16 @@ resident_phone:
   
 # CRUD for Phones
 phone_editByRoomNo:
-  url:   /phone/room/:roomno
+  url:   /room/:roomno/phone
   param: {module: phone, action: edit}
   requirements: 
     roomno: \d+      
   
-  
 # generic rules
 # please, remove them by adding more specific rules
-default_index:
-  url:   /:module
-  param: { action: index }
+#default_index:
+#  url:   /:module
+#  param: { action: index }
 
-default:
-  url:   /:module/:action/*
+#default:
+#/  url:   /:module/:action/*

@@ -43,7 +43,6 @@ class residentActions extends sfActions
           ->findCurrentResidents();
         $response->addStyleSheet('ResidentsListByRoomNo');
     }
-    $response->addStyleSheet('ResidentsList');
   }
 
   /**
@@ -120,13 +119,13 @@ class residentActions extends sfActions
       }
 
       $this->getUser()->setFlash('notice', 'resident.edit.successful');
-      $this->redirect('@resident_edit?residentid='.$resident->getId());
+      $this->redirect('resident_edit', array('residentid' => $resident->getId()));
     }
   }
 
   public function executeLockOnFailedDebit(sfWebRequest $request) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial");
-    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
 
     $resident->set('unlocked', false);
     $resident->save();
@@ -143,12 +142,12 @@ class residentActions extends sfActions
 
     $this->getUser()->setFlash('notice', 'resident.lockOnFailedDebit.successful');
 
-    $this->redirect('@resident_edit?residentid='.$resident->getId());
+    $this->redirect('resident_edit', array('residentid' => $resident->getId()));
   }
 
   public function executeResetPassword(sfWebRequest $request) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial");
-    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('id'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
+    $this->forward404Unless($resident = Doctrine_Core::getTable('Residents')->find(array($request->getParameter('residentid'))), sprintf('Object residents does not exist (%s).', $request->getParameter('residentid')));
 
     $newPassword = $resident->resetPassword();
     $resident->save();
@@ -169,7 +168,7 @@ class residentActions extends sfActions
 
     $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
 
-    $this->redirect('@resident_edit?residentid='.$resident->getId());
+    $this->redirect('resident_edit', array('residentid' => $resident->getId()));
   }
 
   /* TODO: Implement sending of welcome email manually */
@@ -192,6 +191,6 @@ class residentActions extends sfActions
 
     $this->getMailer()->send($message);
 
-    $this->redirect('@resident_edit?residentid='.$resident->getId());
+    $this->redirect('resident_edit', array('residentid' => $resident->getId()));
   } */
 }

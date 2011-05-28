@@ -2,7 +2,7 @@
 <?php use_javascripts_for_form($form) ?>
 
 <div class="formContainer">
-  <form action="<?php echo url_for('resident/update' . '?residentid='.$form->getObject()->getId()) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+  <form action="<?php echo url_for('resident_update', array('residentid' => $form->getObject()->getId())) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
     <input type="hidden" name="sf_method" value="put" />
     <?php echo $form->renderHiddenFields(false) ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -76,7 +76,7 @@
     </div>
 
     <div class="submit">
-      <?php echo link_to(__('resident.edit.backToList'), 'resident/index') ?>
+      <?php echo link_to(__('resident.edit.backToList'), 'residents') ?>
       <input type="submit" value="<?php echo __('resident.edit.save') ?>" />
     </div>
 
