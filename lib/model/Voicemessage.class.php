@@ -54,11 +54,10 @@ class Voicemessage {
       $filenameWithoutExtension = $this->getVoicemailboxRootPath() . $this->getSubfolder() . DIRECTORY_SEPARATOR
                 . 'msg' . str_pad($this->id, 4, '0', STR_PAD_LEFT);
 
-      if(
-        ! unlink($filenameWithoutExtension . '.txt') ||
-        ! unlink($filenameWithoutExtension . '.wav') ||
-        ! unlink($filenameWithoutExtension . '.WAV') ||
-        ! unlink($filenameWithoutExtension . '.gsm')
+      if( ! unlink($filenameWithoutExtension . '.txt') ||
+          ! unlink($filenameWithoutExtension . '.wav') ||
+          ! unlink($filenameWithoutExtension . '.WAV') ||
+          ! unlink($filenameWithoutExtension . '.gsm')
         ) {
           return false;
         } else {
@@ -73,16 +72,17 @@ class Voicemessage {
         $to   = $this->getVoicemailboxRootPath() . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                 . 'msg' . str_pad($toId, 4, '0', STR_PAD_LEFT);
 
-        //FIXME: catch warnings!
-        rename($from . '.wav', $to . '.wav');
-        rename($from . '.WAV', $to . '.WAV');
-        rename($from . '.txt', $to . '.txt');
-        rename($from . '.gsm', $to . '.gsm');
-
-        // refresh the index
-        VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
-
-        return true;
+        if( ! rename($from . '.wav', $to . '.wav') ||
+            ! rename($from . '.WAV', $to . '.WAV') ||
+            ! rename($from . '.txt', $to . '.txt') ||
+            ! rename($from . '.gsm', $to . '.gsm')
+          ) {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+            return false;
+        } else {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+            return true;
+        }
     }
 
     public function markAsNew() {
@@ -93,16 +93,17 @@ class Voicemessage {
         $to   = $this->getVoicemailboxRootPath() . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                 . 'msg' . str_pad($toId, 4, '0', STR_PAD_LEFT);
 
-        //FIXME: catch warnings!
-        rename($from . '.wav', $to . '.wav');
-        rename($from . '.WAV', $to . '.WAV');
-        rename($from . '.txt', $to . '.txt');
-        rename($from . '.gsm', $to . '.gsm');
-
-        // refresh the index
-        VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
-
-        return true;
+        if( ! rename($from . '.wav', $to . '.wav') ||
+            ! rename($from . '.WAV', $to . '.WAV') ||
+            ! rename($from . '.txt', $to . '.txt') ||
+            ! rename($from . '.gsm', $to . '.gsm')
+          ) {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+            return false;
+        } else {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
+            return true;
+        }
     }
 
     public function getCallerid() {
