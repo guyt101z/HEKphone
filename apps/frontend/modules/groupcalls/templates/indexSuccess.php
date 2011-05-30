@@ -9,12 +9,12 @@
   <tbody>
     <?php foreach ($Groupcalls as $Groupcall): ?>
     <tr>
-      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getExtension() ?></a></td>
-      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getName() ?></a></td>
-      <td><a href="<?php echo url_for('groupcalls/edit?id='.$Groupcall->getId()) ?>"><?php echo $Groupcall->getMemberList() ?></a></td>
+      <td><a href="<?php echo url_for('groupcall_edit', array('id' =>$Groupcall->getId())) ?>"><?php echo $Groupcall->getExtension() ?></a></td>
+      <td><a href="<?php echo url_for('groupcall_edit', array('id' =>$Groupcall->getId())) ?>"><?php echo $Groupcall->getName() ?></a></td>
+      <td><a href="<?php echo url_for('groupcall_edit', array('id' =>$Groupcall->getId())) ?>"><?php echo $Groupcall->getMemberList() ?></a></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
 
-  <a href="<?php echo url_for('groupcalls/new') ?>"><?php echo __('groupcalls.new') ?></a>
+  <a href="<?php echo url_for('groupcall_new') ?>"><?php echo __('groupcalls.new') ?></a>

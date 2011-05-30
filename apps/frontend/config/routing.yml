@@ -24,7 +24,7 @@ phone_new:
 
 phone_create:
   url: /phone/create
-  param: {module: phone, action: update}
+  param: {module: phone, action: create}
 
 phone_edit:
   url: /phone/:id/edit
@@ -55,6 +55,38 @@ phone_delete:
 groupcalls:
   url: /groupcalls
   param: {module: groupcalls, action: index}
+  
+groupcall_new:
+  url: /groupcall/new
+  param: {module: groupcalls, action: new}
+
+groupcall_create:
+  url: /groupcall/create
+  param: {module: groupcalls, action: create}
+
+groupcall_edit:
+  url: /groupcall/:id/edit
+  param: {module: groupcalls, action: edit }
+  requirements:
+    id: \d+
+    
+groupcall_update:
+  url: /groupcall/:id/update
+  param: {module: groupcalls, action: update}
+  requirements:
+    id: \d+
+      
+groupcall_reset:
+  url: /groupcall/:id/reset
+  param: {module: groupcalls, action: reset}
+  requirements:
+    id: \d+
+
+groupcall_delete:
+  url: /groupcall/:id/reset
+  param: {module: groupcalls, action: delete}
+  requirements:
+    id: \d+
 
 ## list of all tasks
 tasks:
