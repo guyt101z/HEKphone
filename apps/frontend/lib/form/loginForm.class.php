@@ -3,7 +3,6 @@ class LoginForm extends sfForm
 {
   public function configure()
   {
-    $this->disableCSRFProtection();
     $this->setWidgets(array(
       'roomNo'     => new sfWidgetFormInput(),
       'password'   => new sfWidgetFormInputPassword()

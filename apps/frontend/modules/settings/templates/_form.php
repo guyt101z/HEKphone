@@ -79,6 +79,7 @@
     </div>
   </fieldset>
 
+  <?php echo $form->renderHiddenFields() ?>
   <input type="submit" value="<?php echo __('resident.settings.submit') ?>" />
 
   </form>

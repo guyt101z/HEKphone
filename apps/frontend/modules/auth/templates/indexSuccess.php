@@ -9,6 +9,7 @@
   <?php if ( ! $sf_user->isAuthenticated()): ?>
   <form action="<?php echo url_for('auth/index') ?>" method="post">
     <?php echo $form ?>
+    <?php echo $form->renderHiddenFields() ?>
     <div><input type="submit" id="submit" value="<?php echo __('auth.submit'); ?>" /></div>
   </form>
   <?php else: ?>

@@ -16,6 +16,7 @@
       <?php if (!$form->getObject()->isNew()): ?>
       <?php echo link_to(__('phone.delete'), 'phone_delete', array('id' => $form->getObject()->getId(), 'method' => 'delete', 'confirm' => 'Are you sure?')) ?>
       <?php endif;?>
+      <?php echo $form->renderHiddenFields() ?>
       <input type="submit" value="<?php echo __('phone.submit') ?>" />
     </div>
   </form>

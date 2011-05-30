@@ -12,7 +12,6 @@ class PhonesForm extends BasePhonesForm
 {
   public function configure()
   {
-    $this->disableLocalCSRFProtection();
     $this->setWidget('room', new sfWidgetFormDoctrineChoice(array(
       'model'     => 'Rooms',
       'add_empty' => true,
