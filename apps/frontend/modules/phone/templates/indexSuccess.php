@@ -17,18 +17,18 @@
   <tbody>
     <?php foreach ($phones as $phone): ?>
     <tr>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getName() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getType() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getCallerid() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getHost() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getDefaultip() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getMac() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getMailbox() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getTechnology() ?></a></td>
-      <td><a href="<?php echo url_for('phone/edit?id='.$phone->getId()) ?>"><?php echo $phone->getIpaddr() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getName() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getType() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getCallerid() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getHost() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getDefaultip() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getMac() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getMailbox() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getTechnology() ?></a></td>
+      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getIpaddr() ?></a></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
 
-  <a href="<?php echo url_for('phone/new') ?>"><?php echo __('phone.new') ?></a>
+  <a href="<?php echo url_for('phone_new') ?>"><?php echo __('phone.new') ?></a>

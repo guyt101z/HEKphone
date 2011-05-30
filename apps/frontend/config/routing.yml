@@ -17,7 +17,40 @@ logout:
 phones:
   url: /phones
   param: {module: phone, action: index }
+  
+phone_new:
+  url: /phone/new
+  param: {module: phone, action: new}
 
+phone_create:
+  url: /phone/create
+  param: {module: phone, action: update}
+
+phone_edit:
+  url: /phone/:id/edit
+  param: {module: phone, action: edit }
+  requirements:
+    id: \d+
+    
+phone_update:
+  url: /phone/:id/update
+  param: {module: phone, action: update}
+  requirements:
+    id: \d+
+      
+phone_reset:
+  url: /phone/:id/reset
+  param: {module: phone, action: reset}
+  requirements:
+    id: \d+
+
+phone_delete:
+  url: /phone/:id/reset
+  param: {module: phone, action: delete}
+  requirements:
+    id: \d+
+
+    
 ## list of all groupcalls
 groupcalls:
   url: /groupcalls
