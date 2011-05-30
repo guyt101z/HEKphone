@@ -15,7 +15,7 @@
     <div class="submit">
       <a href="<?php echo url_for('groupcalls/index') ?>"><?php echo __('groupcalls.backToList') ?></a>
       <?php if (!$form->getObject()->isNew()): ?>
-        <?php echo link_to(__('groupcalls.delete'), 'groupcalls_delete', array('id' =>$form->getObject()->getId(), 'method' => 'delete', 'confirm' => 'Are you sure?')) ?>
+        <?php echo link_to(__('groupcalls.delete'), 'groupcall_delete', array('id' =>$form->getObject()->getId(), 'method' => 'delete', 'confirm' => 'Are you sure?')) ?>
       <?php endif; ?>
       <input type="submit" value="<?php echo __('groupcalls.submit') ?>" />
     </div>
