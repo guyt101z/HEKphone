@@ -59,7 +59,7 @@ class groupcallsActions extends sfActions
     $this->forward404Unless($groupcall = Doctrine_Core::getTable('Groupcalls')->find(array($request->getParameter('id'))), sprintf('Object Groupcall does not exist (%s).', $request->getParameter('id')));
     $groupcall->delete();
 
-    $this->redirect('groupcalls/index');
+    $this->redirect('groupcalls');
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form)
@@ -85,7 +85,7 @@ class groupcallsActions extends sfActions
       $extensions->save();
 
       $this->getUser()->setFlash('notice', 'Groupcall successfully updated.');
-      $this->redirect('groupcalls/edit?id='.$groupcall->getId());
+      $this->redirect('groupcall_edit', array('id' => $groupcall->getId());
     }
   }
 }
