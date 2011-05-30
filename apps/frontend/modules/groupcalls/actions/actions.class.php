@@ -85,7 +85,7 @@ class groupcallsActions extends sfActions
       $extensions->save();
 
       $this->getUser()->setFlash('notice', 'Groupcall successfully updated.');
-      $this->redirect('groupcall_edit', array('id' => $groupcall->getId());
+      $this->redirect('groupcall_edit', array('id' => $groupcall->getId()));
     }
   }
 }
