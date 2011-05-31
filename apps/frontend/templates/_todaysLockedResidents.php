@@ -1,4 +1,4 @@
-Folgende Bewohner sind heute ausgezogen:
+Folgende Bewohner sind gestern ausgezogen:
 <?php
 // table header
 echo str_pad('Zimmernr.',10)
