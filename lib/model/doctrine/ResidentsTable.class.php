@@ -77,6 +77,13 @@ class ResidentsTable extends Doctrine_Table
             ->execute();
     }
 
+    public function findResidentsMovingOutYesterday() {
+        $yesterday = date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-d"))));
+        return $this->createQuery()
+           ->where('move_out = ?', $yesterday)
+           ->execute();
+    }
+
     public function findUnlockedResidentsMovingOutTomorrow() {
         $tomorrow = date("Y-m-d", strtotime("+1 day", strtotime(date("Y-m-d"))));
         return $this->createQuery()
@@ -90,5 +97,13 @@ class ResidentsTable extends Doctrine_Table
             ->where('move_out = ?', date("Y-m-d"))
             ->addWhere('unlocked =?', true)
             ->execute();
+    }
+
+    public function findUnlockedResidentsMovingOutYesterday() {
+        $yesterday = date("Y-m-d", strtotime("-1 day", strtotime(date("Y-m-d"))));
+        return $this->createQuery()
+           ->where('move_out = ?', $yesterday)
+           ->addWhere('unlocked =?', true)
+           ->execute();
     }
 }

@@ -89,6 +89,7 @@ class Phones extends BasePhones
       $this->set('callerid', $extension);
       $this->set('defaultuser', $extension);
       $this->set('defaultip', '192.168.' . substr($extension,1,1) . "." . (int)substr($extension,2,3));
+      $this->set('mailbox', null);
 
       return $this;
   }
