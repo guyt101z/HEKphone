@@ -87,9 +87,9 @@ EOF;
 
     /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
     if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent']) {
-        if(count($residentsMovingOutToday) > 0) {
+        if(count($residentsMovingOutYesterday) > 0) {
             $this->log($this->formatter->format("Residents who moved out yesterday:", 'INFO'));
-            print_r($residentsMovingOutToday->toArray());
+            print_r($residentsMovingOutYesterday->toArray());
         } else {
             $this->log($this->formatter->format("No residents moved out yesterday.", 'INFO'));
         }
