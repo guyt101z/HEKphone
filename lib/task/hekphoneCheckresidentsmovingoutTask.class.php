@@ -36,27 +36,30 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     /* Notify residents that they are going to be locked tomorrow */
-    $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutTomorrow();
-    if(isset($options['warn-resident'])) {
+    $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
+    $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutToday();
+    $residentsMovingOutYesterday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutYesterday();
+
+    if($options['warn-resident']) {
         foreach ($residentsMovingOutTomorrow as $resident)
         {
             $resident->sendLockEmail(date('Y-m-d'));
         }
     }
 
-    /* Lock residents who move out today and notify the list */
-    $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findUnlockedResidentsMovingOutToday();
-    if(isset($options['lock']))
+    /* Lock residents who moved out yesterday */
+    if($options['lock'])
     {
-        foreach($residentsMovingOutToday as $resident)
+        foreach($residentsMovingOutYesterday as $resident)
         {
             $resident->setUnlocked('false');
             $resident->save();
         }
     }
 
-    if(isset($options['reset-phone'])) {
-        foreach($residentsMovingOutToday as $resident)
+    /* Reset the phone of these residents */
+    if($options['reset-phone']) {
+        foreach($residentsMovingOutYesterday as $resident)
             {
             // Delete personal information from the phones properties (not from the settings on the phone)
             $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
@@ -70,7 +73,7 @@ EOF;
 
 
     /* Notify the team */
-    if(isset($options['notify-team']) && count($residentsMovingOutToday) > 0) {
+    if($options['notify-team'] && count($residentsMovingOutYesterday) > 0) {
         $messageBody = get_partial('global/todaysLockedResidents', array('residentsMovingOut' => $residentsMovingOutToday));
 
         $message = Swift_Message::newInstance()
@@ -84,6 +87,13 @@ EOF;
 
     /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
     if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent']) {
+        if(count($residentsMovingOutToday) > 0) {
+            $this->log($this->formatter->format("Residents who moved out yesterday:", 'INFO'));
+            print_r($residentsMovingOutToday->toArray());
+        } else {
+            $this->log($this->formatter->format("No residents moved out yesterday.", 'INFO'));
+        }
+
         if(count($residentsMovingOutToday) > 0) {
             $this->log($this->formatter->format("Residents moving out today:", 'INFO'));
             print_r($residentsMovingOutToday->toArray());
