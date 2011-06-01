@@ -36,11 +36,16 @@ class Bills extends BaseBills
 
     	//If there is not the required information given to generate the dtaus entry for a resident an empty string is returned
     	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null || $this['amount'] == 0)
-    	{    		
+    	{
     		throw New Exception("No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR");
     	}
     	else
     	{
+    	    // if' there's nothing to debit, don't create an dtaus entry
+    	    if($this->amount == 0) {
+    	        return false;
+    	    }
+
             $dtausEntry = "{
   Name	" . $this['Residents']['last_name'] . "
   Konto	" . $this['Residents']['account_number'] ."
@@ -75,7 +80,7 @@ class Bills extends BaseBills
         {
             $itemizedBill .= $call->getItemizedBillEntry()."\n";
   	    }
-        
+
         return $itemizedBill;
     }
 
@@ -89,8 +94,8 @@ class Bills extends BaseBills
         // check for non_empty email-field rather than unlocked user?
         if ($this['Residents']['unlocked'] == true)
         {
-            
-            
+
+
             // compose the message
             $messageBody = get_partial('global/billingMail', array('firstName' => $this['Residents']['first_name'],
                                                                 'start' => $this['billingperiod_start'],
@@ -106,8 +111,8 @@ class Bills extends BaseBills
                 ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
-            
-            
+
+
         }
     }
 }

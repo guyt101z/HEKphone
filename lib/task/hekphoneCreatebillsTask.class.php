@@ -7,7 +7,8 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
-      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills (bills include this day)')
+      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills (bills include this day)'),
+      new sfCommandOption('simulate', null, sfCommandOption::PARAMETER_NONE, 'Simulate bill creation. Don\'t send emails, don\'t mark calls as paied')
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -53,7 +54,7 @@ EOF;
 
     /* Create Bills */
     $billsTable = Doctrine_Core::getTable('Bills');
-    if($billsTable->createBills($start, $end))
+    if($billsTable->createBills($start, $end, $options['simulate']))
     {
         $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
     }

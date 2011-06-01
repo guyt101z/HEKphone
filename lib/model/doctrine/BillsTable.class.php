@@ -24,8 +24,13 @@ class BillsTable extends Doctrine_Table
      * @param string $options['toDate'] End date for the bill period
      * @return boolean
      */
-    public function createBills($start, $end)
+    public function createBills($start, $end, $simulate = null)
     {
+        // make sure that when simulate is set, really no bills are created
+        if($simulate != null) {
+            $simulate = true;
+        }
+
         //fetch all unbilled calls from the given time period
         $unbilledCalls = Doctrine_Query::create()
                             ->from('Calls')
@@ -41,6 +46,7 @@ class BillsTable extends Doctrine_Table
         }
 
         //Calculate the amount of all unbilled calls for one resident
+        $sums = array();
         foreach ($unbilledCalls as $unbilledCall)
         {
         	$sums[$unbilledCall['resident']] += $unbilledCall['charges']/100; // bills amount is in EUR, calls charges are in ct
@@ -60,31 +66,35 @@ class BillsTable extends Doctrine_Table
         	               'billingperiod_start'   => $start,
         	               'billingperiod_end'     => $end
         	 );
-        	 echo("Bill for: $residentid with amount $amount " . PHP_EOL);
         }
 
-        //Create the bills and save them into the database.
+        // Create the bills and save them into the database.
         // $billsCollection now contains the bill ID
         $billsCollection = new BillsCollection('Bills');
         $billsCollection->fromArray($billsArray);
         $billsCollection->save();
 
-        //Assign the bill id to the now billed calls
+        // Write the dtaus files
+        $billsCollection->writeDtausFiles();
+
+        if($simulate) {
+          die;
+        }
+
+        // Assign the bill id to the now billed calls
         $billsArray = $billsCollection->toArray();
         foreach ($unbilledCalls as $key => $unbilledCall)
         {
-        	foreach ($billsArray as $bill)
-        	{
-        	   if($unbilledCall['resident'] == $bill['resident'])
-        	   {
-        	   	$currentBillId = $bill['id'];
-        	   }
-        	}
-        	$unbilledCalls[$key]->set('bill', $currentBillId);
+            foreach ($billsArray as $bill)
+            {
+               if($unbilledCall['resident'] == $bill['resident'])
+               {
+                $currentBillId = $bill['id'];
+               }
+            }
+            $unbilledCalls[$key]->set('bill', $currentBillId);
         }
         $unbilledCalls->save();
-
-        $billsCollection->createDtausFiles();
 
         // send the bills as email to the residents
         $billsCollection->loadRelated('Calls');
