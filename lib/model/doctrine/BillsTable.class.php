@@ -30,7 +30,7 @@ class BillsTable extends Doctrine_Table
         $unbilledCalls = Doctrine_Query::create()
                             ->from('Calls')
                             ->addWhere('bill is null')
-                            ->addWhere('date <= ?', $end)
+                            ->addWhere('date <= ?', $end . '23:59:59')
                             ->addWhere('date >= ?', $start)
                             ->orderBy('date')
                             ->execute();
@@ -83,9 +83,9 @@ class BillsTable extends Doctrine_Table
         	$unbilledCalls[$key]->set('bill', $currentBillId);
         }
         $unbilledCalls->save();
-        
+
         $billsCollection->createDtausFiles();
-        
+
         // send the bills as email to the residents
         $billsCollection->loadRelated('Calls');
         $billsCollection->sendEmails();

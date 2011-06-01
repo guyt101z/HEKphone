@@ -7,7 +7,7 @@ class hekphoneCreatebillsTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('start', null, sfCommandOption::PARAMETER_OPTIONAL, 'Start date of bills'),
-      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills')
+      new sfCommandOption('end', null, sfCommandOption::PARAMETER_OPTIONAL, 'End date of bills (bills include this day)')
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -52,7 +52,6 @@ EOF;
     }
 
     /* Create Bills */
-    
     $billsTable = Doctrine_Core::getTable('Bills');
     if($billsTable->createBills($start, $end))
     {
@@ -62,10 +61,10 @@ EOF;
     {
         $this->log($this->formatter->format("No bills to create in the given time period", 'INFO'));
     }
-    
 
-        
-        
-    
+
+
+
+
   }
 }
