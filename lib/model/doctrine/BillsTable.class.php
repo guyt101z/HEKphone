@@ -30,7 +30,7 @@ class BillsTable extends Doctrine_Table
         $unbilledCalls = Doctrine_Query::create()
                             ->from('Calls')
                             ->addWhere('bill is null')
-                            ->addWhere('date <= ?', $end . '23:59:59')
+                            ->addWhere('date <= ?', $end . ' 23:59:59')
                             ->addWhere('date >= ?', $start)
                             ->orderBy('date')
                             ->execute();
