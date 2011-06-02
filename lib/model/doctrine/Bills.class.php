@@ -108,11 +108,39 @@ class Bills extends BaseBills
             $message = Swift_Message::newInstance()
                 ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
                 ->setTo($this['Residents']['email'])
-                ->setSubject('[HEKphone] Deine Rechnung vom '.$this['date'])
+                ->setSubject('[HEKphone] Deine Rechnung vom ' . $this['date'])
                 ->setBody($messageBody);
             sfContext::getInstance()->getMailer()->send($message);
 
 
         }
+    }
+
+    public function linkCalls() {
+        if( ! $this->id) {
+            throw new Exception("Bill has no id yet. Use save() first.");
+        }
+
+        if( isset($this->Calls)) {
+            throw new Exception("There are already some related calls. This method is not supposed to relink calls.");
+        }
+
+        // FIXME: Check wheter the amount of the bill has changed.
+
+        $calls = Doctrine_Query::create()
+            ->from('Calls c')
+            ->select('c.bill')
+            ->where('resident = ?', $this->resident)
+            ->addWhere('bill is null')
+            ->addWhere('date <= ?', $this->get('billingperiod_end') . ' 23:59:59')
+            ->addWhere('date >= ?', $this->get('billingperiod_start'))
+            ->execute();
+
+        foreach($calls as $call) {
+          echo "setting bill =". $this->id;
+            $call->set('bill', $this->id);
+        }
+
+        $calls->save();
     }
 }

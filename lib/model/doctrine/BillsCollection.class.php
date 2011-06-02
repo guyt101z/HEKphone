@@ -58,7 +58,7 @@ class BillsCollection extends Doctrine_Collection
         return $dtausFooter();
     }
 
-    protected function getTotalAmount() {
+    public function getTotalAmount() {
         return $this->totalAmount;
     }
 
@@ -70,6 +70,11 @@ class BillsCollection extends Doctrine_Collection
         return $this->banknumberSum;
     }
 
+    public function getDtausContents() {
+        return $this->getDtausHeader()
+              . $this->getDtausBody()
+              . $this->getDtausFooter();
+    }
     public function writeDtausFiles() {
                   print_r($this->bills->toArray());
         if($this->getDtausBody) {
@@ -77,9 +82,7 @@ class BillsCollection extends Doctrine_Collection
 
             $fileprefix = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . "dtaus.$date";
             $ctl_handler = fopen($fileprefix.".ctl", "w+"); // Create file
-            fWrite($ctl_handler, $this->getDtausHeader()
-                                . $this->getDtausBody()
-                                . $this->getDtausFooter());
+            fWrite($ctl_handler, $this->getDtausContents());
             exec("cd " . sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR );
             exec("dtaus -dtaus -c $fileprefix.ctl -d $fileprefix.txt -o $fileprefix.sik -b $fileprefix.doc");
             exec ("chmod 770 $fileprefix.*");
@@ -93,6 +96,11 @@ class BillsCollection extends Doctrine_Collection
         };
     }
 
+    public function linkCallsToBills(){
+        foreach($this as $bill) {
+            $bill->linkCalls();
+        };
+    }
 	public function sendEmails()
 	{
 	    foreach($this as $bill)

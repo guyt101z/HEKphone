@@ -15,6 +15,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @property decimal $amount
  * @property boolean $debit_failed
  * @property boolean $manually_created
+ * @property boolean $debit_sent
  * @property Residents $Residents
  * @property Doctrine_Collection $Calls
  * 
@@ -26,6 +27,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @method decimal             getAmount()              Returns the current record's "amount" value
  * @method boolean             getDebitFailed()         Returns the current record's "debit_failed" value
  * @method boolean             getManuallyCreated()     Returns the current record's "manually_created" value
+ * @method boolean             getDebitSent()           Returns the current record's "debit_sent" value
  * @method Residents           getResidents()           Returns the current record's "Residents" value
  * @method Doctrine_Collection getCalls()               Returns the current record's "Calls" collection
  * @method Bills               setId()                  Sets the current record's "id" value
@@ -36,6 +38,7 @@ Doctrine_Manager::getInstance()->bindComponent('Bills', 'hekphone');
  * @method Bills               setAmount()              Sets the current record's "amount" value
  * @method Bills               setDebitFailed()         Sets the current record's "debit_failed" value
  * @method Bills               setManuallyCreated()     Sets the current record's "manually_created" value
+ * @method Bills               setDebitSent()           Sets the current record's "debit_sent" value
  * @method Bills               setResidents()           Sets the current record's "Residents" value
  * @method Bills               setCalls()               Sets the current record's "Calls" collection
  * 
@@ -85,7 +88,13 @@ abstract class BaseBills extends sfDoctrineRecord
              ));
         $this->hasColumn('manually_created', 'boolean', null, array(
              'type' => 'boolean',
-             'default' => false,
+             'notnull' => true,
+             'default' => 'false',
+             ));
+        $this->hasColumn('debit_sent', 'boolean', null, array(
+             'type' => 'boolean',
+             'notnull' => true,
+             'default' => 'false',
              ));
     }
 

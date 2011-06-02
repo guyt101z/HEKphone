@@ -35,6 +35,20 @@ class Residents extends BaseResidents
         return $this->currentBillAmount;
     }
 
+    public function getBillAmountForTimePeriod($start, $end) {
+        $amount = Doctrine_Query::create()
+                ->from('Calls c')
+                ->select('SUM(c.charges)')
+                ->where('bill IS NULL')
+                ->addWhere('resident = ?', $this->id)
+                ->addWhere('date <= ?', $end . ' 23:59:59')
+                ->addWhere('date >= ?', $start)
+                ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
+                ->execute();
+
+        return $amount/100; //return value in euros
+    }
+
     public function __toString()
     {
         return $this->get('Rooms') . " " . $this->first_name . " " . $this->last_name;

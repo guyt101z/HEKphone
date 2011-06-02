@@ -17,90 +17,45 @@ class BillsTable extends Doctrine_Table
         return Doctrine_Core::getTable('Bills');
     }
 
-
-     /**
-     * All unbillded calls are billed and the bill id is set to the now billed call
-     * @param string $options['fromDate'] Start date for bill period
-     * @param string $options['toDate'] End date for the bill period
-     * @return boolean
+    /**
+     * Returns BillsCollection containing Bills for every resident who has
+     * unbilled calls in the given time period that is not saved in the database.
+     * Returns false when there are no calls in the time period.
+     * @param datestring $start
+     * @param datestring $end
      */
-    public function createBills($start, $end, $simulate = null)
+    public function getBillsCollectionForUnbilledCalls($start, $end)
     {
-        // make sure that when simulate is set, really no bills are created
-        if($simulate != null) {
-            $simulate = true;
+        if(strtotime($end) >= strtotime(date("Y-m-d"))) {
+            throw new Exception("An end date in the future may lead to inconsistencies between calls marked as paid and the bill amount.");
+            // TODO: Prevent this and remove this warning
         }
 
-        //fetch all unbilled calls from the given time period
-        $unbilledCalls = Doctrine_Query::create()
-                            ->from('Calls')
-                            ->addWhere('bill is null')
-                            ->addWhere('date <= ?', $end . ' 23:59:59')
-                            ->addWhere('date >= ?', $start)
-                            ->orderBy('date')
-                            ->execute();
+        //fetch the ids of all residents with unbilled calls from the given time period
+        $residentidsWithUnbilledCalls = Doctrine_Query::create()
+            ->from('Calls c')
+            ->select('c.resident as residentid')
+            ->addWhere('bill is null')
+            ->addWhere('date <= ?', $end . ' 23:59:59')
+            ->addWhere('date >= ?', $start)
+            ->groupBy('resident')
+            ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
+            ->execute();
 
-        if ( $unbilledCalls->count() == 0)
-        {
-            return false; // no bills were created
+        if(count($residentidsWithUnbilledCalls) == 0) {
+            return false;
         }
 
-        //Calculate the amount of all unbilled calls for one resident
-        $sums = array();
-        foreach ($unbilledCalls as $unbilledCall)
-        {
-        	$sums[$unbilledCall['resident']] += $unbilledCall['charges']/100; // bills amount is in EUR, calls charges are in ct
-        }
-
-        if ( ! isset($sums)){
-            return false;  // every call was a free call, so no bills were created
-        }
-
-        foreach ($sums as $residentid => $amount)
-        {
-        	//Prepare the bills for each resident
-        	$billsArray[] = array(
-        	               'resident'              => $residentid,
-        	               'amount'                => round($amount, 2),
-        	               'date'                  => date("Y-m-d"),
-        	               'billingperiod_start'   => $start,
-        	               'billingperiod_end'     => $end
-        	 );
-        }
-
-        // Create the bills and save them into the database.
-        // $billsCollection now contains the bill ID
         $billsCollection = new BillsCollection('Bills');
-        $billsCollection->fromArray($billsArray);
-        $billsCollection->save();
-
-        // Write the dtaus files
-        $billsCollection->writeDtausFiles();
-
-        if($simulate) {
-          die;
+        foreach($residentidsWithUnbilledCalls as $residentid) {
+            $billsCollection[$residentid]->resident = $residentid;
+            $billsCollection[$residentid]->billingperiod_start = $start;
+            $billsCollection[$residentid]->billingperiod_end = $end;
+            $billsCollection[$residentid]->date = date("Y-m-d");
+            $billsCollection[$residentid]->amount = $billsCollection[$residentid]->Residents->getBillAmountForTimeperiod($start, $end);
         }
 
-        // Assign the bill id to the now billed calls
-        $billsArray = $billsCollection->toArray();
-        foreach ($unbilledCalls as $key => $unbilledCall)
-        {
-            foreach ($billsArray as $bill)
-            {
-               if($unbilledCall['resident'] == $bill['resident'])
-               {
-                $currentBillId = $bill['id'];
-               }
-            }
-            $unbilledCalls[$key]->set('bill', $currentBillId);
-        }
-        $unbilledCalls->save();
-
-        // send the bills as email to the residents
-        $billsCollection->loadRelated('Calls');
-        $billsCollection->sendEmails();
-
-        return true;
+        return $billsCollection;
     }
 
     public function deleteOldBills()

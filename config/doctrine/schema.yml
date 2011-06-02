@@ -616,7 +616,12 @@ Bills:
       default: 'false'
     manually_created:
       type: boolean
-      default: false
+      notnull: true
+      default: 'false'
+    debit_sent:
+      type: boolean
+      notnull: true
+      default: 'false'
   relations:
     Residents:
       local: resident
