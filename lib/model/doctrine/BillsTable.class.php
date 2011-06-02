@@ -58,6 +58,10 @@ class BillsTable extends Doctrine_Table
         return $billsCollection;
     }
 
+    /**
+     * Delete bills older than sfConfig::get('monthsToKeepBillsFor');
+     * @TODO: Delete the calls aswell (cascade)
+     */
     public function deleteOldBills()
     {
         $this->createQuery()

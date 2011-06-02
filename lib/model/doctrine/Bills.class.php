@@ -110,12 +110,19 @@ class Bills extends BaseBills
                 ->setTo($this['Residents']['email'])
                 ->setSubject('[HEKphone] Deine Rechnung vom ' . $this['date'])
                 ->setBody($messageBody);
-            sfContext::getInstance()->getMailer()->send($message);
 
-
+            return sfContext::getInstance()->getMailer()->send($message);
         }
     }
 
+    /**
+     * Changes the field "bill" of every unbilled call of the corresponding resident
+     * in the given time period to the according bill id.
+     * First the bill need an id, so call save() first or an exception will be thrown
+     *
+     * @throws Exception when the bill has no id
+     * @throws Exception when there are already some linked calls
+     */
     public function linkCalls() {
         if( ! $this->id) {
             throw new Exception("Bill has no id yet. Use save() first.");
@@ -125,7 +132,19 @@ class Bills extends BaseBills
             throw new Exception("There are already some related calls. This method is not supposed to relink calls.");
         }
 
-        // FIXME: Check wheter the amount of the bill has changed.
+        $newAmount = Doctrine_Query::create()
+            ->from('Calls c')
+            ->select('sum(charges)')
+            ->where('resident = ?', $this->resident)
+            ->addWhere('bill is null')
+            ->addWhere('date <= ?', $this->get('billingperiod_end') . ' 23:59:59')
+            ->addWhere('date >= ?', $this->get('billingperiod_start'))
+            ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
+            ->execute();
+
+        if($newAmount != $this->amount) {
+            throw new Exception("The amount of the bill changed between creation of the bill and allocating the calls to the bill.");
+        }
 
         $calls = Doctrine_Query::create()
             ->from('Calls c')
