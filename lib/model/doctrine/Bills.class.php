@@ -134,7 +134,7 @@ class Bills extends BaseBills
 
         $newAmount = Doctrine_Query::create()
             ->from('Calls c')
-            ->select('sum(charges)')
+            ->select('sum(charges)/100')
             ->where('resident = ?', $this->resident)
             ->addWhere('bill is null')
             ->addWhere('date <= ?', $this->get('billingperiod_end') . ' 23:59:59')

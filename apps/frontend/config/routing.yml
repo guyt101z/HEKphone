@@ -93,6 +93,21 @@ tasks:
   url: /tasks
   param: {module: tasks, action: index }
 
+task_newBills:
+  url: /tasks/bills/new
+  param: {module: tasks, action: newBills}
+
+task_newBills_simulate:
+  url: /tasks/bills/simulate
+  param: {module: tasks, action: simulateNewBills}
+
+task_newBills_create:
+  url: /tasks/bills/create
+  param: {module: tasks, action: createNewBills}  
+  
+task_continueWithOldBills:
+  url: /tasks/continue
+  param: {module: tasks, action: continueWithOldBills}
   
 ## unbilled calls and last bills of a resident
 calls:

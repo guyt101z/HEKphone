@@ -564,6 +564,87 @@
         <target>Schau in den Einstellungen, ob dein Anrufbeantworter angeschaltet ist.</target>
       </trans-unit>
       
+      <trans-unit id="99">
+        <source>task.newBills</source>
+        <target>neue Rechnungen erstellen</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.continueWithOldBills</source>
+        <target>mit alten Rechnungen fortahren</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.simulate</source>
+        <target>&#60;strong&#62;Testabrechnung&#60;/strong&#62; durchführen ohne die Gespräche als abgerechnet zu markieren oder E-Mails zu versenden.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.simulate.submit</source>
+        <target>Schau'n mer mal.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.new.simulate.no_bills</source>
+        <target>Keine unabgerechneten Gespräche im angegebenen Zeitraum</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.date_start</source>
+        <target>Rechnungen von:</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.date_end</source>
+        <target>bis (einschließlich):</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.createAndSend</source>
+        <target>Die Rechnungen der Testabrechnung speichern und Emails versenden</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.simulate_first</source>
+        <target>Bitte zuerst eine Testabrechnung durchführen.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.new.create.successful</source>
+        <target>Rechnungen erfolgreich erstellt und versandt.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.residentid</source>
+        <target>Bewohner-ID</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.amount</source>
+        <target>Rechnungsbetrag</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.total_amount</source>
+        <target>Gesamtbetrag: </target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.number</source>
+        <target>Anzahl Rechnungen: </target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.getDtaus</source>
+        <target>Abrechnungsdateien herunterladen</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.markAsDone</source>
+        <target>Rechnungen als erledigt markieren.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.chooseDate</source>
+        <target>Rechnungen von nur dem folgenden Datum auswählen:</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.chooseDate.includeAlreadyDebited</source>
+        <target>Auch schon abgebuchte Rechnungen einschließen. Achtung mit dieser Option!</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.no_bills_without_debit</source>
+        <target>In der Datenbank sind zur Zeit keine Rechnungen, die noch nicht abgebucht wurden.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.no_bills_without_debit</source>
+        <target>In der Datenbank sind zur Zeit keine Rechnungen, die noch nicht abgebucht wurden.</target>
+      </trans-unit>
+      
       
       <trans-unit id="12">
         <source>groupcalls.list.heading</source>

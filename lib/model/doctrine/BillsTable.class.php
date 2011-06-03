@@ -58,6 +58,17 @@ class BillsTable extends Doctrine_Table
         return $billsCollection;
     }
 
+
+    public function findBillsWithoutDebit() {
+        $bills = Doctrine_Query::create()
+            ->from('Bills b')
+            ->addWhere('manually_created = ?', false)
+            ->addWhere('debit_sent = ?', true)
+            ->execute();
+
+        return $bills;
+    }
+
     /**
      * Delete bills older than sfConfig::get('monthsToKeepBillsFor');
      * @TODO: Delete the calls aswell (cascade)
