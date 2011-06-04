@@ -6,6 +6,7 @@ class BillsCollection extends Doctrine_Collection
     protected $banknumberSum;
     protected $accountnumberSum;
     protected $totalAmount;
+    protected $numberOfBills;
 
     /**
      * Calculate the totalAmount and the checksums (account number sum and bank
@@ -56,7 +57,7 @@ class BillsCollection extends Doctrine_Collection
      */
     protected function getDtausBody() {
         $dtausBody = "";
-        foreach($this->bills as $bill) {
+        foreach($this as $bill) {
           // getDtausEntry returns false when the amount is zero
           // appending false to a string appends nothing.
           $dtausBody .= $bill->getDtausEntry();
@@ -75,13 +76,13 @@ class BillsCollection extends Doctrine_Collection
      */
     protected function getDtausFooter() {
         $dtausFooter = "END {
-  Anzahl    " . count($this) . "
+  Anzahl    " . $this->getNumberOfBills() . "
   Summe "     . $this->getTotalAmount() . "
   Kontos    " . $this->getAccountnumberSum() . "
-  BLZs  "     . $this->getBanknumbersSum() . "
+  BLZs  "     . $this->getBanknumberSum() . "
 }";
 
-        return $dtausFooter();
+        return $dtausFooter;
     }
 
     /**
@@ -90,6 +91,12 @@ class BillsCollection extends Doctrine_Collection
      * @return string
      */
     public function getTotalAmount() {
+        if($this->totalAmount == NULL) {
+          foreach($this as $bill) {
+            $this->totalAmount += $bill['amount'];
+          }
+        }
+
         return $this->totalAmount;
     }
 
@@ -100,6 +107,12 @@ class BillsCollection extends Doctrine_Collection
      * @return string
      */
     protected function getAccountnumberSum() {
+        if($this->accountnumberSum == NULL) {
+            foreach($this as $bill) {
+                $this->accountnumberSum += $bill['Residents']['account_number'];
+            }
+        }
+
         return $this->accountnumberSum;
     }
 
@@ -110,7 +123,27 @@ class BillsCollection extends Doctrine_Collection
      * @return string
      */
     protected function getBanknumberSum() {
+        if($this->banknumberSum == NULL) {
+            foreach($this as $bill) {
+                    $this->banknumberSum += $bill['Residents']['bank_number'];
+            }
+        }
+
         return $this->banknumberSum;
+    }
+
+    protected function getNumberOfBills() {
+        if($this->numberOfBills == NULL) {
+            foreach($this as $bill) {
+              if($bill['amount'] > 0) {
+                  // only count bills with an positive amount
+                  // as others won't show up in the dtaus
+                  $this->numberOfBills = $this->numberOfBills+1;
+              }
+            }
+        }
+
+        return $this->numberOfBills;
     }
 
     /**
@@ -122,6 +155,77 @@ class BillsCollection extends Doctrine_Collection
         return $this->getDtausHeader()
               . $this->getDtausBody()
               . $this->getDtausFooter();
+    }
+
+    /**
+     * Returns an array of errors that would stop the bill creation or sending
+     * process.
+     *
+     * Checks for: Empty Account Information,
+     *             Empty Name
+     *             Empty Email
+     *             Bill amount that do not match the sum of calls charges in the bill period
+     *             Bill has already related calls
+     *
+     */
+    public function hasErrors() {
+        $errors = false;
+        foreach($this as $bill) {
+          //FIXME: i18n???
+            if($bill['Residents']['last_name']  == null && $bill['amount'] != 0) {
+                $errors[] = "Resident=" . $bill['resident'] . " has no last name set.";
+            }
+
+            if($bill['Residents']['account_number'] == null || $bill['Residents']['bank_number'] == null && $bill['amount'] != 0) {
+                $errors[] = "Resident=" . $bill['resident'] . " has no account information.";
+            }
+
+            //FIXME: only use one query not about 200
+            $newAmount = Doctrine_Query::create()
+                ->from('Calls c')
+                ->select('sum(charges)/100')
+                ->where('resident = ?', $bill->resident)
+                ->addWhere('bill is null')
+                ->addWhere('date <= ?', $bill->get('billingperiod_end') . ' 23:59:59')
+                ->addWhere('date >= ?', $bill->get('billingperiod_start'))
+                ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
+                ->execute();
+
+            if($newAmount != $bill->amount) {
+                $errors[] = "The amount of the of resident =" . $bill['resident'] . " changed between creation of the bill and allocating the calls to the bill.";
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Returns an array of errors that would stop the process of creating dtaus files.
+     *
+     * Checks for: Empty Account Information,
+     *             Empty Name
+     */
+    public function hasDtausErrors() {
+        $errors = false;
+
+        if(count($this) == 0) {
+            $errors[] = "Keine Rechnungen, keine Dtaus-Datei.";
+        }
+        foreach($this as $bill) {
+          //FIXME: i18n???
+            if($bill['amount'] == 0) {
+              continue; // bills with amount of zero won't apperar in the dtaus files
+            }
+            if($bill['Residents']['last_name']  == null) {
+                $errors[] = "Resident=" . $bill['resident'] . " has no last name set.";
+            }
+
+            if($bill['Residents']['account_number'] == null || $bill['Residents']['bank_number'] == null) {
+                $errors[] = "Resident=" . $bill['resident'] . " has no account information.";
+            }
+        }
+
+        return $errors;
     }
 
     /**
@@ -151,6 +255,16 @@ class BillsCollection extends Doctrine_Collection
         };
     }
 
+    /* Checks if any of the collections bills exists in the database */
+    public function exists() {
+        foreach($this as $bill) {
+            if($bill->exists()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     /**
      * For every bill of the collection: Changes the field "bill" of every
      * unbilled call in the given time-period to the according bill id.
@@ -180,6 +294,22 @@ class BillsCollection extends Doctrine_Collection
 	    {
 	        $bill->sendEmail();
 	    }
+
+	    return $this;
+	}
+
+	public function markAsDebited() {
+	    $billids = array();
+	    foreach($this as $bill) {
+	        $billids[] = $bill->get('id');
+	    }
+
+	    Doctrine_Query::create()
+	      ->update('Bills b')
+	      ->set('b.debit_sent', 'true')
+	      ->whereIn('b.id', $billids)
+	      ->execute();
+
 
 	    return $this;
 	}

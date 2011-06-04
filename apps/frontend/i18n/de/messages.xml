@@ -594,7 +594,11 @@
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.create.createAndSend</source>
-        <target>Die Rechnungen der Testabrechnung speichern und Emails versenden</target>
+        <target>Diese Rechnungen speichern und per Email versenden</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.not_again</source>
+        <target>(Zumindest) einige der Rechnungen existierten schon in der Datenbank. Aktion abgebrochen und nichts getan.</target>
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.create.simulate_first</source>
@@ -603,6 +607,10 @@
       <trans-unit id="99">
         <source>task.bills.new.create.successful</source>
         <target>Rechnungen erfolgreich erstellt und versandt.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.create.backToTasks</source>
+        <target>Fertig? Zurück zur Liste der Aktionen.</target>
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.residentid</source>
@@ -629,12 +637,16 @@
         <target>Rechnungen als erledigt markieren.</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>task.bills.continue.chooseDate</source>
+        <source>task.bills.continue.choose_date</source>
         <target>Rechnungen von nur dem folgenden Datum auswählen:</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>task.bills.continue.chooseDate.includeAlreadyDebited</source>
-        <target>Auch schon abgebuchte Rechnungen einschließen. Achtung mit dieser Option!</target>
+        <source>task.bills.continue.include_already_debited</source>
+        <target>schon abgebuchte Rechnungen an diesem Abend einschließen</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.choose_date.submit</source>
+        <target>Rechnungen erneut holen</target>
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.continue.no_bills_without_debit</source>
@@ -644,8 +656,18 @@
         <source>task.bills.continue.no_bills_without_debit</source>
         <target>In der Datenbank sind zur Zeit keine Rechnungen, die noch nicht abgebucht wurden.</target>
       </trans-unit>
-      
-      
+      <trans-unit id="99">
+        <source>task.bills.continue.no_bills_selected</source>
+        <target>Es sind keine Rechnungen vorhanden, für die Dtaus-Dateien heruntergeladen werden können.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task_continueWithOldBills_sure</source>
+        <target>Wurden die Abbuchungen wirklich erfolgreich durchgeführt?\n Die Dateien nach klicken auf OK erneut zu erstellen wird schwierig.</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.continue.markAsDone.successful</source>
+        <target>Die Rechnungen wurden erfolgreich als abgebucht markiert.</target>
+      </trans-unit>
       <trans-unit id="12">
         <source>groupcalls.list.heading</source>
         <target>Sammelrufe</target>

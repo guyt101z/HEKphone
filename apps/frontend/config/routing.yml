@@ -109,6 +109,19 @@ task_continueWithOldBills:
   url: /tasks/continue
   param: {module: tasks, action: continueWithOldBills}
   
+task_newBills_chooseDate:
+  url: /tasks/continue/chooseDate
+  param: {module: tasks, action: chooseDate}
+
+task_continueWithOldBills_getDtaus:
+  url: /tasks/continue/getDtaus
+  param: {module: tasks, action: getDtaus}
+  
+
+task_continueWithOldBills_markAsDone:
+  url: /tasks/continue/markAsDone
+  param: {module: tasks, action: markAsDone}
+  
 ## unbilled calls and last bills of a resident
 calls:
   url: /calls

@@ -63,7 +63,7 @@ class BillsTable extends Doctrine_Table
         $bills = Doctrine_Query::create()
             ->from('Bills b')
             ->addWhere('manually_created = ?', false)
-            ->addWhere('debit_sent = ?', true)
+            ->addWhere('debit_sent = ?', false)
             ->execute();
 
         return $bills;

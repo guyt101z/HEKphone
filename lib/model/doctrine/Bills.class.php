@@ -34,8 +34,8 @@ class Bills extends BaseBills
     {
     	$dtausEntry = null;
 
-    	//If there is not the required information given to generate the dtaus entry for a resident an empty string is returned
-    	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null || $this['amount'] == 0)
+    	//If there is not the required information given to generate the dtaus entry for a resident throw an exception
+    	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null)
     	{
     		throw New Exception("No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR");
     	}
@@ -124,11 +124,11 @@ class Bills extends BaseBills
      * @throws Exception when there are already some linked calls
      */
     public function linkCalls() {
-        if( ! $this->id) {
-            throw new Exception("Bill has no id yet. Use save() first.");
+        if( ! $this->exists()) {
+            throw new Exception("Is not yet saved in the database. Use save() first.");
         }
 
-        if( isset($this->Calls)) {
+        if(isset($this->Calls)) {
             throw new Exception("There are already some related calls. This method is not supposed to relink calls.");
         }
 
