@@ -2,7 +2,7 @@
     <?php if(isset($bills) && $bills): ?>
     <span><?php echo __('task.bills.continue.bills_in_database') ?></span>
     <?php
-            include_partial('bills', array('bills' => $bills, 'totalAmount' => $totalAmount));
+            include_partial('oldBills', array('bills' => $bills, 'totalAmount' => $totalAmount));
           endif;
     ?>
     <div>

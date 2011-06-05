@@ -89,7 +89,7 @@ class BillsCollection extends Doctrine_Collection
                 $errors[] = "Resident=" . $bill['resident'] . " has no last name set.";
             }
 
-            if($bill['Residents']['account_number'] == null || $bill['Residents']['bank_number'] == null && $bill['amount'] != 0) {
+            if(($bill['Residents']['account_number'] == null || $bill['Residents']['bank_number'] == null) && $bill['amount'] != 0) {
                 $errors[] = "Resident=" . $bill['resident'] . " has no account information.";
             }
 
@@ -165,6 +165,27 @@ class BillsCollection extends Doctrine_Collection
             if($bill->exists()) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes all bills where the value of $key matches $value
+     *
+     * @param mixed $key
+     * @param mixed value
+     * @return bool true if at least one bill has been deleted
+     */
+    public function removeBill($key, $value) {
+        foreach($this as $i => $bill) {
+            if($bill[$key] == $value) {
+                unset($this[$i]);
+                $deletedOne = true;
+            }
+        }
+        if($deletedOne) {
+            return true;
         }
 
         return false;

@@ -117,6 +117,9 @@ task_continueWithOldBills_getDtaus:
   url: /tasks/continue/getDtaus
   param: {module: tasks, action: getDtaus}
   
+task_removeFromCollection:
+  url: tasks/bills/remove
+  param: {module: tasks, action: removeFromCollection}
 
 task_continueWithOldBills_markAsDone:
   url: /tasks/continue/markAsDone

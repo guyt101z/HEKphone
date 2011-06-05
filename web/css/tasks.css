@@ -1,3 +1,16 @@
+/* the list of the different tasks */
+#tasks li {
+	font-size: 1.6em;
+}
+
+/* highlight the currently active step on a subpage */
+.active {
+    border: 1px dashed black;
+    border-radius: 5px;
+}
+
+
+/* new bills date selection form */
 #dateForm {
 	padding-left: 1em;
 }
@@ -26,10 +39,6 @@
     margin-bottom: 1em;
 }
 
-.active {
-	border: 1px dashed black;
-	border-radius: 6px;
-}
 
 #create {
 	padding-top:20px;
@@ -44,6 +53,7 @@
     margin-bottom: 1em;
 }
 
+
 #backToTasks {
     text-align:center;
 }
@@ -52,6 +62,9 @@
     font-size: 1em;
 }
 
+
+
+/* Page to create dtaus files */
 #oldBills {
 	padding-top: 1em;
 }
@@ -98,4 +111,8 @@ form input {
     font-size:1.6em;
     text-align:center;
     border: 0;
+}
+
+.already_debited td {
+    background-color: #e78e3e;
 }

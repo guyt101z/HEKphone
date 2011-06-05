@@ -625,6 +625,18 @@
         <target>Gesamtbetrag: </target>
       </trans-unit>
       <trans-unit id="99">
+        <source>task.bills.date</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>task.bills.actions</source>
+        <target>Aktionen</target>
+      </trans-unit>     
+      <trans-unit id="99">
+        <source>task.bills.remove</source>
+        <target>ausschließen</target>
+      </trans-unit>
+      <trans-unit id="99">
         <source>task.bills.number</source>
         <target>Anzahl Rechnungen: </target>
       </trans-unit>
@@ -667,7 +679,9 @@
       <trans-unit id="99">
         <source>task.bills.continue.markAsDone.successful</source>
         <target>Die Rechnungen wurden erfolgreich als abgebucht markiert.</target>
-      </trans-unit>
+      </trans-unit> 
+      
+      
       <trans-unit id="12">
         <source>groupcalls.list.heading</source>
         <target>Sammelrufe</target>

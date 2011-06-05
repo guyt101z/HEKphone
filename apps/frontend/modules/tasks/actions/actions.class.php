@@ -35,9 +35,10 @@ class tasksActions extends sfActions
     $this->dateForm = new NewBillsForm();
 
     /* the (simulated) bills are stored in the users session */
-    if($this->getUser()->hasAttribute('bills')) {
-      $this->bills = $this->getUser()->getAttribute('bills')->toArray();
-      $this->totalAmount = $this->getUser()->getAttribute('bills')->getTotalAmount();
+    if($this->getUser()->hasAttribute('bills') && count($this->getUser()->getAttribute('bills')) > 0) {
+      $bills = $this->getUser()->getAttribute('bills');
+      $this->bills = $bills->toArray();
+      $this->totalAmount = $bills->getTotalAmount();
     } else {
       $this->bills = false;
     }
@@ -131,17 +132,13 @@ class tasksActions extends sfActions
     Doctrine_Core::getTable('Bills')->setAttribute(Doctrine::ATTR_COLLECTION_CLASS, 'BillsCollection');
 
     /* Get the bills where a debit has to be performed */
-    if( ! $billsCollection = $this->getUser()->getAttribute('bills')) {
+    if( ! $billsCollection = $this->getUser()->getAttribute('oldBills')) {
         $billsCollection = Doctrine_Core::getTable('Bills')->findBillsWithoutDebit();
-        $this->getUser()->setAttribute('bills', $billsCollection);
-    } else {
-        if( ! $billsCollection->exists()) {
-          $billsCollection = $this->getUser()->setAttribute('bills', null);
-        }
+        $this->getUser()->setAttribute('oldBills', $billsCollection);
     }
 
     if( ! $billsCollection || count($billsCollection) == 0) {
-        $this->getUser()->setAttribute('bills', null);
+        $this->getUser()->setAttribute('oldBills', null);
         $this->getUser()->setFlash('notice', 'task.bills.continue.no_old_bills_without_debit');
         return sfView::SUCCESS;
     }
@@ -159,12 +156,12 @@ class tasksActions extends sfActions
    * @return string
    */
   public function executeGetDtaus(sfWebRequest $request) {
-    if( ! $this->getUser()->hasAttribute('bills')) {
+    if( ! $this->getUser()->hasAttribute('oldBills')) {
       $this->getUser()->setFlash('error', 'task.bills.continue.no_bills_selected');
       $this->redirect('task_continueWithOldBills', array('step' => 1));
     }
 
-    $bills = $this->getUser()->getAttribute('bills');
+    $bills = $this->getUser()->getAttribute('oldBills');
 
     /* check wheter there are errors beforehand */
     if(is_array($errors = $bills->hasDtausErrors())) {
@@ -193,6 +190,32 @@ class tasksActions extends sfActions
   }
 
   /**
+   * Refetches the old bills in the users session. Only fetches from a specified
+   * date and one can also select already debited bills.
+   *
+   * @param sfWebRequest $request
+   */
+  public function executeChooseDate(sfWebRequest $request) {
+    $this->dateForm = new ContinueBillsForm();
+    $this->dateForm->bind($request->getParameter($this->dateForm->getName()));
+    if ($this->dateForm->isValid())
+    {
+      $date = $this->dateForm->getValue('date');
+      $includeAlreadyDebited = $this->dateForm->getValue('include_already_debited');
+
+      Doctrine_Core::getTable('Bills')->setAttribute(Doctrine::ATTR_COLLECTION_CLASS, 'BillsCollection');
+      $bills = Doctrine_Query::create()
+          ->from('Bills')
+          ->addWhere('debit_sent = ?', $includeAlreadyDebited)
+          ->addWhere('date = ?', $date)
+          ->execute();
+      $this->getUser()->setAttribute('oldBills', $bills);
+    }
+
+    $this->redirect('task_continueWithOldBills', array('step' => 1));
+  }
+
+  /**
    * This action is supposed to be executed after a debit has been sent.
    * It marks the bills as "done" (debit_send = true in the database) so they
    * won't show up again when the user tries to download the (next) dtaus file.
@@ -200,16 +223,36 @@ class tasksActions extends sfActions
    * @param sfWebRequest $request
    */
   public function executeMarkAsDone(sfWebRequest $request) {
-    if( ! $this->getUser()->hasAttribute('bills')) {
+    if( ! $this->getUser()->hasAttribute('oldBills')) {
       $this->getUser()->setFlash('error', 'task.bills.continue.no_bills_selected');
       $this->redirect('task_continueWithOldBills', array('step' => 1));
     }
 
-    $this->getUser()->getAttribute('bills')->markAsDebited();
-    $this->getUser()->getAttribute('bills')->save();
-    $this->getUser()->setAttribute('bills', null);
+    $this->getUser()->getAttribute('oldBills')->markAsDebited();
+    $this->getUser()->getAttribute('oldBills')->save();
+    $this->getUser()->setAttribute('oldBills', null);
 
     $this->getUser()->setFlash('notice', 'task.bills.continue.markAsDone.successful');
     $this->redirect('task_continueWithOldBills', array('step' => 2));
+  }
+
+  /**
+   * Delete's a bill belonging to one resident from the BillsCollection so it does not get billed.
+   */
+  public function executeRemoveFromCollection(sfWebRequest $request) {
+    // requests from the "newBills" action come with a residentid as parameter
+    // requests from the "continueWithOldBills" action come with a billid
+    // remove the appropriate bills from the collection
+    if($billid = $request->getParameter('billid')) {
+      $this->forward404Unless($bills = $this->getUser()->getAttribute('oldBills'));
+      $this->forward404Unless($bills->removeBill('id', $billid));
+      $this->redirect('task_continueWithOldBills', array('step' => 2));
+    } elseif($residentid = $request->getParameter('residentid')) {
+      $this->forward404Unless($bills = $this->getUser()->getAttribute('bills'));
+      $this->forward404Unless($bills->removeBill('resident', $residentid));
+      $this->redirect('task_newBills', array('step' => 2));
+    } else {
+      $this->forward404();
+    }
   }
 }
