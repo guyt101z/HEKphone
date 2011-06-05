@@ -23,47 +23,6 @@ class Bills extends BaseBills
                ->execute();
     }
 
-
-    /**
-     * For one bill the content for the *.ctl file for the dtaus program is returned.
-     * @param $start Start date for bill period
-     * @param $end End date for the bill period
-     * @return string The string of the dtaus entry or an empty string if the dtaus entry could not be generated
-     */
-    public function getDtausEntry()
-    {
-    	$dtausEntry = null;
-
-    	//If there is not the required information given to generate the dtaus entry for a resident throw an exception
-    	if ($this['Residents']['last_name']  == null || $this['Residents']['account_number'] == null || $this['Residents']['bank_number'] == null)
-    	{
-    		throw New Exception("No dtaus entry for bill " . $this['id'] . " with amount " . $this['amount'] . " EUR");
-    	}
-    	else
-    	{
-    	    // if' there's nothing to debit, don't create an dtaus entry
-    	    if($this->amount == 0) {
-    	        return false;
-    	    }
-
-            $dtausEntry = "{
-  Name	" . $this['Residents']['last_name'] . "
-  Konto	" . $this['Residents']['account_number'] ."
-  BLZ	" . $this['Residents']['bank_number'] . "
-  Transaktion	Einzug
-  Betrag	" . $this['amount']."
-  Zweck	" . sfConfig::get("transactionName")."
-  myName	" . sfConfig::get("hekphoneName")."
-  myKonto	" . sfConfig::get("hekphoneAccountnumber")."
-  myBLZ	" . sfConfig::get("hekphoneBanknumber")."
-  Text	" . $this['billingperiod_start'] . " BIS " . $this['billingperiod_end'] . "
-}
-";
-     	}
-
-    return $dtausEntry;
-    }
-
     /**
      * A string with all itemized Bill entries for each related call of the bill is returned
      * @return string

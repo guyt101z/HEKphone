@@ -1,10 +1,9 @@
 <?php
+require_once('Payment/DTA.php');
 
 class BillsCollection extends Doctrine_Collection
 {
-    protected $dtausBody;
-    protected $banknumberSum;
-    protected $accountnumberSum;
+    protected $dtaus;
     protected $totalAmount;
     protected $numberOfBills;
 
@@ -18,71 +17,54 @@ class BillsCollection extends Doctrine_Collection
             if  ($bill['amount'] > 0)
             {
                 $this->totalAmount += $bill['amount'];
-                $this->accountnumberSum += $bill['Residents']['account_number'];
-                $this->banknumberSum += $bill['Residents']['bank_number'];
             }
         }
     }
 
+
     /**
-     * Returns the header for the dtaus .ctl file which are sent to the bank
-     * to do the debit.
      *
      * @return string
      */
-    protected function getDtausHeader() {
-        $date = date("d.m.Y");
-
-        $dtausHeader = "BEGIN {
-  Art   LK
-  Name  " . sfConfig::get('hekphoneName') . "
-  Konto " . sfConfig::get('hekphoneAccountnumber') . "
-  BLZ   " . sfConfig::get('hekphoneBanknumber') . "
-  Datum $date
-  Ausfuehrung   $date
-  Euro
-}
-
-";
-        return $dtausHeader;
-    }
-
-    /**
-     * Returns the body for the dtaus .ctl file which are sent to the bank
-     * to do the debit.
-     * The body consists of one entry per bill which is created using the
-     * getDtausEntry() method of the bill.
-     *
-     * @return string
-     */
-    protected function getDtausBody() {
-        $dtausBody = "";
-        foreach($this as $bill) {
-          // getDtausEntry returns false when the amount is zero
-          // appending false to a string appends nothing.
-          $dtausBody .= $bill->getDtausEntry();
+    public function getDtaus() {
+        if($this->dtaus instanceof DTA) {
+            return $this->dtaus;
         }
 
-        return $dtausBody;
+        $this->dtaus = new DTA(DTA_DEBIT);
+        $this->dtaus->setAccountFileSender(
+            array(
+                "name"           => sfConfig::get('hekphoneName'),
+                "bank_code"      => sfConfig::get('hekphoneBanknumber'),
+                "account_number" => sfConfig::get('hekphoneAccountnumber')
+            )
+        );
+        foreach($this as $bill) {
+            if($bill['amount'] > 0) {
+                if( ! $bill['Residents']['first_name'] || ! $bill['Residents']['last_name'] || ! $bill['Residents']['account_number'] || ! $bill['Residents']['bank_number']) {
+                    throw new Exception("Missing Details for the dtaus creation proccess for bill id=" . $bill['id']);
+                }
+
+                $this->dtaus->addExchange(
+                    array(
+                        "name"           => $bill['Residents']['first_name'] . $bill['Residents']['first_name'],
+                        "bank_code"      => $bill['Residents']['bank_number'],
+                        "account_number" => $bill['Residents']['account_number'],
+                    ),
+                    $bill['amount'],
+                    array(                                      // Description of the transaction ("Verwendungszweck").
+                        sfConfig::get("transactionName"),
+                        $bill['billingperiod_start'] . " BIS " . $bill['billingperiod_end']
+                    )
+                );
+            }
+        }
+
+        return $this->dtaus;
     }
 
-    /**
-     * Returns the footer for the dtaus .ctl file which are sent to the bank
-     * to do the debit.
-     * The footer contains the sum of all account numbers, bank numbers and
-     * the total amount of the debits as checksum.
-     *
-     * @return string
-     */
-    protected function getDtausFooter() {
-        $dtausFooter = "END {
-  Anzahl    " . $this->getNumberOfBills() . "
-  Summe "     . $this->getTotalAmount() . "
-  Kontos    " . $this->getAccountnumberSum() . "
-  BLZs  "     . $this->getBanknumberSum() . "
-}";
-
-        return $dtausFooter;
+    public function getDtausContents() {
+        return $this->getDtaus()->getFileContent();
     }
 
     /**
@@ -98,63 +80,6 @@ class BillsCollection extends Doctrine_Collection
         }
 
         return $this->totalAmount;
-    }
-
-    /**
-     * Returns the sum of all bank account numbers where a debit is created.
-     * This serves as checksum for the dtaus program.
-     *
-     * @return string
-     */
-    protected function getAccountnumberSum() {
-        if($this->accountnumberSum == NULL) {
-            foreach($this as $bill) {
-                $this->accountnumberSum += $bill['Residents']['account_number'];
-            }
-        }
-
-        return $this->accountnumberSum;
-    }
-
-    /**
-     * Returns the sum of all bank numbers where a debit is created.
-     * This serves as checksum for the dtaus program.
-     *
-     * @return string
-     */
-    protected function getBanknumberSum() {
-        if($this->banknumberSum == NULL) {
-            foreach($this as $bill) {
-                    $this->banknumberSum += $bill['Residents']['bank_number'];
-            }
-        }
-
-        return $this->banknumberSum;
-    }
-
-    protected function getNumberOfBills() {
-        if($this->numberOfBills == NULL) {
-            foreach($this as $bill) {
-              if($bill['amount'] > 0) {
-                  // only count bills with an positive amount
-                  // as others won't show up in the dtaus
-                  $this->numberOfBills = $this->numberOfBills+1;
-              }
-            }
-        }
-
-        return $this->numberOfBills;
-    }
-
-    /**
-     * Return the complete contents of the dtaus .ctl file that are used with the
-     * banks programm to do the debit.
-     * @return string
-     */
-    public function getDtausContents() {
-        return $this->getDtausHeader()
-              . $this->getDtausBody()
-              . $this->getDtausFooter();
     }
 
     /**
@@ -212,7 +137,7 @@ class BillsCollection extends Doctrine_Collection
             $errors[] = "Keine Rechnungen, keine Dtaus-Datei.";
         }
         foreach($this as $bill) {
-          //FIXME: i18n???
+            //FIXME: i18n???
             if($bill['amount'] == 0) {
               continue; // bills with amount of zero won't apperar in the dtaus files
             }
@@ -229,28 +154,19 @@ class BillsCollection extends Doctrine_Collection
     }
 
     /**
-     * Write the .ctl file to the data/billing folder and execute dtaus on this
-     * file. There will be 4 files created: dtaus.{$date}.ctl/.txt/.sik/.doc
+     * There will be 1 file created: dtaus.{$date}.dtaus
      * the owner of the files will be set to the according config variable.
      *
-     * @return string|string
+     * @return bool
      */
     public function writeDtausFiles() {
-        if($this->getDtausBody) {
-            $date = date("d.m.Y");
-
-            $fileprefix = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . "dtaus.$date";
-            $ctl_handler = fopen($fileprefix.".ctl", "w+"); // Create file
-            fWrite($ctl_handler, $this->getDtausContents());
-            exec("cd " . sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR );
-            exec("dtaus -dtaus -c $fileprefix.ctl -d $fileprefix.txt -o $fileprefix.sik -b $fileprefix.doc");
-            exec ("chmod 770 $fileprefix.*");
-            exec ("chgrp ".sfConfig::get("usergroup")." $fileprefix.*");
+        $filename = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . "dtaus" . date("d.m.Y") . "dtaus";
+        if($this->getDtaus()->saveFile($filename)) {
+            exec ("chmod 770 " . $filename);
+            exec ("chgrp " . sfConfig::get("usergroup") . " " . $filename);
 
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         };
     }
