@@ -20,7 +20,7 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('transactionName', 'RECHNUNG HEK-PHONE');
     sfConfig::set('hekphoneName', 'HEK-PHONE');
     sfConfig::set('hekphoneAccountnumber', '123123123');
-    sfConfig::set('hekphoneBanknumber', '123123123');
+    sfConfig::set('hekphoneBanknumber', '12312312');
 
     sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
 

@@ -649,11 +649,11 @@
         <target>Rechnungen erneut holen</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>task.bills.continue.no_bills_without_debit</source>
-        <target>In der Datenbank sind zur Zeit keine Rechnungen, die noch nicht abgebucht wurden.</target>
+        <source>task.bills.continue.bills_in_database</source>
+        <target>Es sind folgende &#60;strong&#62;noch nicht abgebuchte Rechnungen&#60;/strong&#62; in der Datenbank vorhanden:</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>task.bills.continue.no_bills_without_debit</source>
+        <source>task.bills.continue.no_old_bills_without_debit</source>
         <target>In der Datenbank sind zur Zeit keine Rechnungen, die noch nicht abgebucht wurden.</target>
       </trans-unit>
       <trans-unit id="99">

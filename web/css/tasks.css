@@ -56,6 +56,15 @@
 	padding-top: 1em;
 }
 
+#oldBills span {
+	display: block;
+    font-size: 1.6em;
+}
+
+#oldBills form {
+	margin-top: 1em;
+}
+
 #oldBills form label {
     font-size: 1.6em;
 }

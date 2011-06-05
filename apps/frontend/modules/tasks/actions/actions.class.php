@@ -11,7 +11,7 @@
 class tasksActions extends sfActions
 {
  /**
-  * Executes index action
+  * Displays an overview over various available tasks.
   *
   * @param sfRequest $request A request object
   */
@@ -20,6 +20,10 @@ class tasksActions extends sfActions
     //$this->forward404();
   }
 
+  /**
+   * Displays the page to simulate/create new bills for a time period.
+   * @param sfWebRequest $request
+   */
   public function executeNewBills(sfWebRequest $request) {
     /* to highlight the current step the user has to execute $step is used*/
     if($request->hasParameter('step')) {
@@ -39,6 +43,15 @@ class tasksActions extends sfActions
     }
   }
 
+  /**
+   * Performs an "bill creation simulation" where and object of type BillsCollection
+   * is created that holds all the bills that will be created when executing
+   * executeCreateNewBills().
+   * This object is stored in the user's session as attribute 'bills'.
+   *
+   * No emails are sent, no bills are saved to the database, no calls are marked as billed here.
+   * @param sfWebRequest $request
+   */
   public function executeSimulateNewBills(sfWebRequest $request) {
     $this->dateForm = new NewBillsForm();
     $this->dateForm->bind($request->getParameter($this->dateForm->getName()));
@@ -57,6 +70,13 @@ class tasksActions extends sfActions
     $this->redirect('task_newBills', array('step' => 2));
   }
 
+  /**
+   * Takes the BillsCollection object stored in the 'bills' attribute of the users
+   * session, saves the bills to the database, links the calls to the bills (marks
+   * them as billed) and notifies the residents via email about their bills.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeCreateNewBills(sfWebRequest $request) {
     /* there have to be bills in the session to create (a test simulation has to be run first) */
     if( ! $this->getUser()->hasAttribute('bills')) {
@@ -91,6 +111,13 @@ class tasksActions extends sfActions
   }
 
 
+  /**
+   * Checks for bills in the database for which no debit has yet been created
+   * (debit_sent == false) and displays these to the user who can now download
+   * the dtaus file needed to send to the bank to do the debit.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeContinueWithOldBills(sfWebRequest $request) {
     /* to highlight the current step the user has to execute $step is used*/
     if($request->hasParameter('step')) {
@@ -104,21 +131,33 @@ class tasksActions extends sfActions
     Doctrine_Core::getTable('Bills')->setAttribute(Doctrine::ATTR_COLLECTION_CLASS, 'BillsCollection');
 
     /* Get the bills where a debit has to be performed */
-    if( ! $this->getUser()->hasAttribute('bills')) {
-      $billsCollection = Doctrine_Core::getTable('Bills')->findBillsWithoutDebit();
-      $this->getUser()->setAttribute('bills', $billsCollection);
+    if( ! $billsCollection = $this->getUser()->getAttribute('bills')) {
+        $billsCollection = Doctrine_Core::getTable('Bills')->findBillsWithoutDebit();
+        $this->getUser()->setAttribute('bills', $billsCollection);
     } else {
-      $billsCollection = $this->getUser()->getAttribute('bills');
+        if( ! $billsCollection->exists()) {
+          $billsCollection = $this->getUser()->setAttribute('bills', null);
+        }
     }
 
-    if( ! $billsCollection) {
-        $this->getUser()->setFlash('error', 'task.bills.continute.no_old_bills_without_debit');
+    if( ! $billsCollection || count($billsCollection) == 0) {
+        $this->getUser()->setAttribute('bills', null);
+        $this->getUser()->setFlash('notice', 'task.bills.continue.no_old_bills_without_debit');
+        return sfView::SUCCESS;
     }
 
     $this->bills = $billsCollection->toArray();
     $this->totalAmount = $billsCollection->getTotalAmount();
   }
 
+  /**
+   * Returns the dtaus file for the bills stored as the users session attribute
+   * 'bills'. The created file is also saved on the server as data/billing/{date}.txt
+   * On error, the user is redirected back to continueWithOldBills.
+   *
+   * @param sfWebRequest $request
+   * @return string
+   */
   public function executeGetDtaus(sfWebRequest $request) {
     if( ! $this->getUser()->hasAttribute('bills')) {
       $this->getUser()->setFlash('error', 'task.bills.continue.no_bills_selected');
@@ -135,14 +174,31 @@ class tasksActions extends sfActions
 
     /* get the dtaus-files contents and pass it right through */
     if($dtausContents = $bills->getDtausContents()) {
-      echo $dtausContents;
+      $filename = date('Y-m-d') . '_bills.txt';
+
+      @$bills->writeDtausFile();
+
+      $response = $this->getResponse();
+      $response->setContentType('text/plain');
+      $response->setHttpHeader('Content-Disposition', 'attachment; filename='.$filename);
+      $response->setContent($dtausContents);
+
       sfConfig::set('sf_web_debug', false);
+
       return sfView::NONE;
     } else {
       $this->getUser()->setFlash('error', 'task.bills.continue.dtaus_creation_failed');
+      $this->redirect('task_continueWithOldBills', array('step' => 1));
     }
   }
 
+  /**
+   * This action is supposed to be executed after a debit has been sent.
+   * It marks the bills as "done" (debit_send = true in the database) so they
+   * won't show up again when the user tries to download the (next) dtaus file.
+   *
+   * @param sfWebRequest $request
+   */
   public function executeMarkAsDone(sfWebRequest $request) {
     if( ! $this->getUser()->hasAttribute('bills')) {
       $this->getUser()->setFlash('error', 'task.bills.continue.no_bills_selected');

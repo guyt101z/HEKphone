@@ -3,34 +3,14 @@ require_once('Payment/DTA.php');
 
 class BillsCollection extends Doctrine_Collection
 {
-    protected $dtaus;
+    protected $dtaus;  // holds the DTA-object representing the dtaus file
     protected $totalAmount;
-    protected $numberOfBills;
-
-    /**
-     * Calculate the totalAmount and the checksums (account number sum and bank
-     * number sum) on construction.
-     */
-    public function _construct() {
-        foreach ($this as $bill)
-        {
-            if  ($bill['amount'] > 0)
-            {
-                $this->totalAmount += $bill['amount'];
-            }
-        }
-    }
-
 
     /**
      *
      * @return string
      */
     public function getDtaus() {
-        if($this->dtaus instanceof DTA) {
-            return $this->dtaus;
-        }
-
         $this->dtaus = new DTA(DTA_DEBIT);
         $this->dtaus->setAccountFileSender(
             array(
@@ -45,18 +25,22 @@ class BillsCollection extends Doctrine_Collection
                     throw new Exception("Missing Details for the dtaus creation proccess for bill id=" . $bill['id']);
                 }
 
-                $this->dtaus->addExchange(
-                    array(
-                        "name"           => $bill['Residents']['first_name'] . $bill['Residents']['first_name'],
+                $addResult = $this->dtaus->addExchange(
+                    $residentsDetails = array(
+                        "name"           => $bill['Residents']['first_name'] . " " . $bill['Residents']['first_name'],
                         "bank_code"      => $bill['Residents']['bank_number'],
-                        "account_number" => $bill['Residents']['account_number'],
+                        "account_number" => $bill['Residents']['account_number']
                     ),
                     $bill['amount'],
                     array(                                      // Description of the transaction ("Verwendungszweck").
-                        sfConfig::get("transactionName"),
+                        sfConfig::get("transactionName") . " " . $bill['id'],
                         $bill['billingperiod_start'] . " BIS " . $bill['billingperiod_end']
                     )
                 );
+
+                if( ! $addResult) {
+                    return $addResult;
+                }
             }
         }
 
@@ -64,6 +48,10 @@ class BillsCollection extends Doctrine_Collection
     }
 
     public function getDtausContents() {
+        if( ! $dtaus = $this->getDtaus()) {
+            return $dtaus;
+        }
+
         return $this->getDtaus()->getFileContent();
     }
 
@@ -159,8 +147,8 @@ class BillsCollection extends Doctrine_Collection
      *
      * @return bool
      */
-    public function writeDtausFiles() {
-        $filename = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . "dtaus" . date("d.m.Y") . "dtaus";
+    public function writeDtausFile() {
+        $filename = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "billing" . DIRECTORY_SEPARATOR . date("d.m.Y") . "txt";
         if($this->getDtaus()->saveFile($filename)) {
             exec ("chmod 770 " . $filename);
             exec ("chgrp " . sfConfig::get("usergroup") . " " . $filename);

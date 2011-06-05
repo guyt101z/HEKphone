@@ -1,8 +1,8 @@
   <div id="oldBills" class="active">
-    <?php if(isset($bills) && $bills):
+    <?php if(isset($bills) && $bills): ?>
+    <span><?php echo __('task.bills.continue.bills_in_database') ?></span>
+    <?php
             include_partial('bills', array('bills' => $bills, 'totalAmount' => $totalAmount));
-          else:
-            echo __('task.bills.continue.no_bills_without_debit');
           endif;
     ?>
     <div>
