@@ -673,6 +673,10 @@
         <target>Es sind keine Rechnungen vorhanden, für die Dtaus-Dateien heruntergeladen werden können.</target>
       </trans-unit>
       <trans-unit id="99">
+        <source>task.bills.continue.dtaus_creation_failed</source>
+        <target>Die dtaus Datei konnte nicht erstellt werden. Das liegt sehr vermutlich an einem fehlerhaften Datensatz. (Länge der Kontonummer, fehlender Name,...)</target>
+      </trans-unit>
+      <trans-unit id="99">
         <source>task_continueWithOldBills_sure</source>
         <target>Wurden die Abbuchungen wirklich erfolgreich durchgeführt?\n Die Dateien nach klicken auf OK erneut zu erstellen wird schwierig.</target>
       </trans-unit>
