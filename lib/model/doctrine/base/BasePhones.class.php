@@ -13,6 +13,7 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @property enum $type
  * @property string $callerid
  * @property string $defaultuser
+ * @property string $secret
  * @property string $host
  * @property string $defaultip
  * @property string $mac
@@ -33,6 +34,7 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @method enum                getType()        Returns the current record's "type" value
  * @method string              getCallerid()    Returns the current record's "callerid" value
  * @method string              getDefaultuser() Returns the current record's "defaultuser" value
+ * @method string              getSecret()      Returns the current record's "secret" value
  * @method string              getHost()        Returns the current record's "host" value
  * @method string              getDefaultip()   Returns the current record's "defaultip" value
  * @method string              getMac()         Returns the current record's "mac" value
@@ -52,6 +54,7 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @method Phones              setType()        Sets the current record's "type" value
  * @method Phones              setCallerid()    Sets the current record's "callerid" value
  * @method Phones              setDefaultuser() Sets the current record's "defaultuser" value
+ * @method Phones              setSecret()      Sets the current record's "secret" value
  * @method Phones              setHost()        Sets the current record's "host" value
  * @method Phones              setDefaultip()   Sets the current record's "defaultip" value
  * @method Phones              setMac()         Sets the current record's "mac" value
@@ -119,6 +122,11 @@ abstract class BasePhones extends sfDoctrineRecord
         $this->hasColumn('defaultuser', 'string', 80, array(
              'type' => 'string',
              'notnull' => true,
+             'default' => '',
+             'length' => 80,
+             ));
+        $this->hasColumn('secret', 'string', 80, array(
+             'type' => 'string',
              'default' => '',
              'length' => 80,
              ));

@@ -101,7 +101,8 @@ class Bills extends BaseBills
             ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
             ->execute();
 
-        if($newAmount != $this->amount) {
+        $newAmount = (float)$newAmount;
+        if(round($newAmount,4) != round($this->amount,4)) {
             throw new Exception("The amount of the bill changed between creation of the bill and allocating the calls to the bill.");
         }
 
@@ -115,7 +116,6 @@ class Bills extends BaseBills
             ->execute();
 
         foreach($calls as $call) {
-          echo "setting bill =". $this->id;
             $call->set('bill', $this->id);
         }
 

@@ -21,15 +21,15 @@ class BillsCollection extends Doctrine_Collection
         );
         foreach($this as $bill) {
             if($bill['amount'] > 0) {
-                if( ! $bill['Residents']['first_name'] || ! $bill['Residents']['last_name'] || ! $bill['Residents']['account_number'] || ! $bill['Residents']['bank_number']) {
+                  if( ! $bill['Residents']['first_name'] || ! $bill['Residents']['last_name'] || ! $bill['Residents']['account_number'] || ! $bill['Residents']['bank_number']) {
                     throw new Exception("Missing Details for the dtaus creation proccess for bill id=" . $bill['id']);
                 }
 
                 $addResult = $this->dtaus->addExchange(
                     $residentsDetails = array(
                         "name"           => $bill['Residents']['first_name'] . " " . $bill['Residents']['first_name'],
-                        "bank_code"      => $bill['Residents']['bank_number'],
-                        "account_number" => $bill['Residents']['account_number']
+                        "bank_code"      => trim($bill['Residents']['bank_number']),
+                        "account_number" => trim($bill['Residents']['account_number'])
                     ),
                     $bill['amount'],
                     array(                                      // Description of the transaction ("Verwendungszweck").
@@ -39,6 +39,7 @@ class BillsCollection extends Doctrine_Collection
                 );
 
                 if( ! $addResult) {
+                  throw new exception($bill['id']);
                     return $addResult;
                 }
             }
@@ -104,7 +105,8 @@ class BillsCollection extends Doctrine_Collection
                 ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
                 ->execute();
 
-            if($newAmount != $bill->amount) {
+            $newAmount = (float)$newAmount;
+            if(round($newAmount,4) != round($bill->amount,4)) {
                 $errors[] = "The amount of the of resident =" . $bill['resident'] . " changed between creation of the bill and allocating the calls to the bill.";
             }
         }

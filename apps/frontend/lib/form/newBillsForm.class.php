@@ -4,7 +4,7 @@ class NewBillsForm extends sfForm
   public function configure()
   {
     $this->setWidgets(array(
-      'billingperiod_start'     => new sfWidgetFormI18nDate(array('default' => date('Y-m-d', mktime(0,0,0, date('m')-2, 1, date('Y'))),
+      'billingperiod_start'     => new sfWidgetFormI18nDate(array('default' => date('Y-m-d', mktime(0,0,0, date('m')-1, 1, date('Y'))),
                                                               'culture' => 'de', //FIXME: choose the Users culutre here!
                                                               'format' => '%year% - %month% - %day%')),
       'billingperiod_end'       => new sfWidgetFormI18nDate(array('default' => date('Y-m-d', mktime(0,0,0, date('m'), 0, date('Y'))),

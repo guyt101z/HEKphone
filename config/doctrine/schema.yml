@@ -306,6 +306,9 @@ Phones:
       type: string(80)
       notnull: true
       default: ''
+    secret:
+      type: string(80)
+      default: ''
 ## As our telephones desperately try to register, we need host=dynamic:
     host:
       type: string(31)

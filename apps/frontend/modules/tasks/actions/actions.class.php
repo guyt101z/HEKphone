@@ -177,7 +177,7 @@ class tasksActions extends sfActions
     if($dtausContents = $bills->getDtausContents()) {
       $filename = date('Y-m-d') . '_bills.txt';
 
-      @$bills->writeDtausFile();
+      //@$bills->writeDtausFile(); //TODO: get right path and save.
 
       $response = $this->getResponse();
       $response->setContentType('text/plain');
