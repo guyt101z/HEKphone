@@ -63,9 +63,13 @@ class tasksActions extends sfActions
       if( ! $billsCollection = Doctrine_Core::getTable('Bills')->getBillsCollectionForUnbilledCalls($start, $end)) {
         $this->getUser()->setAttribute('bills', null);
         $this->getUser()->setFlash('notice', 'task.bills.new.simulate.no_bills');
+        $this->redirect('task_newBills', array('step' => 1));
       } else {
         $this->getUser()->setAttribute('bills', $billsCollection);
       }
+    } else {
+      //FIXME: there's no validation error message in the form because of the redirect
+      $this->redirect('task_newBills', array('step' => 1));
     }
 
     $this->redirect('task_newBills', array('step' => 2));

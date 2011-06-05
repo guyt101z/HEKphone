@@ -21,7 +21,7 @@ class NewBillsForm extends sfForm
 
     $this->setValidators(array(
       'billingperiod_start'     => new sfValidatorDate(),
-      'billingperiod_end'       => new sfValidatorDate()
+      'billingperiod_end'       => new sfValidatorDate(array('max' => date('Y-m-d')), array('max' => 'Please choose a end date in the past.'))
     ));
 
     $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());

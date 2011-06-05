@@ -116,3 +116,7 @@ form input {
 .already_debited td {
     background-color: #e78e3e;
 }
+
+input[disabled] {
+    color: GrayText;
+}
