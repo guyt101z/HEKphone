@@ -35,6 +35,13 @@ class Residents extends BaseResidents
         return $this->currentBillAmount;
     }
 
+    /**
+     * Gets the sum of charges (in EURO) of the unbilled calls of a resident for
+     * a given time period.
+     * @param date $start
+     * @param date $end
+     * @return number Amount in Euro
+     */
     public function getBillAmountForTimePeriod($start, $end) {
         $amount = Doctrine_Query::create()
                 ->from('Calls c')
@@ -171,6 +178,7 @@ class Residents extends BaseResidents
     public function getVoicemailAttachMessage() {
       return ($this->AsteriskVoicemail->get('attach') != 'yes')? false : true;
     }
+
     public function getVoicemailSaycid() {
       return ($this->AsteriskVoicemail->get('saycid') != 'yes')? false : true;
     }
@@ -345,6 +353,7 @@ class Residents extends BaseResidents
             return false;
         }
     }
+
     /**
      * Gets alls unbilled calls belonging to the Resident ordered by date desc
      * @return Doctrine_Collection
@@ -358,6 +367,14 @@ class Residents extends BaseResidents
                             ->execute();
         return $unbilledCalls;
     }
+
+    /**
+     * Creates an Bill object for all unbilled Calls of the resident, saves this
+     * Object to the database, and relates the accoring calls to the bill.
+     * (So they are not "unbilled" anymore.)
+     *
+     * @return bool|Bills
+     */
     public function createBillFromUnbilledCalls() {
         $unbilledCalls = $this->getUnbilledCalls(); //sorted by date desc
 

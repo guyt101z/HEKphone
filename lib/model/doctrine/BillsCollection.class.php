@@ -7,10 +7,13 @@ class BillsCollection extends Doctrine_Collection
     protected $totalAmount;
 
     /**
+     * Generates the DTA object that contains all the billing information neccesary
+     * to do a debit.
      *
-     * @return string
+     * @return bool|DTA false when there creation of the dtaus failed,
+     *                  DTA containing the debit data otherwise
      */
-    public function getDtaus() {
+    protected function getDtaus() {
         $this->dtaus = new DTA(DTA_DEBIT);
         $this->dtaus->setAccountFileSender(
             array(
@@ -48,6 +51,13 @@ class BillsCollection extends Doctrine_Collection
         return $this->dtaus;
     }
 
+    /**
+     * Gets the contents of the dtaus file that has to be sent to the bank to do
+     * the debit.
+     *
+     * @return bool|string false if the dtaus file could not be created (see getDtaus())
+     *                     dtaus contents otherwise
+     */
     public function getDtausContents() {
         if( ! $dtaus = $this->getDtaus()) {
             return $dtaus;
@@ -161,7 +171,11 @@ class BillsCollection extends Doctrine_Collection
         };
     }
 
-    /* Checks if any of the collections bills exists in the database */
+    /**
+     *  Checks if any of the collections bills exists in the database
+     *
+     *  @return bool
+     */
     public function exists() {
         foreach($this as $bill) {
             if($bill->exists()) {
@@ -193,14 +207,15 @@ class BillsCollection extends Doctrine_Collection
         return false;
     }
     /**
-     * For every bill of the collection: Changes the field "bill" of every
-     * unbilled call in the given time-period to the according bill id.
+     * FChanges the field "bill" of every unbilled call in the given time-period
+     * to the according bill id for each bill of the collection:
      * First the bills in the collection need ids, so call save() first.
      *
      * @throws Exception if a bill has already some calls linked
      * @throws Exception if the bill amount differs from the amount of calls to be linked
      * @TODO: catch the errors so the proccess won't stop when it's halfway
      *        done or provide an easy way to pick up te process again.
+     *        Partly done by the method hasErrors() which can be called seperately
      */
     public function linkCallsToBills(){
         foreach($this as $bill) {
@@ -212,19 +227,24 @@ class BillsCollection extends Doctrine_Collection
 
 	/**
 	 * Send emails for every bill notifiying the resident about his bill.
+	 *
+	 * @return BillsCollection $this
 	 * @TODO: catch the errors so the proccess won't stop when it's halfway
 	 *        done or provide an easy way to pick up te process again.
 	 */
 	public function sendEmails()
 	{
-	    foreach($this as $bill)
-	    {
+	    foreach($this as $bill) {
 	        $bill->sendEmail();
 	    }
 
 	    return $this;
 	}
 
+	/**
+	 * Sets the debit_sent flag to true for all bills in the collection
+	 * @return BillsCollection $this
+	 */
 	public function markAsDebited() {
 	    $billids = array();
 	    foreach($this as $bill) {

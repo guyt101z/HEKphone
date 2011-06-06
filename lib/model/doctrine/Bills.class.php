@@ -25,7 +25,8 @@ class Bills extends BaseBills
 
     /**
      * A string with all itemized Bill entries for each related call of the bill is returned
-     * @return string
+     *
+     * @return string $itemizedBill
      */
     public function getItemizedBill()
     {
@@ -45,6 +46,7 @@ class Bills extends BaseBills
 
      /**
      * Send the bill via Email to the resident.
+     *
      * @param string $start Start of the billing period
      * @param string $end End of the billing period
      */
@@ -81,6 +83,7 @@ class Bills extends BaseBills
      *
      * @throws Exception when the bill has no id
      * @throws Exception when there are already some linked calls
+     * @returns Bills $this
      */
     public function linkCalls() {
         if( ! $this->exists()) {
@@ -120,5 +123,7 @@ class Bills extends BaseBills
         }
 
         $calls->save();
+
+        return $this;
     }
 }

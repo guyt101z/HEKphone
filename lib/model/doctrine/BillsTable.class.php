@@ -21,17 +21,19 @@ class BillsTable extends Doctrine_Table
      * Returns BillsCollection containing Bills for every resident who has
      * unbilled calls in the given time period that is not saved in the database.
      * Returns false when there are no calls in the time period.
+     *
+     * @throws Exception if the end-data is in the future
      * @param datestring $start
      * @param datestring $end
+     * @returns bool|BillsCollection
      */
     public function getBillsCollectionForUnbilledCalls($start, $end)
     {
         if(strtotime($end) >= strtotime(date("Y-m-d"))) {
             throw new Exception("An end date in the future may lead to inconsistencies between calls marked as paid and the bill amount.");
-            // TODO: Prevent this and remove this warning
         }
 
-        //fetch the ids of all residents with unbilled calls from the given time period
+        /* fetch the ids of all residents with unbilled calls from the given time period */
         $residentidsWithUnbilledCalls = Doctrine_Query::create()
             ->from('Calls c')
             ->select('c.resident as residentid')
@@ -46,6 +48,7 @@ class BillsTable extends Doctrine_Table
             return false;
         }
 
+        /* add one bill to the collection for each resident */
         $billsCollection = new BillsCollection('Bills');
         foreach($residentidsWithUnbilledCalls as $residentid) {
             $billsCollection[$residentid]->resident = $residentid;
@@ -59,6 +62,12 @@ class BillsTable extends Doctrine_Table
     }
 
 
+    /**
+     * Finds all bills that bave not been debited yet but should be.
+     * (Meaning: debit_sent=false, manually_created = false)
+     *
+     * @return Doctrine_Collection
+     */
     public function findBillsWithoutDebit() {
         $bills = Doctrine_Query::create()
             ->from('Bills b')

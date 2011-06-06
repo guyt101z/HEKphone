@@ -10,11 +10,11 @@
  */
 class tasksActions extends sfActions
 {
- /**
-  * Displays an overview over various available tasks.
-  *
-  * @param sfRequest $request A request object
-  */
+  /**
+   * Displays an overview over various available tasks.
+   *
+   * @param sfRequest $request A request object
+   */
   public function executeIndex(sfWebRequest $request)
   {
     //$this->forward404();
@@ -45,10 +45,11 @@ class tasksActions extends sfActions
   }
 
   /**
-   * Performs an "bill creation simulation" where and object of type BillsCollection
+   * Performs an "bill creation simulation" where an object of type BillsCollection
    * is created that holds all the bills that will be created when executing
    * executeCreateNewBills().
-   * This object is stored in the user's session as attribute 'bills'.
+   * This object is stored in the user's session as attribute 'bills' and can
+   * then be modified or turned into persistent bills.
    *
    * No emails are sent, no bills are saved to the database, no calls are marked as billed here.
    * @param sfWebRequest $request
@@ -77,7 +78,7 @@ class tasksActions extends sfActions
 
   /**
    * Takes the BillsCollection object stored in the 'bills' attribute of the users
-   * session, saves the bills to the database, links the calls to the bills (marks
+   * session, saves these bills to the database, links the calls to the bills (marks
    * them as billed) and notifies the residents via email about their bills.
    *
    * @param sfWebRequest $request
@@ -115,11 +116,10 @@ class tasksActions extends sfActions
     $this->redirect('task_newBills', array('step' => 3));
   }
 
-
   /**
    * Checks for bills in the database for which no debit has yet been created
-   * (debit_sent == false) and displays these to the user who can now download
-   * the dtaus file needed to send to the bank to do the debit.
+   * and displays these to the user who can now download the dtaus file that is
+   * sent to the bank to do the debit.
    *
    * @param sfWebRequest $request
    */
@@ -157,7 +157,6 @@ class tasksActions extends sfActions
    * On error, the user is redirected back to continueWithOldBills.
    *
    * @param sfWebRequest $request
-   * @return string
    */
   public function executeGetDtaus(sfWebRequest $request) {
     if( ! $this->getUser()->hasAttribute('oldBills')) {
@@ -177,7 +176,7 @@ class tasksActions extends sfActions
     if($dtausContents = $bills->getDtausContents()) {
       $filename = date('Y-m-d') . '_bills.txt';
 
-      //@$bills->writeDtausFile(); //TODO: get right path and save.
+      @$bills->writeDtausFile();
 
       $response = $this->getResponse();
       $response->setContentType('text/plain');
@@ -196,6 +195,7 @@ class tasksActions extends sfActions
   /**
    * Refetches the old bills in the users session. Only fetches from a specified
    * date and one can also select already debited bills.
+   * Then redirects back to tasks/ContinueWithOldBills.
    *
    * @param sfWebRequest $request
    */
@@ -241,7 +241,8 @@ class tasksActions extends sfActions
   }
 
   /**
-   * Delete's a bill belonging to one resident from the BillsCollection so it does not get billed.
+   * Removes a bill belonging to one resident from the BillsCollection so
+   * it does not get billed/there is no dtaus entry for it.
    */
   public function executeRemoveFromCollection(sfWebRequest $request) {
     // requests from the "newBills" action come with a residentid as parameter
