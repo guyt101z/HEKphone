@@ -35,12 +35,11 @@ class Phones extends BasePhones
    * e.g. password, context, ... changes.
    *
    * @todo check wheter the action was successfully executed
-   * @throws exception if called on non-SIP-peer
-   * @return bool
+   * @return bool false if the phone is non-SIP peer and thus cannot be pruned
    */
   public function pruneAsteriskPeer() {
       if($this->technology != 'SIP') {
-        throw new Exception("Unable to prune peer if phone is no SIP-Phone");
+        return false;
       }
 
       $options = array(
