@@ -59,22 +59,36 @@ EOF;
 
     /* Reset the phone of these residents */
     if($options['reset-phone']) {
-        foreach($residentsMovingOutYesterday as $resident)
-            {
+        foreach($residentsMovingOutYesterday as $resident) {
+            // get the phone if there's any
+            if ( $resident['Rooms']->phone == NULL ) {
+                $resetSuccessful[$resident->get('id')] = false;
+                continue;
+            } else {
+                $phone = Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
+            }
+
             // Delete personal information from the phones properties (not from the settings on the phone)
-            $phone = Doctrine_Core::getTable('Phones')->findByResident($resident);
             $phone->updateForRoom($resident['Rooms']);
             $phone->save();
 
-            // Reset phone and delete the users Information
-            $phone->uploadConfiguration(true);
+            // Reset phone and thereby delete the users information.
+            if($phone->get('technology') == 'SIP') {
+                try {
+                    $phone->uploadConfiguration(true);
+                    $phone->pruneAsteriskPeer();
+                    $resetSuccessful[$resident->get('id')] = true;
+                } catch (Exception $e) {
+                    $resetSuccessful[$resident->get('id')] = false;
+                }
+            }
         }
     }
 
 
     /* Notify the team */
     if($options['notify-team'] && count($residentsMovingOutYesterday) > 0) {
-        $messageBody = get_partial('global/todaysLockedResidents', array('residentsMovingOut' => $residentsMovingOutToday));
+        $messageBody = get_partial('global/todaysLockedResidents', array('residentsMovingOut' => $residentsMovingOutYesterday));
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
@@ -86,7 +100,7 @@ EOF;
 
 
     /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
-    if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent']) {
+    if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent'] && ! $options['reset-phone']) {
         if(count($residentsMovingOutYesterday) > 0) {
             $this->log($this->formatter->format("Residents who moved out yesterday:", 'INFO'));
             print_r($residentsMovingOutYesterday->toArray());
@@ -111,4 +125,3 @@ EOF;
 
   }
 }
-

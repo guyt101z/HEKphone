@@ -257,18 +257,27 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-  	  if($this->getResident()->get('password') != '')
-  	  {
-  	      $sip1Pwd = substr($this->getResident()->get('password'), 0 ,7);
-  	  } else {
-  	      $sip1Pwd = 'hekphone';
-  	  }
+      /* if a resident is living in the room of the phone use the appropriate
+       * details: name, room_no as display name and the first 7 characters of
+       * the residents password hash as sip password
+       */
+      if($this->getResident()){
+          $sip1DisplayName = $this->getResident()->get('first_name') . " "
+                           . $this->getResident()->get('last_name') . " ("
+                           . $this->Rooms[0]->get('room_no') . ")";
+          if($this->getResident()->get('password') != '') {
+              $sip1Pwd = substr($this->getResident()->get('password'), 0 ,7);
+          } else {
+              $sip1Pwd = 'hekphone';
+          }
+      } else {
+          $sip1DisplayName = $this->Rooms[0]->get('room_no');
+          $sip1Pwd = 'hekphone';
+      }
 
       $configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
           'sip1PhoneNumber' => $this['name'],
-          'sip1DisplayName' => $this->getResident()->get('first_name') . " "
-          .$this->getResident()->get('last_name') . " ("
-          .$this->Rooms[0]->get('room_no') . ")",
+          'sip1DisplayName' => $sip1DisplayName,
           'sip1User' => $this['defaultuser'],
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
