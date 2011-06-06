@@ -54,12 +54,16 @@ EOF;
 
     if($billsCollection = Doctrine_Core::getTable('Bills')->getBillsCollectionForUnbilledCalls($start, $end))
     {
-        $billsCollection->save();  //save the bills to the database and obtain billids
-        $billsCollection->linkCallsToBills(); //relate the calls to the bills (mark them as billed)
-        $billsCollection->loadRelated();
-        print_r($billsCollection->toArray());
-        $billsCollection->sendEmails();
-        $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
+        if($options['simulate']) {
+            print_r($billsCollection->toArray());
+        } else {
+            $billsCollection->save();  //save the bills to the database and obtain billids
+            $billsCollection->linkCallsToBills(); //relate the calls to the bills (mark them as billed)
+            $billsCollection->loadRelated();
+            print_r($billsCollection->toArray());
+            $billsCollection->sendEmails();
+            $this->log($this->formatter->format("Bills succesfully created", 'INFO'));
+        }
     }
     else
     {
