@@ -59,8 +59,19 @@ class Voicemessage {
           ! unlink($filenameWithoutExtension . '.WAV') ||
           ! unlink($filenameWithoutExtension . '.gsm')
         ) {
+          if($this->isNew()) {
+              VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberNewFiles();
+          } else {
+              VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberOldFiles();
+          }
           return false;
         } else {
+          if($this->isNew()) {
+              VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberNewFiles();
+          } else {
+              VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberOldFiles();
+          }
+          VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberNewFiles();
           return true;
         }
     }

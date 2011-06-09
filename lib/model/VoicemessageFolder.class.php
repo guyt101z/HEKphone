@@ -140,6 +140,10 @@ class VoicemessageFolder {
         $newId = 0;
 
         foreach($this->oldMessages as $oldId => $message) {
+            if($oldId == $newId) {
+                continue; //already ordered. nothing to do
+            }
+
             $from = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                   . 'msg' . str_pad($oldId, 4, '0', STR_PAD_LEFT);
             $to = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
@@ -172,6 +176,9 @@ class VoicemessageFolder {
         $newId = 0;
 
         foreach($this->newMessages as $oldId => $message) {
+            if($oldId == $newId) {
+                continue; //already ordered. nothing to do
+            }
             $from = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
                   . 'msg' . str_pad($oldId, 4, '0', STR_PAD_LEFT);
             $to = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
