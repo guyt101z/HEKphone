@@ -131,6 +131,70 @@ class VoicemessageFolder {
     }
 
     /**
+     * Renumbers the files in the OLD_MESSAGES_FOLDER directory so the ids start at 0
+     *
+     * @return bool true on success, false otherwise
+     */
+    public function renumberOldFiles() {
+        $error = false;
+        $newId = 0;
+
+        foreach($this->oldMessages as $oldId => $message) {
+            $from = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
+                  . 'msg' . str_pad($oldId, 4, '0', STR_PAD_LEFT);
+            $to = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::OLD_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
+                  . 'msg' . str_pad($newId, 4, '0', STR_PAD_LEFT);
+
+            if( ! rename($from . '.wav', $to . '.wav') ||
+                ! rename($from . '.WAV', $to . '.WAV') ||
+                ! rename($from . '.txt', $to . '.txt') ||
+                ! rename($from . '.gsm', $to . '.gsm')
+            ) {
+              $error = true;
+            }
+
+            $newId++;
+        }
+
+        $this->loadMessages();
+
+
+        return ! $error;
+    }
+
+    /**
+     * Renumbers the files in the NEW_MESSAGES_FOLDER directory so the ids start at 0
+     *
+     * @return VoicemessageFolder $this
+     */
+    public function renumberNewFiles() {
+        $error = false;
+        $newId = 0;
+
+        foreach($this->newMessages as $oldId => $message) {
+            $from = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
+                  . 'msg' . str_pad($oldId, 4, '0', STR_PAD_LEFT);
+            $to = $this->voicemailboxRootDir . DIRECTORY_SEPARATOR . VoicemessageFolder::NEW_MESSAGES_FOLDER . DIRECTORY_SEPARATOR
+                  . 'msg' . str_pad($newId, 4, '0', STR_PAD_LEFT);
+
+            if( ! rename($from . '.wav', $to . '.wav') ||
+                ! rename($from . '.WAV', $to . '.WAV') ||
+                ! rename($from . '.txt', $to . '.txt') ||
+                ! rename($from . '.gsm', $to . '.gsm')
+            ) {
+              $error = true;
+            }
+
+            $newId++;
+        }
+
+        $this->loadMessages();
+
+
+        return ! $error;
+    }
+
+    /**
      * Loads all messages of the associated mailbox
      */
     public function loadMessages() {

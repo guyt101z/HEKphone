@@ -77,9 +77,11 @@ class Voicemessage {
             ! rename($from . '.txt', $to . '.txt') ||
             ! rename($from . '.gsm', $to . '.gsm')
           ) {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberNewFiles();
             VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
             return false;
         } else {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberNewFiles();
             VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
             return true;
         }
@@ -98,9 +100,11 @@ class Voicemessage {
             ! rename($from . '.txt', $to . '.txt') ||
             ! rename($from . '.gsm', $to . '.gsm')
           ) {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberOldFiles();
             VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
             return false;
         } else {
+            VoicemessageFolder::getVoicemailbox($this->voicemailbox)->renumberOldFiles();
             VoicemessageFolder::getVoicemailbox($this->voicemailbox)->loadMessages();
             return true;
         }
