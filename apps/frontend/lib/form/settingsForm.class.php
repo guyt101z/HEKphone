@@ -3,6 +3,9 @@ class SettingsForm extends sfForm
 {
   public function configure()
   {
+    // somehow CSRF-protection only does strange things
+    $this->disableLocalCSRFProtection();
+
     $this->setWidgets(array(
       // General settings
       'newEmail' => new sfWidgetFormInput(array(

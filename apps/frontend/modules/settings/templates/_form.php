@@ -2,6 +2,7 @@
 <?php use_javascript('jquery-settings_hide_show_form_parts.js') ?>
 <div class="formContainer">
 <form action="<?php echo url_for('settings_update', array('residentid' => $residentid)) ?>" method="POST">
+  <?php echo $form->renderGlobalErrors() ?>
   <fieldset id="general">
     <legend><label><?php echo __('resident.settings.general') ?></label></legend>
     <p class="help"><?php echo __('resident.settings.general_help')?></p>
