@@ -30,7 +30,7 @@ class BillsCollection extends Doctrine_Collection
 
                 $addResult = $this->dtaus->addExchange(
                     $residentsDetails = array(
-                        "name"           => $bill['Residents']['first_name'] . " " . $bill['Residents']['first_name'],
+                        "name"           => $bill['Residents']['first_name'] . " " . $bill['Residents']['last_name'],
                         "bank_code"      => trim($bill['Residents']['bank_number']),
                         "account_number" => trim($bill['Residents']['account_number'])
                     ),
