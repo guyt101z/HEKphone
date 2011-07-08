@@ -260,4 +260,11 @@ class tasksActions extends sfActions
       $this->forward404();
     }
   }
+
+  public function executeUpdateBankInformation() {
+    Doctrine_Core::getTable('Banks')->updateData();
+
+    $this->getUser()->setFlash('notice', 'task.banks.update.successful');
+    $this->redirect('tasks');
+  }
 }

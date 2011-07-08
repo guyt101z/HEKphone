@@ -613,36 +613,6 @@ Rooms:
     room_no: 179
     comment: 'Per Hand am 07.02.10 eingefügt'
 
-
-
-#done
-Banks:
-  Banks_25069503:
-    name: 'Volksbank Diepholz-Barnstorf'
-    bank_number: 25069503
-    zip: '49356                                                                                                                                                                                                                                                          '
-    locality: Diepholz
-  Banks_25069830:
-    name: 'Volksbank Derental -alt-'
-    zip: '37697                                                                                                                                                                                                                                                          '
-    bank_number: 25069830
-    locality: Lauenförde
-  Banks_25070024:
-    name: 'Deutsche Bank Privat und Geschäftskunden'
-    zip: '30002                                                                                                                                                                                                                                                          '
-    bank_number: 25070024
-    locality: Hannover
-  Banks_25070066:
-    name: 'Deutsche Bank'
-    zip: '31642                                                                                                                                                                                                                                                          '
-    bank_number: 25070066
-    locality: Stadthagen
-  Banks_25070070:
-    name: 'Deutsche Bank'
-    zip: '30002                                                                                                                                                                                                                                                          '
-    bank_number: 25070070
-    locality: Hannover
-
 #done
 # This is what we get from asterisk
 AsteriskCdr:

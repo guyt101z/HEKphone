@@ -31,6 +31,14 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('billLimitFirstThreshold', 0.75);
     sfConfig::set('billLimitSecondThreshold', 0.9);
 
+    // Database where BAV should write and read its bank codes from
+    sfConfig::set('bavPdoDriver', 'pgsql');
+    sfConfig::set('bavHost', 'localhost');
+    sfConfig::set('bavDatabase', 'hekphone');
+    sfConfig::set('bavUsername', 'nasen');
+    sfConfig::set('bavPassword', 'popel');
+
+
     // These parameters are used in asterisk and are needed for billing purposes
     sfConfig::set('asteriskUnlockedPhonesContexts', array('anlage', 'unlocked')); // contexts of phones that are allowed to make external calls
     sfConfig::set('asteriskIncomingContext', 'amt');                              // context of incoming calls

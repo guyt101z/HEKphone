@@ -16,6 +16,6 @@
   </div>
 
   <div id="done" class="active">
-    <?php echo link_to(__('task.bills.continue.markAsDone'), 'tasks/markAsDone',
+    <?php echo link_to(__('task.bills.continue.markAsDone'), '@task_continueWithOldBills_markAsDone',
                        array('confirm' => __('task_continueWithOldBills_sure'))) ?>
   </div>

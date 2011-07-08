@@ -44,7 +44,7 @@ class ResidentsForm extends BaseResidentsForm
     // Provide a simple text input widget. WouldBeNice: asynchronous lookup of the bank
     unset($this['bank_number']);
     $this->setWidget('bank_number', new sfWidgetFormInputText(array('label' => 'resident.bank_number')));
-    $this->setValidator('bank_number', new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Banks'), 'required' => false)));
+    $this->setValidator('bank_number', new sfValidatorInteger()); // existence of bank number gets checked via below
 
     // If unlocked is set to true there have to be bank account information in the form
      $this->validatorSchema->setPostValidator(
@@ -74,6 +74,23 @@ class ResidentsForm extends BaseResidentsForm
     {
       // user is unlocked, empty account information, throw and error
       throw new sfValidatorError($validator, 'resident.edit.error.unlockOnEmptyAccountInformation');
+    }
+
+    /* Use BAV to verify Account Data */
+      $bavLibDir = implode(DIRECTORY_SEPARATOR, array(sfConfig::get('sf_lib_dir'), 'vendor', 'bav' ));
+      require_once $bavLibDir . '/classes/autoloader/BAV_Autoloader.php';
+      BAV_Autoloader::add($bavLibDir . '/classes/dataBackend/BAV_DataBackend_PDO.php');
+
+      $databackend = new BAV_DataBackend_PDO(new PDO(sfConfig::get('bavPdoDriver')
+                                                      . ':host=' . sfConfig::get('bavHost')
+                                                      . ';dbname=' . sfConfig::get('bavDatabase'),
+                                                    sfConfig::get('bavUsername'),
+                                                    sfConfig::get('bavPassword')));
+
+    if( ! $databackend->bankExists($values['bank_number'])){
+      throw new sfValidatorError($validator, 'resident.edit.bank_number.doesNotExist');
+    } elseif( ! $databackend->getBank($values['bank_number'])->isValid($values['account_number'])) {
+      throw new sfValidatorError($validator, 'resident.edit.account_number.invalid');
     }
 
     // if everything is correct, return "cleaned" values

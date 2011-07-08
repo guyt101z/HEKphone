@@ -15,21 +15,19 @@ abstract class BaseBanksForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'bank_number' => new sfWidgetFormInputHidden(),
-      'name'        => new sfWidgetFormInputText(),
-      'zip'         => new sfWidgetFormInputText(),
-      'locality'    => new sfWidgetFormInputText(),
+      'id'         => new sfWidgetFormInputHidden(),
+      'validator'  => new sfWidgetFormInputText(),
+      'mainagency' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'bank_number' => new sfValidatorChoice(array('choices' => array($this->getObject()->get('bank_number')), 'empty_value' => $this->getObject()->get('bank_number'), 'required' => false)),
-      'name'        => new sfValidatorString(array('max_length' => 80)),
-      'zip'         => new sfValidatorString(array('max_length' => 5, 'required' => false)),
-      'locality'    => new sfValidatorString(array('max_length' => 80, 'required' => false)),
+      'id'         => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'validator'  => new sfValidatorString(array('max_length' => 2)),
+      'mainagency' => new sfValidatorInteger(),
     ));
 
     $this->validatorSchema->setPostValidator(
-      new sfValidatorDoctrineUnique(array('model' => 'Banks', 'column' => array('bank_number')))
+      new sfValidatorDoctrineUnique(array('model' => 'Banks', 'column' => array('id')))
     );
 
     $this->widgetSchema->setNameFormat('banks[%s]');

@@ -13,15 +13,13 @@ abstract class BaseBanksFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'zip'         => new sfWidgetFormFilterInput(),
-      'locality'    => new sfWidgetFormFilterInput(),
+      'validator'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'mainagency' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
-      'name'        => new sfValidatorPass(array('required' => false)),
-      'zip'         => new sfValidatorPass(array('required' => false)),
-      'locality'    => new sfValidatorPass(array('required' => false)),
+      'validator'  => new sfValidatorPass(array('required' => false)),
+      'mainagency' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('banks_filters[%s]');
@@ -41,10 +39,9 @@ abstract class BaseBanksFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'bank_number' => 'Text',
-      'name'        => 'Text',
-      'zip'         => 'Text',
-      'locality'    => 'Text',
+      'id'         => 'Number',
+      'validator'  => 'Text',
+      'mainagency' => 'Number',
     );
   }
 }

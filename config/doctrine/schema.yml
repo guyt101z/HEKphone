@@ -431,8 +431,8 @@ Residents:
     redirect_seconds:
       type: int(3)
     account_number: string(10)
-    bank_number: string(8)
-    password: string(255)
+    bank_number: integer
+    password: string(255)locality: string(80)
     hekphone: 
       type: boolean
       default: false
@@ -444,10 +444,13 @@ Residents:
       local: room
       foreign: id
       type: one
-    Banks:
-      local: bank_number
-      foreign: bank_number
-      type: one
+# No relation to banks, because the table occasionally needs to be updated  by BAV. 
+# Thereby first any bank numbers are deleted and then reinserted thus violating any 
+# foreign key 
+#    Banks:
+#      local: bank_number
+#      foreign: id
+#      type: one
     Comments:
       local: id
       foreign: resident
@@ -517,25 +520,63 @@ Comments:
 
 Banks:
   connection: hekphone
-  tableName: banks
+  tableName: bav_bank
   columns:
-    bank_number: 
-      type: string(8)
+    id: 
+      type: integer(8)
       notnull: true
       primary: true
       unique: true
-    name: 
-      type: string(80)
+    validator: 
+      type: string(2)
       notnull: true
-    zip: 
-      type: string(5)
-      fixed: true
-    locality: string(80)
+    mainagency: 
+      type: integer
+      notnull: true
   relations:
-    Residents:
-      local: bank_number
-      foreign: bank_number
+# No relation to residents. See there for an explanation.
+#    Residents:
+#      local: id
+#      foreign: bank_number
+#      type: many
+    Agencys:
+      local: id
+      foreign: bank
       type: many
+    
+      
+Agencys:
+  connection: hekphone
+  tableName: bav_agency
+  columns: 
+    id:
+      type: integer
+      notnull: true
+      primary: true
+      unique: true
+    name:
+      type: string(58)
+      notnull: true
+    postcode:
+      type: string(5)
+      notnull: true
+    city:
+      type: string(35)
+      notnull: true
+    shortterm:
+      type: string(27)
+      notnull: true
+    bank:
+      type: integer
+    pan:
+      type: string(5)
+    bic:
+      type: string(11)
+  relations:
+    Banks:
+      local: bank
+      foreign: id
+      type: one
 
 Calls:
   connection: hekphone

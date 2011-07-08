@@ -125,6 +125,10 @@ task_continueWithOldBills_markAsDone:
   url: /tasks/continue/markAsDone
   param: {module: tasks, action: markAsDone}
   
+task_updateBankInformation:
+  url: /tasks/bank/updateInformation
+  param: {module: tasks, action: updateBankInformation}  
+  
 ## unbilled calls and last bills of a resident
 calls:
   url: /calls

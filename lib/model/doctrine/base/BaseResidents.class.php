@@ -26,12 +26,11 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @property string $redirect_to
  * @property int $redirect_seconds
  * @property string $account_number
- * @property string $bank_number
+ * @property integer $bank_number
  * @property string $password
  * @property boolean $hekphone
  * @property string $culture
  * @property Rooms $Rooms
- * @property Banks $Banks
  * @property Doctrine_Collection $Comments
  * @property Doctrine_Collection $Calls
  * @property Doctrine_Collection $Bills
@@ -57,12 +56,11 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method string              getRedirectTo()              Returns the current record's "redirect_to" value
  * @method int                 getRedirectSeconds()         Returns the current record's "redirect_seconds" value
  * @method string              getAccountNumber()           Returns the current record's "account_number" value
- * @method string              getBankNumber()              Returns the current record's "bank_number" value
+ * @method integer             getBankNumber()              Returns the current record's "bank_number" value
  * @method string              getPassword()                Returns the current record's "password" value
  * @method boolean             getHekphone()                Returns the current record's "hekphone" value
  * @method string              getCulture()                 Returns the current record's "culture" value
  * @method Rooms               getRooms()                   Returns the current record's "Rooms" value
- * @method Banks               getBanks()                   Returns the current record's "Banks" value
  * @method Doctrine_Collection getComments()                Returns the current record's "Comments" collection
  * @method Doctrine_Collection getCalls()                   Returns the current record's "Calls" collection
  * @method Doctrine_Collection getBills()                   Returns the current record's "Bills" collection
@@ -92,7 +90,6 @@ Doctrine_Manager::getInstance()->bindComponent('Residents', 'hekphone');
  * @method Residents           setHekphone()                Sets the current record's "hekphone" value
  * @method Residents           setCulture()                 Sets the current record's "culture" value
  * @method Residents           setRooms()                   Sets the current record's "Rooms" value
- * @method Residents           setBanks()                   Sets the current record's "Banks" value
  * @method Residents           setComments()                Sets the current record's "Comments" collection
  * @method Residents           setCalls()                   Sets the current record's "Calls" collection
  * @method Residents           setBills()                   Sets the current record's "Bills" collection
@@ -201,9 +198,8 @@ abstract class BaseResidents extends sfDoctrineRecord
              'type' => 'string',
              'length' => 10,
              ));
-        $this->hasColumn('bank_number', 'string', 8, array(
-             'type' => 'string',
-             'length' => 8,
+        $this->hasColumn('bank_number', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('password', 'string', 255, array(
              'type' => 'string',
@@ -226,10 +222,6 @@ abstract class BaseResidents extends sfDoctrineRecord
         $this->hasOne('Rooms', array(
              'local' => 'room',
              'foreign' => 'id'));
-
-        $this->hasOne('Banks', array(
-             'local' => 'bank_number',
-             'foreign' => 'bank_number'));
 
         $this->hasMany('Comments', array(
              'local' => 'id',

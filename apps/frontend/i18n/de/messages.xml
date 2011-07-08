@@ -280,9 +280,17 @@
         <source>resident.account_number</source>
         <target>Kontonummer</target>
       </trans-unit>
+      <trans-unit id="73">
+        <source>resident.edit.account_number.invalid</source>
+        <target>Kontonummer in Verbindung mit der angegebenen Bank nicht gültig.</target>
+      </trans-unit>
       <trans-unit id="74">
         <source>resident.bank_number</source>
         <target>Bankleitzahl</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>resident.edit.bank_number.doesNotExist</source>
+        <target>Die angegebene BLZ existiert nicht.</target>
       </trans-unit>
       <trans-unit id="75">
         <source>resident.edit.password</source>
@@ -566,12 +574,25 @@
       
       <trans-unit id="99">
         <source>task.newBills</source>
-        <target>neue Rechnungen erstellen</target>
+        <target>neue Rechnungen erstellen…</target>
       </trans-unit>
       <trans-unit id="99">
         <source>task.continueWithOldBills</source>
-        <target>mit alten Rechnungen fortahren</target>
+        <target>mit alten Rechnungen fortahren…</target>
       </trans-unit>
+      <trans-unit id="99">
+        <source>task.updateBankInformation</source>
+        <target>Bankleitzahlen von der Bundesbank holen und in die Datenbank schreiben</target>
+      </trans-unit>
+            
+      <trans-unit id="99">
+        <source>task.banks.update.successful</source>
+        <target>Neue Daten geholt und in die Datenbank eingesetzt.</target>
+      </trans-unit>  
+      <trans-unit id="99">
+        <source>task_bank.update.sure</source>
+        <target>Dies wird einige Zeit dauern. Fortfahren?</target>
+      </trans-unit> 
       <trans-unit id="99">
         <source>task.bills.create.simulate</source>
         <target>&#60;strong&#62;Testabrechnung&#60;/strong&#62; durchführen ohne die Gespräche als abgerechnet zu markieren oder E-Mails zu versenden.</target>
@@ -640,6 +661,7 @@
         <source>task.bills.number</source>
         <target>Anzahl Rechnungen: </target>
       </trans-unit>
+      
       <trans-unit id="99">
         <source>task.bills.continue.getDtaus</source>
         <target>Abrechnungsdateien herunterladen</target>
@@ -683,7 +705,7 @@
       <trans-unit id="99">
         <source>task.bills.continue.markAsDone.successful</source>
         <target>Die Rechnungen wurden erfolgreich als abgebucht markiert.</target>
-      </trans-unit> 
+      </trans-unit>
       
       
       <trans-unit id="12">
