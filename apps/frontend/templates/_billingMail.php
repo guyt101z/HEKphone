@@ -6,7 +6,7 @@ Rechnungsnummer  : <?php echo $billId?>
 Bitte bei Rueckfragen angeben.
 
 ************************
-Gesamtbetrag: <?php echo $amount ?> Euro
+Gesamtbetrag: <?php echo round($amount,2) ?> Euro
 ************************  
 
 Wenn der Gesamtbetrag nicht 0€ betraegt, wird er in den naechsten Tagen von deinem
