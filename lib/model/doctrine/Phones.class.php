@@ -275,7 +275,7 @@ class Phones extends BasePhones
           $sip1Pwd = 'hekphone';
       }
 
-      $configFileContent = get_partial('global/tiptel88PhoneConfiguration', array('ip' => $this['defaultip'],
+      $configFileContent = get_partial('global/tiptel83PhoneConfiguration', array('ip' => $this['defaultip'],
           'sip1PhoneNumber' => $this['name'],
           'sip1DisplayName' => $sip1DisplayName,
           'sip1User' => $this['defaultuser'],
