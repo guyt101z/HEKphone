@@ -106,7 +106,7 @@ class callsActions extends sfActions
 
     if($bill instanceof Bills) {
       sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
-      $bill->sendEmail(); //FIXME: the template says there will be an invoice. not true!
+      $bill->sendEmailWithoutDirectDebit(); 
 
       $this->getUser()->setFlash('notice', 'calls.bill.createmanually.successful');
     } else {
