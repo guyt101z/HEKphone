@@ -27,9 +27,9 @@ Ausfuehrliche Anleitung siehe http://hekphone
 Bitte ueberpruefe, ob sich auch kein Tippfehler in deiner Kontoverbindung eingeschlichen hat.
 Dies wuerde zu einer Ruecklastschrift fuehren, die mindestens 10 Euro Gebuehren verursacht.
 
-Kontonummer   : <?php echo $bank_number ?>
+Kontonummer   : <?php echo $account_number ?>
 
-Bankleitzahl  : <?php echo $account_number ?>
+Bankleitzahl  : <?php echo $bank_number ?>
 
 Rechnungsemail: <?php echo $email ?>
 
