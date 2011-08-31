@@ -19,9 +19,10 @@ class PhonesForm extends BasePhonesForm
     )));
     $this->setValidator('room', new sfValidatorDoctrineChoice(array('model' => 'Rooms')));
 
-    $this->setValidator('mac', new sfValidatorRegex(array('pattern' => '/^[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}$/i')),
-                                                    array(),
-                                                    array('invalid' => ''));
+    // Check mac-adress only if technology is set to 'SIP'
+    $this->setValidator('mac', new sfValidatorPass());
+    $this->mergePostValidator(
+      new sfValidatorCallback(array('callback' => array($this, 'checkMac'))));
 
     unset($this['host']);       // always dynamic. the phones can't handle static
     unset($this['type']);       // always frient. may place and receive calls.
@@ -46,5 +47,29 @@ class PhonesForm extends BasePhonesForm
     $decorator = new sfWidgetFormSchemaFormatterDiv($this->getWidgetSchema());
     $this->getWidgetSchema()->addFormFormatter('div', $decorator);
     $this->getWidgetSchema()->setFormFormatterName('div');
+  }
+
+
+  /**
+   * Checks wheter a mac adress is specified and if it matches the notation with
+   * xx:xx:xx:xx:xx:xx only if technology is set to SIP
+   *
+   * @param $validator
+   * @param $values
+   * @throws sfValidatorErrorSchema
+   */
+  public function checkMac($validator, $values) {
+      if($values['technology'] == 'SIP') {
+        if( ! $values['mac']) {
+            $error = new sfValidatorError($validator, 'phone.edit.mac.required');
+            throw new sfValidatorErrorSchema($validator, array('mac' => $error));
+        }
+        if( ! preg_match('/^[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}$/i', $values['mac'])) {
+            $error = new sfValidatorError($validator, 'phone.edit.mac.invalid');
+            throw new sfValidatorErrorSchema($validator, array('mac' => $error));
+        }
+      }
+
+      return $values;
   }
 }

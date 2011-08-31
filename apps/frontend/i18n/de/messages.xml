@@ -749,6 +749,14 @@
 
       
       <trans-unit id="12">
+        <source>phone.edit.mac.required</source>
+        <target>Bei SIP-Telefonen muss eine MAC-Adresse angegeben werden.</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>phone.edit.mac.invalid</source>
+        <target>Die angegebene MAC-Adresse ist nicht gültig.</target>
+      </trans-unit>      
+      <trans-unit id="12">
         <source>phone.submit</source>
         <target>Speichern</target>
       </trans-unit>
