@@ -32,7 +32,7 @@ class Bills extends BaseBills
     {
     	$itemizedBill = str_pad('Datum',21)
         		        .str_pad('Dauer(sec)',12)
-                        .str_pad('externe Nummer',22)
+                        .str_pad('externe Nummer',25)
                         .str_pad('Kosten (ct)',14)
                         .str_pad('Rate',18)."\n";
 
@@ -75,7 +75,36 @@ class Bills extends BaseBills
             return sfContext::getInstance()->getMailer()->send($message);
         }
     }
+    /**
+     * Send the bill via Email to the resident. The bill is already paid with cash. No bank transaction required
+     *
+     * @param string $start Start of the billing period
+     * @param string $end End of the billing period
+     */
+    public function sendEmailWithoutDirectDebit()
+    {
+        // check for non_empty email-field rather than unlocked user?
+        if ($this['Residents']['unlocked'] == true)
+        {
 
+
+            // compose the message
+            $messageBody = get_partial('global/billingMailWithoutDirectDebit', array('firstName' => $this['Residents']['first_name'],
+                                                                'start' => $this['billingperiod_start'],
+                                                                'end' => $this['billingperiod_end'],
+                                                                'billId' => $this['id'],
+                                                                'amount' => $this['amount'],
+                                                                'itemizedBill' => $this->getItemizedBill()));
+            $message = Swift_Message::newInstance()
+                ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
+                ->setTo($this['Residents']['email'])
+                ->setSubject('[HEKphone] Deine Rechnung vom ' . $this['date'])
+                ->setBody($messageBody);
+
+            return sfContext::getInstance()->getMailer()->send($message);
+        }
+    }    
+    
     /**
      * Changes the field "bill" of every unbilled call of the corresponding resident
      * in the given time period to the according bill id.

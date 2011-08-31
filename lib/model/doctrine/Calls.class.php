@@ -22,7 +22,7 @@ class Calls extends BaseCalls
         //Each value has a fix number of characters to get a nice format
         $itemizedBillEntry = str_pad($this['date'],21)
                             .str_pad($this['duration'],12)
-                            .str_pad($this['destination'],22)
+                            .str_pad($this['destination'],25)
                             .str_pad($this['charges'],14)
                             .str_pad($this['Rates']['name'],18);
         
