@@ -306,9 +306,11 @@ Phones:
       type: string(80)
       notnull: true
       default: ''
-    secret:
-      type: string(80)
-      default: ''
+## The secret is set automatically to a substring of the password md5 has of
+## the user by the AsteriskSip view, so it's not required here. 
+#    secret:
+#      type: string(80)
+#      default: ''
 ## As our telephones desperately try to register, we need host=dynamic:
     host:
       type: string(31)
