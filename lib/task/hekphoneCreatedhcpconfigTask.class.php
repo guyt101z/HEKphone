@@ -27,6 +27,9 @@ EOF;
   }
   protected function execute($arguments = array(), $options = array())
   {
+    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/dhcp-config.log'));
+
+
     $collPhones  = Doctrine_Query::create()
                  ->from('Phones')
                  ->where('technology = ?', 'SIP')
@@ -58,18 +61,21 @@ EOF;
     }
 
     // Write configuration file
-    if( ! $fileHandle = @fopen($options['filename'], 'w+'))
+    if( ! $fileHandle = @fopen($options['filename'], 'w+')) {
       throw new sfCommandException('Could not open file ' . $options['filename'] . ' for writing. Do you have sufficient privileges?');
-    if ( ! fwrite($fileHandle, $dhcpConf))
+    } if ( ! fwrite($fileHandle, $dhcpConf)) {
       throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');
-    else
-      $this->log($this->formatter->format("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO'));
+    } else {
+      $logger->notice("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO');
+    }
+
     fclose($fileHandle);
 
     // Restart dhcp-server
     if( ! $options['no-restart']) {
         // you need to enable www-data (or whoever runs the script) to restart the dhcp-server via sudoers
         if( ! system('/etc/init.d/dhcp3-server restart')) {
+            $logger->error('Restarting DCHP-Server failed.');
             throw new sfCommandException('Restarting DHCP-Server failed.');
         };
     }

@@ -16,7 +16,7 @@ class hekphoneBillcallTask extends sfBaseTask
       new sfCommandOption('calldate', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('userfield', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('disposition', null, sfCommandOption::PARAMETER_REQUIRED, ''),
-      new sfCommandOption('channel', null, sfCommandOption::PARAMETER_REQUIRED, ''),      
+      new sfCommandOption('channel', null, sfCommandOption::PARAMETER_REQUIRED, ''),
     ));
 
     $this->namespace        = 'hekphone';
@@ -36,6 +36,8 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/call-billing.log'));
+
     if(isset($options['uniqueid'])
         && ! isset($options['dst'])
         && ! isset($options['dcontext'])
@@ -52,7 +54,7 @@ EOF;
                 ->where('uniqueid = ?', $options['uniqueid'])
                 ->fetchOne();
         if ( ! $cdr) {
-            $this->log($this->formatter->format("[uniqueid='" . $options['uniqueid'] . "'] Cdr not present in asterisk_cdr", 'ERROR'));
+            $logger->error("[uniqueid='" . $options['uniqueid'] . "'] Could not bill call. Cdr not present in asterisk_cdr.");
             die;
         }
     } elseif(isset($options['uniqueid'])
@@ -87,13 +89,14 @@ EOF;
     try
     {
       if($options['rebill'] == true) {
-          $cdr->rebill();
+          $cdr->rebill($logger);
       } else {
-          $cdr->bill();
+          $cdr->bill($logger);
       }
     }
     catch (Exception $e)
     {
+      $logger->error("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
       throw new sfCommandException("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
     }
 

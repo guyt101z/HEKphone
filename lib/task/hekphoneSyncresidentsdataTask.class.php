@@ -26,6 +26,8 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-sync_residents_data.log'));
+
     $sourceResidentsTable = Doctrine_Core::getTable($options['source']);
     $destinationResidentsTable = Doctrine_Core::getTable($options['destination']);
     $roomTable = Doctrine_Core::getTable('Rooms');
@@ -47,13 +49,14 @@ EOF;
     foreach ($sourceResidents as $sourceResident) {
         //Keep track of what we do (statitics):
         if ( ! isset($destinationResidents[$sourceResident->id])) {
-            $this->log($this->formatter->format("Syncing new user with id={$sourceResident->id} name='{$sourceResident->first_name} {$sourceResident->last_name}'.", 'INFO'));
+            $logger->info("Syncing new user with id={$sourceResident->id} name='{$sourceResident->first_name} {$sourceResident->last_name}'.");
             $numNew++;
         } else {
             if ($destinationResidents[$sourceResident->id]->first_name != $sourceResident->first_name
                 && $destinationResidents[$sourceResident->id]->last_name != $sourceResident->last_name) {
-                    $this->log($this->formatter->format("Name of user with id={$sourceResident->id} changed from '{$destinationResidents[$sourceResident->id]->first_name} {$destinationResidents[$sourceResident->id]->last_name}' "
-                    ."to '{$sourceResident->first_name} {$sourceResident->last_name}'", 'ERROR')); // Normaly the name of a user should not change. Something might be wrong
+                    // Normaly, the name of a user should not change. Something might be wrong.
+                    $logger->warning("Name of user with id={$sourceResident->id} changed from '{$destinationResidents[$sourceResident->id]->first_name} {$destinationResidents[$sourceResident->id]->last_name}' "
+                    . "to '{$sourceResident->first_name} {$sourceResident->last_name}'");
             }
             $numOld++;
         }
@@ -71,7 +74,7 @@ EOF;
         } else {
             $roomId = $roomTable->findOneByRoom_no($sourceResident->room_no)->id;
             if ( ! $roomId ) {
-                $this->log($this->formatter->format("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.", 'ERROR'));
+                $logger->error("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.");
                 $failedPartly = true;
                 $roomId = NULL;
             }
@@ -80,7 +83,8 @@ EOF;
     }
 
     $destinationResidents->save();
-    $this->log($this->formatter->format("Synced $numOld old user entries and $numNew new entries.", 'INFO'));
+    $logger->info("Synced $numOld old user entries and $numNew new entries.");
+    
     if ( $failedPartly )
         exit(1);
     else

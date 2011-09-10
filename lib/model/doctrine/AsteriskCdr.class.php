@@ -259,8 +259,10 @@ class AsteriskCdr extends BaseAsteriskCdr
     /**
      * Deletes any entry in the calls table corresponding to the cdr. And executes
      * bill() (creates the entry again).
+     *
+     * @param $logger sfLogger
      */
-    public function rebill() {
+    public function rebill($logger = NULL) {
         // Delete old entry if it exists
         Doctrine_Query::create()
             ->delete('Calls')
@@ -268,16 +270,18 @@ class AsteriskCdr extends BaseAsteriskCdr
             ->execute();
 
         //bill cdr again
-        return $this->bill();
+        return $this->bill($logger);
     }
 
     /**
      * Calculates the cost of an AsteriskCdr-Record (a finished call), creates
      * an record in the Calls table. Returns true on succes otherwise throws exception.
+     *
+     * @param $logger sfLogger
      * @throws Exception
      * @return bool
      */
-    public function bill() {
+    public function bill($logger = NULL) {
         /* warn and abort if the call is already billed and no rebilling is whished */
         if($this->isBilled()) {
             throw New Exception("The cdr has already been billed");
@@ -312,9 +316,10 @@ class AsteriskCdr extends BaseAsteriskCdr
         $this->getResident()->checkIfBillLimitIsAlmostReached();
 
         //Log some details.
-        // FIXME: using echo in a model is bad. replace it by correct logging.
-        echo "[uniqueid='" . $this->uniqueid . "'][info] Billed call. Extension:" . $callsEntry->extension
-         . "; Cost: ".round($callsEntry->charges,2) . "ct" . PHP_EOL;
+        if($logger) {
+            $logger->notice("[uniqueid='" . $this->uniqueid . "'] Billed call. Extension:" . $callsEntry->extension
+                            . "; Cost: ".round($callsEntry->charges,2) . "ct");
+        }
 
         return true;
     }
