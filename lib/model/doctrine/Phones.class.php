@@ -94,8 +94,7 @@ class Phones extends BasePhones
   }
 
   /**
-   * Update the phones details according to who the resident provided as function
-   * parameter
+   * Update the phones details to the residents.
    *
    * @param $resident Doctrine_Record of the resident
    * @return Phones $this
