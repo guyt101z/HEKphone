@@ -17,6 +17,8 @@ class hekphoneBillcallTask extends sfBaseTask
       new sfCommandOption('userfield', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('disposition', null, sfCommandOption::PARAMETER_REQUIRED, ''),
       new sfCommandOption('channel', null, sfCommandOption::PARAMETER_REQUIRED, ''),
+
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Suppress logging to stdout. '),
     ));
 
     $this->namespace        = 'hekphone';
@@ -36,7 +38,11 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/call-billing.log'));
+    $logger = new sfAggregateLogger($this->dispatcher);
+    $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/bill-call.log')));
+    if( ! $options['silent']) {
+        $logger->addLogger(new sfCommandLogger($this->dispatcher));
+    }
 
     if(isset($options['uniqueid'])
         && ! isset($options['dst'])

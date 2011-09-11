@@ -10,6 +10,8 @@ class hekphoneSyncresidentsdataTask extends sfBaseTask
       new sfCommandOption('destinationDb', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination connection name', 'hekphone'),
       new sfCommandOption('source', null, sfCommandOption::PARAMETER_REQUIRED, 'The source db name', 'HekdbCurrentResidents'),
       new sfCommandOption('destination', null, sfCommandOption::PARAMETER_REQUIRED, 'The destination db name', 'Residents'),
+
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Suppress logging to stdout. '),
     ));
 
     $this->namespace        = 'hekphone';
@@ -26,7 +28,11 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-sync_residents_data.log'));
+    $logger = new sfAggregateLogger($this->dispatcher);
+    $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-sync_residents_data.log')));
+    if( ! $options['silent']) {
+        $logger->addLogger(new sfCommandLogger($this->dispatcher));
+    }
 
     $sourceResidentsTable = Doctrine_Core::getTable($options['source']);
     $destinationResidentsTable = Doctrine_Core::getTable($options['destination']);
@@ -84,7 +90,7 @@ EOF;
 
     $destinationResidents->save();
     $logger->info("Synced $numOld old user entries and $numNew new entries.");
-    
+
     if ( $failedPartly )
         exit(1);
     else

@@ -12,7 +12,7 @@ class hekphoneCheckresidentsmovingoutTask extends sfBaseTask
       new sfCommandOption('reset-phone', null, sfCommandOption::PARAMETER_NONE, 'Reset phones details '),
       new sfCommandOption('notify-team', null, sfCommandOption::PARAMETER_NONE, 'The hekphone team gets a summary of who\'s moving out.'),
 
-      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Supress informative output, only print errors.')
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Suppress logging to stdout'),
     ));
 
     // Prepare rendering of partials (load the PartialHelper)
@@ -35,21 +35,25 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-move_out.log'));
-     
+    $logger = new sfAggregateLogger($this->dispatcher);
+    $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-move_out.log')));
+    if( ! $options['silent']) {
+        $logger->addLogger(new sfCommandLogger($this->dispatcher));
+    }
+
     $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
     $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutToday();
     $residentsMovingOutYesterday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutYesterday();
-    
+
     $logger->info("Found " . count($residentsMovingOutToday) . " residents moving out today, " . count($residentsMovingOutTomorrow) . " tomorrow, " . count($residentsMovingOutYesterday) . " yesterday.");
-    
-    
+
+
     /* Notify residents that they are going to be locked tomorrow */
     if($options['warn-resident']) {
         foreach ($residentsMovingOutTomorrow as $resident)
         {
             $resident->sendLockEmail($resident->getMoveOut());
-            
+
             $logger->notice("Sent resident " . $resident->getId() . ": " . $resident . " a goodbye email.");
         }
     }
@@ -60,7 +64,7 @@ EOF;
     if($options['lock'])
     {
         $maxExecutionTime = ini_get('max_execution_time');
-        
+
         foreach($residentsMovingOutYesterday as $resident)
         {
             // Check if there's a room associated with the room
@@ -79,17 +83,17 @@ EOF;
             if($phone->get('technology') == 'DAHDI/g1') {
                 $resident->setUnlocked('false');
                 $resident->save();
-            
+
                 $logger->notice("Locked resident " . $resident->getId() . ": " . $resident . " in the database.");
-            
+
                 // phone-access sometimes takes ages to complete. guess there's a timeout at 60 seconds
                 // so increase the max execution time for every phone that has to be locked
                 $maxExecutionTime += 61;
                 set_time_limit($maxExecutionTime);
-                
+
                 // Try to lock the phone.
                 exec("phone-access -1" . $resident['Rooms'], $phoneAccessOutput[$resident->get('id')], $returnValue);
-                
+
                 // Check return values.
                 if($returnValue === 0) {
                     $lockSuccessful[$resident->get('id')] = true;
@@ -99,7 +103,7 @@ EOF;
                     $logger->error("Locking analog phone in room " . $resident['Rooms'] . " via phone-access failed.");
                 }
 
-                print_r($phoneAccessOutput); 
+                print_r($phoneAccessOutput);
             }
         }
     }
@@ -130,11 +134,11 @@ EOF;
                     $phone->uploadConfiguration(true);
                     $phone->pruneAsteriskPeer();
                     $resetSuccessful[$resident->get('id')] = true;
-                    
+
                     $logger->info("Reset SIP phone in room " . $resident['Rooms'] . ".");
                 } catch (Exception $e) {
                     $resetSuccessful[$resident->get('id')] = false;
-                    
+
                     $logger->warning("Resetting SIP phone in room " . $resident['Rooms'] . " failed");
                 }
             }
@@ -158,29 +162,15 @@ EOF;
     }
 
 
-    /* Print a list of all users moving out today or tomorrow if no commandline options are set*/
+    /* Print a list of all users moving out today or tomorrow if no commandline options are set except --silent*/
     if( ! $options['lock'] && ! $options['warn-resident'] && ! $options['notify-team'] && ! $options['silent'] && ! $options['reset-phone']) {
-        if(count($residentsMovingOutYesterday) > 0) {
-            $this->log($this->formatter->format("Residents who moved out yesterday:", 'INFO'));
-            print_r($residentsMovingOutYesterday->toArray());
-        } else {
-            $this->log($this->formatter->format("No residents moved out yesterday.", 'INFO'));
-        }
-
-        if(count($residentsMovingOutToday) > 0) {
-            $this->log($this->formatter->format("Residents moving out today:", 'INFO'));
-            print_r($residentsMovingOutToday->toArray());
-        } else {
-            $this->log($this->formatter->format("There are no residents moving out today.", 'INFO'));
-        }
-
-        if(count($residentsMovingOutTomorrow) > 0) {
-            $this->log($this->formatter->format("Residents moving out tomorrow:", 'INFO'));
-            print_r($residentsMovingOutTomorrow->toArray());
-        } else {
-            $this->log($this->formatter->format("There are no residents moving out tomorrow.", 'INFO'));
-        }
+      echo "Yesterday: " . PHP_EOL;
+          print_r($residentsMovingOutYesterday->toArray());
+      echo "Today: " . PHP_EOL;
+          print_r($residentsMovingOutToday->toArray());
+      echo "Tomorrow: " . PHP_EOL;
+          print_r($residentsMovingOutTomorrow->toArray());
+      echo PHP_EOL;
     }
-
   }
 }

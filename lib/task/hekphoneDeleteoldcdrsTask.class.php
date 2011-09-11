@@ -6,6 +6,8 @@ class hekphoneDeleteoldcdrsTask extends sfBaseTask
   {
     $this->addOptions(array(
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Suppress logging to stdout. '),
     ));
 
     $this->namespace        = 'hekphone';
@@ -22,7 +24,11 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/delete-old-data.log'));
+    $logger = new sfAggregateLogger($this->dispatcher);
+    $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-delete_old_cdrs.log')));
+    if( ! $options['silent']) {
+        $logger->addLogger(new sfCommandLogger($this->dispatcher));
+    }
 
     Doctrine_Core::getTable('Calls')->deleteOldCalls();
     Doctrine_Core::getTable('AsteriskCdr')->deleteOldCdrs();

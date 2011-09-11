@@ -10,7 +10,9 @@ class hekphoneCreatedhcpconfigTask extends sfBaseTask
       new sfCommandOption('no-restart', null, sfCommandOption::PARAMETER_NONE, 'Dont restart the dhcp-server'),
       new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', '/etc/dhcp3/dhcpd.phones'),
       //new sfCommandOption('filename', null, sfCommandOption::PARAMETER_REQUIRED, 'The configuration filename', sfConfig::get('sf_data_dir') . DIRECTORY_SEPARATOR . 'dhcpd.phones'),
-      // including an file outside /etc in dhcpd.conf does not work on
+      // including an file outside /etc in dhcpd.conf does not work easily on debian machines
+
+      new sfCommandOption('silent', null, sfCommandOption::PARAMETER_NONE, 'Suppress logging to stdout'),
     ));
 
     $this->namespace        = 'hekphone';
@@ -27,8 +29,11 @@ EOF;
   }
   protected function execute($arguments = array(), $options = array())
   {
-    $logger = new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/dhcp-config.log'));
-
+    $logger = new sfAggregateLogger($this->dispatcher);
+    $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/dhcp-config.log')));
+    if( ! $options['silent']) {
+        $logger->addLogger(new sfCommandLogger($this->dispatcher));
+    }
 
     $collPhones  = Doctrine_Query::create()
                  ->from('Phones')
