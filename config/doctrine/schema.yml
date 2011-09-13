@@ -288,50 +288,43 @@ Phones:
       values: ['SIP', 'DAHDI/g1', 'DAHDI/g3']
       notnull: true
       default: 'SIP'
-    name:
-      type: string(80)
-      notnull: true
-      default: ''
     'type':
       type: enum
       length: 6
       values: ['user','peer','friend']
       notnull: true
       default: 'friend'
-## Set the callerid in the asterisk_sip view?
-    callerid:
-      type: string(80)
-## Parameter to identify the phone:
-    defaultuser:
-      type: string(80)
-      notnull: true
-      default: ''
+## Parameters to identify the phone:
 ## The secret is set automatically to a substring of the password md5 has of
 ## the user by the AsteriskSip view, so it's not required here. 
 #    secret:
 #      type: string(80)
 #      default: ''
+## callerid:
+##   is aggregated from residents table via asterisk_sip view.
+## language: 
+##   is also aggregated from the residents table via asterisk_sip view
+## mailbox:
+##   contains "mailboxid@context" where mailbox equals a users id
+##   This field is used by the phones MWI: The denoted mailbox is checked for
+##   new messages and if some are available it's indicated to the phone.
+##   It's also fetched from the residents table
+## defaultuser
+##   just 1 . roomNumber (the extension)
+
 ## As our telephones desperately try to register, we need host=dynamic:
     host:
       type: string(31)
       notnull: true
       default: dynamic
-## With host = dynamic: This "defaultip" is used, if the client is not registered.
-## The DHCP configuration is created from this field and the following: 
-    defaultip:
-      type: string(15)
+## With host = dynamic: The field "defaultip" is used, if the client is not registered.
+##   The field is fetched according to the room where the telephone is in via
+##   the asterisk_sip view
+##   The DHCP configuration is created from this field and the following therefore
+##   there needs to be a getDefaultip() method in the Phones model
     mac:
       type: string(20)
       default: ''
-## Maybe also fetch the language via a view from the residents table (->culture):
-    language:
-      type: string(2)
-      default: 'de'
-## The field mailbox (contains "mailboxid@context") equals a users id
-## This field is used by the phones MWI: The denoted mailbox is checked for
-## new messages and if some are available it's indicated to the phone.
-    mailbox:
-      type: string(50)
 ## These fields are obviousely required by asterisk:
     regserver:
       type: string(20)

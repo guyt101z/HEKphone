@@ -77,34 +77,59 @@ class Phones extends BasePhones
   }
 
   /**
-   * Update the phones details according to the room where it's currently located in.
+   * Returns the defaultip of the Phone. This is used to generate the DHCP-Konfiguration.
+   * There is no field defaultip in the phones table because it is only an aggregated
+   * value. Asterisk_Sip has such a defaultip field and calculates the value directly
+   * from the room number the telephone is in.
    *
-   * @param $room Doctrine_Record of the room where the phone is located
-   * @return Phones $this
+   * @return string (ip)
    */
-  public function updateForRoom($room) {
-      $extension = '1' . str_pad($room->get('room_no'), 3, "0", STR_PAD_LEFT);
-      $this->set('name', $extension);
-      $this->set('callerid', $extension);
-      $this->set('defaultuser', $extension);
-      $this->set('defaultip', '192.168.' . substr($extension,1,1) . "." . (int)substr($extension,2,3));
-      $this->set('mailbox', null);
+  public function getDefaultip() {
+      $room = $this->Rooms[0];
+      $extension = '1' . $room;
 
-      return $this;
+      return '192.168.' . substr($extension,1,1) . "." . (int)substr($extension,2,3);
   }
 
   /**
-   * Update the phones details to the residents.
+   * Returns the name of the phone (sip peer). This is used to generate the DHCP-Konfiguration.
+   * see getDefaultip
    *
-   * @param $resident Doctrine_Record of the resident
-   * @return Phones $this
+   * @return string (ip)
    */
-  public function updateForResident($resident) {
-      $this->set('callerid', $resident->first_name . " " . $resident->last_name . ' <' . $this->name . '>');
-      $this->set('language', substr($resident->culture,0,2));
-      $this->set('mailbox', $resident->id . "@default");
+  public function getName() {
+      $extension = '1' . str_pad($this->Rooms[0], 3, "0", STR_PAD_LEFT);
 
-      return $this;
+      return $extension;
+  }
+
+  /**
+   * Returns the SIP defaultuser of the phone (sip peer). Needed for the phoneConfiguration
+   *
+   * @return string (ip)
+   */
+  public function getDefaultuser() {
+      $extension = '1' . str_pad($this->Rooms[0]->get('room_no'), 3, "0", STR_PAD_LEFT);
+
+      return $extension;
+  }
+
+  /**
+   * Returns the name of the phone (sip peer). This is used to generate the DHCP-Konfiguration.
+   * see getDefaultip
+   *
+   * @return string (ip)
+   */
+  public function getCallerid() {
+      $extension =  str_pad($this->Rooms[0]->get('room_no'), 3, "0", STR_PAD_LEFT);
+      $room = $this->Rooms[0];
+      if($resident = $this->getResident()) {
+          $callerid = $resident->getFirstName() . ' ' . $resident->getLastName() . ' (' . $room . ')';
+      } else {
+          $callerid = $extension;
+      }
+
+      return $callerid;
   }
 
   /**
@@ -250,7 +275,6 @@ class Phones extends BasePhones
    * Create and save a configuration file for the phone that can be uploaded and be
    * used to reset a tiptel 83 VoIP phone.
    *
-   *
    * @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    * @return string
    */
@@ -261,29 +285,26 @@ class Phones extends BasePhones
        * the residents password hash as sip password
        */
       if($this->getResident()){
-          $sip1DisplayName = $this->getResident()->get('first_name') . " "
-                           . $this->getResident()->get('last_name') . " ("
-                           . $this->Rooms[0]->get('room_no') . ")";
           if($this->getResident()->get('password') != '') {
-              $sip1Pwd = substr($this->getResident()->get('password'), 0 ,7);
+              $sip1Pwd = substr($this->getResident()->getPassword(), 0 ,7);
           } else {
               $sip1Pwd = 'hekphone';
           }
       } else {
-          $sip1DisplayName = $this->Rooms[0]->get('room_no');
           $sip1Pwd = 'hekphone';
       }
 
+      sfProjectConfiguration::getActive()->loadHelpers("Partial");
       $configFileContent = get_partial('global/tiptel83PhoneConfiguration', array('ip' => $this['defaultip'],
-          'sip1PhoneNumber' => $this['name'],
-          'sip1DisplayName' => $sip1DisplayName,
-          'sip1User' => $this['defaultuser'],
+          'sip1PhoneNumber' => $this->getName(),
+          'sip1DisplayName' => $this->getCallerid(),
+          'sip1User' => $this->getDefaultuser(),
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
           'frontendPassword' => sfConfig::get("sipPhoneFrontendPwd")));
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
-      $filepath   = $folder . $this['name'] . "-config.txt";
+      $filepath   = $folder . $this->getName() . "-config.txt";
       $filehandle = fopen($filepath, "w+");
       if( ! fwrite($filehandle, $configFileContent))
       {

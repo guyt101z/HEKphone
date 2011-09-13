@@ -130,64 +130,14 @@ AsteriskExtensions:
     context:  'amt'
     app:      'Hangup'
 
-#done
 Phones:
-  Phones_1:
-    name: '1405'
-    callerid: '1405'
-    host: dynamic
-    mailbox: '943@default'
+ <?php for($i=1; $i<=15; $i++): echo "\n";?>
+  Phones_<?php echo $i ?>:
     type: friend
-    defaultuser: '1405'
-    defaultip: 192.168.4.5
     mac: null
     regserver: null
     regseconds: 0
-  Phones_2:
-    name: '1402'
-    callerid: '1402'
-    host: dynamic
-    mailbox: '1@default'
-    type: friend
-    defaultuser: '1402'
-    defaultip: 192.168.4.2
-    mac: null
-    regserver: null
-    regseconds: 0
-  Phones_3:
-    name: '1403'
-    callerid: '1403'
-    host: dynamic
-    mailbox: '3@default'
-    type: friend
-    defaultuser: '1403'
-    defaultip: 192.168.4.3
-    mac: null
-    regserver: null
-    regseconds: 0
-  Phones_4:
-    name: '1404'
-    callerid: '1404'
-    host: dynamic
-    mailbox: '4@default'
-    type: friend
-    defaultuser: '1404'
-    defaultip: 192.168.4.4
-    mac: null
-    regserver: null
-    regseconds: 0
-  Phones_5:
-    name: '1406'
-    callerid: '1406'
-    host: dynamic
-    mailbox: '6@default'
-    type: friend
-    defaultuser: '1406'
-    defaultip: 192.168.4.6
-    mac: null
-    regserver: null
-    regseconds: 0
-    
+ <?php endfor; ?>
 #done
 Rooms:
   Rooms_1:
@@ -803,8 +753,41 @@ AsteriskCdr:
     accountcode: ''
     uniqueid: '1266691924.1117'
     userfield: 'pbxnetwork'
- 
- 
+  AsteriskCdr_10: # unbilled outgoing call to 0049711 using provider telekom
+    calldate: '2010-02-20 20:30:00'
+    clid: '004972186951405'
+    src: '004972186951405'
+    dst: '004971120393920'
+    dcontext: anlage
+    channel: DAHDI/31-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g2/4971120393920
+    duration: 505
+    billsec: 119
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266688418.2222'
+    userfield: 'Telekom'
+  AsteriskCdr_11: # unbilled outgoing call to 0049711 using provider telekom
+    calldate: '2010-02-20 14:30:00'
+    clid: '004972186951405'
+    src: '004972186951405'
+    dst: '004971120393920'
+    dcontext: anlage
+    channel: DAHDI/31-1
+    dstchannel: DAHDI/63-1
+    lastapp: Dial
+    lastdata: DAHDI/g2/4971120393920
+    duration: 505
+    billsec: 119
+    disposition: ANSWERED
+    amaflags: 3
+    accountcode: ''
+    uniqueid: '1266688418.2221'
+    userfield: 'Telekom'
+    
 #done
 # the dates do not match to the bills date but this shouldn't make any difference
 Calls:
@@ -816,16 +799,6 @@ Calls:
     destination: '0049511622222'
     charges: '3.20'
     asterisk_uniqueid: '1266688418.1305'
-    rate: 1
-    bill: null
-  Calls_2:
-    Residents: Residents_943
-    extension: 1405
-    date: '2010-02-20 17:31:46'
-    duration: 39
-    destination: '0049511644444'
-    charges: '3.00'
-    asterisk_uniqueid: '1266695033.1368'
     rate: 1
     bill: null
   Calls_3:
@@ -1056,6 +1029,16 @@ Rates:
     week: true      
     pulsing: 1/1      
     name: Hamburg Spezial
+  Rates_6:
+    id: 9999      
+    provider: 1
+    primary_time_begin: 00:00:00      
+    primary_time_rate: 0     
+    weekend: true      
+    week: true      
+    pulsing: 1/1      
+    name: Hamburg Spezial
+    
 
 Prefixes:
   Prefixes_1:

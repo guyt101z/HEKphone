@@ -8,3 +8,5 @@ $configuration = ProjectConfiguration::getApplicationConfiguration( 'frontend', 
 new sfDatabaseManager($configuration);
 
 Doctrine_Core::loadData(sfConfig::get('sf_root_dir').'/data/fixtures');
+
+$logger = new sfCommandLogger(new sfEventDispatcher());

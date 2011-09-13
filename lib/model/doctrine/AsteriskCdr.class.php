@@ -222,7 +222,7 @@ class AsteriskCdr extends BaseAsteriskCdr
         $call->destination  = $destinationToSave;
         $call->asterisk_uniqueid = $this->uniqueid;
         $call->rate   = $this->getRate()->getId();
-        $call->charges = $this->getRate()->getCharge($this->billsec);
+        $call->charges = $this->getRate()->getCharge($this->billsec, $this->calldate);
 
         $call->save();
 
@@ -321,6 +321,6 @@ class AsteriskCdr extends BaseAsteriskCdr
                             . "; Cost: ".round($callsEntry->charges,2) . "ct");
         }
 
-        return true;
+        return $callsEntry->charges;
     }
 }

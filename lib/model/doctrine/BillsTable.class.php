@@ -18,8 +18,10 @@ class BillsTable extends Doctrine_Table
     }
 
     /**
-     * Returns BillsCollection containing Bills for every resident who has
-     * unbilled calls in the given time period that is not saved in the database.
+     * Get a collection of bills containing bills for every resident who has
+     * unbilled calls in the given time period.
+     * The collection is not saved to the database immediately. Call save()
+     * manually.
      * Returns false when there are no calls in the time period.
      *
      * @throws Exception if the end-data is in the future

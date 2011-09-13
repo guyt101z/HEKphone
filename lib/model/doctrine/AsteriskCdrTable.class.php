@@ -47,20 +47,19 @@ class AsteriskCdrTable extends Doctrine_Table
             throw new Exception('Provide a daterange using both parameters: $option[from] and $option[to] or none');
         }
 
+
         $q = Doctrine_Query::create()
             ->from('AsteriskCdr a')
-            //select only the relevant CDRs (outgoing, answered
-            ->select('a.id, a.uniqueid, c.asterisk_uniqueid')
+            //select only the relevant CDRs (outgoing, answered)
             ->addWhere("a.disposition = 'ANSWERED'")
             ->andWhereNotIn("a.dcontext", sfConfig::get('asteriskIncomingContext'))
             //select only the cdrs which have not been billed and thus no representation in calls
-            ->leftJoin('a.Calls c ON a.uniqueid = c.asterisk_uniqueid')
-            ->addWhere('c.asterisk_uniqueid IS NULL');
+            ->addWhere('NOT EXISTS (SELECT c.asterisk_uniqueid FROM calls c WHERE c.asterisk_uniqueid = a.uniqueid)');
 
         if(isset($options['from']) && isset($options['to'])) {
             //if whished only select cdrs from a date range
-            $q->addWhere('cdr.calldate >= ?', $options['from'])
-              ->addwhere('cdr.calldate <= ?', $options['to']);
+            $q->addWhere('a.calldate >= ?', $options['from'])
+              ->addwhere('a.calldate <= ?', $options['to']);
         }
 
         if(isset($options['limit']) && is_int($options['limit'])) {

@@ -5,7 +5,7 @@ include(dirname(__FILE__).'/../../bootstrap/functional.php');
 $browser = new sfTestFunctional(new sfBrowser());
 
 $browser->
-  get('/settings/index')->
+  get('/settings')->
 
   with('request')->begin()->
     isParameter('module', 'settings')->

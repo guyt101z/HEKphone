@@ -3,9 +3,10 @@
 include(dirname(__FILE__).'/../../bootstrap/functional.php');
 
 $browser = new sfTestFunctional(new sfBrowser());
+$browser->setHttpHeader('ACCEPT_LANGUAGE', 'de_DE,de,en;q=0.7');
 
 $browser->info("1.1 - Exists?")->
-  get('/auth/index')->
+  get('/login')->
   with('request')->begin()->
     isParameter('module', 'auth')->
     isParameter('action', 'index')->
@@ -13,18 +14,17 @@ $browser->info("1.1 - Exists?")->
 
   info("1.1 - Are there untranslated Strings?")->
   with('response')->begin()->
-    checkElement('body', '!/[T]/')->
-  end()
-;
+    checkElement('body', '!/\[T\]/')->
+  end();
 
 # Test a simple login
 $browser->info("2.1 - logging in with incorrect password but valid input")->
-  get('auth/index')->
+  get('/login')->
 
   click('Absenden', array(
     'login' => array(
       'roomNo' => '405',
-      'password' => 'asdasd')))->
+      'password' => 'asddqwce324')))->
 
   with('request')->begin()->
     isParameter('module', 'auth')->
@@ -46,12 +46,12 @@ $browser->info("2.1.1 - Are there untranslated Strings?")->
 
 # Test a simple login
 $browser->info("2.2 - logging in with incorrect password and invalid input")->
-  get('auth/index')->
+  get('login')->
 
   click('Absenden', array(
     'login' => array(
       'roomNo' => '40asd5',
-      'password' => 'asdasd')))->
+      'password' => 'asdas234add')))->
 
   with('form')->begin()->
     hasErrors(true)->
@@ -68,7 +68,7 @@ $browser->info("2.2 - logging in with incorrect password and invalid input")->
   //end();
 
 $browser->info("2.3 - logging in with correct password and valid input and as hekphone member")->
-  get('auth/index')->
+  get('/login')->
 
   click('Absenden', array(
     'login' => array(
@@ -95,8 +95,8 @@ $browser->info("2.3 - logging in with correct password and valid input and as he
   end();
 
 $browser->info("2.3 - logging in with correct password and valid input")->
-  get('auth/logout')->
-  get('auth/index')->
+  get('/logout')->
+  get('/login')->
 
   click('Absenden', array(
     'login' => array(

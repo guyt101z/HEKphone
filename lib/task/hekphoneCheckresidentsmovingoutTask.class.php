@@ -124,10 +124,6 @@ EOF;
                 $phone = Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
             }
 
-            // Delete personal information from the phones properties (not from the settings on the phone)
-            $phone->updateForRoom($resident['Rooms']);
-            $phone->save();
-
             // Reset phone and thereby delete the users information.
             if($phone->get('technology') == 'SIP') {
                 try {

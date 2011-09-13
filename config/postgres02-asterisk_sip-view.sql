@@ -1,12 +1,27 @@
+
 drop view if exists asterisk_sip;
-drop table if exists asterisk_sip;
 CREATE VIEW asterisk_sip AS
     SELECT
         p.id,
-        p.name,
+        (SELECT '1' || lpad(b.room_no::varchar,3,'0') from rooms b
+                where b.phone = p.id
+        ) AS name,
         p.type,
-        p.callerid,
-        p.defaultuser,
+        (SELECT
+                (case
+                        when (Select count(*) from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL))) is not NULL
+                        then (Select a.first_name || ' ' || a.last_name || ' ' || '(' || lpad(b.room_no::varchar,3,'0') || ')' from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL)))
+                        else (Select lpad(b.room_no::varchar,3,'0') from rooms b 
+                                where b.phone=p.id)
+                end)
+        ) AS callerid,
+        (SELECT '1' || lpad(b.room_no::varchar,3,'0') from rooms b
+                where b.phone = p.id
+        ) AS defaultuser,
         (SELECT
                 (case
                         when (Select a.password from residents a, rooms b
@@ -19,10 +34,32 @@ CREATE VIEW asterisk_sip AS
                 end)
         ) AS secret,
         p.host,
-        p.defaultip,
+        (SELECT '192.168.' || SUBSTR(lpad(b.room_no::varchar,3,'0'),0,2) || '.' || SUBSTR(lpad(b.room_no::varchar,3,'0'),2,4)::int from rooms b
+                where b.phone = p.id
+        ) AS defaultip,
         p.mac,
-        p.language,
-        p.mailbox,
+        (SELECT
+                (case
+                        when (Select a.culture from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL))) != ''
+                        then (Select SUBSTR(a.culture,0,3) from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL)))
+                        else 'de'
+                end)
+        ) AS language,
+        (SELECT
+                (case
+                        when (Select count(*) from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL))) is not NULL
+                        then (Select a.id || '@default' from residents a, rooms b
+                                where a.room = b.id and b.phone = p.id
+                                and (a.move_in <= current_date and (a.move_out >= current_date or a.move_out is NULL)))
+                        else null
+                end)
+        ) AS mailbox,
         p.regserver,
         p.regseconds,
         p.ipaddr,

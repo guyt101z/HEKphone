@@ -43,7 +43,7 @@ EOF;
 
     if($options["prepare-phone"]){
         foreach($residentsMovingInToday as $resident){
-            // get the phone if there's any
+            // Get the phone if there's any
             if ( $resident['Rooms']->phone == NULL ) {
                 $logger->error("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
 
@@ -52,11 +52,7 @@ EOF;
                 $phone = Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
             }
 
-            // Delete personal information from the phones properties (not from the settings on the phone)
-            $phone->updateForResident($resident);
-            $phone->save();
-
-            // Reset phone and thereby delete the users information.
+            // Reset phone and thereby transfer the users information to the phone
             if($phone->get('technology') == 'SIP') {
                 try {
                     $phone->uploadConfiguration(true);

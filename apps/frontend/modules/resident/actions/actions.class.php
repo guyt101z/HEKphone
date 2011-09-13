@@ -98,7 +98,7 @@ class residentActions extends sfActions
       {
         $lockStateChanged = true;
       }
-      $resident = $form->save();
+      $this->resident = $form->save();
 
       if($lockStateChanged
          && $form->getValue('unlocked') == true                        // and he has been unlocked
@@ -106,10 +106,14 @@ class residentActions extends sfActions
       {
         $password = $this->resident->resetPassword();
         $this->resident->save();
+
         $this->resident->Rooms->Phones->uploadConfiguration(false, false);
+        sleep(3); // wait until the phone shuts down so it doesn't accidentally
+                  // registers with the old username again
+        $this->resident->Rooms->Phones->pruneAsteriskPeer();
 
         sfProjectConfiguration::getActive()->loadHelpers("Partial"); //For the Email. Load this automatically. How?
-        $this->resident->sendUnlockEmail(date('d.m.Y'), $password);
+        $this->resident->sendUnlockEmail($password);
       }
 
       if( ! Doctrine_Core::getTable('AsteriskExtensions')
@@ -119,7 +123,7 @@ class residentActions extends sfActions
       }
 
       $this->getUser()->setFlash('notice', 'resident.edit.successful');
-      $this->redirect('resident_edit', array('residentid' => $resident->getId()));
+      $this->redirect('resident_edit', array('residentid' => $this->resident->getId()));
     }
   }
 

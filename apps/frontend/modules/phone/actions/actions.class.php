@@ -13,8 +13,9 @@ class phoneActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     $this->phones = Doctrine_Core::getTable('Phones')
-      ->createQuery('a')
-      ->orderBy('name')
+      ->createQuery('p')
+      ->leftJoin('p.Rooms r')
+      ->orderBy('r.room_no')
       ->execute();
   }
 
@@ -138,17 +139,6 @@ class phoneActions extends sfActions
         $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Creating Extensions failed. Phone is not reachable by number.");
       } else {
          $this->getUser()->setFlash('notice', $this->getUser()->getFlash('notice') . PHP_EOL . " Extensions of the phone updated.");
-      }
-
-      /* Update the phones properties... */
-      // ... according to the room it is located in
-      $phone->updateForRoom($room);
-      // ... according to who lives in the room
-      try {
-        $resident = Doctrine_Core::getTable('Residents')->findByRoomNo($room->get('room_no'));
-        $phone->updateForResident($resident);
-      } catch (Exception $e) {
-        $resident = false;
       }
 
       $phone->save();

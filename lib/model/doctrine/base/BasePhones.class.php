@@ -9,15 +9,9 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * 
  * @property integer $id
  * @property enum $technology
- * @property string $name
  * @property enum $type
- * @property string $callerid
- * @property string $defaultuser
  * @property string $host
- * @property string $defaultip
  * @property string $mac
- * @property string $language
- * @property string $mailbox
  * @property string $regserver
  * @property string $regseconds
  * @property string $ipaddr
@@ -29,15 +23,9 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * 
  * @method integer             getId()          Returns the current record's "id" value
  * @method enum                getTechnology()  Returns the current record's "technology" value
- * @method string              getName()        Returns the current record's "name" value
  * @method enum                getType()        Returns the current record's "type" value
- * @method string              getCallerid()    Returns the current record's "callerid" value
- * @method string              getDefaultuser() Returns the current record's "defaultuser" value
  * @method string              getHost()        Returns the current record's "host" value
- * @method string              getDefaultip()   Returns the current record's "defaultip" value
  * @method string              getMac()         Returns the current record's "mac" value
- * @method string              getLanguage()    Returns the current record's "language" value
- * @method string              getMailbox()     Returns the current record's "mailbox" value
  * @method string              getRegserver()   Returns the current record's "regserver" value
  * @method string              getRegseconds()  Returns the current record's "regseconds" value
  * @method string              getIpaddr()      Returns the current record's "ipaddr" value
@@ -48,15 +36,9 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @method Doctrine_Collection getRooms()       Returns the current record's "Rooms" collection
  * @method Phones              setId()          Sets the current record's "id" value
  * @method Phones              setTechnology()  Sets the current record's "technology" value
- * @method Phones              setName()        Sets the current record's "name" value
  * @method Phones              setType()        Sets the current record's "type" value
- * @method Phones              setCallerid()    Sets the current record's "callerid" value
- * @method Phones              setDefaultuser() Sets the current record's "defaultuser" value
  * @method Phones              setHost()        Sets the current record's "host" value
- * @method Phones              setDefaultip()   Sets the current record's "defaultip" value
  * @method Phones              setMac()         Sets the current record's "mac" value
- * @method Phones              setLanguage()    Sets the current record's "language" value
- * @method Phones              setMailbox()     Sets the current record's "mailbox" value
  * @method Phones              setRegserver()   Sets the current record's "regserver" value
  * @method Phones              setRegseconds()  Sets the current record's "regseconds" value
  * @method Phones              setIpaddr()      Sets the current record's "ipaddr" value
@@ -94,12 +76,6 @@ abstract class BasePhones extends sfDoctrineRecord
              'notnull' => true,
              'default' => 'SIP',
              ));
-        $this->hasColumn('name', 'string', 80, array(
-             'type' => 'string',
-             'notnull' => true,
-             'default' => '',
-             'length' => 80,
-             ));
         $this->hasColumn('type', 'enum', 6, array(
              'type' => 'enum',
              'length' => 6,
@@ -112,39 +88,16 @@ abstract class BasePhones extends sfDoctrineRecord
              'notnull' => true,
              'default' => 'friend',
              ));
-        $this->hasColumn('callerid', 'string', 80, array(
-             'type' => 'string',
-             'length' => 80,
-             ));
-        $this->hasColumn('defaultuser', 'string', 80, array(
-             'type' => 'string',
-             'notnull' => true,
-             'default' => '',
-             'length' => 80,
-             ));
         $this->hasColumn('host', 'string', 31, array(
              'type' => 'string',
              'notnull' => true,
              'default' => 'dynamic',
              'length' => 31,
              ));
-        $this->hasColumn('defaultip', 'string', 15, array(
-             'type' => 'string',
-             'length' => 15,
-             ));
         $this->hasColumn('mac', 'string', 20, array(
              'type' => 'string',
              'default' => '',
              'length' => 20,
-             ));
-        $this->hasColumn('language', 'string', 2, array(
-             'type' => 'string',
-             'default' => 'de',
-             'length' => 2,
-             ));
-        $this->hasColumn('mailbox', 'string', 50, array(
-             'type' => 'string',
-             'length' => 50,
              ));
         $this->hasColumn('regserver', 'string', 20, array(
              'type' => 'string',

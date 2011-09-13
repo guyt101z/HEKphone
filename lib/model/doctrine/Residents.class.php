@@ -62,7 +62,7 @@ class Residents extends BaseResidents
 
      /**
      * Writes the residents password md5-encrypted to the database.
-     * Checks wheter resident has a SIP-Telefone and prunes the peer to apply the
+     *
      * password change.
      *
      * @param string $password
@@ -76,11 +76,8 @@ class Residents extends BaseResidents
       }
       else
       {
-        $phone = Doctrine_Core::getTable('Phones')->findByResidentId($this->get('id'));
+        $phone = $this->Rooms->Phones;
 
-        if($phone && $phone->technology == 'SIP') {
-          $phone->pruneAsteriskPeer();
-        }
         return $this->_set('password', md5($password));
       }
     }

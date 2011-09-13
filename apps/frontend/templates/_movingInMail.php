@@ -12,9 +12,9 @@
      <*112> zu erreichen.
    * An diese (deine) Email-Adresse werden auch die
      Einzelverbindungsnachweise monatlich geschickt.
-   * Dein Passwort fürs Hekphone-Portal (http://hekphone) ist: 
+   * Dein Passwort fürs Hekphone-Portal (https://hekphone.hek.uni-karlsruhe.de) ist:
      <?php echo $password . PHP_EOL?>
-     Dort findest du alle Informationen über deinen Telefonanschluss (Kosten, 
+     Dort findest du alle Informationen über deinen Telefonanschluss (Kosten,
      unbezahlte Gespräche, Rechnungen, ..)
 
 Sollte dennoch etwas nicht klappen, einfach beim HEKphone-Team melden.
@@ -22,7 +22,7 @@ Sollte dennoch etwas nicht klappen, einfach beim HEKphone-Team melden.
 mailto: telefon\@hek.uni-karlsruhe.de
 oder  : Tel: 1234 (Sammelruf) oder persoenlich vorbeischauen.
 
-Ausfuehrliche Anleitung siehe http://hekphone
+Ausfuehrliche Anleitung siehe https://hekphone.hek.uni-karlsruhe.de
 
 Bitte ueberpruefe, ob sich auch kein Tippfehler in deiner Kontoverbindung eingeschlichen hat.
 Dies wuerde zu einer Ruecklastschrift fuehren, die mindestens 10 Euro Gebuehren verursacht.
@@ -47,7 +47,7 @@ Rechnungsemail: <?php echo $email ?>
      ringer-board) at EVERY TIME.
    * This (your) email-address is where you get a list of every call you
      had made monthly.
-   * Your password for the Hekphone-Frontend (http://hekphone) is: 
+   * Your password for the Hekphone-Frontend (https://hekphone.hek.uni-karlsruhe) is:
      <?php echo $password . PHP_EOL?>
      There you can find all informations related to your phone account.
 
@@ -57,12 +57,12 @@ or    : Tel: 1234 (multiple-subscribers!) or come by yourself
 
 
 If you need manuals for quite everything please visit our homepage
-http://hekphone.uni-karlsruhe.de
+https://hekphone.hek.uni-karlsruhe.de
 
 Please check that there is no typo in your bank account details. This would
 cause your bank not to fullfill our withdrawls and would lead to costs at a minimum
 of 10 Euro.
 
-Your bank account number (\"Kontonummer\"): <?php echo $bank_number . PHP_EOL?>
-Bank number (\"Bankleitzahl, BLZ\")       : <?php echo $account_number . PHP_EOL ?>
-E-mail account for your invoices        : <?php echo $email . PHP_EOL ?>
+Your bank account number ("Kontonummer"): <?php echo $account_number . PHP_EOL?>
+Bank number ("Bankleitzahl, BLZ")       : <?php echo $bank_number . PHP_EOL ?>
+E-mail account for your invoices          : <?php echo $email . PHP_EOL ?>

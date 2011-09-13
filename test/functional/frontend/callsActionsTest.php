@@ -3,17 +3,18 @@
 include(dirname(__FILE__).'/../../bootstrap/functional.php');
 
 $browser = new sfTestFunctional(new sfBrowser());
+$browser->setHttpHeader('ACCEPT_LANGUAGE', 'de_DE,de,en;q=0.7');
 
 $browser->
   info('0.1 Log in...')->
-  get('auth/index')->
+  get('/login')->
   click('Absenden', array(
     'login' => array(
       'roomNo' => '405',
       'password' => 'hekphone')));
 
 $browser->info('1.1 are we on the right page?')->
-  get('/calls/index')->
+  get('/calls')->
   with('response')->begin()->
     isRedirected(false)->
   end();
@@ -21,28 +22,29 @@ $browser->info('1.1 are we on the right page?')->
 $browser->info('1.1 Checking for any untranslated strings in the following tests');
 
 $browser->info('1.2 is there a bill listed and has a clickable "show details" button and no hide buttons?')->
-  get('/calls/index')->with('response')->begin()->
+  get('/calls')->with('response')->begin()->
     checkElement('body', '/zeigen/')->
     checkElement('td', '!/ausblenden/')->
-    //checkElement('body', '!/[T]/')->
+    checkElement('body', '!/\[T\]/')->
   end();
 
 $browser->info('1.3 are the details of a bill shown?')->
-  get('/calls/index', array('billid' => '1'))->with('response')->begin()->
+  get('/calls')->
+  click('zeigen')->with('response')->begin()->
     checkElement('body', '/ausblenden/')->
-    //checkElement('body', '!/[T]/')->
+    checkElement('body', '!/\[T\]/')->
   end();
 
 $browser->info('1.3 the details of a bill of an other user should not be shown')->
-  get('/calls/index', array('billid' => '3'))->with('response')->begin()->
+  get('/calls', array('billid' => '3'))->with('response')->begin()->
     checkElement('body', '!/ausblenden/')->
-    //checkElement('body', '!/[T]/')->
+    checkElement('body', '!/\[T\]/')->
   end();
 
 $browser->info('2 checking /resident/xxx/urls');
 $browser->info('2.1 A user trying to access his own call details via /resident/:hisuserid/calls')->
-  get('auth/logout')->
-  get('auth/index')->
+  get('logout')->
+  get('login')->
   click('Absenden', array(
     'login' => array(
       'roomNo'   => '403',
@@ -57,7 +59,7 @@ $browser->info('2.1 A user trying to access his own call details via /resident/:
   end();
 
 $browser->info('2.2 A non hekphone member trying to access the call details of another user via /resident/:hisuserid/calls fails')->
-  get('calls/index', array('residentid' => '1'))->
+  get('/calls', array('residentid' => '1'))->
   with('user')->begin()->
     hasCredential('hekphone', false)->
   end()->
@@ -66,8 +68,8 @@ $browser->info('2.2 A non hekphone member trying to access the call details of a
   end();
 
 $browser->info('2.3 A hekphone-member trying to access the call details of another user via /resident/:hisuserid/calls')->
-  get('auth/logout')->
-  get('auth/index')->
+  get('/logout')->
+  get('/login')->
   click('Absenden', array(
     'login' => array(
       'roomNo'   => '405',

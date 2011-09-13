@@ -5,7 +5,7 @@ include(dirname(__FILE__).'/../../bootstrap/functional.php');
 $browser = new sfTestFunctional(new sfBrowser());
 
 $browser->
-  get('/groupcalls/index')->
+  get('/groupcalls')->
 
   with('request')->begin()->
     isParameter('module', 'groupcalls')->

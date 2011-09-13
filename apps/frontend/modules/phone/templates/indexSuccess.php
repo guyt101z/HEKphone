@@ -9,7 +9,6 @@
       <th>Host</th>
       <th>Defaultip</th>
       <th>Mac</th>
-      <th>Mailbox</th>
       <th>Technology</th>
       <th>Ipaddr</th>
     </tr>
@@ -23,7 +22,6 @@
       <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getHost() ?></a></td>
       <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getDefaultip() ?></a></td>
       <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getMac() ?></a></td>
-      <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getMailbox() ?></a></td>
       <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getTechnology() ?></a></td>
       <td><a href="<?php echo url_for('phone_edit', array('id' => $phone->getId())) ?>"><?php echo $phone->getIpaddr() ?></a></td>
     </tr>

@@ -104,14 +104,9 @@ class settingsActions extends sfActions
         // if the new passwort and the repetition matches got checked via validator
         // of the form so we just need to save it here
         $this->resident->setPassword($form->getValue('newPassword'));
-      }
-      $this->resident->save();
 
-      // If password has been changed, update the telephone with the new password
-      if($form->getValue('newPassword') != '')
-      {
-        //actively load helper for the template of the configuration
-        sfProjectConfiguration::getActive()->loadHelpers("Partial");
+        $this->resident->save();
+
         $this->resident->Rooms->Phones->uploadConfiguration(false, false); //FIXME: catch errors
         $this->resident->Rooms->Phones->pruneAsteriskPeer(); //FIXME: catch errors
       }
