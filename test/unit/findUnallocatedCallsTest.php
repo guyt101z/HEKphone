@@ -2,18 +2,23 @@
 // get database and fixtures ready
 include(dirname(__FILE__).'/../bootstrap/Doctrine.php');
 
-$t = new lime_test(2);
+$t = new lime_test(3);
 
+$numberUnallocatedCalls = 3;
 $t->comment('AsteriskCdrTable->findUnallocatedCalls()');
-$t->comment('check if there is the right number of residents selected');
+$t->comment('1) Check if there is the right number of cdrs (' . $numberUnallocatedCalls . ') selected.');
 $cdrTable = Doctrine_Core::getTable('AsteriskCdr');
 $calls = $cdrTable->findUnallocatedCalls(array('from' => '2010-01-01', 'to' => '2011-12-12'));
-$t->is(count($calls), 3);
+$t->is(count($calls), $numberUnallocatedCalls);
 
-print_r($calls->toArray());
-
-$t->comment('try to bill these calls');
+$t->comment('2) Try to bill these '. $numberUnallocatedCalls .' calls.');
+$count = 0;
 foreach($calls as $call) {
   $call->bill();
+  ++$count;
 }
-$t->pass('no exceptions so everything went fine');
+$t->is($count, $numberUnallocatedCalls);
+
+$t->comment('3) There should be no unallocated calls left now.');
+$calls = $cdrTable->findUnallocatedCalls(array('from' => '2010-01-01', 'to' => '2011-12-12'));
+$t->is(count($calls), 0);
