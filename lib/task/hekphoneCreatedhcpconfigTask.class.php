@@ -46,8 +46,8 @@ EOF;
     $num = 0;
     foreach ($collPhones as $phone) {
         // don't generate corrupt config
-        if ( ! $phone->getName() or ! $phone->getMac() or ! $phone->getDefaultip() )
-          continue;
+        if ( ! $phone->getName() or ! $phone->getMac() or ! $phone->getDefaultip())
+            continue;
 
         // else add section in the config file
         ++$num;
@@ -62,16 +62,16 @@ EOF;
     /* Be verbose */
     if( $options['verbose'] == true)
     {
-      echo $dhcpConf;
+        echo $dhcpConf;
     }
 
     // Write configuration file
     if( ! $fileHandle = @fopen($options['filename'], 'w+')) {
-      throw new sfCommandException('Could not open file ' . $options['filename'] . ' for writing. Do you have sufficient privileges?');
+        throw new sfCommandException('Could not open file ' . $options['filename'] . ' for writing. Do you have sufficient privileges?');
     } if ( ! fwrite($fileHandle, $dhcpConf)) {
-      throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');
+        throw new sfCommandException('Failed to write /etc/dhcp3/dhcp.phones. Does the folder exist?');
     } else {
-      $logger->notice("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO');
+        $logger->notice("Wrote DHCP-Config for $num phones to " . $options['filename'] . ".", 'INFO');
     }
 
     fclose($fileHandle);
@@ -79,10 +79,15 @@ EOF;
     // Restart dhcp-server
     if( ! $options['no-restart']) {
         // you need to enable www-data (or whoever runs the script) to restart the dhcp-server via sudoers
-        if( ! system('/etc/init.d/dhcp3-server restart')) {
-            $logger->error('Restarting DCHP-Server failed.');
+        exec('sudo /etc/init.d/dhcp3-server restart', $output, $restartResult);
+        
+        if($restartResult != 0) {
+            $logger->err('Restarting DCHP-Server failed.');
             throw new sfCommandException('Restarting DHCP-Server failed.');
-        };
+        } else {
+            $logger->notice('Restarting DHCP-Server successful.');
+            return 0;
+        }
     }
   }
 }

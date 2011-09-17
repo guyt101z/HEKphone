@@ -149,7 +149,7 @@ class phoneActions extends sfActions
         $formatter = new sfFormatter();
         $task = new hekphoneCreatedhcpconfigTask($this->dispatcher, $formatter);
         try {
-          $task->run();
+          $task->run(array(), array('silent');
         } catch (Exception $e) {
           //catch exceptions and "rethrow them as flash".
           $this->getUser()->setFlash('error', 'Saving the DHCP configuration failed: ' . $e->getMessage() . '');
