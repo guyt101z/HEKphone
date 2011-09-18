@@ -1,5 +1,20 @@
-### Voicemail Files Permissions
+# Asterisk
+We're using asterisk 1.6.2.0 on a Ubuntu server (Ubuntu because Debian did not yet have
+asterisk 1.6 when the system was set up).
 
+
+### Installing Asterisk
+
+
+### Setting up DAHDI to work with two TE110P and one HFC-ISDN card
+
+
+### Digit files
+The Ubuntu asterisk package (1:1.6.2.0~rc2-0ubuntu1.2) has a flaw that puts 
+sudo mkdir /usr/share/asterisk/sounds/de/digits/ && sudo cp /usr/share/asterisk/sounds/digits/de/* /usr/share/asterisk/sounds/de/digits/
+
+
+### File permissions
 #### Problem
 Asterisk (user: asterisk) and Apache (user: www-data) need to 
 access and modify the voicemail messages in */var/spool/voicemail/default/*.
