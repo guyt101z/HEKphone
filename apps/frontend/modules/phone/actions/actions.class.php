@@ -79,8 +79,6 @@ class phoneActions extends sfActions
 
   public function executeReset(sfWebRequest $request)
   {
-    //$request->checkCSRFProtection();
-
     sfProjectConfiguration::getActive()->loadHelpers("Partial");
 
     $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phone does not exist (%s).', $request->getParameter('id')));
@@ -96,8 +94,6 @@ class phoneActions extends sfActions
 
   public function executeDelete(sfWebRequest $request)
   {
-    $request->checkCSRFProtection();
-
     $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phones does not exist (%s).', $request->getParameter('id')));
 
     // delete any reference to the phone in the rooms table or we will violate a foreign key when deleting the phone

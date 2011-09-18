@@ -768,7 +768,6 @@
         <source>groupcalls.backToList</source>
         <target>Zurück zur Liste</target>
       </trans-unit>
-
       
       <trans-unit id="12">
         <source>phone.edit.mac.required</source>
@@ -846,7 +845,48 @@
       <trans-unit id="12">
         <source>Room</source>
         <target>Zimmer Nr.</target>
-      </trans-unit>      
+      </trans-unit> 
+      
+      <trans-unit id="99">
+        <source>phone.list.heading.peername</source>
+        <target>Name des SIP-Peers</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.peername.help</source>
+        <target>der Name des SIP-Peers wie er von Asterisk registriert wird</target>        
+      </trans-unit>     
+      <trans-unit id="99">
+        <source>phone.list.heading.mac</source>
+        <target>Mac-Adresse</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.mac.help</source>
+        <target>die Hardware-Adresse des Telefons</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.defaultip</source>
+        <target>Standard-IP</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.defaultip.help</source>
+        <target>die IP, die dem Telefon anhand der Mac-Adresse zugewiesen wird</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.technology</source>
+        <target>Technologie</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.technology.help</source>
+        <target>analoge (DAHDI/g1) Telefone oder VoIP (SIP) Telefone</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.ipaddr</source>
+        <target>derzeitige IP-Adresse</target>        
+      </trans-unit>
+      <trans-unit id="99">
+        <source>phone.list.heading.ipaddr.help</source>
+        <target>die IP-Adresse, unter der dieses Telefon aktuell bei Asterisk registiert ist</target>        
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -45,7 +45,7 @@ phone_reset:
     id: \d+
 
 phone_delete:
-  url: /phone/:id/reset
+  url: /phone/:id/delete
   param: {module: phone, action: delete}
   requirements:
     id: \d+

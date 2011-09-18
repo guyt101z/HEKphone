@@ -16,13 +16,15 @@ class PhonesForm extends BasePhonesForm
       'model'     => 'Rooms',
       'add_empty' => true,
       'order_by'  => array('room_no', 'asc'),
-    )));
+      ), array('disabled' => 'true')
+      ));
     $this->setValidator('room', new sfValidatorDoctrineChoice(array('model' => 'Rooms')));
 
-    // Check mac-adress only if technology is set to 'SIP'
+    unset($this['mac']);
+    $this->setWidget('mac', new sfWidgetFormInputText(array(), array('placeholder' => 'ab:cd:ef:12:34:45:67')));
     $this->setValidator('mac', new sfValidatorPass());
     $this->mergePostValidator(
-      new sfValidatorCallback(array('callback' => array($this, 'checkMac'))));
+      new sfValidatorCallback(array('callback' => array($this, 'checkMac'))));     // Check mac-adress only if technology is set to 'SIP'
 
     unset($this['host']);       // always dynamic. the phones can't handle static
     unset($this['type']);       // always frient. may place and receive calls.

@@ -98,7 +98,7 @@ class Phones extends BasePhones
    * @return string (ip)
    */
   public function getName() {
-      $extension = '1' . str_pad($this->Rooms[0], 3, "0", STR_PAD_LEFT);
+      $extension = '1' . $this->Rooms[0];
 
       return $extension;
   }
@@ -109,7 +109,7 @@ class Phones extends BasePhones
    * @return string (ip)
    */
   public function getDefaultuser() {
-      $extension = '1' . str_pad($this->Rooms[0]->get('room_no'), 3, "0", STR_PAD_LEFT);
+      $extension = '1' . $this->Rooms[0];
 
       return $extension;
   }
@@ -121,7 +121,7 @@ class Phones extends BasePhones
    * @return string (ip)
    */
   public function getCallerid() {
-      $extension =  str_pad($this->Rooms[0]->get('room_no'), 3, "0", STR_PAD_LEFT);
+      $extension =  1 . $this->Rooms[0];
       $room = $this->Rooms[0];
       if($resident = $this->getResident()) {
           $callerid = $resident->getFirstName() . ' ' . $resident->getLastName() . ' (' . $room . ')';
