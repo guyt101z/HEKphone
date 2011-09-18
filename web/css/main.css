@@ -90,6 +90,13 @@ ol {
 .formContainer form .submit input {
 	display:inline;
 }
+.formContainer form input::-webkit-input-placeholder {
+    color:    #999;
+}
+.formContainer form input:-moz-placeholder {
+    color:    #999;
+}
+
 .formContainer form a {
 	font-size: 1.6em;
 	margin-right: 2em;
