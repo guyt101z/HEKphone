@@ -50,7 +50,7 @@ class Rates extends BaseRates
 
             $charge = $pulseLenght[0] * $ratePerSecond;
             if($duration > $pulseLenght[0]) {
-                $additionalPulsesToCharge += ceil(($duration - $pulseLenght[0])/$pulseLenght[1]);
+                $additionalPulsesToCharge = ceil(($duration - $pulseLenght[0])/$pulseLenght[1]);
                 $charge += $additionalPulsesToCharge * $pulseLenght[1] * $ratePerSecond;
             }
         } else {

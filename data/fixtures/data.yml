@@ -978,12 +978,12 @@ Rates:
     id: 1      
     provider: 1      
     primary_time_begin: 06:00:00      
-    primary_time_rate: 2      
+    primary_time_rate: 6
     secondary_time_begin: 18:00:00    
-    secondary_time_rate: 1
+    secondary_time_rate: 3
     weekend: true      
     week: true      
-    pulsing: 1/1      
+    pulsing: 30/20      
     name: Super Billig 
   Rates_2:
     id: 2      

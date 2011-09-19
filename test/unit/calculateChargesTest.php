@@ -38,11 +38,11 @@ $t->comment('... in primary period so primary_time_rate = 6ct/min');
 $t->comment('... with a pulsing of 30/20');
 $t->comment('... from room 405');
 $t->comment('... initially not billed');
-$t->comment('Charge should be 11ct.');
+$t->comment('Charge should be 13ct.');
 $cdrsTable = Doctrine_Core::getTable('AsteriskCdr');
 $cdr = $cdrsTable->findOneBy('uniqueid', $uniqueidNonfree);
 $charges = $cdr->bill($logger);
-$t->is($charges, 11);
+$t->is($charges, 13);
 
 $uniqueidNonfree = '1266688418.2222';
 $t->comment('try to bill call with uniqueid ' . $uniqueidNonfree . '. should be a call...');
@@ -51,11 +51,11 @@ $t->comment('... in secondary period so secondary_time_rate = 3ct/min');
 $t->comment('... with a pulsing of 30/20');
 $t->comment('... from room 405');
 $t->comment('... initially not billed');
-$t->comment('Charge should be 5.5ct.');
+$t->comment('Charge should be 6.5ct.');
 $cdrsTable = Doctrine_Core::getTable('AsteriskCdr');
 $cdr = $cdrsTable->findOneBy('uniqueid', $uniqueidNonfree);
 $charges = $cdr->bill($logger);
-$t->is($charges, 5.5);
+$t->is($charges, 6.5);
 
 $t->comment('try to bill it again. should fail because it\'s already billed');
 try
@@ -70,7 +70,7 @@ catch (Exception $e)
 
 $t->comment('try to rebill(). should work. charges should be again 5.5ct');
 $charges = $cdr->rebill($logger);
-$t->is($charges, 5.5);
+$t->is($charges, 6.5);
 
 $t->comment('Allocate a free call');
 $t->comment('... denoted by userfield = free');

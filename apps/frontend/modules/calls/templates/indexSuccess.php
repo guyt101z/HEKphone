@@ -25,7 +25,7 @@
 </table>
 
 <?php if ($sf_user->hasCredential('hekphone')): echo "\n"; ?>
-<p><?php echo link_to(__('calls.bill.createmanually'), '@create_bill_manually?residentid='.$residentid) ?></p>
+<p><?php echo link_to(__('calls.bill.createmanually'), '@create_bill_manually?residentid='.$residentid, array('confirm' => 'calls.bill.createmanually.sure')) ?></p>
 <?php endif;?>
 
 <h2><?php echo __("calls.list.bills.heading") ?></h2>

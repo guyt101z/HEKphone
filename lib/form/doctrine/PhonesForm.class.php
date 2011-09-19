@@ -16,7 +16,7 @@ class PhonesForm extends BasePhonesForm
       'model'     => 'Rooms',
       'add_empty' => true,
       'order_by'  => array('room_no', 'asc'),
-      ), array('disabled' => 'true')
+      )
       ));
     $this->setValidator('room', new sfValidatorDoctrineChoice(array('model' => 'Rooms')));
 

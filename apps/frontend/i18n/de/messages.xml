@@ -129,6 +129,10 @@
         <target>Aus den unbezahlten Gesprächen eine Rechnung erstellen und dem Bewohner zuschicken, die nicht abgebucht wird.</target>
       </trans-unit>
       <trans-unit id="58">
+        <source>calls.bill.createmanually.sure</source>
+        <target>Wirklich die aufgeführten Gespräche einer Rechnung zuordnen, die nicht abgebucht werden wird und diese Rechnung dem Bewohner schicken?</target>
+      </trans-unit>
+      <trans-unit id="58">
         <source>calls.bill.createmanually.failed</source>
         <target>Es wurde keine Rechnung erstellt.</target>
       </trans-unit>
