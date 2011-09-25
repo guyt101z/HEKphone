@@ -1,51 +1,60 @@
-/* List */
+/*------------------------------------*\
+  RESIDENTS TABLE
+\*------------------------------------*/
 table {
-    width: auto;
+  width: auto; /* so we get as many tables side by side as possible */
 }
 
 table th {
-    padding-left: 0.3em;
-    padding-right: 0.3em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
-.locked a { color: #999; }
+.locked {
+	color: grey;
+}
 
+/*------------------------------------*\
+  EDIT ACTIONS
+\*------------------------------------*/
 #orderby ul {
-    display: block;
-    width: 100%;
-    list-style-type: none;
+  display: block;
+  width: 100%;
+  list-style-type: none;
 }
 
 #orderby li {
-    display: block;
-    width: 33%;
-    float: left;
-    
-    margin-bottom: 1em;
+  display: block;
+  width: 33%;
+  float: left;
+  
+  margin-bottom: 1em;
 }
 
 #orderby a {
-    display: block;
-    width: 100%;
-    text-align: center;
-    font-size: 1.6em;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
 }
 
 
-/* Edit form */
+/*------------------------------------*\
+  EDIT FORM
+\*------------------------------------*/
 .entry {
 	margin-bottom:0.5em;
 }
 	
 .entry .value{
 	font-size: 1.6em;
-	margin-left:0.6em;
+	margin-left: 0.6em;
 }
 
 #comments {
 	margin: 0 auto;
 }
-#comments ul li{
+#comments li{
     list-style-type: none;
 }
 
@@ -53,8 +62,4 @@ table th {
 form a {
 	text-align: center;
 	font-size: 1.6em;
-}
-
-#actions li {
-    font-size: 1.6em;
 }

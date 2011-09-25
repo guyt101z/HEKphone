@@ -106,7 +106,7 @@ class callsActions extends sfActions
 
     if($bill instanceof Bills) {
       sfProjectConfiguration::getActive()->loadHelpers("Partial"); //FIXME: For the Email. Load this automatically
-      $bill->sendEmailWithoutDirectDebit(); 
+      $bill->sendEmailWithoutDirectDebit();
 
       $this->getUser()->setFlash('notice', 'calls.bill.createmanually.successful');
     } else {
@@ -124,7 +124,7 @@ class callsActions extends sfActions
   *
   * @param sfRequest $request A request object
   */
-  public function executeGetCharges(sfWebRequest $request)
+  public function executeLookupCharges(sfWebRequest $request)
   {
     $destination = $request->getParameter('destination');
 

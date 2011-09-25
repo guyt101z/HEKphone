@@ -135,9 +135,9 @@ calls:
   param: { module: calls, action: index}
 
 # get the charges for a call to a specified destination
-get_charges:
+lookup_charges:
   url: /calls/charges
-  param: { module: calls, action: getCharges }
+  param: { module: calls, action: lookupCharges }
  
 # create a bill from the unbilled calls of a resident
 create_bill_manually:

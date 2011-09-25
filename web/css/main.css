@@ -1,3 +1,6 @@
+/*------------------------------------*\
+  BASE
+\*------------------------------------*/
 html {
   height: 100%;
 }
@@ -61,7 +64,9 @@ ol {
 }
 
 
-/* Basic Forms */
+/*------------------------------------*\
+  FORMS
+\*------------------------------------*/
 .formContainer {
 	width: 450px;
 	margin: 0 auto;
@@ -102,40 +107,52 @@ ol {
 	margin-right: 2em;
 }
 
-/* Form Errors */
+/*------------------------------------*\
+  FORM ERRORS
+\*------------------------------------*/
 .globalError {
-    display: block;
-    margin: 0 auto;
-    
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    color: red;
+  display: block;
+  margin: 0 auto;
+  
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: red;
 }
 
 .formError {
-    display: block;
-    margin: 0 auto;
-    margin-left: 13em;
-    
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2em;
-    color: red;
+  display: block;
+  margin: 0 auto;
+  margin-left: 13em;
+  
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2em;
+  color: red;
 }
 
 .error_list {
-    width: 100%;
-    clear: both;
-    list-style-type:none;
-    font-size: 1.6em;
-    padding-left: 13em; 
+  width: 100%;
+  clear: both;
+  list-style-type:none;
+  font-size: 1.6em;
+  padding-left: 13em; 
 }
 .error_list li {
-    width: 100%;
-    color: red;
+  width: 100%;
+  color: red;
 }
 
+/*------------------------------------*\
+  EDIT ACTIONS
+\*------------------------------------*/
+#actions li {
+    font-size: 1.6em;
+}
+
+/*------------------------------------*\
+  FOOTER
+\*------------------------------------*/
 footer {
   clear: both;
   margin-bottom: 2.4em;
@@ -144,7 +161,9 @@ footer {
   text-align: center;
 }
 
-/* Navigation */
+/*------------------------------------*\
+  NAVIGATION
+\*------------------------------------*/
 header {
   padding-top: 2.4em;
   padding-bottom: 2.3em;
@@ -175,31 +194,35 @@ header nav span {
 }
 
 header nav .current {
-    color: #334466;
+  color: #334466;
 	text-decoration: underline;
 }
 
-/* Admin-Resident Navigation */
+/* Resident Subnavigation
+ * The additional navigation you get when you use /resident/<id>/calls etc
+ */
 header nav .residentnav {
-	width:100%;
+  width:100%;
 }
 header nav #residentnav li {
-	display: block;
-    width: 160px; 
-    border-top: 1px dashed black;
+  display: block;
+  width: 160px; 
+  border-top: 1px dashed black;
 }
 
-/* Flashes */
+/*------------------------------------*\
+  FLASHES
+\*------------------------------------*/
 div .notice {
-    display: block;
-    width: 100%;
-    margin-bottom:1.5em;
-    
-    text-align: center;
-    font-size: 1.6em;
-    
-    background-color: #79BA56;
-    color: #000;
+	display: block;
+	width: 100%;
+	margin-bottom:1.5em;
+	
+	text-align: center;
+	font-size: 1.6em;
+	
+	background-color: #79BA56;
+	color: #000;
 }
 
 div .error {
@@ -214,49 +237,51 @@ div .error {
     color: #fff;
 }
 
+/*------------------------------------*\
+  TABLES
+\*------------------------------------*/
 table {
-    width: 80%;
-    font-size: 1.5em;
-    
-    margin: 0 auto;
-    margin-bottom: 2em;
+  width: 80%;
+  font-size: 1.5em;
+  
+  margin: 0 auto;
+  margin-bottom: 2em;
 }
 
 table thead tr{
-    background-color: #ddeffd;
-    
-    border-bottom: 1px solid #000;
+  background-color: #ddeffd;
+  
+  border-bottom: 1px solid #000;
 }
 
-
 table thead th {
-    border-right: 1px solid #000;
+  border-right: 1px solid #000;
 }
 
 table tbody td {
-    padding-left: 1em;
-    border-right: 1px solid #000;
+  padding-left: 1em;
+  border-right: 1px solid #000;
 }
 
 table tbody tr:nth-child(odd) {
-    background-color:#F2F0FF;
+  background-color:#F2F0FF;
 }
 table tbody tr:nth-child(even) {
-    background-color:#fff;
+  background-color:#fff;
 }
 
 table tr td:last-child {
-    border: none;
+  border: none;
 }
 
 table tr th:last-child {
-    border: none;
+  border: none;
 }
 
 table tfoot {
-    background-color: transparent;
+  background-color: transparent;
     
-    font-weight: bold;
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+  font-weight: bold;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
 }

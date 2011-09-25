@@ -1,5 +1,5 @@
 <?php use_javascript('jquery.js') ?>
-<?php include_partial('getCharges'); ?>
+<?php include_partial('lookupCharges'); ?>
 
 <h2><?php echo __("calls.list.heading") ?></h2>
 <table id="calls">

@@ -1,58 +1,64 @@
-/* the list of the different tasks */
+/*------------------------------------*\
+  OVERVIEW
+\*------------------------------------*/
 #tasks li {
-	font-size: 1.6em;
+  font-size: 1.6em;
 }
 
+/*------------------------------------*\
+  BILL CREATION PROCESS
+\*------------------------------------*/
 /* highlight the currently active step on a subpage */
 .active {
-    border: 1px dashed black;
-    border-radius: 5px;
+  border: 1px dashed black;
+  border-radius: 5px;
 }
-
 
 /* new bills date selection form */
 #dateForm {
-	padding-left: 1em;
+  padding-left: 1em;
 }
 
 #dateForm span {
-	font-size: 1.6em;
+  font-size: 1.6em;
 }
 
 #dateForm form {
-    display: block;
-    width:780px;
-    margin-left:180px;
+  display: block;
+  width:780px;
+  margin-left:180px;
 }
 
 #dateForm form label{
-    display: block;
-    font-size: 1.6em;
-    width: 140px;
-    float: left;
-    clear: both;
+  display: block;
+  font-size: 1.6em;
+  width: 140px;
+  float: left;
+  clear: both;
 }
 
 #dateForm form input[type=submit]{
-    font-size:1.6em;
-    margin-left:150px;
-    margin-bottom: 1em;
+  font-size:1.6em;
+  margin-left:150px;
+  margin-bottom: 1em;
 }
 
-
 #create {
-	padding-top:20px;
-	padding-left:1em;
+  padding-top:20px;
+  padding-left:1em;
 }
 
 #create form{
-    text-align:center;
+  text-align:center;
 }
 #create form input[type=submit]{
-    font-size:1.6em;
-    margin-bottom: 1em;
+  font-size:1.6em;
+  margin-bottom: 1em;
 }
 
+input[disabled] {
+    color: GrayText;
+}
 
 #backToTasks {
     text-align:center;
@@ -62,9 +68,10 @@
     font-size: 1em;
 }
 
-
-
-/* Page to create dtaus files */
+/*------------------------------------*\
+  DTAUS CREATION
+\*------------------------------------*/
+/* step 1 */
 #oldBills {
 	padding-top: 1em;
 }
@@ -79,44 +86,40 @@
 }
 
 #oldBills form label {
-    font-size: 1.6em;
+  font-size: 1.6em;
 }
 form input {
-    margin-bottom:0.75em;
-    margin-left:1em;
+  margin-bottom:0.75em;
+  margin-left:1em;
 }
 #oldBills form input[type=submit]{
-    font-size:1.6em;
-    margin-left:150px;
-    margin-bottom:1em;
+  font-size:1.6em;
+  margin-left:150px;
+  margin-bottom:1em;
 }
 
 .active>a {
-    display:block;
-    width:100%;
-    font-size:1.6em;
-    text-align:center;
-    border-top: 1px solid black;
+  display:block;
+  width:100%;
+  font-size:1.6em;
+  text-align:center;
+  border-top: 1px solid black;
 }
 
 #done {
-    margin-top: 2em;
-    border: 1px dashed black;
-    border-radius: 7px;
+  margin-top: 2em;
+  border: 1px dashed black;
+  border-radius: 7px;
 }
 
 #done a {
-    display:block;
-    width:100%;
-    font-size:1.6em;
-    text-align:center;
-    border: 0;
+  display:block;
+  width:100%;
+  font-size:1.6em;
+  text-align:center;
+  border: 0;
 }
 
 .already_debited td {
-    background-color: #e78e3e;
-}
-
-input[disabled] {
-    color: GrayText;
+  background-color: #e78e3e;
 }

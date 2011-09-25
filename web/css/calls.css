@@ -1,3 +1,6 @@
+/*------------------------------------*\
+  EXPANDED BILL DETAILS
+\*------------------------------------*/
 #bills .calldetails {
 	font-size:1em;
 	margin:0;
@@ -9,7 +12,10 @@
 	padding-left:0;
 }
 
-div .search-charges {
+/*------------------------------------*\
+  LOOKUP CHARGES
+\*------------------------------------*/
+.lookup-charges {
 	width:70%;
 	margin: auto auto;
 	margin-bottom: 2em;
@@ -17,49 +23,55 @@ div .search-charges {
 }
 	
 #destination {
-    display: block;
-    width: 300px;
-    
-    margin: 0 auto;
-    margin-bottom: 1px;
-    
-    font-size: 1.6em;
-    
-    padding-right:20px;
-    
-    background-color:transparent;
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
+  display: block;
+  width: 300px;
+  
+  margin: 0 auto;
+  margin-bottom: 1px;
+  
+  font-size: 1.6em;
+  
+  padding-right:20px;
+  
+  background-color:transparent;
+  border-top:none;
+  border-left:none;
+  border-right:none;
+  border-bottom:1px solid #000;
 }
+
 .active {
-    background-image:url('../images/loader.gif');
-    background-repeat:no-repeat;
-    background-size: auto 80%;
-    background-position: right top;
+  background-image:url('../images/loader.gif');
+  background-repeat:no-repeat;
+  background-size: auto 80%;
+  background-position: right top;
 }
 
-div .search-charges form #submit {
-    display: block;
-    clear: both;
-    width: 320px;
-    
-    margin-top:1em;
-    margin:auto;
-    padding: 0.1em;
-    
-    background-color:transparent;
-    border-top:1px solid #000;
-    border-left:none;
-    border-right:none;
-    border-bottom:1px solid #000;
+.lookup-charges form #submit {
+  display: block;
+  clear: both;
+  width: 320px;
+  
+  margin-top:1em;
+  margin:auto;
+  padding: 0.1em;
+  
+  font-size: 1.6em;
+  
+  background-color:transparent;
+  border-top:1px solid #000;
+  border-left:none;
+  border-right:none;
+  border-bottom:1px solid #000;
 }
 
-div .search-charges #charges {
+.lookup-charges #charges {
 	font-size: 1.5em;
 }
 
+/*------------------------------------*\
+  CREATE BILL FOR UNBILLED CALLS
+\*------------------------------------*/
 p {
-    text-align: center;
+  text-align: center;
 }

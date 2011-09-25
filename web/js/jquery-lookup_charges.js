@@ -1,6 +1,6 @@
 $(document).ready(function()
 {
-  $('.search-charges input[type="submit"]').hide();
+  $('.lookup-charges input[type="submit"]').hide();
  
   // Reload charges for every new character typed
   $('#destination').keyup(function(key)

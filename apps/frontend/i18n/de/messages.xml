@@ -680,7 +680,7 @@
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.continue.include_already_debited</source>
-        <target>schon abgebuchte Rechnungen an diesem Abend einschließen</target>
+        <target>schon abgebuchte Rechnungen einschließen</target>
       </trans-unit>
       <trans-unit id="99">
         <source>task.bills.continue.choose_date.submit</source>
