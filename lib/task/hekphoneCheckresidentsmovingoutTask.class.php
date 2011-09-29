@@ -100,7 +100,7 @@ EOF;
                     $logger->notice("Locked analog phone in room " . $resident['Rooms'] . " via phone-access.");
                 } else {
                     $lockSuccessful[$resident->get('id')] = false;
-                    $logger->error("Locking analog phone in room " . $resident['Rooms'] . " via phone-access failed.");
+                    $logger->err("Locking analog phone in room " . $resident['Rooms'] . " via phone-access failed.");
                 }
 
                 print_r($phoneAccessOutput);

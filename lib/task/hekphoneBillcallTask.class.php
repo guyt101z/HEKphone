@@ -60,7 +60,7 @@ EOF;
                 ->where('uniqueid = ?', $options['uniqueid'])
                 ->fetchOne();
         if ( ! $cdr) {
-            $logger->error("[uniqueid='" . $options['uniqueid'] . "'] Could not bill call. Cdr not present in asterisk_cdr.");
+            $logger->err("[uniqueid='" . $options['uniqueid'] . "'] Could not bill call. Cdr not present in asterisk_cdr.");
             die;
         }
     } elseif(isset($options['uniqueid'])
@@ -102,7 +102,7 @@ EOF;
     }
     catch (Exception $e)
     {
-      $logger->error("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
+      $logger->err("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
       throw new sfCommandException("[uniqueid='{$cdr->uniqueid}'] " . $e->getMessage());
     }
 

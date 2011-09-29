@@ -80,7 +80,7 @@ EOF;
         } else {
             $roomId = $roomTable->findOneByRoom_no($sourceResident->room_no)->id;
             if ( ! $roomId ) {
-                $logger->error("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.");
+                $logger->err("Syncing user id={$sourceResident->id}, name='{$sourceResident->first_name} {$sourceResident->last_name}' failed: Room not found!.");
                 $failedPartly = true;
                 $roomId = NULL;
             }

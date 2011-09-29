@@ -45,7 +45,7 @@ EOF;
         foreach($residentsMovingInToday as $resident){
             // Get the phone if there's any
             if ( $resident['Rooms']->phone == NULL ) {
-                $logger->error("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
+                $logger->err("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
 
                 continue;
             } else {
@@ -60,7 +60,7 @@ EOF;
 
                     $logger->notice("Prepared phone for resident " . $resident);
                 } catch (Exception $e) {
-                    $logger->error("Preparing the phone of resident " . $resident . " failed: " . $e->getMessage());
+                    $logger->err("Preparing the phone of resident " . $resident . " failed: " . $e->getMessage());
                 }
             }
         }
