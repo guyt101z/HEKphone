@@ -26,6 +26,23 @@ postgresql database to use password authentication.
 You also have to define some basic information about you as provider. This is 
 done by editing *config/ProjectConfiguration.class.php*. 
 
+### Install dependencies
+The application relies on a few plugins to symfony and third party libarys.
+you will have to fetch the dependencies by executing
+  
+    git submodule init
+    git submodule update
+
+while being in the symfony project root folder.
+
+To install Payment DTA (used to create invoice messages) use pear
+
+    sudo aptitude install php-pear
+    sudo pear install Payment_DTA
+
+(You'll find more information on: http://pear.php.net/package/Payment_DTA )
+
+
 ### Setting up the database
 
 Once you've cloned the code to your machine, you have to create the neccesary
