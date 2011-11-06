@@ -42,6 +42,10 @@ To install Payment DTA (used to create invoice messages) use pear
 
 (You'll find more information on: http://pear.php.net/package/Payment_DTA )
 
+The BAV lib (http://bav.malkusch.de/de/ ) and configuring the telephones both
+need curl to work properly 
+    
+    sudo aptitude install php5-curl
 
 ### Setting up the database
 
@@ -58,8 +62,8 @@ in the database which could lead to inconsistencies. Create the view by piping
 *config/postgres0***.sql* to your database. You can do this with the following
 commands:
 
-    psql databasename username -f postgres01-typecast-bool-context.sql
-    psql databasename username -f postgres02-asterisk_sip-view.sql
+    psql databasename username -f config/postgres01-typecast-bool-context.sql
+    psql databasename username -f config/postgres02-asterisk_sip-view.sql
 
 You can find more information on this relation in the schema file mentioned 
 above.
