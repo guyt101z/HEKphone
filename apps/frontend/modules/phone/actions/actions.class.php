@@ -83,11 +83,17 @@ class phoneActions extends sfActions
 
     $this->forward404Unless($phone = Doctrine_Core::getTable('Phones')->find(array($request->getParameter('id'))), sprintf('Object phone does not exist (%s).', $request->getParameter('id')));
 
-    if($phone->uploadConfiguration($request->getParameter('overwritePersonalSettings', false), $request->getParameter('initialConfiguration',false))) {
+
+    $overwritePersonalSettings     = $request->getParameter('overwritePersonalSettings', false);
+    $createNewWebInterfacePassword = $request->getParameter('initialConfiguration',false);
+   
+    if($phone->resetConfiguration($overwritePersonalSettings, $createNewWebInterfacePassword)) {
         $this->getUser()->setFlash('notice', "phone.edit.reset.successful");
     }
 
     $this->form = new PhonesForm();
+
+die.
 
     $this->redirect('phone/edit?id=' . $request->getParameter('id'));
   }

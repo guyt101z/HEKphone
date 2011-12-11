@@ -19,34 +19,37 @@ Doctrine_Manager::getInstance()->bindComponent('Phones', 'hekphone');
  * @property string $fullcontact
  * @property string $useragent
  * @property string $lastms
+ * @property string $web_interface_password
  * @property Doctrine_Collection $Rooms
  * 
- * @method integer             getId()          Returns the current record's "id" value
- * @method enum                getTechnology()  Returns the current record's "technology" value
- * @method enum                getType()        Returns the current record's "type" value
- * @method string              getHost()        Returns the current record's "host" value
- * @method string              getMac()         Returns the current record's "mac" value
- * @method string              getRegserver()   Returns the current record's "regserver" value
- * @method string              getRegseconds()  Returns the current record's "regseconds" value
- * @method string              getIpaddr()      Returns the current record's "ipaddr" value
- * @method string              getPort()        Returns the current record's "port" value
- * @method string              getFullcontact() Returns the current record's "fullcontact" value
- * @method string              getUseragent()   Returns the current record's "useragent" value
- * @method string              getLastms()      Returns the current record's "lastms" value
- * @method Doctrine_Collection getRooms()       Returns the current record's "Rooms" collection
- * @method Phones              setId()          Sets the current record's "id" value
- * @method Phones              setTechnology()  Sets the current record's "technology" value
- * @method Phones              setType()        Sets the current record's "type" value
- * @method Phones              setHost()        Sets the current record's "host" value
- * @method Phones              setMac()         Sets the current record's "mac" value
- * @method Phones              setRegserver()   Sets the current record's "regserver" value
- * @method Phones              setRegseconds()  Sets the current record's "regseconds" value
- * @method Phones              setIpaddr()      Sets the current record's "ipaddr" value
- * @method Phones              setPort()        Sets the current record's "port" value
- * @method Phones              setFullcontact() Sets the current record's "fullcontact" value
- * @method Phones              setUseragent()   Sets the current record's "useragent" value
- * @method Phones              setLastms()      Sets the current record's "lastms" value
- * @method Phones              setRooms()       Sets the current record's "Rooms" collection
+ * @method integer             getId()                     Returns the current record's "id" value
+ * @method enum                getTechnology()             Returns the current record's "technology" value
+ * @method enum                getType()                   Returns the current record's "type" value
+ * @method string              getHost()                   Returns the current record's "host" value
+ * @method string              getMac()                    Returns the current record's "mac" value
+ * @method string              getRegserver()              Returns the current record's "regserver" value
+ * @method string              getRegseconds()             Returns the current record's "regseconds" value
+ * @method string              getIpaddr()                 Returns the current record's "ipaddr" value
+ * @method string              getPort()                   Returns the current record's "port" value
+ * @method string              getFullcontact()            Returns the current record's "fullcontact" value
+ * @method string              getUseragent()              Returns the current record's "useragent" value
+ * @method string              getLastms()                 Returns the current record's "lastms" value
+ * @method string              getWebInterfacePassword()   Returns the current record's "web_interface_password" value
+ * @method Doctrine_Collection getRooms()                  Returns the current record's "Rooms" collection
+ * @method Phones              setId()                     Sets the current record's "id" value
+ * @method Phones              setTechnology()             Sets the current record's "technology" value
+ * @method Phones              setType()                   Sets the current record's "type" value
+ * @method Phones              setHost()                   Sets the current record's "host" value
+ * @method Phones              setMac()                    Sets the current record's "mac" value
+ * @method Phones              setRegserver()              Sets the current record's "regserver" value
+ * @method Phones              setRegseconds()             Sets the current record's "regseconds" value
+ * @method Phones              setIpaddr()                 Sets the current record's "ipaddr" value
+ * @method Phones              setPort()                   Sets the current record's "port" value
+ * @method Phones              setFullcontact()            Sets the current record's "fullcontact" value
+ * @method Phones              setUseragent()              Sets the current record's "useragent" value
+ * @method Phones              setLastms()                 Sets the current record's "lastms" value
+ * @method Phones              setWebInterfacePassword()   Sets the current record's "web_interface_password" value
+ * @method Phones              setRooms()                  Sets the current record's "Rooms" collection
  * 
  * @package    hekphone
  * @subpackage model
@@ -135,6 +138,12 @@ abstract class BasePhones extends sfDoctrineRecord
              'type' => 'string',
              'default' => '',
              'length' => 11,
+             ));
+        $this->hasColumn('web_interface_password', 'string', 8, array(
+             'type' => 'string',
+             'default' => 'admin',
+             'notnull' => true,
+             'length' => 8,
              ));
     }
 

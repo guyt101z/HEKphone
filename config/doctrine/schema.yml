@@ -351,6 +351,10 @@ Phones:
     lastms:       # updated by asterisk every time asterisk qualifys the phone
       type: string(11)
       default: ''
+    web_interface_password:
+      type: string(8)
+      default: 'admin'
+      notnull: true
 
 # ===
 # Actual HEKPhone Tables 

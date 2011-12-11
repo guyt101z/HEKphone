@@ -13,31 +13,33 @@ abstract class BasePhonesFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'technology'  => new sfWidgetFormChoice(array('choices' => array('' => '', 'SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
-      'type'        => new sfWidgetFormChoice(array('choices' => array('' => '', 'user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
-      'host'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'mac'         => new sfWidgetFormFilterInput(),
-      'regserver'   => new sfWidgetFormFilterInput(),
-      'regseconds'  => new sfWidgetFormFilterInput(),
-      'ipaddr'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'port'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'fullcontact' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'useragent'   => new sfWidgetFormFilterInput(),
-      'lastms'      => new sfWidgetFormFilterInput(),
+      'technology'             => new sfWidgetFormChoice(array('choices' => array('' => '', 'SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
+      'type'                   => new sfWidgetFormChoice(array('choices' => array('' => '', 'user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
+      'host'                   => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'mac'                    => new sfWidgetFormFilterInput(),
+      'regserver'              => new sfWidgetFormFilterInput(),
+      'regseconds'             => new sfWidgetFormFilterInput(),
+      'ipaddr'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'port'                   => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'fullcontact'            => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'useragent'              => new sfWidgetFormFilterInput(),
+      'lastms'                 => new sfWidgetFormFilterInput(),
+      'web_interface_password' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
-      'technology'  => new sfValidatorChoice(array('required' => false, 'choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
-      'type'        => new sfValidatorChoice(array('required' => false, 'choices' => array('user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
-      'host'        => new sfValidatorPass(array('required' => false)),
-      'mac'         => new sfValidatorPass(array('required' => false)),
-      'regserver'   => new sfValidatorPass(array('required' => false)),
-      'regseconds'  => new sfValidatorPass(array('required' => false)),
-      'ipaddr'      => new sfValidatorPass(array('required' => false)),
-      'port'        => new sfValidatorPass(array('required' => false)),
-      'fullcontact' => new sfValidatorPass(array('required' => false)),
-      'useragent'   => new sfValidatorPass(array('required' => false)),
-      'lastms'      => new sfValidatorPass(array('required' => false)),
+      'technology'             => new sfValidatorChoice(array('required' => false, 'choices' => array('SIP' => 'SIP', 'DAHDI/g1' => 'DAHDI/g1', 'DAHDI/g3' => 'DAHDI/g3'))),
+      'type'                   => new sfValidatorChoice(array('required' => false, 'choices' => array('user' => 'user', 'peer' => 'peer', 'friend' => 'friend'))),
+      'host'                   => new sfValidatorPass(array('required' => false)),
+      'mac'                    => new sfValidatorPass(array('required' => false)),
+      'regserver'              => new sfValidatorPass(array('required' => false)),
+      'regseconds'             => new sfValidatorPass(array('required' => false)),
+      'ipaddr'                 => new sfValidatorPass(array('required' => false)),
+      'port'                   => new sfValidatorPass(array('required' => false)),
+      'fullcontact'            => new sfValidatorPass(array('required' => false)),
+      'useragent'              => new sfValidatorPass(array('required' => false)),
+      'lastms'                 => new sfValidatorPass(array('required' => false)),
+      'web_interface_password' => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('phones_filters[%s]');
@@ -57,18 +59,19 @@ abstract class BasePhonesFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'          => 'Number',
-      'technology'  => 'Enum',
-      'type'        => 'Enum',
-      'host'        => 'Text',
-      'mac'         => 'Text',
-      'regserver'   => 'Text',
-      'regseconds'  => 'Text',
-      'ipaddr'      => 'Text',
-      'port'        => 'Text',
-      'fullcontact' => 'Text',
-      'useragent'   => 'Text',
-      'lastms'      => 'Text',
+      'id'                     => 'Number',
+      'technology'             => 'Enum',
+      'type'                   => 'Enum',
+      'host'                   => 'Text',
+      'mac'                    => 'Text',
+      'regserver'              => 'Text',
+      'regseconds'             => 'Text',
+      'ipaddr'                 => 'Text',
+      'port'                   => 'Text',
+      'fullcontact'            => 'Text',
+      'useragent'              => 'Text',
+      'lastms'                 => 'Text',
+      'web_interface_password' => 'Text',
     );
   }
 }

@@ -280,7 +280,7 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-      /* if a resident is living in the room of the phone use the appropriate
+     /* if a resident is living in the room of the phone use the appropriate
        * details: name, room_no as display name and the first 7 characters of
        * the residents password hash as sip password
        */
@@ -301,7 +301,7 @@ class Phones extends BasePhones
           'sip1User' => $this->getDefaultuser(),
           'sip1Pwd' => $sip1Pwd,
           'overridePersonalSettings' => $overridePersonalSettings,
-          'frontendPassword' => sfConfig::get("sipPhoneFrontendPwd")));
+          'frontendPassword' => $this->getWebInterfacePassword()));
 
       $folder     = sfConfig::get("sf_data_dir") . DIRECTORY_SEPARATOR . "phoneConfigs" . DIRECTORY_SEPARATOR;
       $filepath   = $folder . $this->getName() . "-config.txt";
@@ -315,34 +315,58 @@ class Phones extends BasePhones
 	}
 
   /**
+   * Reset configuration of phone
+   * @param bool $overwritePersonalSettings Wheter to overwrite the phone book, short dial, ...
+   * @param bool $createNewWebInterfacePassword True if web interface password should be changed
+   */
+  public function resetConfiguration($overwritePersonalSettings, $createNewWebInterfacePassword) {
+    $password = $this->getWebInterfacePassword();
+    $username = 'admin';
+
+    if ($createNewWebInterfacePassword)
+    {
+        $this->setNewWebInterfacePassword();
+    }
+
+    $this->uploadConfiguration($overwritePersonalSettings, $username, $password)
+
+    return $this->save();
+  }
+
+  /**
+   * Generate and set new password for phone web interface
+   */
+  private function setNewWebInterfacePassword() {
+     
+    $token = 'abcdefghjkmnpqrstuvz123456789';
+
+    $password = '';
+    for ($i = 0; $i < 7; $i++)
+    {
+        $password .= $token[(rand() % strlen($token))];
+    }
+
+    return $this->setWebInterfacePassword($password);   
+  }
+
+  /**
    * Generate and upload a configuration to the phone at $this->defaultip
    * via HTTP.
    *
    *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
    */
-  public function uploadConfiguration($overwritePersonalSettings = false, $initialConfiguration = false) {
+  private function uploadConfiguration($overwritePersonalSettings = false, $username, $password) {
       if($this['technology'] != 'SIP')
       {
-        return false;
+        throw new Exception("Can't upload configuration to analog Phone");
       }
 
       /* Authenticate with the phone */
-      if ($initialConfiguration)
-      {
-        $password = 'admin';
-        $username = 'admin';
-      }
-      else
-      {
-        $password = sfconfig::get("sipPhoneFrontendPwd");
-        $username = 'admin';
-      }
-
       $authCookie = $this->curlInit();
       $authCookie = $this->curlLogIn($authCookie, $username, $password);
 
       /* Generate configuration file and get the path */
-      $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings);
+      $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings, $initialConfiguration);
 
       /* Upload the configuration */
       $ch = curl_init();
