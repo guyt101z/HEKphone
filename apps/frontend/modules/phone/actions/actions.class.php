@@ -93,8 +93,6 @@ class phoneActions extends sfActions
 
     $this->form = new PhonesForm();
 
-die.
-
     $this->redirect('phone/edit?id=' . $request->getParameter('id'));
   }
 
