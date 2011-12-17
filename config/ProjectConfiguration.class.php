@@ -24,7 +24,6 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     sfConfig::set('hekphoneFromEmailAdress', 'telefon@hek.uni-karlsruhe.de');
 
-    sfConfig::set('sipPhoneFrontendPwd', 'hekphone');
     // As soon as a residents current bill amount comes closer to the bill limit (default: 75)
     // two warnings are sent via email. The first, when the bill amount reaches "billLimitFirstThreshold" [0..1]
     // of the limit. The second, when it reached "billLimitSecondThreshold".
