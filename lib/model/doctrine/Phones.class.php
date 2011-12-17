@@ -328,9 +328,10 @@ class Phones extends BasePhones
         $this->setNewWebInterfacePassword();
     }
 
-    $this->uploadConfiguration($overwritePersonalSettings, $username, $password)
-
-    return $this->save();
+    $this->uploadConfiguration($overwritePersonalSettings, $username, $password);
+    $this->save();
+    
+    return true;
   }
 
   /**

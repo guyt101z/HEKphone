@@ -352,7 +352,7 @@ Phones:
       type: string(11)
       default: ''
     web_interface_password:
-      type: string(8)
+      type: string(11)
       default: 'admin'
       notnull: true
 
