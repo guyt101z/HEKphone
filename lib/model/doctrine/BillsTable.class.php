@@ -86,7 +86,7 @@ class BillsTable extends Doctrine_Table
      */
     public function deleteOldBills()
     {
-        $this->createQuery()
+        return $this->createQuery()
             ->delete()
             ->where('date <= ?', date('Y-m-d',strtotime('-' . sfConfig::get('monthsToKeepBillsFor') . ' months')))
             ->execute();
