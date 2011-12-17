@@ -105,7 +105,7 @@ class residentActions extends sfActions
         $password = $this->resident->resetPassword();
         $this->resident->save();
 
-        $this->resident->Rooms->Phones->uploadConfiguration(false, false);
+        $this->resident->Rooms->Phones->resetConfiguration(false, false);
         sleep(3); // wait until the phone shuts down so it doesn't accidentally
                   // registers with the old username again
         $this->resident->Rooms->Phones->pruneAsteriskPeer();
@@ -165,7 +165,7 @@ class residentActions extends sfActions
 
     $this->getMailer()->send($message);
 
-    $resident->Rooms->Phones->uploadConfiguration(false, false);
+    $resident->Rooms->Phones->resetConfiguration(false, false);
     $resident->Rooms->Phones->pruneAsteriskPeer();
 
     $this->getUser()->setFlash('notice', 'resident.resetPassword.successful');
