@@ -328,6 +328,7 @@ class Phones extends BasePhones
     }
 
     $this->uploadConfiguration($overwritePersonalSettings, $username, $password);
+    $this->pruneAsteriskPeer();
     $this->save();
   }
 
