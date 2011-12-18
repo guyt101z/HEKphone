@@ -800,16 +800,12 @@
       </trans-unit>
       <trans-unit id="12">
         <source>phone.edit.reset.keepPersonalSettings</source>
-        <target>Telefonkonfiguration zurücksetzen (Persönliche Einstellungen behalten)</target>
+        <target>Telefonkonfiguration zurücksetzen und persönliche Einstellungen behalten</target>
       </trans-unit>
       <trans-unit id="12">
         <source>phone.edit.reset.overwritePersonalSettings</source>
-        <target>Telefonkonfiguration komplett zurücksetzen</target>
+        <target>Telefonkonfiguration komplett zurücksetzen oder neues Telefon konfigurieren</target>
       </trans-unit>
-      <trans-unit id="12">
-        <source>phone.edit.reset.initialConfiguration</source>
-        <target>Neues Telefon konfigurieren</target>
-      </trans-unit>      
       <trans-unit id="12">
         <source>phone.edit.reset.warning.initial_configuration</source>
         <target>Das Telefon wird neugestartet und alle persönlichen Einstellungen wie Telefonbuch, Kurzwahl,... gehen verloren. Zum Verbinden wird das Standardpasswort des Telefons verwendet. Fortsetzen?</target>
