@@ -320,12 +320,14 @@ class Phones extends BasePhones
    * @param bool $createNewWebInterfacePassword True if web interface password should be changed
    */
   public function resetConfiguration($overwritePersonalSettings, $createNewWebInterfacePassword = false) {
+    $password = $this->getWebInterfacePassword();
+    $username = 'admin';
     if ($createNewWebInterfacePassword || $this->getWebInterfacePassword() == 'admin')
     {
         $this->setNewWebInterfacePassword();
     }
 
-    $this->uploadConfiguration($overwritePersonalSettings, 'admin', $this->getWebInterfacePassword());
+    $this->uploadConfiguration($overwritePersonalSettings, $username, $password);
     $this->save();
   }
 
