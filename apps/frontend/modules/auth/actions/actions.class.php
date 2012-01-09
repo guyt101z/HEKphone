@@ -18,65 +18,78 @@ class authActions extends sfActions
    */
   public function executeIndex(sfWebRequest $request)
   {
+    /* greet the user in his mother tongue */
+    $preferedCulture = $request->getPreferredCulture(array('de','en'));
     if( ! $this->getUser()->isAuthenticated())
     {
-      $this->getUser()->setCulture($request->getPreferredCulture(array('de','en')));
+      $this->getUser()->setCulture($preferedCulture);
     }
 
     $this->form = new LoginForm();
-
+    
     if($request->isMethod('post'))
     {
-      $this->form->bind($request->getParameter($this->form->getName()));
-      if ($this->form->isValid())
+      $resident = $this->authenticate($request, $this->form);
+      if( !($resident instanceof Residents)) {
+        $this->getUser()->setFlash('error', 'auth.login.failed');
+        $this->redirect('auth/index');
+      }
+      else 
       {
-        $residentsTable = Doctrine_Core::getTable('Residents');
-        try
-        {
-          $resident = $residentsTable->findByRoomNo($this->form->getValue('roomNo'));
-        } catch(Exception $e) {
-          $this->getUser()->setFlash('error', 'auth.login.failed');
-          $this->redirect('auth/index');
+        /* respect the users choice of language (UNIMPLEMENTED see settings form!) */
+        if($resident->getCulture()) {
+          $this->getUser()->setCulture($resident->getCulture());
         }
-        if(null !== $resident && $resident->password === md5($this->form->getValue('password')))
-        {
-          $this->getUser()->setAuthenticated(true);
-
-          // Set basic attributes of the signed in user.
-          $this->getUser()->setAttribute("name", $resident->first_name);
-          $this->getUser()->setAttribute("id", $resident->id);
-          $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
-
-          if( ! is_null($resident->culture) && $resident->culture != '') {
-            // set the language according to what the user chose
-            $this->getUser()->setCulture($resident->culture);
-          } else {
-            // set the language according to the preferred culture of the browser
-            // and save the settings for the resident
-            $preferedCulture = $request->getPreferredCulture(array('de','en'));
-            $this->getUser()->setCulture($preferedCulture);
-            $resident->set('culture', $preferedCulture);
-            $resident->save();
-          }
-
-          if($resident->hekphone)
-          {
-            // user is a HEKPhone staff member
-            $this->getUser()->addCredential('hekphone');
-          }
-
-          $this->getUser()->setFlash('notice', 'auth.login.successful');
-          $this->redirect('calls/index');
-        }
-        else
-        {
-          $this->getUser()->setFlash('error', 'auth.login.failed');
-          $this->redirect('auth/index');
-        }
+                
+        $this->getUser()->setFlash('notice', 'auth.login.successful');
+        $this->redirect('calls/index');
       }
     }
   }
 
+  /**
+   * Authenticate a user with the details given by the params
+   *
+   * @param sfWebRequest $request
+   * @param sfForm $form
+   * @return Residents resident that is now authenticated
+   * @return NULL if authentication failed
+  */
+  private function authenticate(sfWebRequest $request, sfForm $form)
+  {
+    $form->bind($request->getParameter($this->form->getName()));
+    if ($form->isValid())
+    {
+      $residentsTable = Doctrine_Core::getTable('Residents');
+      try
+      {
+        $resident = $residentsTable->findByRoomNo($this->form->getValue('roomNo'));
+      } catch(Exception $e) {
+        return NULL;
+      }
+      
+      if(null !== $resident && $resident->getPassword() === md5($this->form->getValue('password')))
+      {
+        $this->getUser()->setAuthenticated(true);
+
+        // Set basic attributes of the signed in user.
+        $this->getUser()->setAttribute("name", $resident->first_name);
+        $this->getUser()->setAttribute("id", $resident->id);
+        $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
+
+        if($resident->getHekphone())
+        {
+          // user is a HEKPhone staff member
+          $this->getUser()->addCredential('hekphone');
+        }
+        
+        return $resident;
+      }
+    }
+
+    return NULL;
+  }
+  
   public function executeLogout(sfWebRequest $request)
   {
     $this->getUser()->setAuthenticated(false);
