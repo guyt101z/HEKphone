@@ -19,7 +19,7 @@ class authActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
     /* greet the user in his mother tongue */
-    $preferedCulture = $request->getPreferredCulture(array('de','en'));
+    $preferedCulture = $request->getPreferredCulture(array('de'));
     if( ! $this->getUser()->isAuthenticated())
     {
       $this->getUser()->setCulture($preferedCulture);
