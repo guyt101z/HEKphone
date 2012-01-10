@@ -11,8 +11,7 @@
 class authActions extends sfActions
 {
   /**
-   * Executes the login-action: Checks room no/password and then sets the user as
-   * authenticated, sets user attributes ('name', 'id', 'roomNo', culture) and sets credentials
+   * Executes the login-action. Display form, process form and choose correct language
    *
    * @param sfRequest $request A request object
    */
@@ -73,8 +72,8 @@ class authActions extends sfActions
         $this->getUser()->setAuthenticated(true);
 
         // Set basic attributes of the signed in user.
-        $this->getUser()->setAttribute("name", $resident->first_name);
-        $this->getUser()->setAttribute("id", $resident->id);
+        $this->getUser()->setAttribute("name", $resident->getFirstName());
+        $this->getUser()->setAttribute("id", $resident->getId());
         $this->getUser()->setAttribute("roomNo", $resident['Rooms']['room_no']);
 
         if($resident->getHekphone())
