@@ -9,7 +9,7 @@ echo str_pad('Zimmer', 8)
 //table body
 foreach($residentsMovingOut as $resident) {
     echo str_pad($resident->Rooms, 8)
-         . str_pad($resident->first_name . " " . $resident->last_name, 26)
+         . str_pad($resident->first_name . " " . $resident->last_name, 26);
          
     if(isset($lockSuccessful[$resident->getId()])) {
         if($lockSuccessful[$resident->getId()] == true) {
