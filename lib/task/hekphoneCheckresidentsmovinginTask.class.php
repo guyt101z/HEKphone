@@ -44,7 +44,7 @@ EOF;
     if($options["prepare-phone"]){
         foreach($residentsMovingInToday as $resident){
             // Get the phone if there's any
-            if ( $resident['Rooms']->phone == NULL ) {
+            if ( ! $resident['Rooms']->relatedExists('Phones')) {
                 $logger->err("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
 
                 continue;
@@ -55,7 +55,7 @@ EOF;
             // Reset phone and thereby transfer the users information to the phone
             if($phone->get('technology') == 'SIP') {
                 try {
-                    $phone->uploadConfiguration(true);
+                    $phone->resetConfiguration(true);
                     $phone->pruneAsteriskPeer();
 
                     $logger->notice("Prepared phone for resident " . $resident);
