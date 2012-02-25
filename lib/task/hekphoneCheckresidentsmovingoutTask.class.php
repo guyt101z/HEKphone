@@ -150,9 +150,7 @@ EOF;
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-//            ->setTo(sfConfig::get('hekphoneFromEmailAdress'))
-            ->setTo('hannes.maier-flaig@student.kit.edu')
-  //          ->setTo('soerenpottberg@web.de')
+            ->setTo(sfConfig::get('hekphoneFromEmailAdress'))
             ->setSubject('nach Auszug gesperrt')
             ->setBody($messageBody);
         sfContext::getInstance()->getMailer()->send($message);
