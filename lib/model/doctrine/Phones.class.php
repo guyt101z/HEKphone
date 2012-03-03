@@ -271,6 +271,23 @@ class Phones extends BasePhones
 
       return $dialstring;
   }
+
+   /**
+    * if a resident is living in the room of the phone use the appropriate
+    * details: name, room_no as display name and the first 7 characters of
+    * the residents password hash as sip password
+    * @return Sip password
+    */
+  private function getSipPassword() {
+    
+      if(!$this->getResident() || '' == $this->getResident()->get('password')){
+          return 'hekphone';
+      }
+      return substr($this->getResident()->getPassword(), 0 ,7);
+
+  }
+
+
   /**
    * Create and save a configuration file for the phone that can be uploaded and be
    * used to reset a tiptel 83 VoIP phone.
@@ -280,26 +297,12 @@ class Phones extends BasePhones
    */
   public function createPhoneConfigFile($overridePersonalSettings = false)
   {
-     /* if a resident is living in the room of the phone use the appropriate
-       * details: name, room_no as display name and the first 7 characters of
-       * the residents password hash as sip password
-       */
-      if($this->getResident()){
-          if($this->getResident()->get('password') != '') {
-              $sip1Pwd = substr($this->getResident()->getPassword(), 0 ,7);
-          } else {
-              $sip1Pwd = 'hekphone';
-          }
-      } else {
-          $sip1Pwd = 'hekphone';
-      }
-
       sfProjectConfiguration::getActive()->loadHelpers("Partial");
       $configFileContent = get_partial('global/tiptel83PhoneConfiguration', array('ip' => $this['defaultip'],
           'sip1PhoneNumber' => $this->getName(),
           'sip1DisplayName' => $this->getCallerid(),
           'sip1User' => $this->getDefaultuser(),
-          'sip1Pwd' => $sip1Pwd,
+          'sip1Pwd' => $this->getSipPassword(),
           'overridePersonalSettings' => $overridePersonalSettings,
           'frontendPassword' => $this->getWebInterfacePassword()));
 
@@ -328,7 +331,7 @@ class Phones extends BasePhones
         $this->setNewWebInterfacePassword();
     }
 
-    $this->uploadConfiguration($overwritePersonalSettings, $username, $password)
+    $this->uploadConfiguration($overwritePersonalSettings, $username, $password);
 
     return $this->save();
   }
@@ -349,6 +352,13 @@ class Phones extends BasePhones
     return $this->setWebInterfacePassword($password);   
   }
 
+  private function getManufacturerSpecificPartOfMac() {
+    if('' === $this->getMac()) {
+      return Null; 
+    }
+    return strToUpper(substr($this->getMac(), 0, 8)); // "12:45:78:##:##:##" -> "12:45:78"
+  }
+
   /**
    * Generate and upload a configuration to the phone at $this->defaultip
    * via HTTP.
@@ -360,6 +370,154 @@ class Phones extends BasePhones
       {
         throw new Exception("Can't upload configuration to analog Phone");
       }
+    
+      switch($this->getManufacturerSpecificPartOfMac()) {
+        case sfConfig::get('tiptelMac');
+          return $this->uploadConfigurationToTiptelPhone($overwritePersonalSettings, $username, $password) ;
+        case sfConfig::get('grandstreamMac');
+          return $this->uploadConfigurationToGrandstreamPhone($overwritePersonalSettings, $password) ;
+        default:
+          throw new Exception("Can't upload configuration to unsupported phone according to its MAC-address.");
+      }
+  }
+
+  /**
+   * Generate and upload a configuration to the phone from grandstrem at $this->defaultip
+   * via HTTP.
+   *
+   *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
+   */
+  private function uploadConfigurationToGrandstreamPhone($overwritePersonalSettings = false, $password) {
+  
+      /* Authenticate with the phone */
+      $authCookie = $this->authenticateToGrandstreamPhone($password);
+
+      /* Set Configuration */
+      $this->updateSipAccountOfGrandstreamPhone($authCookie);
+
+      /* Restart phone */
+      $this->restartGrandstreamPhone($authCookie);
+
+      return true;
+
+  }
+
+  /**
+   * Logs in as admin into the phone web_interface from grandstrem at $this->defaultip
+   * via HTTP.
+   *
+   *  @param $password web interface password for the login
+   *  @return auth cookie
+   */
+  private function authenticateToGrandstreamPhone($password) {
+  
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive');
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, 'http://' . $this->defaultip . '/dologin.htm');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P2=' . $password . '&Login=Login&gnkey=0b82');
+
+      $loginResult = curl_exec($ch);
+      $statusCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+      
+      // 200 OK
+      if(200 !== $statusCode) {
+        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+      }
+
+      //get the cookie and use new headers from now on
+      preg_match('/^Set-Cookie: (.*?); Version=1; Path=\//m', $loginResult, $m);
+      $authCookie = $m[1];
+     
+      return $authCookie;
+
+  }
+
+
+  /**
+   * Restarts the phone if it is from grandstream at $this->defaultip
+   * via HTTP.
+   *
+   *  @param $authCookie
+   */
+  private function restartGrandstreamPhone($authCookie) {
+  
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive',
+          'Cookie: auth=' . $authCookie);
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip.'/rs.htm'); // rs = restart
+      curl_setopt($ch,CURLOPT_TIMEOUT, 10);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // output to string
+      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+
+      $Result     = curl_exec($ch);
+      $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+      
+      // 200 OK
+      if(200 !== $statusCode) {
+        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+      }
+
+  }
+
+  /**
+   * Update the sip account via the web_interface of the grandstrem phone at $this->defaultip
+   * via HTTP.
+   *
+   *  @param $authCookie
+   */
+  private function updateSipAccountOfGrandstreamPhone($authCookie) {
+  
+      $httpHeaders = array(
+          'Keep-Alive: 115',
+          'Connection: keep-alive',
+          'Cookie: auth=' . $authCookie);
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+      curl_setopt($ch, CURLOPT_URL, 'http://' . $this->defaultip . '/update.htm');
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+
+/* 'sip1PhoneNumber' => $this->getName(),
+          'sip1DisplayName' => $this->getCallerid(),
+          'sip1User' => $this->getDefaultuser(),
+          'sip1Pwd' => $this->getSipPassword(),
+          'overridePersonalSettings' => $overridePersonalSettings,
+          'frontendPassword' => $this->getWebInterfacePassword())); */
+
+      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P271=1&P270=HEKphoneTest&P47=192.168.255.254&P48=&P35=' . $this->getDefaultuser() .'&P36=' . $this->getDefaultuser() .'&P34&P3=&P103=0&P63=0&P31=1&P81=0&P288=0&P32=60&P40=5060&P138=20&P209&P250&P130=1&P131=0&P52=1&P99=0&P1346=0&P136=0&P188=0&P197=&P33=&P73=8&P29=0&P66=&P1347=**&P139=20&P191=1&P182=0&P260=180&P261=90&P262=0&P263=0&P264=0&P266=0&P267=1&P265=0&P272=0&P104=3&P1328=60&P65=0&P268=0&P129=0&P90=0&P298=0&P299=0&P258=0&P135=0&P137=0&P57=0&P58=8&P59=4&P60=18&P61=2&P62=98&P46=9&P98=3&P183=0&P134=&P198=100&update=Update&gnkey=0b82');
+
+      curl_exec($ch);
+      $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+      
+      // 200 OK
+      if(200 !== $statusCode) {
+        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+      }
+
+  }
+      
+      
+  /**
+   * Generate and upload a configuration to the phone from tiptel at $this->defaultip
+   * via HTTP.
+   *
+   *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
+   */
+  private function uploadConfigurationToTiptelPhone($overwritePersonalSettings = false, $username, $password) {
 
       /* Authenticate with the phone */
       $authCookie = $this->curlInit();

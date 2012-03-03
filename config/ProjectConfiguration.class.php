@@ -61,6 +61,10 @@ class ProjectConfiguration extends sfProjectConfiguration
     sfConfig::set('monthsToKeepCdrsFor',  3);
     sfConfig::set('monthsToKeepBillsFor', 6);
 
+    // phone manufacturer specific part of MAC-address
+    sfConfig::set('tiptelMac',  '00:12:F7');
+    sfConfig::set('grandstreamMac', '00:0B:82');
+
     // Ugly workaround for bug DC-740:
     // http://www.doctrine-project.org/jira/browse/DC-740
     // took half a day to figure this out...
