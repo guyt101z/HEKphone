@@ -19,7 +19,7 @@ class CallsTable extends Doctrine_Table
 
     public function deleteOldCalls()
     {
-        $this->createQuery()
+        return $this->createQuery()
             ->delete()
             ->where('date <= ?', date('Y-m-d',strtotime('-' . sfConfig::get('monthsToKeepCdrsFor') . ' months')))
             ->execute();

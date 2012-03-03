@@ -35,12 +35,14 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
+    /* Prepare logging to custom file */
     $logger = new sfAggregateLogger($this->dispatcher);
     $logger->addLogger(new sfFileLogger($this->dispatcher, array('file' => $this->configuration->getRootDir() . '/log/cron-move_out.log')));
     if( ! $options['silent']) {
         $logger->addLogger(new sfCommandLogger($this->dispatcher));
     }
 
+    /* Get residents moving out */
     $residentsMovingOutTomorrow = Doctrine_Core::getTable('Residents')->findResidentsMovingOutTomorrow();
     $residentsMovingOutToday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutToday();
     $residentsMovingOutYesterday = Doctrine_Core::getTable('Residents')->findResidentsMovingOutYesterday();
@@ -67,17 +69,15 @@ EOF;
 
         foreach($residentsMovingOutYesterday as $resident)
         {
-            // Check if there's a room associated with the room
-            if ( $resident['Rooms']->phone == NULL ) {
-                $lockSuccessful[$resident->get('id')] = false;
+            if ( ! $resident['Rooms']->relatedExists('Phones')) {
+                $resetSuccessful[$resident->get('id')] = false;
 
                 $logger->notice("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
 
                 continue;
             } else {
-                $phone = Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
+                $phone = $resident['Rooms']->getPhones();
             }
-
             // Lock the analog phone in the TK8818 PBX and in the database
             // don't do anything on SIP phones (they are automatically locked with the asterisk_sip view)
             if($phone->get('technology') == 'DAHDI/g1') {
@@ -113,30 +113,30 @@ EOF;
     $resetSuccessful = array();
     if($options['reset-phone']) {
         foreach($residentsMovingOutYesterday as $resident) {
-            // get the phone if there's any
-            if ( $resident['Rooms']->phone == NULL ) {
+            if ( ! $resident['Rooms']->relatedExists('Phones')) {
                 $resetSuccessful[$resident->get('id')] = false;
 
                 $logger->notice("No phone in room of resident " . $resident->getId() . ": " . $resident . ".");
 
                 continue;
             } else {
-                $phone = Doctrine_Core::getTable('Phones')->findOneById($resident['Rooms']->phone);
+                $phone = $resident['Rooms']->getPhones();
             }
 
             // Reset phone and thereby delete the users information.
             if($phone->get('technology') == 'SIP') {
                 try {
-                    $phone->uploadConfiguration(true);
-                    $phone->pruneAsteriskPeer();
-                    $resetSuccessful[$resident->get('id')] = true;
+                    $phone->resetConfiguration(true);
+                    $resetSuccessful[$resident->getId()] = true;
 
                     $logger->info("Reset SIP phone in room " . $resident['Rooms'] . ".");
                 } catch (Exception $e) {
-                    $resetSuccessful[$resident->get('id')] = false;
+                    $resetSuccessful[$resident->getId()] = false;
 
                     $logger->warning("Resetting SIP phone in room " . $resident['Rooms'] . " failed");
                 }
+                $phone->pruneAsteriskPeer(); // ensure that the asterisk peer is pruned so that the phone is not 
+                                             // accidentally registered with old credentials
             }
         }
     }
@@ -150,8 +150,7 @@ EOF;
 
         $message = Swift_Message::newInstance()
             ->setFrom(sfConfig::get('hekphoneFromEmailAdress'))
-            //->setTo(sfConfig::get('hekphoneFromEmailAdress'))
-            ->setTo('hannes.maier-flaig@student.kit.edu')
+            ->setTo(sfConfig::get('hekphoneFromEmailAdress'))
             ->setSubject('nach Auszug gesperrt')
             ->setBody($messageBody);
         sfContext::getInstance()->getMailer()->send($message);

@@ -432,8 +432,8 @@
         <source>resident.settings.general_help</source>
         <target>Die Email-Adresse wird für Rechnungen und für Benachrichtigungen über entgangene Anrufe verwendet.
         Wenn du dein Passwort ändern willst, trage ein neues in die entsprechenden Felder ein, ansonsten lass beide Felder leer.
-        Achtung: Wenn du dein Passwort änderst wird dein Telefon neu gestartet. Wenn du "gekürzter EVN" auswählst, 
-        werden die letzten drei Ziffern der Nummern, die du angerufen hast, durch xxx ersetzt.</target>
+        Nach dem Ändern des Passworts wird dein Telefon neu gestartet. Dabei wird die Liste der verpassten und angenommenen Anrufe geleert.
+        Wenn du "gekürzter EVN" auswählst, werden die letzten drei Ziffern der Nummern, die du angerufen hast, auf deiner Rechnung durch xxx ersetzt.</target>
       </trans-unit>
       <trans-unit id="12">
         <source>resident.settings.vm_help</source>
@@ -800,16 +800,12 @@
       </trans-unit>
       <trans-unit id="12">
         <source>phone.edit.reset.keepPersonalSettings</source>
-        <target>Telefonkonfiguration zurücksetzen (Persönliche Einstellungen behalten)</target>
+        <target>Telefonkonfiguration zurücksetzen und persönliche Einstellungen behalten</target>
       </trans-unit>
       <trans-unit id="12">
         <source>phone.edit.reset.overwritePersonalSettings</source>
-        <target>Telefonkonfiguration komplett zurücksetzen</target>
+        <target>Telefonkonfiguration komplett zurücksetzen oder neues Telefon konfigurieren</target>
       </trans-unit>
-      <trans-unit id="12">
-        <source>phone.edit.reset.initialConfiguration</source>
-        <target>Neues Telefon konfigurieren</target>
-      </trans-unit>      
       <trans-unit id="12">
         <source>phone.edit.reset.warning.initial_configuration</source>
         <target>Das Telefon wird neugestartet und alle persönlichen Einstellungen wie Telefonbuch, Kurzwahl,... gehen verloren. Zum Verbinden wird das Standardpasswort des Telefons verwendet. Fortsetzen?</target>

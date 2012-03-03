@@ -16,7 +16,7 @@ $currentCol = -1;
   </thead>
   <tbody>
   <?php foreach ($residents as $resident): ?>
-    <tr class="<?php echo (! $resident->getUnlocked()) ? 'locked' : 'unlocked' ?>">
+    <tr class="<?php echo (! $resident->getUnlocked()) ? 'locked' : 'unlocked' ?> <?php echo ($resident->getHekphone()) ? 'hekphone-member' : NULL ?>">
       <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $resident->getMoveIn() ?></a></td>
       <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $resident->getLastName() ?></a></td>
       <td><a href="<?php echo url_for('@resident_edit?residentid='.$resident->getId()) ?>"><?php echo $resident->getFirstName() ?></a></td>

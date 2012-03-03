@@ -157,9 +157,6 @@ class AsteriskCdr extends BaseAsteriskCdr
          } elseif ( substr($destination,0,1) == '*') {
              // free call using  *721
              $destination = '0049' . substr($destination,1);
-         } elseif ( substr($destination,0,2) == '60') {
-             // voip-call. strip the "60"
-             $destination = '0049' . substr($destination,1);
          } elseif ( substr($destination,0,1) > 0 ) {
              // local call without any prefix
              $destination = '0049721' . $destination;

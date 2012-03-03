@@ -30,10 +30,10 @@ EOF;
         $logger->addLogger(new sfCommandLogger($this->dispatcher));
     }
 
-    Doctrine_Core::getTable('Calls')->deleteOldCalls();
-    Doctrine_Core::getTable('AsteriskCdr')->deleteOldCdrs();
-    Doctrine_Core::getTable('Bills')->deleteOldBills();
-
-    $logger->notice('Cleared old calls, cdrs and bills.');
+    $numCalls = Doctrine_Core::getTable('Calls')->deleteOldCalls();
+    $numCdrs  = Doctrine_Core::getTable('AsteriskCdr')->deleteOldCdrs();
+    $numBills = Doctrine_Core::getTable('Bills')->deleteOldBills();
+    
+    $logger->notice('Cleared old calls (' . $numCalls .'), cdrs (' . $numAsteriskCdr .') and bills (' . $numBills .').');
   }
 }

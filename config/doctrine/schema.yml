@@ -352,7 +352,7 @@ Phones:
       type: string(11)
       default: ''
     web_interface_password:
-      type: string(8)
+      type: string(11)
       default: 'admin'
       notnull: true
 
@@ -429,13 +429,12 @@ Residents:
       type: int(3)
     account_number: string(10)
     bank_number: integer
-    password: string(255)locality: string(80)
+    password: string(255)
     hekphone: 
       type: boolean
       default: false
     culture:
       type: string(5)
-      default: 'de'
   relations:
     Rooms:
       local: room

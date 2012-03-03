@@ -322,18 +322,17 @@ class Phones extends BasePhones
    * @param bool $overwritePersonalSettings Wheter to overwrite the phone book, short dial, ...
    * @param bool $createNewWebInterfacePassword True if web interface password should be changed
    */
-  public function resetConfiguration($overwritePersonalSettings, $createNewWebInterfacePassword) {
+  public function resetConfiguration($overwritePersonalSettings, $createNewWebInterfacePassword = false) {
     $password = $this->getWebInterfacePassword();
     $username = 'admin';
-
-    if ($createNewWebInterfacePassword)
+    if ($createNewWebInterfacePassword || $this->getWebInterfacePassword() == 'admin')
     {
         $this->setNewWebInterfacePassword();
     }
 
     $this->uploadConfiguration($overwritePersonalSettings, $username, $password);
-
-    return $this->save();
+    $this->pruneAsteriskPeer();
+    $this->save();
   }
 
   /**
@@ -524,7 +523,7 @@ class Phones extends BasePhones
       $authCookie = $this->curlLogIn($authCookie, $username, $password);
 
       /* Generate configuration file and get the path */
-      $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings, $initialConfiguration);
+      $configurationFilePath = $this->createPhoneConfigFile($overwritePersonalSettings);
 
       /* Upload the configuration */
       $ch = curl_init();
