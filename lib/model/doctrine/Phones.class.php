@@ -38,6 +38,7 @@ class Phones extends BasePhones
    * @return bool false if the phone is non-SIP peer and thus cannot be pruned
    */
   public function pruneAsteriskPeer() {
+
       if($this->technology != 'SIP') {
         return false;
       }
@@ -388,6 +389,8 @@ class Phones extends BasePhones
    */
   private function uploadConfigurationToGrandstreamPhone($overwritePersonalSettings = false, $password) {
   
+      $password = 'admin'; # password change not supported currently
+
       /* Authenticate with the phone */
       $authCookie = $this->authenticateToGrandstreamPhone($password);
 
@@ -427,7 +430,11 @@ class Phones extends BasePhones
       
       // 200 OK
       if(200 !== $statusCode) {
-        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+      }
+
+      if(preg_match('/Please try again/', $loginResult)) {
+        throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Wrong password.");
       }
 
       //get the cookie and use new headers from now on
@@ -496,7 +503,7 @@ class Phones extends BasePhones
           'overridePersonalSettings' => $overridePersonalSettings,
           'frontendPassword' => $this->getWebInterfacePassword())); */
 
-      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P271=1&P270=HEKphoneTest&P47=192.168.255.254&P48=&P35=' . $this->getDefaultuser() .'&P36=' . $this->getDefaultuser() .'&P34&P3=&P103=0&P63=0&P31=1&P81=0&P288=0&P32=60&P40=5060&P138=20&P209&P250&P130=1&P131=0&P52=1&P99=0&P1346=0&P136=0&P188=0&P197=&P33=&P73=8&P29=0&P66=&P1347=**&P139=20&P191=1&P182=0&P260=180&P261=90&P262=0&P263=0&P264=0&P266=0&P267=1&P265=0&P272=0&P104=3&P1328=60&P65=0&P268=0&P129=0&P90=0&P298=0&P299=0&P258=0&P135=0&P137=0&P57=0&P58=8&P59=4&P60=18&P61=2&P62=98&P46=9&P98=3&P183=0&P134=&P198=100&update=Update&gnkey=0b82');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P271=1&P270=HEKphone&P47=192.168.255.254&P48=&P35=' . $this->getDefaultuser() .'&P36=' . $this->getDefaultuser() .'&P34='. $this->getSipPassword() . '&P3=&P103=0&P63=0&P31=1&P81=0&P288=0&P32=60&P40=5060&P138=20&P209&P250&P130=1&P131=0&P52=1&P99=0&P1346=0&P136=0&P188=0&P197=&P33=&P73=8&P29=0&P66=&P1347=**&P139=20&P191=1&P182=0&P260=180&P261=90&P262=0&P263=0&P264=0&P266=0&P267=1&P265=0&P272=0&P104=3&P1328=60&P65=0&P268=0&P129=0&P90=0&P298=0&P299=0&P258=0&P135=0&P137=0&P57=0&P58=8&P59=4&P60=18&P61=2&P62=98&P46=9&P98=3&P183=0&P134=&P198=100&update=Update&gnkey=0b82');
 
       curl_exec($ch);
       $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
