@@ -381,140 +381,184 @@ class Phones extends BasePhones
       }
   }
 
-  /**
-   * Generate and upload a configuration to the phone from grandstrem at $this->defaultip
-   * via HTTP.
-   *
-   *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
-   */
-  private function uploadConfigurationToGrandstreamPhone($overwritePersonalSettings = false, $password) {
   
-      $password = 'admin'; # password change not supported currently
+    /**
+     * Generate and upload a configuration to the phone from grandstrem at $this->defaultip
+     * via HTTP.
+     *
+     *  @param $overwritePersonalSettings bool Wheter to overwrite the phone book, short dial, ...
+     */
+    private function uploadConfigurationToGrandstreamPhone($overwritePersonalSettings = false, $password) {
 
-      /* Authenticate with the phone */
-      $authCookie = $this->authenticateToGrandstreamPhone($password);
+        /* Authenticate with the phone */
+        $authCookie = $this->authenticateToGrandstreamPhone($password);
 
-      /* Set Configuration */
-      $this->updateSipAccountOfGrandstreamPhone($authCookie);
+        /* Set Configuration */
+        $this->updateSipAccountOfGrandstreamPhone($authCookie);
+        $this->updateBasicSettingsOfGrandstreamPhone($authCookie);
+        $this->updateAdvancedSettingsOfGrandstreamPhone($authCookie);
 
-      /* Restart phone */
-      $this->restartGrandstreamPhone($authCookie);
+        /* Restart phone */
+        $this->restartGrandstreamPhone($authCookie);
 
-      return true;
+        return true;
 
-  }
+    }
 
-  /**
-   * Logs in as admin into the phone web_interface from grandstrem at $this->defaultip
-   * via HTTP.
-   *
-   *  @param $password web interface password for the login
-   *  @return auth cookie
-   */
-  private function authenticateToGrandstreamPhone($password) {
-  
-      $httpHeaders = array(
-          'Keep-Alive: 115',
-          'Connection: keep-alive');
-
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-      curl_setopt($ch, CURLOPT_URL, 'http://' . $this->defaultip . '/dologin.htm');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
-      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P2=' . $password . '&Login=Login&gnkey=0b82');
-
-      $loginResult = curl_exec($ch);
-      $statusCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      curl_close($ch);
+    /**
+      * Sets the curl options for the webinterface of the grandstream phone
+      */
+    private function setCurlOptionsForGrandstreamPhone($ch, $authCookie = Null, $path = '/update.htm') {
+        
+        $httpHeaders = array('Keep-Alive: 115', 'Connection: keep-alive');
+        if(Null !== $authCookie) {
+            $httpHeaders[] = 'Cookie: auth=' . $authCookie;
+        }
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+        curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip.$path);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // output to string
+        curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+    
+    }
       
-      // 200 OK
-      if(200 !== $statusCode) {
-        throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
-      }
+    /**
+      * Logs in as admin into the phone web_interface from grandstrem at $this->defaultip
+      * via HTTP.
+      *
+      *  @param $password web interface password for the login
+      *  @return auth cookie
+      */
+    private function authenticateToGrandstreamPhone($password) {
 
-      if(preg_match('/Please try again/', $loginResult)) {
-        throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Wrong password.");
-      }
+        $ch = curl_init();
+        $this->setCurlOptionsForGrandstreamPhone($ch, Null, '/dologin.htm');
 
-      //get the cookie and use new headers from now on
-      preg_match('/^Set-Cookie: (.*?); Version=1; Path=\//m', $loginResult, $m);
-      $authCookie = $m[1];
+        curl_setopt($ch, CURLOPT_POSTFIELDS, 'P2=' . $password . '&Login=Login&gnkey=0b82');
+
+        $loginResult = curl_exec($ch);
+        $statusCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+      
+        // 200 OK
+        if(200 !== $statusCode) {
+            throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        }
+
+        if(preg_match('/Please try again/', $loginResult)) {
+            throw new Exception("Authentication to the phone via webfrontend at $this->defaultip failed. Wrong password.");
+        }
+
+        //get the cookie and use new headers from now on
+        preg_match('/^Set-Cookie: (.*?); Version=1; Path=\//m', $loginResult, $m);
+        $authCookie = $m[1];
+
+        return $authCookie;
+
+    }
+
+
+    /**
+      * Restarts the phone if it is from grandstream at $this->defaultip
+      * via HTTP.
+      *
+      *  @param $authCookie
+      */
+    private function restartGrandstreamPhone($authCookie) {
+       
+        $ch = curl_init();
+        $this->setCurlOptionsForGrandstreamPhone($ch, $authCookie, '/rs.htm');
+
+        $Result     = curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // 200 OK
+        if(200 !== $statusCode) {
+            throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        }
+
+    }
+
+    /**
+      * Update the sip account via the web_interface of the grandstrem phone at $this->defaultip
+      * via HTTP.
+      *
+      *  @param $authCookie
+      */
+    private function updateSipAccountOfGrandstreamPhone($authCookie) {
+
+        $ch = curl_init();
+        $this->setCurlOptionsForGrandstreamPhone($ch, $authCookie);
      
-      return $authCookie;
+        // Display name on phone
+        $resident = $this->getResident();
+        if(false != $resident) {
+            $name = (string)$resident;
+        } else {
+            $name = 'HEKphone';
+        }
 
-  }
+        curl_setopt($ch, CURLOPT_POSTFIELDS, utf8_decode('P271=1&P270=' . $name . '&P47=192.168.255.254&P48=&P35=' . $this->getDefaultuser() .'&P36=' . $this->getDefaultuser() .'&P34='. $this->getSipPassword() . '&P3=&P103=0&P63=0&P31=1&P81=0&P288=0&P32=60&P40=5060&P138=20&P209&P250&P130=1&P131=0&P52=1&P99=0&P1346=0&P136=0&P188=0&P197=&P33=&P73=8&P29=0&P66=&P1347=**&P139=20&P191=1&P182=0&P260=180&P261=90&P262=0&P263=0&P264=0&P266=0&P267=1&P265=0&P272=0&P104=3&P1328=60&P65=0&P268=0&P129=0&P90=0&P298=0&P299=0&P258=0&P135=0&P137=0&P57=0&P58=8&P59=4&P60=18&P61=2&P62=98&P46=9&P98=3&P183=0&P134=&P198=100&update=Update&gnkey=0b82'));
 
+        curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-  /**
-   * Restarts the phone if it is from grandstream at $this->defaultip
-   * via HTTP.
-   *
-   *  @param $authCookie
-   */
-  private function restartGrandstreamPhone($authCookie) {
-  
-      $httpHeaders = array(
-          'Keep-Alive: 115',
-          'Connection: keep-alive',
-          'Cookie: auth=' . $authCookie);
+        // 200 OK
+        if(200 !== $statusCode) {
+            throw new Exception("Update of SipAccount via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        }
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-      curl_setopt($ch, CURLOPT_URL, "http://" . $this->defaultip.'/rs.htm'); // rs = restart
-      curl_setopt($ch,CURLOPT_TIMEOUT, 10);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // output to string
-      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+    }
 
-      $Result     = curl_exec($ch);
-      $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      curl_close($ch);
-      
-      // 200 OK
-      if(200 !== $statusCode) {
-        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
-      }
+    /**
+      * Update the advanced settings via the web_interface of the grandstrem phone at $this->defaultip
+      * via HTTP. (for example updating the web interface password)
+      *
+      *  @param $authCookie
+      */
+    private function updateAdvancedSettingsOfGrandstreamPhone($authCookie) {
 
-  }
+        $ch = curl_init();
+        $this->setCurlOptionsForGrandstreamPhone($ch, $authCookie);
 
-  /**
-   * Update the sip account via the web_interface of the grandstrem phone at $this->defaultip
-   * via HTTP.
-   *
-   *  @param $authCookie
-   */
-  private function updateSipAccountOfGrandstreamPhone($authCookie) {
-  
-      $httpHeaders = array(
-          'Keep-Alive: 115',
-          'Connection: keep-alive',
-          'Cookie: auth=' . $authCookie);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, utf8_decode('P2=' . $this->getWebInterfacePassword() . '&P49=0&P97=0&P96=97&P50=0&P37=2&P38=48&P51=0&P87=0&P1351=0&P1352=0&P1353=0&P85=4&P72=1&P39=5004&P78=0&P84=20&P101=&P76=&P212=1&P192=fm.grandstream.com/gs&P237=fm.grandstream.com/gs&P232=&P233=&P234=&P235=&P145=1&P194=0&P193=10080&P238=0&P240=0&P330=0&P331=&P332=0&P333=0&P1304=&P340=0&P1349=0&P1343=0&P341=&P71=&P79=101&P207=&P208=0&P30=192.168.255.254&P144=0&P105=&P106=&P107=&P345=f1=440,f2=480,c=200/400&#59;&P343=f1=350,f2=440&#59;&P344=f1=350,f2=440,c=\'1\'0/10&#59;&P346=f1=440,f2=480,c=200/400&#59;&P347=f1=440,f2=440,c=25/525&#59;&P348=f1=480,f2=620,c=50/50&#59;&P349=f1=480,f2=620,c=25/25&#59;&P91=0&P186=0&P1310=0&P184=0&P1311=0&P88=1&P1339=0&P1340=0&P1341=0&P1350=0&P1357=0&P1358=0&P1301=0&P1302=0&P342=0&P399=&update=Update&gnkey=0b82'));
 
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-      curl_setopt($ch, CURLOPT_URL, 'http://' . $this->defaultip . '/update.htm');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      curl_setopt($ch, CURLOPT_HEADER, 1); // include headers in the output
+        curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-/* 'sip1PhoneNumber' => $this->getName(),
-          'sip1DisplayName' => $this->getCallerid(),
-          'sip1User' => $this->getDefaultuser(),
-          'sip1Pwd' => $this->getSipPassword(),
-          'overridePersonalSettings' => $overridePersonalSettings,
-          'frontendPassword' => $this->getWebInterfacePassword())); */
+        // 200 OK
+        if(200 !== $statusCode) {
+            throw new Exception("Uptdate of advanced settings via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        }
 
-      curl_setopt($ch, CURLOPT_POSTFIELDS, 'P271=1&P270=HEKphone&P47=192.168.255.254&P48=&P35=' . $this->getDefaultuser() .'&P36=' . $this->getDefaultuser() .'&P34='. $this->getSipPassword() . '&P3=&P103=0&P63=0&P31=1&P81=0&P288=0&P32=60&P40=5060&P138=20&P209&P250&P130=1&P131=0&P52=1&P99=0&P1346=0&P136=0&P188=0&P197=&P33=&P73=8&P29=0&P66=&P1347=**&P139=20&P191=1&P182=0&P260=180&P261=90&P262=0&P263=0&P264=0&P266=0&P267=1&P265=0&P272=0&P104=3&P1328=60&P65=0&P268=0&P129=0&P90=0&P298=0&P299=0&P258=0&P135=0&P137=0&P57=0&P58=8&P59=4&P60=18&P61=2&P62=98&P46=9&P98=3&P183=0&P134=&P198=100&update=Update&gnkey=0b82');
+    }
+    
+    /**
+      * Update the basic settings via the web_interface of the grandstrem phone at $this->defaultip
+      * via HTTP. (for example updating the web interface password)
+      *
+      *  @param $authCookie
+      */
+    private function updateBasicSettingsOfGrandstreamPhone($authCookie) {
 
-      curl_exec($ch);
-      $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-      curl_close($ch);
-      
-      // 200 OK
-      if(200 !== $statusCode) {
-        throw new Exception("Restart of the phone via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
-      }
+        $ch = curl_init();
+        $this->setCurlOptionsForGrandstreamPhone($ch, $authCookie);
 
-  }
+        curl_setopt($ch, CURLOPT_POSTFIELDS, utf8_decode('P196=&P8=0&P82=&P83=&P146=&P147=&P148=Grandstream GXP2000&P92=0&P93=0&P94=0&P95=0&P9=192&P10=168&P11=0&P12=160&P13=0&P14=0&P15=0&P16=0&P17=0&P18=0&P19=0&P20=0&P21=0&P22=0&P23=0&P24=0&P25=0&P26=0&P27=0&P28=0&P323=0&P301=0&P324=0&P304=0&P305=&P306=&P325=0&P307=0&P308=&P309=&P326=0&P310=0&P311=&P312=&P327=0&P313=0&P314=&P315=&P328=0&P316=0&P317=&P318=&P329=0&P319=0&P320=&P321=&P64=780&P143=0&P75=1&P246=3,-1,7,2,0;10,-1,7,3,0;60&P334=4&P335=0&P1329=10&P122=1&P102=2&P123=0&P338=0&P336=0&P351=0&update=Update&gnkey=0b82'));
+
+        curl_exec($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        // 200 OK
+        if(200 !== $statusCode) {
+            throw new Exception("Uptdate of basic settings via webfrontend at $this->defaultip failed. Returned status code: $statusCode");
+        }
+
+    }
       
       
   /**
