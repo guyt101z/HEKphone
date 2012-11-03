@@ -839,6 +839,10 @@
         <target>Technologie</target>
       </trans-unit>
       <trans-unit id="12">
+        <source>Web interface password</source>
+        <target>Webinterface-Passwort</target>
+      </trans-unit>
+      <trans-unit id="12">
         <source>Mac</source>
         <target>Mac-Adresse</target>
       </trans-unit>
