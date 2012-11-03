@@ -26,8 +26,6 @@ class PhonesForm extends BasePhonesForm
     $this->mergePostValidator(
       new sfValidatorCallback(array('callback' => array($this, 'checkMac'))));     // Check mac-adress only if technology is set to 'SIP'
 
-    unset($this['web_interface_password']); // prevent the user to change the phones web interface password so we never end up with a unaccessable phone
-
     unset($this['host']);       // always dynamic. the phones can't handle static
     unset($this['type']);       // always frient. may place and receive calls.
 
