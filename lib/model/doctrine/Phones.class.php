@@ -259,7 +259,11 @@ class Phones extends BasePhones
       if ($this['technology'] == 'SIP') {
           $dialstring = $this['technology'] . '/' . $extension;
       } elseif($this['technology'] == 'DAHDI/g1') {
+          // legacy analog phone, to be removed
           $dialstring = $this['technology'] . '/' . $extensionPrefix . $extension;
+      } else {
+          // analog phone connected to internal TE800P card
+          $dialstring = $this['technology'];
       }
 
       $resident = $this->getResident();

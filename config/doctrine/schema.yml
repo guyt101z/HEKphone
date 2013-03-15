@@ -285,7 +285,7 @@ Phones:
     technology:
       type: enum
       length: 20
-      values: ['SIP', 'DAHDI/g1', 'DAHDI/g3']
+      values: ['SIP', 'DAHDI/g1', 'DAHDI/66', 'DAHDI/67', 'DAHDI/68', 'DAHDI/69', 'DAHDI/70', 'DAHDI/71', 'DAHDI/72', 'DAHDI/73']
       notnull: true
       default: 'SIP'
     'type':
