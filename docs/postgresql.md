@@ -1,8 +1,8 @@
-# Installing & Configuring Postgresql
+# Installing & Configuring Postgresql (tested on Ubuntu 12.04)
 ## Install packages
 On your server do
 
-    sudo aptitude install postgresql-client-9.1 php5-pgsql
+    sudo aptitude install postgresql-client-9.1 php5-pgsql postgresql-9.1
 
 this will install the PDO driver for postgres and the postgres database.
 

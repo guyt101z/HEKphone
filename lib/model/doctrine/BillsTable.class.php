@@ -36,13 +36,21 @@ class BillsTable extends Doctrine_Table
         }
 
         /* fetch the ids of all residents with unbilled calls from the given time period */
-        $residentidsWithUnbilledCalls = Doctrine_Query::create()
+        /*$residentidsWithUnbilledCalls = Doctrine_Query::create()
             ->from('Calls c')
             ->select('c.resident as residentid')
             ->addWhere('bill is null')
             ->addWhere('date <= ?', $end . ' 23:59:59')
             ->addWhere('date >= ?', $start)
             ->groupBy('resident')
+            ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
+            ->execute();*/
+            
+        $residentidsWithUnbilledCalls = Doctrine_Query::create()
+            ->from('Residents')
+            ->select('id')
+            ->addWhere('unlocked = ?', 't')
+            ->addWhere('move_out IS NULL OR move_out <= ?', $end)
             ->setHydrationMode(Doctrine::HYDRATE_SINGLE_SCALAR)
             ->execute();
 
